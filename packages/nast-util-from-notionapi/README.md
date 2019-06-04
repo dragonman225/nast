@@ -1,6 +1,6 @@
 # notionast-util-from-notionapi
 
-> An util that help user operate their `notionapi-agent ` and convert a Notion page to a Notion Abstract Syntax Tree (NotionAST).
+> An util that help user operate their `notionapi-agent` and convert a [Notion](https://www.notion.so) page to a Notion Abstract Syntax Tree (NotionAST).
 >
 > The library is currently a Work In Progress, so it may be unstable.
 >

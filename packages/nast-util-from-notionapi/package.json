@@ -1,16 +1,28 @@
 {
   "name": "notionast-util-from-notionapi",
   "version": "0.1.0",
-  "description": "Get Notion page as an abstract syntax tree.",
+  "description": "Convert a Notion page into an abstract syntax tree.",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dragonman225/notionast-util-from-notionapi.git"
+  },
+  "keywords": [
+    "nodejs",
+    "notion",
+    "api"
+  ],
   "author": "dragonman225",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^12.0.4",
     "typescript": "^3.5.1"
   },
-  "dependencies": {}
+  "bugs": {
+    "url": "https://github.com/dragonman225/notionast-util-from-notionapi/issues"
+  },
+  "homepage": "https://github.com/dragonman225/notionast-util-from-notionapi"
 }

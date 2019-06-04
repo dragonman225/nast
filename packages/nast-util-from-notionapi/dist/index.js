@@ -97,7 +97,7 @@ module.exports = async function downloadPageAsTree(pageID, agent) {
          * 1. The "page" block points to its children, require additional checking
          * when doing recursive download.
          * 2. The "parent_id" of the "page" block does not points to the root page
-         * we want to download. This way we can't construct a page tree correctly.
+         * we want to download. This way we can't construct a tree correctly.
          */
         if (pageRootDownloaded) {
             /* Filter out "page" blocks. */
