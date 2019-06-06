@@ -56,7 +56,7 @@ export = async function downloadPageAsTree(pageID: string, agent: NotionAgent): 
      */
     if (pageRootDownloaded) {
       /* Filter out "page" blocks. */
-      childrenRecords = response.results.filter((record: RecordValue) => {
+      childrenRecords = response.results.filter((record: RecordValue): boolean => {
         return record.value.type !== 'page'
       })
       childrenIDs = collectChildrenIDs(childrenRecords)
@@ -84,7 +84,7 @@ export = async function downloadPageAsTree(pageID: string, agent: NotionAgent): 
  */
 function makeRecordRequests(ids: string[]): RecordRequest[] {
 
-  let requests = ids.map(id => {
+  let requests = ids.map((id): RecordRequest => {
     return { id, table: 'block' }
   })
 
@@ -101,7 +101,7 @@ function collectChildrenIDs(records: RecordValue[]): string[] {
 
   let childrenIDs: string[] = []
 
-  records.forEach(record => {
+  records.forEach((record): void => {
     let _childrenIDs = record.value.content
 
     if (_childrenIDs) {
@@ -123,12 +123,12 @@ function collectChildrenIDs(records: RecordValue[]): string[] {
 function makeTree(allRecords: RecordValue[]): BlockNode {
 
   /* Cast RecordValue to BlockNode. */
-  let list = allRecords.map(record => {
+  let list = allRecords.map((record): BlockNode => {
     return {
       type: record.value.type,
       data: record.value.properties,
       raw_value: record.value,
-      children: <BlockNode[]>[]
+      children: [] as BlockNode[]
     }
   })
 
