@@ -102,7 +102,11 @@ function collectChildrenIDs(records: RecordValue[]): string[] {
   let childrenIDs: string[] = []
 
   records.forEach((record): void => {
-    let _childrenIDs = record.value.content
+    let _childrenIDs = [] as string[]
+
+    if (record.value != null && record.value.content != null) {
+      _childrenIDs = record.value.content
+    }
 
     if (_childrenIDs) {
       childrenIDs = childrenIDs.concat(_childrenIDs)

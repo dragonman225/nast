@@ -17,7 +17,7 @@ export interface BlockValue {
   version: number
   type: string
   view_ids?: string[]
-  collection_id?:string
+  collection_id?: string
   properties?: BlockProperties
   format?: BlockFormat
   permissions?: BlockPermission[]
@@ -31,10 +31,21 @@ export interface BlockValue {
   alive: boolean
 }
 
+export interface TextStyle {
+  0: string
+  1?: string
+}
+
+export interface StyledString {
+  0: string
+  1?: TextStyle[]
+}
+
 export interface BlockProperties {
   link?: any[]
-  title?: any[]
+  title?: StyledString[]
   description?: any[]
+  checked?: any[]
 }
 
 export interface BlockFormat {

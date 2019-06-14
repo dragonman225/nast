@@ -9,7 +9,7 @@ const assert_1 = __importDefault(require("assert"));
  * @returns A payload.
  */
 function makeRecordRequests(ids) {
-    let requests = ids.map(id => {
+    let requests = ids.map((id) => {
         return { id, table: 'block' };
     });
     return requests;
@@ -21,8 +21,11 @@ function makeRecordRequests(ids) {
  */
 function collectChildrenIDs(records) {
     let childrenIDs = [];
-    records.forEach(record => {
-        let _childrenIDs = record.value.content;
+    records.forEach((record) => {
+        let _childrenIDs = [];
+        if (record.value != null && record.value.content != null) {
+            _childrenIDs = record.value.content;
+        }
         if (_childrenIDs) {
             childrenIDs = childrenIDs.concat(_childrenIDs);
         }
@@ -37,7 +40,7 @@ function collectChildrenIDs(records) {
  */
 function makeTree(allRecords) {
     /* Cast RecordValue to BlockNode. */
-    let list = allRecords.map(record => {
+    let list = allRecords.map((record) => {
         return {
             type: record.value.type,
             data: record.value.properties,
