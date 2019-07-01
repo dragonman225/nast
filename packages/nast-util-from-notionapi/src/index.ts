@@ -6,10 +6,6 @@ import {
   BlockNode
 } from './types/interfaces'
 
-/**
- * For now, I use Node.js module style since it's more well-supported.
- * In the future, I may migrate to ES Module.
- */
 export = async function downloadPageAsTree(pageID: string, agent: NotionAgent): Promise<BlockNode> {
 
   assert(typeof pageID === 'string')
@@ -29,7 +25,8 @@ export = async function downloadPageAsTree(pageID: string, agent: NotionAgent): 
   /* Get all records in a flat array. */
   const allRecords = await getChildrenRecords([pageID])
 
-  return makeTree(allRecords)
+  //return makeTree(allRecords)
+  return { records: allRecords }
 
   /**
    * Get RecordValues of some IDs and their descendants.

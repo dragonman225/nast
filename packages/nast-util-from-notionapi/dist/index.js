@@ -80,7 +80,8 @@ module.exports = async function downloadPageAsTree(pageID, agent) {
     let pageRootDownloaded = false;
     /* Get all records in a flat array. */
     const allRecords = await getChildrenRecords([pageID]);
-    return makeTree(allRecords);
+    //return makeTree(allRecords)
+    return { records: allRecords };
     /**
      * Get RecordValues of some IDs and their descendants.
      * @param ids - Some IDs.
