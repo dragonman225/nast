@@ -1,0 +1,17 @@
+{
+  "name": "notionast-util-to-html",
+  "version": "0.0.1",
+  "description": "Transform NotionAST to HTML.",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [
+    "notion",
+    "notionast",
+    "util"
+  ],
+  "author": "dragonman225",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^5.16.0"
+  }
+}

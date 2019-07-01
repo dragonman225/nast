@@ -1,0 +1,344 @@
+const colorMap = require('./color-map')
+
+module.exports = {
+  renderText,
+  renderHeader,
+  renderBulletedList,
+  renderToggle,
+  renderToDo,
+  renderQuote,
+  renderBookmark,
+  renderPage
+}
+
+function renderText(node, renderNext) {
+  let childrenHTMLArr = node.children.map(child => `<div>${renderNext(child)}</div>`)
+  let html = `\
+  <div>
+    <div>${renderTitle(node.data ? node.data.title : [])}</div>
+    <div class="indent">${childrenHTMLArr.join('')}</div>
+  </div>
+  `
+  return html
+}
+
+function renderHeader(node, renderNext, level) {
+  switch (level) {
+    case 1:
+      return `<h1>${renderTitle(node.data ? node.data.title : [])}</h1>`
+    case 2:
+      return `<h2>${renderTitle(node.data ? node.data.title : [])}</h2>`
+    case 3:
+      return `<h3>${renderTitle(node.data ? node.data.title : [])}</h3>`
+    default:
+      return `<h4>${renderTitle(node.data ? node.data.title : [])}</h4>`
+  }
+}
+
+function renderBulletedList(node, renderNext) {
+  let childrenHTMLArr = node.children.map(child => `<div>${renderNext(child)}</div>`)
+  let html = `\
+  <ul>
+    <li>
+      <div>${renderTitle(node.data ? node.data.title : [])}</div>
+      ${childrenHTMLArr.join('')}
+    </li>
+  </ul>
+  `
+  return html
+}
+
+function renderToggle(node, renderNext) {
+  let childrenHTMLArr = node.children.map(child => `<div>${renderNext(child)}</div>`)
+  let html = `\
+  <details>
+    <summary>${renderTitle(node.data ? node.data.title : [])}</summary>
+    <div>${childrenHTMLArr.join('')}</div>
+  </details>
+  `
+  return html
+}
+
+function renderToDo(node, renderNext) {
+  let childrenHTMLArr = node.children.map(child => `<div>${renderNext(child)}</div>`)
+  let unCheckedIconHTML = '<div style="margin-right: 4px; width: 24px; flex-grow: 0; flex-shrink: 0; display: flex; align-items: center; justify-content: center; min-height: calc((1.5em + 3px) + 3px); padding-right: 2px;"><div style="width: 16px; height: 16px; display: flex; align-items: stretch; justify-content: stretch; flex-shrink: 0; flex-grow: 0; cursor: pointer; transition: background 200ms ease-out 0s;"><div style="cursor: pointer; user-select: none; transition: background 120ms ease-in 0s; display: flex; align-items: center; justify-content: center; width: 100%;"><svg viewBox="0 0 16 16" style="width: 100%; height: 100%; display: block; fill: inherit; flex-shrink: 0; backface-visibility: hidden;"><path d="M1.5,1.5 L1.5,14.5 L14.5,14.5 L14.5,1.5 L1.5,1.5 Z M0,0 L16,0 L16,16 L0,16 L0,0 Z"></path></svg></div></div></div>'
+  let checkedIconHTML = '<div style="margin-right: 4px; width: 24px; flex-grow: 0; flex-shrink: 0; display: flex; align-items: center; justify-content: center; min-height: calc((1.5em + 3px) + 3px); padding-right: 2px;"><div style="width: 16px; height: 16px; display: flex; align-items: stretch; justify-content: stretch; flex-shrink: 0; flex-grow: 0; cursor: pointer; transition: background 200ms ease-out 0s; background: rgb(46, 170, 220);"><div style="cursor: pointer; user-select: none; transition: background 120ms ease-in 0s; display: flex; align-items: center; justify-content: center; width: 100%;"><svg viewBox="0 0 14 14" style="width: 12px; height: 12px; display: block; fill: white; flex-shrink: 0; backface-visibility: hidden;"><polygon points="5.5 11.9993304 14 3.49933039 12.5 2 5.5 8.99933039 1.5 4.9968652 0 6.49933039"></polygon></svg></div></div></div>'
+  let checked = node.data.checked ? (node.data.checked[0][0] === 'Yes' ? true : false) : false
+  let html = `\
+  <div>
+    <div style="display: flex; align-items: flex-start;">
+      ${checked ? checkedIconHTML : unCheckedIconHTML}
+      <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column; justify-content: center; padding-top: 2px; padding-bottom: 2px; ${checked ? 'opacity: 0.375;' : ''}">
+        ${checked ? '<s>' : ''}${renderTitle(node.data ? node.data.title : [])}${checked ? '</s>' : ''}
+      </div>
+    </div>
+    <div class="indent">${childrenHTMLArr.join('')}</div>
+  </div>
+  `
+  return html
+}
+
+function renderQuote(node, renderNext) {
+  let html = `\
+  <blockquote>
+    ${renderTitle(node.data ? node.data.title : [])}
+  </blockquote>
+  `
+  return html
+}
+
+function renderBookmark(node, renderNext) {
+  let title = node.data.title ? node.data.title[0][0] : ''
+  let description = node.data.description ? node.data.description[0][0] : ''
+  let link = node.data.link[0][0]
+  let iconURL = void 0
+  let coverURL = void 0
+
+  if (node['raw_value'].format) {
+    iconURL = node['raw_value'].format['bookmark_icon']
+      ? node['raw_value'].format['bookmark_icon'] : void 0
+    coverURL = node['raw_value'].format['bookmark_cover']
+      ? node['raw_value'].format['bookmark_cover'] : void 0
+  }
+
+  let iconImg = iconURL ? `<img src="${iconURL}" style="width: 16px; height: 16px; min-width: 16px; margin-right: 4px;">` : ''
+  let coverImg = coverURL ? `<img src="${coverURL}" style="display: block; object-fit: cover; border-radius: 1px; width: 100%; height: 100%;">` : ''
+
+  let html = `\
+  <div class="bookmark">
+    <div style="display: flex;">
+      <div style="display: flex; flex-wrap: wrap-reverse; align-items: stretch; text-align: left; overflow: hidden; border: 1px solid rgba(55, 53, 47, 0.16); border-radius: 3px; position: relative; flex-grow: 1; color: rgb(55, 53, 47);">
+        <div style="flex: 4 1 180px; min-height: 60px; overflow: hidden; text-align: left;">
+          <a href="${link}" target="_blank" rel="noopener noreferrer" style="display: block; color: inherit; text-decoration: none; height: 100%;">
+            <div style="cursor: pointer; user-select: none; transition: background 120ms ease-in 0s; width: 100%; display: block; padding: 14px; height: 100%;">
+              <div style="font-size: 14px; line-height: 20px; max-height: 20px; overflow: hidden;">${title}</div>
+              <div style="font-size: 12px; line-height: 16px; color: rgba(55, 53, 47, 0.6); max-height: 32px; overflow: hidden;">${description}</div>
+              <div style="font-size: 12px; line-height: 16px; display: flex; overflow: hidden; margin-top: 4px;">
+                ${iconImg}
+                <div style="min-width: 0px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${link}</div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div style="flex: 1 1 180px; min-height: 80px; display: block; position: relative;">
+          <div style="position: absolute; top: 0px; left: 0px; right: 0px; bottom: 0px;">
+            <div style="width: 100%; height: 100%;">
+              ${coverImg}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  `
+  return html
+}
+
+function renderTitle(titleTokens) {
+
+  let textArr = titleTokens.map(token => {
+    let text = escapeString(token[0])
+    let textStyles = token[1]
+    let html = text
+    if (textStyles) {
+      html = styleToHTML(text, textStyles)
+    }
+    return html
+  })
+
+  let html = `\
+  <span>
+    ${textArr.join('')}
+  </span>
+  `
+
+  return html
+
+}
+
+function renderPage(node, renderNext) {
+  let childrenHTMLArr = node.children.map(child => renderNext(child))
+  let html = `\
+  <div>
+    <h1>${node.data.title[0][0]}</h1>
+    <div>${childrenHTMLArr.join('')}</div>
+  </div>`
+  return html
+}
+
+function styleToHTML(text, styles) {
+
+  let html = text
+
+  for (let i = styles.length - 1; i >= 0; --i) {
+    switch (styles[i][0]) {
+      /* Bold */
+      case 'b':
+        html = `<strong>${html}</strong>`
+        break
+      /* Italic */
+      case 'i':
+        html = `<em>${html}</em>`
+        break
+      /* Strike */
+      case 's':
+        html = `<del>${html}</del>`
+        break
+      /* Link */
+      case 'a':
+        html = `<a href="${styles[i][1]}">${html}</a>`
+        break
+      /* Inline Code */
+      case 'c':
+        html = `<code>${html}</code>`
+        break
+      /* Color or Background Color */
+      case 'h':
+        html = `<span class="${renderColor(styles[i][1])}">${html}</span>`
+        break
+      /* Inline Mention User */
+      case 'u':
+        html = `<span>@user_id:${styles[i][1]}</span>`
+        break
+      /* Inline Mention Page */
+      case 'p':
+        html = `<span>@page_id:${styles[i][1]}</span>`
+        break
+      /* Inline Mention Date */
+      case 'd':
+        html = `<span>@${styles[i][1].start_date}</span>`
+        break
+      /* Comment */
+      case 'm':
+        html = `<span style="background: rgba(255,212,0,0.14); border-bottom: 2px solid rgb(255, 212, 0);">${html}</span>`
+        break
+      default:
+        console.log(`Unsupported style: ${styles[i][0]}`)
+    }
+  }
+
+  // while (styles.length > 0) {
+  //   let style = styles.shift()
+  //   let htmlRemain = styleToHTML(text, styles)
+  //   switch (style[0]) {
+  //     /* Bold */
+  //     case 'b':
+  //       html = `<strong>${htmlRemain}</strong>`
+  //       break
+  //     /* Italic */
+  //     case 'i':
+  //       html = `<em>${htmlRemain}</em>`
+  //       break
+  //     /* Strike */
+  //     case 's':
+  //       html = `<del>${htmlRemain}</del>`
+  //       break
+  //     /* Link */
+  //     case 'a':
+  //       html = `<a href="${style[1]}">${htmlRemain}</a>`
+  //       break
+  //     /* Inline Code */
+  //     case 'c':
+  //       html = `<code>${htmlRemain}</code>`
+  //       break
+  //     /* Color or Background Color */
+  //     case 'h':
+  //       html = `<span class="${renderColor(style[1])}">${htmlRemain}</span>`
+  //       break
+  //     /* Inline Mention User */
+  //     case 'u':
+  //       html = `<span>@user_id:${style[1]}</span>`
+  //       break
+  //     /* Inline Mention Page */
+  //     case 'p':
+  //       html = `<span>@page_id:${style[1]}</span>`
+  //       break
+  //     /* Inline Mention Date */
+  //     case 'd':
+  //       html = `<span>@${style[1].start_date}</span>`
+  //       break
+  //     default:
+  //       html = htmlRemain
+  //   }
+  // }
+
+  return html
+
+}
+
+function renderColor(str) {
+  const colorPrefix = 'color-'
+  const colorBgPrefix = 'background-'
+  switch (str) {
+    case colorMap.gray:
+      return colorPrefix + 'gray'
+    case colorMap.brown:
+      return colorPrefix + 'brown'
+    case colorMap.orange:
+      return colorPrefix + 'orange'
+    case colorMap.yellow:
+      return colorPrefix + 'yellow'
+    case colorMap.green:
+      return colorPrefix + 'green'
+    case colorMap.blue:
+      return colorPrefix + 'blue'
+    case colorMap.purple:
+      return colorPrefix + 'purple'
+    case colorMap.pink:
+      return colorPrefix + 'pink'
+    case colorMap.red:
+      return colorPrefix + 'red'
+    case colorMap.grayBg:
+      return colorBgPrefix + 'gray'
+    case colorMap.brownBg:
+      return colorBgPrefix + 'brown'
+    case colorMap.orangeBg:
+      return colorBgPrefix + 'orange'
+    case colorMap.yellowBg:
+      return colorBgPrefix + 'yellow'
+    case colorMap.greenBg:
+      return colorBgPrefix + 'green'
+    case colorMap.blueBg:
+      return colorBgPrefix + 'blue'
+    case colorMap.purpleBg:
+      return colorBgPrefix + 'purple'
+    case colorMap.pinkBg:
+      return colorBgPrefix + 'pink'
+    case colorMap.redBg:
+      return colorBgPrefix + 'red'
+    default:
+      return str
+  }
+}
+
+function escapeString(str) {
+  let character, escapedString = ''
+
+  for (let i = 0; i < str.length; i += 1) {
+    character = str.charAt(i)
+    switch (character) {
+      case '<':
+        escapedString += '&lt;'
+        break
+      case '>':
+        escapedString += '&gt;'
+        break
+      case '&':
+        escapedString += '&amp;'
+        break
+      case '/':
+        escapedString += '&#x2F;'
+        break
+      case '"':
+        escapedString += '&quot;'
+        break
+      case "'":
+        escapedString += '&#x27;'
+        break
+      default:
+        escapedString += character
+    }
+  }
+
+  return escapedString
+}
