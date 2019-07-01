@@ -50,20 +50,32 @@ function makeTree(allRecords) {
     });
     /* A map for quick ID -> index lookup. */
     let map = {};
+    for (let i = 0; i < allRecords.length; ++i) {
+        map[list[i].raw_value.id] = i;
+    }
     /* The tree's root is always the first of RecordValue array. */
-    let treeRoot = list[0], node;
-    map[list[0].raw_value.id] = 0;
-    /* Parents always come before their children. */
-    for (let i = 1; i < allRecords.length; ++i) {
+    let treeRoot = list[0];
+    let node;
+    /**
+     * Wire up each block's children by iterating through its content
+     * and find each child's reference by ID.
+     */
+    for (let i = 0; i < allRecords.length; ++i) {
         node = list[i];
-        map[node.raw_value.id] = i;
         /**
-         * Get the node's parent_id,
-         * lookup parent's index from map,
-         * access the parent with its index,
-         * push the node into the parent's children array.
+         * It's sad that parent_id of some blocks are incorrect, so the following
+         * faster way doesn't work.
          */
-        list[map[node.raw_value.parent_id]].children.push(node);
+        // list[map[node.raw_value.parent_id]].children.push(node)
+        /** The slower way. */
+        let childrenIDs = node.raw_value.content;
+        if (childrenIDs != null) {
+            for (let j = 0; j < childrenIDs.length; ++j) {
+                let indexOfChildReference = map[childrenIDs[j]];
+                let childReference = list[indexOfChildReference];
+                node.children.push(childReference);
+            }
+        }
     }
     return treeRoot;
 }
@@ -80,8 +92,8 @@ module.exports = async function downloadPageAsTree(pageID, agent) {
     let pageRootDownloaded = false;
     /* Get all records in a flat array. */
     const allRecords = await getChildrenRecords([pageID]);
-    //return makeTree(allRecords)
-    return { records: allRecords };
+    return makeTree(allRecords);
+    //return { records: allRecords }
     /**
      * Get RecordValues of some IDs and their descendants.
      * @param ids - Some IDs.

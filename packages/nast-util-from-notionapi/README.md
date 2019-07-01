@@ -1,28 +1,33 @@
 # notionast-util-from-notionapi
 
-> An util that help user operate their `notionapi-agent` and convert a [Notion](https://www.notion.so) page to a Notion Abstract Syntax Tree (NotionAST).
+> An util that help users operate their `notionapi-agent` and convert a [Notion](https://www.notion.so) page to a Notion Abstract Syntax Tree (NotionAST).
 >
-> The library is currently a Work In Progress, so it may be unstable.
+> The library is currently a *Work In Progress*, so it may be unstable.
 >
 > **The library is unofficial.**
 
 ## Documentation
 
-* [Installation](#Installation)
+* [Usage](#Usage)
 * [Quickstart](#Quickstart)
 * [API Methods](#API-Methods)
+* [Notes](#Notes)
 
-## Installation
+## Usage
+
+This is a Node.js module. You can install in your project.
 
 ```bash
 npm i dragonman225/notionast-util-from-notionapi --save
 ```
 
-You also need an Notion API agent that has method `getRecordValues`. I recommend [notionapi-agent](https://github.com/dragonman225/notionapi-agent), which is also written by me.
+You also need [`notionapi-agent`](https://github.com/dragonman225/notionapi-agent).
 
 ```bash
 npm i notionapi-agent --save
 ```
+
+The agent is used to retrieve raw data from Notion's API `/api/v3/getRecordValues`.
 
 ## Quickstart
 
@@ -80,3 +85,6 @@ interface BlockNode {
 }
 ```
 
+## Notes
+
+* Notion has somewhat messed up with their data structure recently. `BlockNode.raw_value.parent_id` is incorrect for some blocks.
