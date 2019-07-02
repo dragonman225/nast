@@ -18,7 +18,7 @@
 This is a Node.js module. You can install in your project.
 
 ```bash
-npm i dragonman225/notionast-util-from-notionapi --save
+npm i notionast-util-from-notionapi --save
 ```
 
 You also need [`notionapi-agent`](https://github.com/dragonman225/notionapi-agent).
