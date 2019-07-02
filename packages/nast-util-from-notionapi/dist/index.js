@@ -102,6 +102,7 @@ module.exports = async function downloadPageAsTree(pageID, agent) {
     async function getChildrenRecords(ids) {
         let requests = makeRecordRequests(ids);
         let response = await api.getRecordValues(requests);
+        let responseData = response.data;
         let childrenRecords;
         let childrenIDs;
         /**
@@ -117,13 +118,13 @@ module.exports = async function downloadPageAsTree(pageID, agent) {
          */
         if (pageRootDownloaded) {
             /* Filter out "page" blocks. */
-            childrenRecords = response.results.filter((record) => {
-                return record.value.type !== 'page';
+            childrenRecords = responseData.results.filter((record) => {
+                return record.role !== 'none' && record.value.type !== 'page';
             });
             childrenIDs = collectChildrenIDs(childrenRecords);
         }
         else {
-            childrenRecords = response.results;
+            childrenRecords = responseData.results;
             childrenIDs = collectChildrenIDs(childrenRecords);
             pageRootDownloaded = true;
         }

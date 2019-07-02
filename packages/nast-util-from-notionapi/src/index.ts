@@ -37,6 +37,7 @@ export = async function downloadPageAsTree(pageID: string, agent: NotionAgent): 
 
     let requests = makeRecordRequests(ids)
     let response = await api.getRecordValues(requests)
+    let responseData = response.data
     let childrenRecords: RecordValue[]
     let childrenIDs: string[]
 
@@ -53,12 +54,12 @@ export = async function downloadPageAsTree(pageID: string, agent: NotionAgent): 
      */
     if (pageRootDownloaded) {
       /* Filter out "page" blocks. */
-      childrenRecords = response.results.filter((record: RecordValue): boolean => {
-        return record.value.type !== 'page'
+      childrenRecords = responseData.results.filter((record: RecordValue): boolean => {
+        return record.role !== 'none' && record.value.type !== 'page'
       })
       childrenIDs = collectChildrenIDs(childrenRecords)
     } else {
-      childrenRecords = response.results
+      childrenRecords = responseData.results
       childrenIDs = collectChildrenIDs(childrenRecords)
       pageRootDownloaded = true
     }
