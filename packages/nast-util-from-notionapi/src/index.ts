@@ -162,7 +162,13 @@ function makeTree(allRecords: RecordValue[]): BlockNode {
       for (let j = 0; j < childrenIDs.length; ++j) {
         let indexOfChildReference = map[childrenIDs[j]]
         let childReference = list[indexOfChildReference]
-        node.children.push(childReference)
+        /**
+         * Notion's bug: When downloading a public page as a "reader",
+         * some blocks are not accessible (Notion responses {"role": "none"}).
+         */
+        if (childReference != null) {
+          node.children.push(childReference)
+        }
       }
     }
   }
