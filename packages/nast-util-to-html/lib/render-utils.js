@@ -4,21 +4,28 @@ module.exports = {
   renderText,
   renderHeader,
   renderBulletedList,
+  renderNumberedList,
   renderToggle,
   renderToDo,
+  renderDivider,
   renderQuote,
+  renderCallout,
+  renderImage,
   renderBookmark,
   renderPage
 }
 
 function renderText(node, renderNext) {
+  let blockColor = getBlockColor(node)
   let childrenHTMLArr = node.children.map(child => `<div>${renderNext(child)}</div>`)
+  
   let html = `\
-  <div>
+  <div class="block ${blockColor}">
     <div>${renderTitle(node.data ? node.data.title : [])}</div>
     <div class="indent">${childrenHTMLArr.join('')}</div>
   </div>
   `
+
   return html
 }
 
@@ -44,6 +51,19 @@ function renderBulletedList(node, renderNext) {
       ${childrenHTMLArr.join('')}
     </li>
   </ul>
+  `
+  return html
+}
+
+function renderNumberedList(node, renderNext) {
+  let childrenHTMLArr = node.children.map(child => `<div>${renderNext(child)}</div>`)
+  let html = `\
+  <ol>
+    <li>
+      <div>${renderTitle(node.data ? node.data.title : [])}</div>
+      ${childrenHTMLArr.join('')}
+    </li>
+  </ol>
   `
   return html
 }
@@ -78,7 +98,16 @@ function renderToDo(node, renderNext) {
   return html
 }
 
-function renderQuote(node, renderNext) {
+function renderDivider() {
+  let html = `\
+  <div style="width: 100%; border: 1px solid rgba(55, 53, 47, 0.09); margin: 7px 0;">
+  </div>
+  `
+
+  return html
+}
+
+function renderQuote(node) {
   let html = `\
   <blockquote>
     ${renderTitle(node.data ? node.data.title : [])}
@@ -87,7 +116,43 @@ function renderQuote(node, renderNext) {
   return html
 }
 
-function renderBookmark(node, renderNext) {
+function renderCallout(node) {
+  let blockColor = getBlockColor(node, colorMap.yellowBg)
+  let pageIcon
+
+  if (node['raw_value'].format) {
+    pageIcon = node['raw_value'].format['page_icon']
+      ? node['raw_value'].format['page_icon'] : ''
+  }
+
+  let html = `\
+  <div class="${blockColor}" style="display: flex; border-radius: 5px; padding: 0.5em 13px;">
+    <div>
+      ${pageIcon}
+    </div>
+    <div style="margin-left: 8px;">
+      ${renderTitle(node.data ? node.data.title : [])}
+    </div>
+  </div>
+  `
+
+  return html
+}
+
+function renderImage(node) {
+  let width = node['raw_value'].format['block_width']
+  let source = node.data.source[0][0]
+
+  let html = `\
+  <div style="width: ${width}px; margin: 0.5em auto; max-width: calc(100vw - 5em);">
+    <img src="${source}" style="width: 100%; object-fit: cover;">
+  </div>
+  `
+
+  return html
+}
+
+function renderBookmark(node) {
   let title = node.data.title ? node.data.title[0][0] : ''
   let description = node.data.description ? node.data.description[0][0] : ''
   let link = node.data.link[0][0]
@@ -105,7 +170,7 @@ function renderBookmark(node, renderNext) {
   let coverImg = coverURL ? `<img src="${coverURL}" style="display: block; object-fit: cover; border-radius: 1px; width: 100%; height: 100%;">` : ''
 
   let html = `\
-  <div class="bookmark">
+  <div class="bookmark" style="margin: 8px 0;">
     <div style="display: flex;">
       <div style="display: flex; flex-wrap: wrap-reverse; align-items: stretch; text-align: left; overflow: hidden; border: 1px solid rgba(55, 53, 47, 0.16); border-radius: 3px; position: relative; flex-grow: 1; color: rgb(55, 53, 47);">
         <div style="flex: 4 1 180px; min-height: 60px; overflow: hidden; text-align: left;">
@@ -217,53 +282,23 @@ function styleToHTML(text, styles) {
     }
   }
 
-  // while (styles.length > 0) {
-  //   let style = styles.shift()
-  //   let htmlRemain = styleToHTML(text, styles)
-  //   switch (style[0]) {
-  //     /* Bold */
-  //     case 'b':
-  //       html = `<strong>${htmlRemain}</strong>`
-  //       break
-  //     /* Italic */
-  //     case 'i':
-  //       html = `<em>${htmlRemain}</em>`
-  //       break
-  //     /* Strike */
-  //     case 's':
-  //       html = `<del>${htmlRemain}</del>`
-  //       break
-  //     /* Link */
-  //     case 'a':
-  //       html = `<a href="${style[1]}">${htmlRemain}</a>`
-  //       break
-  //     /* Inline Code */
-  //     case 'c':
-  //       html = `<code>${htmlRemain}</code>`
-  //       break
-  //     /* Color or Background Color */
-  //     case 'h':
-  //       html = `<span class="${renderColor(style[1])}">${htmlRemain}</span>`
-  //       break
-  //     /* Inline Mention User */
-  //     case 'u':
-  //       html = `<span>@user_id:${style[1]}</span>`
-  //       break
-  //     /* Inline Mention Page */
-  //     case 'p':
-  //       html = `<span>@page_id:${style[1]}</span>`
-  //       break
-  //     /* Inline Mention Date */
-  //     case 'd':
-  //       html = `<span>@${style[1].start_date}</span>`
-  //       break
-  //     default:
-  //       html = htmlRemain
-  //   }
-  // }
-
   return html
 
+}
+
+function getBlockColor(node, defaultColor = '') {
+  let blockColor
+
+  if (node['raw_value'].format) {
+    blockColor = node['raw_value'].format['block_color']
+      ? node['raw_value'].format['block_color'] : defaultColor
+  } else {
+    blockColor = defaultColor
+  }
+
+  blockColor = renderColor(blockColor)
+
+  return blockColor
 }
 
 function renderColor(str) {
@@ -332,7 +367,7 @@ function escapeString(str) {
       case '"':
         escapedString += '&quot;'
         break
-      case "'":
+      case '\'':
         escapedString += '&#x27;'
         break
       default:

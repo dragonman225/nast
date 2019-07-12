@@ -12,6 +12,7 @@ const map = {
   equation: 'equation',
   divider: 'divider',
   quote: 'quote',
+  callout: 'callout',
   tableOfContents: 'table_of_contents',
   breadcrumb: 'breadcrumb',
   image: 'image',

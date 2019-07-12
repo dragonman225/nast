@@ -5,9 +5,13 @@ const {
   renderText,
   renderHeader,
   renderBulletedList,
+  renderNumberedList,
   renderToggle,
   renderToDo,
+  renderDivider,
   renderQuote,
+  renderCallout,
+  renderImage,
   renderBookmark,
   renderPage,
 } = require('./render-utils')
@@ -40,14 +44,26 @@ function renderNode(node) {
     case blockMap.bulletedList:
       html = renderBulletedList(node, renderNode)
       break
+    case blockMap.numberedList:
+      html = renderNumberedList(node, renderNode)
+      break
     case blockMap.toDo:
       html = renderToDo(node, renderNode)
       break
     case blockMap.toggle:
       html = renderToggle(node, renderNode)
       break
+    case blockMap.divider:
+      html = renderDivider()
+      break
     case blockMap.quote:
       html = renderQuote(node, renderNode)
+      break
+    case blockMap.callout:
+      html = renderCallout(node)
+      break
+    case blockMap.image:
+      html = renderImage(node)
       break
     case blockMap.bookmark:
       html = renderBookmark(node, renderNode)
