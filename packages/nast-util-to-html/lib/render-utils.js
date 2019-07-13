@@ -1,8 +1,12 @@
 const colorMap = require('./color-map')
+const blockMap = require('./block-map')
+const { raiseWarning } = require('./log-utils')
+const { convertNotionURLToLocalLink } = require('./notion-utils')
 
 module.exports = {
   renderText,
   renderHeader,
+  renderColumnList,
   renderBulletedList,
   renderNumberedList,
   renderToggle,
@@ -17,12 +21,13 @@ module.exports = {
 
 function renderText(node, renderNext) {
   let blockColor = getBlockColor(node)
-  let childrenHTMLArr = node.children.map(child => `<div>${renderNext(child)}</div>`)
-  
-  let html = `\
-  <div class="block ${blockColor}">
+
+  let html = `
+  <div class="block ${blockColor}" style="padding: 3px 2px;">
     <div>${renderTitle(node.data ? node.data.title : [])}</div>
-    <div class="indent">${childrenHTMLArr.join('')}</div>
+    <div class="indent">
+      ${renderChildren(node.children, renderNext)}
+    </div>
   </div>
   `
 
@@ -42,26 +47,52 @@ function renderHeader(node, renderNext, level) {
   }
 }
 
+function renderColumnList(node, renderNext) {
+  let numOfColumns = node.children.length
+  let columnArrHTML = node.children.map((column, i) => renderColumn(column, renderNext, i === 0, numOfColumns))
+  let html = `
+  <div class="${blockMap.columnList}" style="display: flex; flex-wrap: wrap;">
+    ${columnArrHTML.join('')}
+  </div>`
+  return html
+}
+
+function renderColumn(node, renderNext, isFirst, numOfColumns) {
+
+  if (node.type !== blockMap.column) {
+    raiseWarning(`Non-column node in column_list. Block ID: ${node['raw_value'].id}`)
+    return ''
+  }
+
+  let columnSpacing = 46
+  let margin = isFirst ? '' : `margin-left: ${columnSpacing}px;`
+  let columnRatio = node['raw_value'].format['column_ratio']
+  let width = `width: calc((100% - ${columnSpacing * (numOfColumns - 1)}px) * ${columnRatio});`
+  let html =`
+  <div class="${blockMap.column}" style="${margin} ${width} word-break: break-word;">
+    ${renderChildren(node.children, renderNext)}
+  </div>`
+
+  return html
+}
+
 function renderBulletedList(node, renderNext) {
-  let childrenHTMLArr = node.children.map(child => `<div>${renderNext(child)}</div>`)
-  let html = `\
+  let html = `
   <ul>
     <li>
       <div>${renderTitle(node.data ? node.data.title : [])}</div>
-      ${childrenHTMLArr.join('')}
+      ${renderChildren(node.children, renderNext)}
     </li>
-  </ul>
-  `
+  </ul>`
   return html
 }
 
 function renderNumberedList(node, renderNext) {
-  let childrenHTMLArr = node.children.map(child => `<div>${renderNext(child)}</div>`)
   let html = `\
   <ol>
     <li>
       <div>${renderTitle(node.data ? node.data.title : [])}</div>
-      ${childrenHTMLArr.join('')}
+      ${renderChildren(node.children, renderNext)}
     </li>
   </ol>
   `
@@ -69,11 +100,10 @@ function renderNumberedList(node, renderNext) {
 }
 
 function renderToggle(node, renderNext) {
-  let childrenHTMLArr = node.children.map(child => `<div>${renderNext(child)}</div>`)
   let html = `\
   <details>
     <summary>${renderTitle(node.data ? node.data.title : [])}</summary>
-    <div>${childrenHTMLArr.join('')}</div>
+    <div>${renderChildren(node.children, renderNext)}</div>
   </details>
   `
   return html
@@ -99,11 +129,8 @@ function renderToDo(node, renderNext) {
 }
 
 function renderDivider() {
-  let html = `\
-  <div style="width: 100%; border: 1px solid rgba(55, 53, 47, 0.09); margin: 7px 0;">
-  </div>
-  `
-
+  let html = `
+  <div class="${blockMap.divider}" style="width: 100%; border: 1px solid rgba(55, 53, 47, 0.09); margin: 7px 0;"></div>`
   return html
 }
 
@@ -144,7 +171,7 @@ function renderImage(node) {
   let source = node.data.source[0][0]
 
   let html = `\
-  <div style="width: ${width}px; margin: 0.5em auto; max-width: calc(100vw - 5em);">
+  <div style="width: ${width}px; margin: 0.5em auto; max-width: 100%;">
     <img src="${source}" style="width: 100%; object-fit: cover;">
   </div>
   `
@@ -169,35 +196,8 @@ function renderBookmark(node) {
   let iconImg = iconURL ? `<img src="${iconURL}" style="width: 16px; height: 16px; min-width: 16px; margin-right: 4px;">` : ''
   let coverImg = coverURL ? `<img src="${coverURL}" style="display: block; object-fit: cover; border-radius: 1px; width: 100%; height: 100%;">` : ''
 
-  // let html = `\
-  // <div class="bookmark">
-  //   <div style="display: flex;">
-  //     <div style="display: flex; flex-wrap: wrap-reverse; align-items: stretch; text-align: left; overflow: hidden; border: 1px solid rgba(55, 53, 47, 0.16); border-radius: 3px; position: relative; flex-grow: 1; color: rgb(55, 53, 47);">
-  //       <div style="flex: 4 1 180px; min-height: 60px; overflow: hidden; text-align: left;">
-  //         <a href="${link}" target="_blank" rel="noopener noreferrer" style="display: block; color: inherit; text-decoration: none; height: 100%;">
-  //           <div style="cursor: pointer; user-select: none; transition: background 120ms ease-in 0s; width: 100%; display: block; padding: 14px; height: 100%;">
-  //             <div style="font-size: 14px; line-height: 20px; max-height: 20px; overflow: hidden;">${title}</div>
-  //             <div style="font-size: 12px; line-height: 16px; color: rgba(55, 53, 47, 0.6); max-height: 32px; overflow: hidden;">${description}</div>
-  //             <div style="font-size: 12px; line-height: 16px; display: flex; overflow: hidden; margin-top: 4px;">
-  //               ${iconImg}
-  //               <div style="min-width: 0px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${link}</div>
-  //             </div>
-  //           </div>
-  //         </a>
-  //       </div>
-  //       <div style="flex: 1 1 180px; min-height: 80px; display: block; position: relative;">
-  //         <div style="position: absolute; top: 0px; left: 0px; right: 0px; bottom: 0px;">
-  //           <div style="width: 100%; height: 100%;">
-  //             ${coverImg}
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   </div>
-  // </div>
-  // `
   let html = `\
-  <div class="bookmark" style="margin: 8px 0;">
+  <div class="${blockMap.bookmark}" style="margin: 8px 0;">
     <div style="display: flex;">
       <div style="display: flex; text-align: left; overflow: hidden; border: 1px solid rgba(55, 53, 47, 0.16); border-radius: 0.7rem; position: relative; flex-grow: 1; color: rgb(55, 53, 47);">
         <div style="min-height: 1rem; overflow: hidden; text-align: left;">
@@ -215,6 +215,19 @@ function renderBookmark(node) {
   </div>
   `
   return html
+}
+
+function renderChildren(nodeArray, renderNext) {
+  let childrenHTMLArr = nodeArray.map(node => {
+    let blockColor = getBlockColor(node)
+    let html = `
+    <div id="${node.id}" class="block ${blockColor}">
+      ${renderNext(node)}
+    </div>
+    `
+    return html
+  })
+  return childrenHTMLArr.join('')
 }
 
 function renderTitle(titleTokens) {
@@ -240,11 +253,12 @@ function renderTitle(titleTokens) {
 }
 
 function renderPage(node, renderNext) {
-  let childrenHTMLArr = node.children.map(child => renderNext(child))
   let html = `\
   <div>
     <h1>${node.data.title[0][0]}</h1>
-    <div>${childrenHTMLArr.join('')}</div>
+    <div>
+      ${renderChildren(node.children, renderNext)}
+    </div>
   </div>`
   return html
 }
@@ -269,7 +283,7 @@ function styleToHTML(text, styles) {
         break
       /* Link */
       case 'a':
-        html = `<a href="${styles[i][1]}">${html}</a>`
+        html = `<a href="${convertNotionURLToLocalLink(styles[i][1])}">${html}</a>`
         break
       /* Inline Code */
       case 'c':

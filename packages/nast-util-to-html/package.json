@@ -1,9 +1,11 @@
 {
   "name": "notionast-util-to-html",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Transform NotionAST to HTML.",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "node test/index.js"
+  },
   "keywords": [
     "notion",
     "notionast",

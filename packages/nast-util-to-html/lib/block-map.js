@@ -5,6 +5,8 @@ const map = {
   subSubHeader: 'sub_sub_header',
   toDo: 'to_do',
   toggle: 'toggle',
+  columnList: 'column_list',
+  column: 'column',
   bulletedList: 'bulleted_list',
   numberedList: 'numbered_list',
   text: 'text',

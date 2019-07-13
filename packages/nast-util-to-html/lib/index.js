@@ -4,6 +4,7 @@ const blockMap = require('./block-map')
 const {
   renderText,
   renderHeader,
+  renderColumnList,
   renderBulletedList,
   renderNumberedList,
   renderToggle,
@@ -40,6 +41,9 @@ function renderNode(node) {
       break
     case blockMap.subSubHeader:
       html = renderHeader(node, renderNode, 4)
+      break
+    case blockMap.columnList:
+      html = renderColumnList(node, renderNode)
       break
     case blockMap.bulletedList:
       html = renderBulletedList(node, renderNode)
