@@ -37,9 +37,9 @@ const fs = require('fs')
 const NotionAgent = require('notionapi-agent')
 const downloadPageAsTree = require('notionast-util-from-notionapi')
 
-/* Fill in your cookie. */
+/* Fill in your token. */
 const options = {
-  cookie: ''
+  token: ''
 }
 const agent = new NotionAgent(options)
 
