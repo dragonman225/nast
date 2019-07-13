@@ -127,6 +127,7 @@ function makeTree(allRecords: RecordValue[]): BlockNode {
   /* Cast RecordValue to BlockNode. */
   let list = allRecords.map((record): BlockNode => {
     return {
+      id: record.value.id,
       type: record.value.type,
       data: record.value.properties,
       raw_value: record.value,

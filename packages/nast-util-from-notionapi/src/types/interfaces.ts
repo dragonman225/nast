@@ -67,6 +67,7 @@ export interface RecordRequest {
 }
 
 export interface BlockNode {
+  id: string
   type: string
   data?: BlockProperties
   raw_value: BlockValue

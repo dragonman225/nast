@@ -78,6 +78,7 @@ A Notion Abstract Syntax Tree. Refer to `src/types/interfaces.ts` for details.
 
 ```typescript
 interface BlockNode {
+  id: string
   type: string
   data?: BlockProperties
   raw_value: BlockValue
