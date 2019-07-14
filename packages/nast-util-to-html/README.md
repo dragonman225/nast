@@ -2,6 +2,10 @@
 
 Render HTML from NotionAST.
 
+## Usage
+
+See `test/lib.spec.js`.
+
 ## Supported Blocks
 
 ### Fundamental

@@ -1,0 +1,24 @@
+code {
+  background-color: rgba(135,131,120,0.15);
+}
+
+ul {
+  list-style-type: disc;
+}
+
+details > summary:focus {
+  outline: none;
+}
+
+.comment {
+  background: rgba(255, 212, 0, 0.14);
+  border-bottom: 2px solid rgb(255, 212, 0);
+}
+
+.block--bookmark {
+  transition: background 120ms ease-in 0s;
+}
+
+.block--bookmark:hover {
+  background: rgba(55, 53, 47, 0.08);
+}
