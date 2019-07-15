@@ -20,7 +20,9 @@ const map = {
   image: 'image',
   video: 'video',
   bookmark: 'bookmark',
-  collectionView: 'collection_view'
+  collectionView: 'collection_view',
+  unorderedList: 'unordered_list',
+  orderedList: 'ordered_list'
 }
 
 module.exports = map

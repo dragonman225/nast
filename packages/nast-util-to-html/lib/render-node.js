@@ -4,8 +4,8 @@ const {
   renderText,
   renderHeader,
   renderColumnList,
-  renderBulletedList,
-  renderNumberedList,
+  renderUnorderedList,
+  renderOrderedList,
   renderToggle,
   renderToDo,
   renderDivider,
@@ -29,7 +29,7 @@ module.exports = {
  * @returns {String}
  */
 function renderRoot(node, elemId = 'notionast-document') {
-  let title = node.data.title[0][0]
+  let title = node.data ? node.data.title[0][0] : ''
   return `\
 <div id="${elemId}">
   <div id="${node.id}" class="page-title">
@@ -58,11 +58,11 @@ function renderNode(node) {
     case blockMap.columnList:
       html = renderColumnList(node, renderNode)
       break
-    case blockMap.bulletedList:
-      html = renderBulletedList(node, renderNode)
+    case blockMap.unorderedList:
+      html = renderUnorderedList(node, renderNode)
       break
-    case blockMap.numberedList:
-      html = renderNumberedList(node, renderNode)
+    case blockMap.orderedList:
+      html = renderOrderedList(node, renderNode)
       break
     case blockMap.toggle:
       html = renderToggle(node, renderNode)

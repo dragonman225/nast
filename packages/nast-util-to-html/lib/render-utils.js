@@ -136,7 +136,7 @@ function styleToHTML(text, styles) {
 function getBlockColor(node, defaultColor = '') {
   let blockColor
 
-  if (node['raw_value'].format) {
+  if (node['raw_value'] && node['raw_value'].format) {
     blockColor = node['raw_value'].format['block_color']
       ? node['raw_value'].format['block_color'] : defaultColor
   } else {

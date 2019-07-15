@@ -1,0 +1,80 @@
+body .color-default {
+  color: rgb(55, 53, 47);
+}
+
+body .background-default {
+  background: rgb(255, 255, 255);
+}
+
+body .color-gray {
+  color: rgb(155,154,151);
+}
+
+body .background-gray {
+  background: rgb(235, 236, 237);
+}
+
+body .color-brown {
+  color: rgb(100, 71, 58);
+}
+
+body .background-brown {
+  background: rgb(233, 229, 227);
+}
+
+body .color-orange {
+  color: rgb(217, 115, 13);
+}
+
+body .background-orange {
+  background: rgb(250, 235, 221);
+}
+
+body .color-yellow {
+  color: rgb(223, 171, 1);
+}
+
+body .background-yellow {
+  background: rgb(251, 243, 219);
+}
+
+body .color-green {
+  color: rgb(15, 123, 108);
+}
+
+body .background-green {
+  background: rgb(221, 237, 234);
+}
+
+body .color-blue {
+  color: rgb(11, 110, 153);
+}
+
+body .background-blue {
+  background: rgb(221, 235, 241);
+}
+
+body .color-purple {
+  color: rgb(105, 64, 165);
+}
+
+body .background-purple {
+  background: rgb(234, 228, 242);
+}
+
+body .color-pink {
+  color: rgb(173, 26, 114);
+}
+
+body .background-pink {
+  background: rgb(244, 223, 235);
+}
+
+body .color-red {
+  color: rgb(224, 62, 62);
+}
+
+body .background-red {
+  background: rgb(251, 228, 228);
+}
+

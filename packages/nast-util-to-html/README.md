@@ -4,6 +4,7 @@ Render HTML from NotionAST.
 
 ## Usage
 
+Require [`notionast-util-from-notionapi-v0.2.0`]()
 See `test/lib.spec.js`.
 
 ## Supported Blocks
@@ -22,8 +23,8 @@ See `test/lib.spec.js`.
   - [x] Nested
 - [ ] Embeded Sub-page
 - [x] Heading 1, 2, 3
-- [x] Bulleted LIst
-- [ ] Numbered List (Renders every item with number 1)
+- [x] Bulleted List
+- [x] Numbered List
 - [x] Toggle List
 - [x] Quote
 - [x] Divider

@@ -25,6 +25,7 @@ function test() {
     <meta name="theme-color" content="#FFFFFF">
     <title>${pageTitle}</title>
     <link rel="stylesheet" type="text/css" href="css/layout.css">
+    <link rel="stylesheet" type="text/css" href="css/notion-color.css">
     <link rel="stylesheet" type="text/css" href="css/theme.css">
     <link rel="stylesheet" type="text/css" href="css/debug.css">
     <style>

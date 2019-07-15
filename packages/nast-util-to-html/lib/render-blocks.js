@@ -15,8 +15,8 @@ module.exports = {
   renderText,
   renderHeader,
   renderColumnList,
-  renderBulletedList,
-  renderNumberedList,
+  renderUnorderedList,
+  renderOrderedList,
   renderToggle,
   renderToDo,
   renderDivider,
@@ -128,21 +128,48 @@ function renderColumn(node, renderNext, isFirst, numOfColumns) {
   ${renderChildren(node.children, renderNext)}
 </div>`
 
+/** Experiment: Simpler way, but not working well with nested ColumnList */
+//   let html = `\
+// <div class="${blockMap.column}" style="flex-grow: ${columnRatio};">
+//   ${renderChildren(node.children, renderNext)}
+// </div>
+//   `
+
   return html
 }
 
 /**
- * BulletedList Temporary Wrapper
+ * PseudoBlock: UnorderedList
+ * @param {UnorderedList} node 
+ * @param {Function} renderNext 
+ * @returns {String}
  */
-function renderBulletedList(node, renderNext) {
-  return renderListItem(node, renderNext)
+function renderUnorderedList(node, renderNext) {
+  let listItemsHTML = node.children.map(listItem => {
+    return renderListItem(listItem, renderNext)
+  })
+  let html = `\
+<ul>
+  ${listItemsHTML.join('')}
+</ul>`
+  return html
 }
 
 /**
- * NumberedList Temporary Wrapper
+ * PseudoBlock: OrderedList
+ * @param {OrderedList} node 
+ * @param {Function} renderNext 
+ * @returns {String}
  */
-function renderNumberedList(node, renderNext) {
-  return renderListItem(node, renderNext)
+function renderOrderedList(node, renderNext) {
+  let listItemsHTML = node.children.map(listItem => {
+    return renderListItem(listItem, renderNext)
+  })
+  let html = `\
+<ol>
+  ${listItemsHTML.join('')}
+</ol>`
+  return html
 }
 
 /**
@@ -167,12 +194,10 @@ function renderListItem(node, renderNext) {
    * But ul has its own indent padding, so we don't need the indent class.
    */
   let html = `\
-<ul>
-  <li>
-    ${renderBlock(node, content)}
-    ${renderChildren(node.children, renderNext)}
-  </li>
-</ul>`
+<li>
+  ${renderBlock(node, content)}
+  ${renderChildren(node.children, renderNext)}
+</li>`
 
   return html
 }
@@ -204,14 +229,14 @@ function renderToggle(node, renderNext) {
  * @returns {String}
  */
 function renderToDo(node, renderNext) {
-  let unCheckedIconHTML = '<div style="margin-right: 4px; width: 24px; flex-grow: 0; flex-shrink: 0; display: flex; align-items: center; justify-content: center; min-height: calc((1.5em + 3px) + 3px); padding-right: 2px;"><div style="width: 16px; height: 16px; display: flex; align-items: stretch; justify-content: stretch; flex-shrink: 0; flex-grow: 0; cursor: pointer; transition: background 200ms ease-out 0s;"><div style="cursor: pointer; user-select: none; transition: background 120ms ease-in 0s; display: flex; align-items: center; justify-content: center; width: 100%;"><svg viewBox="0 0 16 16" style="width: 100%; height: 100%; display: block; fill: inherit; flex-shrink: 0; backface-visibility: hidden;"><path d="M1.5,1.5 L1.5,14.5 L14.5,14.5 L14.5,1.5 L1.5,1.5 Z M0,0 L16,0 L16,16 L0,16 L0,0 Z"></path></svg></div></div></div>'
-  let checkedIconHTML = '<div style="margin-right: 4px; width: 24px; flex-grow: 0; flex-shrink: 0; display: flex; align-items: center; justify-content: center; min-height: calc((1.5em + 3px) + 3px); padding-right: 2px;"><div style="width: 16px; height: 16px; display: flex; align-items: stretch; justify-content: stretch; flex-shrink: 0; flex-grow: 0; cursor: pointer; transition: background 200ms ease-out 0s; background: rgb(46, 170, 220);"><div style="cursor: pointer; user-select: none; transition: background 120ms ease-in 0s; display: flex; align-items: center; justify-content: center; width: 100%;"><svg viewBox="0 0 14 14" style="width: 12px; height: 12px; display: block; fill: white; flex-shrink: 0; backface-visibility: hidden;"><polygon points="5.5 11.9993304 14 3.49933039 12.5 2 5.5 8.99933039 1.5 4.9968652 0 6.49933039"></polygon></svg></div></div></div>'
+  let unCheckedIconHTML = '<div style="margin-right: 4px; width: 24px; flex-grow: 0; flex-shrink: 0; display: flex; align-items: center; justify-content: center; min-height: calc(1.5em + 3px); padding-right: 2px;"><div style="width: 16px; height: 16px; display: flex; align-items: stretch; justify-content: stretch; flex-shrink: 0; flex-grow: 0; cursor: pointer; transition: background 200ms ease-out 0s;"><div style="cursor: pointer; user-select: none; transition: background 120ms ease-in 0s; display: flex; align-items: center; justify-content: center; width: 100%;"><svg viewBox="0 0 16 16" style="width: 100%; height: 100%; display: block; fill: inherit; flex-shrink: 0; backface-visibility: hidden;"><path d="M1.5,1.5 L1.5,14.5 L14.5,14.5 L14.5,1.5 L1.5,1.5 Z M0,0 L16,0 L16,16 L0,16 L0,0 Z"></path></svg></div></div></div>'
+  let checkedIconHTML = '<div style="margin-right: 4px; width: 24px; flex-grow: 0; flex-shrink: 0; display: flex; align-items: center; justify-content: center; min-height: calc(1.5em + 3px); padding-right: 2px;"><div style="width: 16px; height: 16px; display: flex; align-items: stretch; justify-content: stretch; flex-shrink: 0; flex-grow: 0; cursor: pointer; transition: background 200ms ease-out 0s; background: rgb(46, 170, 220);"><div style="cursor: pointer; user-select: none; transition: background 120ms ease-in 0s; display: flex; align-items: center; justify-content: center; width: 100%;"><svg viewBox="0 0 14 14" style="width: 12px; height: 12px; display: block; fill: white; flex-shrink: 0; backface-visibility: hidden;"><polygon points="5.5 11.9993304 14 3.49933039 12.5 2 5.5 8.99933039 1.5 4.9968652 0 6.49933039"></polygon></svg></div></div></div>'
   let checked = node.data.checked ? (node.data.checked[0][0] === 'Yes' ? true : false) : false
 
   let content = `\
 <div style="display: flex; align-items: flex-start;">
   ${checked ? checkedIconHTML : unCheckedIconHTML}
-  <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column; justify-content: center; padding-top: 2px; padding-bottom: 2px; min-height: calc((1.5em + 3px) + 3px); ${checked ? 'opacity: 0.375;' : ''}">
+  <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column; justify-content: center; padding-top: 2px; padding-bottom: 2px; min-height: calc(1.5em + 3px); ${checked ? 'opacity: 0.375;' : ''}">
     ${checked ? '<s>' : ''}${renderTitle(node.data ? node.data.title : [])}${checked ? '</s>' : ''}
   </div>
 </div>`
@@ -271,7 +296,7 @@ function renderCallout(node) {
 <div>
   ${pageIcon}
 </div>
-<div style="margin-left: 8px;">
+<div style="margin: 3px 0; margin-left: 8px;">
   ${renderTitle(node.data ? node.data.title : [])}
 </div>`
 
@@ -321,7 +346,7 @@ function renderBookmark(node) {
   let content = `\
 <div style="display: flex;">
   <div style="display: flex; text-align: left; overflow: hidden; border: 1px solid rgba(55, 53, 47, 0.16); border-radius: 0.7rem; position: relative; flex-grow: 1; color: rgb(55, 53, 47);">
-    <div style="min-height: 1rem; overflow: hidden; text-align: left;">
+    <div style="min-height: 1rem; overflow: hidden; text-align: left; width: 100%;">
       <a href="${link}" target="_blank" rel="noopener noreferrer" style="display: block; color: inherit; text-decoration: none;">
         <div style="cursor: pointer; user-select: none; transition: background 120ms ease-in 0s; width: 100%; display: block; padding: 1rem;">
           <div style="font-size: 14px; overflow: hidden;">${title}</div>
@@ -346,30 +371,4 @@ function renderCode(node) {
 <pre>
 </pre>`
   return renderBlock(node, content)
-}
-
-/**
- * PseudoBlock: UnorderedList
- * @param {UnorderedList} node 
- * @param {Function} renderNext 
- * @returns {String}
- */
-function renderUnorderedList(node, renderNext) {
-  let html = `\
-<ul>
-</ul>`
-  return html
-}
-
-/**
- * PseudoBlock: OrderedList
- * @param {OrderedList} node 
- * @param {Function} renderNext 
- * @returns {String}
- */
-function renderOrderedList(node, renderNext) {
-  let html = `\
-<ol>
-</ol>`
-  return html
 }
