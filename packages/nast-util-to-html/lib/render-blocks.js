@@ -23,7 +23,8 @@ module.exports = {
   renderQuote,
   renderCallout,
   renderImage,
-  renderBookmark
+  renderBookmark,
+  renderCode
 }
 
 /**
@@ -369,6 +370,9 @@ function renderBookmark(node) {
 function renderCode(node) {
   let content = `\
 <pre>
+  <code>
+${renderTitle(node.data ? node.data.title : [])}
+  </code>
 </pre>`
   return renderBlock(node, content)
 }

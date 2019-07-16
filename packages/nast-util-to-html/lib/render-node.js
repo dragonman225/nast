@@ -12,7 +12,8 @@ const {
   renderQuote,
   renderCallout,
   renderImage,
-  renderBookmark
+  renderBookmark,
+  renderCode
 } = require('./render-blocks')
 const { renderChildren } = require('./render-utils')
 const { raiseWarning } = require('./log-utils')
@@ -84,6 +85,9 @@ function renderNode(node) {
       break
     case blockMap.bookmark:
       html = renderBookmark(node, renderNode)
+      break
+    case blockMap.code:
+      html = renderCode(node, renderNode)
       break
     default:
       raiseWarning(`No render function for ${node.type}. Ignored.`)

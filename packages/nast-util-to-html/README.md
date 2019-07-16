@@ -5,7 +5,9 @@ Render HTML from NotionAST.
 ## Usage
 
 Require [`notionast-util-from-notionapi-v0.2.0`]()
-See `test/lib.spec.js`.
+
+See `test/lib.spec.js` for details.
+See `test/test.html` for example result.
 
 ## Supported Blocks
 
@@ -45,7 +47,7 @@ Not yet supported
 - [x] Web Bookmark
 - [ ] Video
 - [ ] Audio
-- [ ] Code
+- [x] Code
 - [ ] File
 
 ### Advanced Blocks
