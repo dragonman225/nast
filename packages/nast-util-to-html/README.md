@@ -4,10 +4,11 @@ Render HTML from NotionAST.
 
 ## Usage
 
-Require [`notionast-util-from-notionapi-v0.2.0`]()
+Require [`notionast-util-from-notionapi-v0.2.0`](https://github.com/dragonman225/notionast-util-from-notionapi/tree/v0.2.0)
 
-See `test/lib.spec.js` for details.
 See `test/test.html` for example result.
+
+See `test/lib.spec.js` for usage details.
 
 ## Supported Blocks
 
