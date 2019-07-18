@@ -105,19 +105,19 @@ function styleToHTML(text, styles) {
         break
       /* Inline Mention User */
       case 'u':
-        html = `<span>@user_id:${styles[i][1]}</span>`
+        html = `<span class="color-mention">@user_id:${styles[i][1]}</span>`
         break
       /* Inline Mention Page */
       case 'p':
-        html = `<span>@page_id:${styles[i][1]}</span>`
+        html = `<span class="color-mention">@page_id:${styles[i][1]}</span>`
         break
       /* Inline Mention Date */
       case 'd':
-        html = `<span>@${styles[i][1].start_date}</span>`
+        html = `<span class="color-mention">@${styles[i][1].start_date}</span>`
         break
       /* Comment */
       case 'm':
-        html = `<span class="comment">${html}</span>`
+        html = `<span class="color-comment">${html}</span>`
         break
       default:
         raiseWarning(`Unsupported style: ${styles[i][0]}`)

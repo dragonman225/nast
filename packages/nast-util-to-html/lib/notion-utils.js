@@ -1,5 +1,6 @@
 module.exports = {
   convertNotionURLToLocalLink,
+  getPageIDfromNotionURL,
   toDashID,
   isValidDashID
 }
@@ -13,6 +14,17 @@ function convertNotionURLToLocalLink(str) {
   if (found != null && found[1] != null) {
     let dashID = toDashID(found[1])
     return `#${dashID}`
+  } else {
+    return str
+  }
+}
+
+function getPageIDfromNotionURL(str) {
+  let re = /https:\/\/www.notion.so\/.+-([a-f|\d]+)/
+  let found = str.match(re)
+  if (found != null && found[1] != null) {
+    let dashID = toDashID(found[1])
+    return dashID
   } else {
     return str
   }

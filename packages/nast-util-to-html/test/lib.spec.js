@@ -11,9 +11,10 @@ function test() {
   let html = renderPage(tree.data.title[0][0], content)
 
   fs.writeFileSync(path.join(__dirname, 'test.html'), html)
+}
 
-  function renderPage(pageTitle, contentHTML) {
-    let pageHTML = `\
+function renderPage(pageTitle, contentHTML) {
+  let pageHTML = `\
 <html>
   <head>
     <meta charset="utf-8">
@@ -42,6 +43,5 @@ function test() {
     </div>
   </body>
 </html>`
-    return pageHTML
-  }
+  return pageHTML
 }

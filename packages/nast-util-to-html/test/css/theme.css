@@ -1,17 +1,22 @@
+*::selection {
+  background: rgba(45, 170, 219, 0.3);
+}
+
 body {
-  line-height: 1.6;
+  line-height: 1.5;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 16px;
-  font-weight: 400;
-  color: #555;
+  color: #37352f;
+  margin: 0;
 }
 
 blockquote {
-  background: #f9f9f9;
-  border-left: 7px solid #ccc;
+  background: rgba(235, 236, 237, 0.3);
+  border-left: 5px solid currentcolor;
   border-radius: 5px;
-  margin: 20px 0;
-  padding: 0.5em 13px;
+  margin: 5px 0;
+  padding: 0.5em 0.9em;
+  font-size: 1.2em;
 }
 
 a {
@@ -24,33 +29,24 @@ a:hover {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: #333;
-}
-
-h1, h2, h3 {
   font-weight: 700;
-  margin: 20px auto 0 auto;
-}
-
-h4, h5, h6 {
-  font-weight: 700;
-  margin: 15px auto 0 auto;
+  margin: 0.8em auto 0 auto;
 }
 
 h1 {
-  font-size: 3.4rem;
+  font-size: 2.5rem;
 }
 
 h2 {
-  font-size: 2.2rem;
+  font-size: 1.875rem;
 }
 
 h3 {
-  font-size: 1.6rem;
+  font-size: 1.5rem;
 }
 
 h4 {
-  font-size: 1.3rem;
+  font-size: 1.25rem;
 }
 
 h5 {
@@ -81,8 +77,8 @@ code {
 pre {
   border-radius: 5px;
   background-color: #fff8e3;
-  margin: 20px 0;
-  padding: 8px 10px;
+  margin: 10px 0;
+  padding: 0 16px;
   overflow: auto;
 }
 
@@ -103,11 +99,25 @@ ul {
   list-style-type: disc;
 }
 
+ul > li {
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+ul > li div {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
 details>summary:focus {
   outline: none;
 }
 
-.comment {
+.color-mention {
+  opacity: 0.5;
+}
+
+.color-comment {
   background: rgba(255, 212, 0, 0.14);
   border-bottom: 2px solid rgb(255, 212, 0);
 }

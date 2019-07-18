@@ -24,6 +24,7 @@
     <div class="container">
       <div id="notionast-document">
   <div id="1c4d63a8-ffc7-47be-a565-8672797a595a" class="page-title">
+    <div class="page-icon">🚧</div>
     <h1>Testing Blocks</h1>
   </div>
   <div id="ee7fc736-d9a1-4e0d-b6c6-dea5c454a14c">
@@ -44,19 +45,19 @@
   <h4><span>Text</span></h4>
 </div>
 </div><div id="e89b44d1-b8be-441b-8e12-c90f1bc67324">
-  <div class="block ">
+  <div class="block block--text ">
   <span><strong>bold</strong> <em>italic</em> <del>strike</del> <code>code</code> <strong><em><del><span class="background-yellow">multiple</span></del></em></strong></span>
 </div>
 </div><div id="3abf7932-533c-45bd-9cc2-cf4f3472f3e4">
-  <div class="block background-green">
+  <div class="block block--text background-green">
   <span>Block Color</span>
 </div>
 </div><div id="8cfa8d85-8d5d-48fb-a53a-4c9f0d1c262a">
-  <div class="block color-green">
+  <div class="block block--text color-green">
   <span>Block Color</span>
 </div>
 </div><div id="c829639d-80c5-4714-b13c-dd5ba032f43d">
-  <div class="block ">
+  <div class="block block--text ">
   <span><a href="#f51e5274-93dd-4fc0-9462-18a2010d2440">Link to Heading 1</a></span>
 </div>
 </div>
@@ -66,19 +67,19 @@
   <h4><span>Nested Text</span></h4>
 </div>
 </div><div id="1be0f431-26d3-4b6f-b5cb-a74728c85cc4">
-  <div class="block ">
+  <div class="block block--text ">
   <span>At level one</span>
 </div><div class="block--indent">
   <div id="f4a959a6-95a1-4730-9bc6-b70f493b3069">
-  <div class="block ">
+  <div class="block block--text ">
   <span>At level two</span>
 </div><div class="block--indent">
   <div id="f56508a8-4c63-4fd2-9a1a-8a4ea52250dc">
-  <div class="block ">
+  <div class="block block--text ">
   <span>At level three</span>
 </div>
 </div><div id="27720212-4f7e-4b50-ac2b-8546da622caf">
-  <div class="block ">
+  <div class="block block--text ">
   <span>&lt;script&gt;alert(&#x27;xss&#x27;);&lt;&#x2F;script&gt;</span>
 </div>
 </div>
@@ -93,11 +94,11 @@
   <h4><span>Text Colors</span></h4>
 </div>
 </div><div id="4658918a-bc73-4a9e-a458-c0ed4dca313e">
-  <div class="block ">
+  <div class="block block--text ">
   <span><strong>Font Color</strong> : default <span class="color-gray">gray</span> <span class="color-brown">brown </span><span class="color-orange">orange</span><span class="color-brown"> </span><span class="color-yellow">yellow</span><span class="color-brown"> </span><span class="color-green">green</span><span class="color-brown"> </span><span class="color-blue">blue</span><span class="color-brown"> </span><span class="color-purple">purple</span><span class="color-brown"> </span><span class="color-pink">pink</span><span class="color-brown"> </span><span class="color-red">red</span></span>
 </div>
 </div><div id="89cd222a-6066-4331-8042-22ec0683d376">
-  <div class="block ">
+  <div class="block block--text ">
   <span><strong>Background Color</strong> : default <span class="background-gray">gray</span> <span class="background-brown">brown</span><span class="color-brown"> </span><span class="background-orange">orange</span><span class="color-brown"> </span><span class="background-yellow">yellow</span><span class="color-brown"> </span><span class="background-green">green</span><span class="color-brown"> </span><span class="background-blue">blue</span><span class="color-brown"> </span><span class="background-purple">purple</span><span class="color-brown"> </span><span class="background-pink">pink</span><span class="color-brown"> </span><span class="background-red">red</span></span>
 </div>
 </div><div id="a352832e-e0ff-4b01-8157-d50715bb74c9">
@@ -111,8 +112,8 @@
 </div><div id="5e844f08-00b6-4fa9-8e9a-3ce37808a9c7">
   <div class="block block--to_do ">
   <div style="display: flex; align-items: flex-start;">
-  <div style="margin-right: 4px; width: 24px; flex-grow: 0; flex-shrink: 0; display: flex; align-items: center; justify-content: center; min-height: calc(1.5em + 3px); padding-right: 2px;"><div style="width: 16px; height: 16px; display: flex; align-items: stretch; justify-content: stretch; flex-shrink: 0; flex-grow: 0; cursor: pointer; transition: background 200ms ease-out 0s;"><div style="cursor: pointer; user-select: none; transition: background 120ms ease-in 0s; display: flex; align-items: center; justify-content: center; width: 100%;"><svg viewBox="0 0 16 16" style="width: 100%; height: 100%; display: block; fill: inherit; flex-shrink: 0; backface-visibility: hidden;"><path d="M1.5,1.5 L1.5,14.5 L14.5,14.5 L14.5,1.5 L1.5,1.5 Z M0,0 L16,0 L16,16 L0,16 L0,0 Z"></path></svg></div></div></div>
-  <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column; justify-content: center; padding-top: 2px; padding-bottom: 2px; min-height: calc(1.5em + 3px); ">
+  <div style="margin-right: 4px; width: 24px; flex-grow: 0; flex-shrink: 0; display: flex; align-items: center; justify-content: center; min-height: calc(1.5em + 6px); padding-right: 2px;"><div style="width: 16px; height: 16px; display: flex; align-items: stretch; justify-content: stretch; flex-shrink: 0; flex-grow: 0; cursor: pointer; transition: background 200ms ease-out 0s;"><div style="cursor: pointer; user-select: none; transition: background 120ms ease-in 0s; display: flex; align-items: center; justify-content: center; width: 100%;"><svg viewBox="0 0 16 16" style="width: 100%; height: 100%; display: block; fill: inherit; flex-shrink: 0; backface-visibility: hidden;"><path d="M1.5,1.5 L1.5,14.5 L14.5,14.5 L14.5,1.5 L1.5,1.5 Z M0,0 L16,0 L16,16 L0,16 L0,0 Z"></path></svg></div></div></div>
+  <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column; justify-content: center; padding-top: 2px; padding-bottom: 2px; min-height: calc(1.5em + 6px); ">
     <span>Unchecked</span>
   </div>
 </div>
@@ -121,8 +122,8 @@
 </div><div id="ec5d20c3-3f36-4c19-8db8-fea32df137bf">
   <div class="block block--to_do ">
   <div style="display: flex; align-items: flex-start;">
-  <div style="margin-right: 4px; width: 24px; flex-grow: 0; flex-shrink: 0; display: flex; align-items: center; justify-content: center; min-height: calc(1.5em + 3px); padding-right: 2px;"><div style="width: 16px; height: 16px; display: flex; align-items: stretch; justify-content: stretch; flex-shrink: 0; flex-grow: 0; cursor: pointer; transition: background 200ms ease-out 0s; background: rgb(46, 170, 220);"><div style="cursor: pointer; user-select: none; transition: background 120ms ease-in 0s; display: flex; align-items: center; justify-content: center; width: 100%;"><svg viewBox="0 0 14 14" style="width: 12px; height: 12px; display: block; fill: white; flex-shrink: 0; backface-visibility: hidden;"><polygon points="5.5 11.9993304 14 3.49933039 12.5 2 5.5 8.99933039 1.5 4.9968652 0 6.49933039"></polygon></svg></div></div></div>
-  <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column; justify-content: center; padding-top: 2px; padding-bottom: 2px; min-height: calc(1.5em + 3px); opacity: 0.375;">
+  <div style="margin-right: 4px; width: 24px; flex-grow: 0; flex-shrink: 0; display: flex; align-items: center; justify-content: center; min-height: calc(1.5em + 6px); padding-right: 2px;"><div style="width: 16px; height: 16px; display: flex; align-items: stretch; justify-content: stretch; flex-shrink: 0; flex-grow: 0; cursor: pointer; transition: background 200ms ease-out 0s; background: rgb(46, 170, 220);"><div style="cursor: pointer; user-select: none; transition: background 120ms ease-in 0s; display: flex; align-items: center; justify-content: center; width: 100%;"><svg viewBox="0 0 14 14" style="width: 12px; height: 12px; display: block; fill: white; flex-shrink: 0; backface-visibility: hidden;"><polygon points="5.5 11.9993304 14 3.49933039 12.5 2 5.5 8.99933039 1.5 4.9968652 0 6.49933039"></polygon></svg></div></div></div>
+  <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column; justify-content: center; padding-top: 2px; padding-bottom: 2px; min-height: calc(1.5em + 6px); opacity: 0.375;">
     <s><span>Checked</span></s>
   </div>
 </div>
@@ -247,7 +248,7 @@
 </li>
 </ol>
 </div><div id="08fa93c7-7bba-40fc-ba36-59dd711cc8e7">
-  <div class="block ">
+  <div class="block block--text ">
   <span><strong><em>Text</em></strong> in toggle</span>
 </div>
 </div><div id="bd057bd8-97eb-4d4a-8b77-2dd7b9de55a1">
@@ -286,7 +287,7 @@
   <div>
   🔥
 </div>
-<div style="margin: 3px 0; margin-left: 8px;">
+<div style="margin-left: 8px;">
   <span>Remember to re-implement <span class="color-green">Quote</span> block color.</span>
 </div>
 </div>
@@ -299,24 +300,24 @@
   <h4><span>Mention a Person</span></h4>
 </div>
 </div><div id="4dc8f0ee-a285-4711-9007-7ebb3d3f747f">
-  <div class="block ">
-  <span><span>@user_id:userid</span> Inline Mention Person</span>
+  <div class="block block--text ">
+  <span><span class="color-mention">@user_id:userid</span> Inline Mention Person</span>
 </div>
 </div><div id="83231803-015b-4a6a-95c9-263ffea5de37">
   <div class="block ">
   <h4><span>Mention a Page</span></h4>
 </div>
 </div><div id="7779fcce-8e46-44d1-9189-e8aaf4bceb22">
-  <div class="block ">
-  <span><span>@page_id:pageid</span> Inline Mention Page</span>
+  <div class="block block--text ">
+  <span><span class="color-mention">@page_id:pageid</span> Inline Mention Page</span>
 </div>
 </div><div id="c0f013fa-9844-46a9-afe2-f64aac4711f3">
   <div class="block ">
   <h4><span>Date or Reminder</span></h4>
 </div>
 </div><div id="e562142c-dd2a-4e46-a574-f128ebaa7f39">
-  <div class="block ">
-  <span><span>@2019-05-27</span> Inline Mention Date</span>
+  <div class="block block--text ">
+  <span><span class="color-mention">@2019-05-27</span> Inline Mention Date</span>
 </div>
 </div><div id="dcae1bce-396c-4d11-a8ce-be0ab1b1752b">
   <div class="block ">
@@ -356,10 +357,10 @@
   <div style="display: flex; text-align: left; overflow: hidden; border: 1px solid rgba(55, 53, 47, 0.16); border-radius: 0.7rem; position: relative; flex-grow: 1; color: rgb(55, 53, 47);">
     <div style="min-height: 1rem; overflow: hidden; text-align: left; width: 100%;">
       <a href="https://twitter.com/NotionHQ" target="_blank" rel="noopener noreferrer" style="display: block; color: inherit; text-decoration: none;">
-        <div style="cursor: pointer; user-select: none; transition: background 120ms ease-in 0s; width: 100%; display: block; padding: 1rem;">
-          <div style="font-size: 14px; overflow: hidden;">Notion (@NotionHQ) | Twitter</div>
-          <div style="font-size: 12px; display: flex; overflow: hidden;">
-            <div style="min-width: 0px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">https://twitter.com/NotionHQ</div>
+        <div style="cursor: pointer; user-select: none; transition: background 120ms ease-in 0s; width: 100%; display: block; padding: 16px;">
+          <div style="font-size: 14px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">Notion (@NotionHQ) | Twitter</div>
+          <div style="font-size: 12px; display: flex; overflow: hidden; padding-top: 3px;">
+            <div style="font-size: 12px; min-width: 0px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">https://twitter.com/NotionHQ</div>
           </div>
         </div>
       </a>
@@ -376,10 +377,10 @@
   <div style="display: flex; text-align: left; overflow: hidden; border: 1px solid rgba(55, 53, 47, 0.16); border-radius: 0.7rem; position: relative; flex-grow: 1; color: rgb(55, 53, 47);">
     <div style="min-height: 1rem; overflow: hidden; text-align: left; width: 100%;">
       <a href="https://www.reddit.com/comments/a900p7" target="_blank" rel="noopener noreferrer" style="display: block; color: inherit; text-decoration: none;">
-        <div style="cursor: pointer; user-select: none; transition: background 120ms ease-in 0s; width: 100%; display: block; padding: 1rem;">
-          <div style="font-size: 14px; overflow: hidden;">[Awesome] Mechanical Love : unixporn</div>
-          <div style="font-size: 12px; display: flex; overflow: hidden;">
-            <div style="min-width: 0px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">https://www.reddit.com/comments/a900p7</div>
+        <div style="cursor: pointer; user-select: none; transition: background 120ms ease-in 0s; width: 100%; display: block; padding: 16px;">
+          <div style="font-size: 14px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">[Awesome] Mechanical Love : unixporn</div>
+          <div style="font-size: 12px; display: flex; overflow: hidden; padding-top: 3px;">
+            <div style="font-size: 12px; min-width: 0px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">https://www.reddit.com/comments/a900p7</div>
           </div>
         </div>
       </a>
@@ -395,10 +396,10 @@
   <div style="display: flex; text-align: left; overflow: hidden; border: 1px solid rgba(55, 53, 47, 0.16); border-radius: 0.7rem; position: relative; flex-grow: 1; color: rgb(55, 53, 47);">
     <div style="min-height: 1rem; overflow: hidden; text-align: left; width: 100%;">
       <a href="https://www.reddit.com/comments/a900p7" target="_blank" rel="noopener noreferrer" style="display: block; color: inherit; text-decoration: none;">
-        <div style="cursor: pointer; user-select: none; transition: background 120ms ease-in 0s; width: 100%; display: block; padding: 1rem;">
-          <div style="font-size: 14px; overflow: hidden;">[Awesome] Mechanical Love : unixporn</div>
-          <div style="font-size: 12px; display: flex; overflow: hidden;">
-            <div style="min-width: 0px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">https://www.reddit.com/comments/a900p7</div>
+        <div style="cursor: pointer; user-select: none; transition: background 120ms ease-in 0s; width: 100%; display: block; padding: 16px;">
+          <div style="font-size: 14px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">[Awesome] Mechanical Love : unixporn</div>
+          <div style="font-size: 12px; display: flex; overflow: hidden; padding-top: 3px;">
+            <div style="font-size: 12px; min-width: 0px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">https://www.reddit.com/comments/a900p7</div>
           </div>
         </div>
       </a>
@@ -418,10 +419,10 @@
   <div style="display: flex; text-align: left; overflow: hidden; border: 1px solid rgba(55, 53, 47, 0.16); border-radius: 0.7rem; position: relative; flex-grow: 1; color: rgb(55, 53, 47);">
     <div style="min-height: 1rem; overflow: hidden; text-align: left; width: 100%;">
       <a href="https://www.reddit.com/comments/a900p7" target="_blank" rel="noopener noreferrer" style="display: block; color: inherit; text-decoration: none;">
-        <div style="cursor: pointer; user-select: none; transition: background 120ms ease-in 0s; width: 100%; display: block; padding: 1rem;">
-          <div style="font-size: 14px; overflow: hidden;">[Awesome] Mechanical Love : unixporn</div>
-          <div style="font-size: 12px; display: flex; overflow: hidden;">
-            <div style="min-width: 0px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">https://www.reddit.com/comments/a900p7</div>
+        <div style="cursor: pointer; user-select: none; transition: background 120ms ease-in 0s; width: 100%; display: block; padding: 16px;">
+          <div style="font-size: 14px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">[Awesome] Mechanical Love : unixporn</div>
+          <div style="font-size: 12px; display: flex; overflow: hidden; padding-top: 3px;">
+            <div style="font-size: 12px; min-width: 0px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">https://www.reddit.com/comments/a900p7</div>
           </div>
         </div>
       </a>
@@ -437,10 +438,10 @@
   <div style="display: flex; text-align: left; overflow: hidden; border: 1px solid rgba(55, 53, 47, 0.16); border-radius: 0.7rem; position: relative; flex-grow: 1; color: rgb(55, 53, 47);">
     <div style="min-height: 1rem; overflow: hidden; text-align: left; width: 100%;">
       <a href="https://www.reddit.com/comments/a900p7" target="_blank" rel="noopener noreferrer" style="display: block; color: inherit; text-decoration: none;">
-        <div style="cursor: pointer; user-select: none; transition: background 120ms ease-in 0s; width: 100%; display: block; padding: 1rem;">
-          <div style="font-size: 14px; overflow: hidden;">[Awesome] Mechanical Love : unixporn</div>
-          <div style="font-size: 12px; display: flex; overflow: hidden;">
-            <div style="min-width: 0px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">https://www.reddit.com/comments/a900p7</div>
+        <div style="cursor: pointer; user-select: none; transition: background 120ms ease-in 0s; width: 100%; display: block; padding: 16px;">
+          <div style="font-size: 14px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">[Awesome] Mechanical Love : unixporn</div>
+          <div style="font-size: 12px; display: flex; overflow: hidden; padding-top: 3px;">
+            <div style="font-size: 12px; min-width: 0px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">https://www.reddit.com/comments/a900p7</div>
           </div>
         </div>
       </a>
@@ -456,10 +457,10 @@
   <div style="display: flex; text-align: left; overflow: hidden; border: 1px solid rgba(55, 53, 47, 0.16); border-radius: 0.7rem; position: relative; flex-grow: 1; color: rgb(55, 53, 47);">
     <div style="min-height: 1rem; overflow: hidden; text-align: left; width: 100%;">
       <a href="https://www.reddit.com/comments/a900p7" target="_blank" rel="noopener noreferrer" style="display: block; color: inherit; text-decoration: none;">
-        <div style="cursor: pointer; user-select: none; transition: background 120ms ease-in 0s; width: 100%; display: block; padding: 1rem;">
-          <div style="font-size: 14px; overflow: hidden;">[Awesome] Mechanical Love : unixporn</div>
-          <div style="font-size: 12px; display: flex; overflow: hidden;">
-            <div style="min-width: 0px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">https://www.reddit.com/comments/a900p7</div>
+        <div style="cursor: pointer; user-select: none; transition: background 120ms ease-in 0s; width: 100%; display: block; padding: 16px;">
+          <div style="font-size: 14px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">[Awesome] Mechanical Love : unixporn</div>
+          <div style="font-size: 12px; display: flex; overflow: hidden; padding-top: 3px;">
+            <div style="font-size: 12px; min-width: 0px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">https://www.reddit.com/comments/a900p7</div>
           </div>
         </div>
       </a>
