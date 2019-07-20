@@ -10,7 +10,10 @@
 }
 
 h1, h2, h3, h4 {
-  margin-bottom: 0;
+  line-height: 1.2;
+  margin-top: 0.8em;
+  margin-bottom: 1px;
+  padding: 3px 2px;
 }
 
 ul, ol {
@@ -18,7 +21,7 @@ ul, ol {
 }
 
 li {
-  padding: 3px 0;
+  margin: 2px 0;
 }
 
 /** For experiment: */
@@ -43,7 +46,6 @@ li {
 }
 
 .block {
-  margin: 2px 0;
   border-radius: 5px;
 }
 
@@ -52,12 +54,21 @@ li {
 }
 
 .block--text {
-  min-height: 1rem;
+  min-height: 30px;
+  margin: 2px auto;
   padding: 3px 2px;
 }
 
 .block--toggle {
   padding: 3px 0 3px 6px;
+}
+
+.block--bulleted_list {
+  padding: 2px 0;
+}
+
+.block--numbered_list {
+  padding: 3px 0;
 }
 
 .block--divider {
