@@ -368,10 +368,11 @@ function renderBookmark(node) {
  * @returns {String}
  */
 function renderCode(node) {
+  let lang = node.data ? node.data.language[0][0] : ''
   let content = `\
 <pre>
   <code>
-${renderTitle(node.data ? node.data.title : [])}
+${renderTitle(node.data ? node.data.title : [], true, lang)}
   </code>
 </pre>`
   return renderBlock(node, content)

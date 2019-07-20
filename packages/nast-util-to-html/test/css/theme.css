@@ -76,15 +76,15 @@ code {
 
 pre {
   border-radius: 5px;
-  background-color: #fff8e3;
+  background-color: rgb(247, 246, 243);
   margin: 10px 0;
   padding: 0 16px;
   overflow: auto;
 }
 
 pre code {
-  background-color: #fff8e3;
-  color: #ff6f00;
+  background-color: rgb(247, 246, 243);
+  color: rgb(55, 53, 47);
   font-size: 0.9em;
   line-height: 1.4;
   padding: 0;

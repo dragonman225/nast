@@ -1,5 +1,9 @@
 'use strict'
+const Prism = require('prismjs')
+const loadLanguages = require('prismjs/components/')
+
 const colorMap = require('./color-map')
+const codeLangMap = require('./code-language-map')
 const { convertNotionURLToLocalLink } = require('./notion-utils')
 const { raiseWarning } = require('./log-utils')
 
@@ -52,9 +56,15 @@ function renderBlock(node, contentHTML, defaultColor, tag = 'div') {
  * @param {StyledString[]} titleTokens
  * @returns {String} HTML
  */
-function renderTitle(titleTokens) {
+function renderTitle(titleTokens, isCode = false, lang) {
   let textArr = titleTokens.map(token => {
-    let text = escapeString(token[0])
+    let codeLang = codeLangMap[lang]
+    let text = token[0]
+    if (isCode) {
+      text = renderCode(text, codeLang)
+    } else {
+      text = escapeString(text)
+    }
     let textStyles = token[1]
     let html = text
     if (textStyles) {
@@ -66,6 +76,11 @@ function renderTitle(titleTokens) {
   let html = `\
 <span>${textArr.join('')}</span>`
   return html
+}
+
+function renderCode(str, lang) {
+  loadLanguages([lang])
+  return Prism.highlight(str, Prism.languages[lang], lang)
 }
 
 /**

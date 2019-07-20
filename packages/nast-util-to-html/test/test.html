@@ -8,6 +8,7 @@
     <!-- Chrome, Firefox OS and Opera Status Bar Color -->
     <meta name="theme-color" content="#FFFFFF">
     <title>Testing Blocks</title>
+    <link rel="stylesheet" type="text/css" href="css/prism.css">
     <link rel="stylesheet" type="text/css" href="css/layout.css">
     <link rel="stylesheet" type="text/css" href="css/notion-color.css">
     <link rel="stylesheet" type="text/css" href="css/theme.css">
@@ -491,19 +492,19 @@
   <div class="block block--code ">
   <pre>
   <code>
-<span>&#x27;use strict&#x27;
+<span><span class="token string">'use strict'</span>
 
-module.exports = intercept
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> intercept
 
-function intercept() {
+<span class="token keyword">function</span> <span class="token function">intercept</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   
-  return transformer.bind(this)
+  <span class="token keyword">return</span> <span class="token function">transformer</span><span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span>
 
-  function transformer(tree, file) {
-    let _tree = tree
-    let _file = file
-  }
-}</span>
+  <span class="token keyword">function</span> <span class="token function">transformer</span><span class="token punctuation">(</span><span class="token parameter">tree<span class="token punctuation">,</span> file</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> _tree <span class="token operator">=</span> tree
+    <span class="token keyword">let</span> _file <span class="token operator">=</span> file
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></span>
   </code>
 </pre>
 </div>

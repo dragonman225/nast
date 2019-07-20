@@ -25,6 +25,7 @@ function renderPage(pageTitle, contentHTML) {
     <!-- Chrome, Firefox OS and Opera Status Bar Color -->
     <meta name="theme-color" content="#FFFFFF">
     <title>${pageTitle}</title>
+    <link rel="stylesheet" type="text/css" href="css/prism.css">
     <link rel="stylesheet" type="text/css" href="css/layout.css">
     <link rel="stylesheet" type="text/css" href="css/notion-color.css">
     <link rel="stylesheet" type="text/css" href="css/theme.css">

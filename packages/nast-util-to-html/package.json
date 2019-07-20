@@ -1,6 +1,6 @@
 {
   "name": "notionast-util-to-html",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Transform NotionAST to HTML.",
   "main": "index.js",
   "scripts": {
@@ -17,6 +17,9 @@
   ],
   "author": "dragonman225",
   "license": "MIT",
+  "dependencies": {
+    "prismjs": "^1.16.0"
+  },
   "devDependencies": {
     "eslint": "^5.16.0"
   },
