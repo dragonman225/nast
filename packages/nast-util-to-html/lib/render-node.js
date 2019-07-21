@@ -13,6 +13,7 @@ const {
   renderCallout,
   renderImage,
   renderBookmark,
+  renderVideo,
   renderCode
 } = require('./render-blocks')
 const { renderChildren } = require('./render-utils')
@@ -89,6 +90,9 @@ function renderNode(node) {
       break
     case blockMap.bookmark:
       html = renderBookmark(node, renderNode)
+      break
+    case blockMap.video:
+      html = renderVideo(node, renderNode)
       break
     case blockMap.code:
       html = renderCode(node, renderNode)

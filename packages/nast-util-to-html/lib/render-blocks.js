@@ -24,6 +24,7 @@ module.exports = {
   renderCallout,
   renderImage,
   renderBookmark,
+  renderVideo,
   renderCode
 }
 
@@ -129,12 +130,12 @@ function renderColumn(node, renderNext, isFirst, numOfColumns) {
   ${renderChildren(node.children, renderNext)}
 </div>`
 
-/** Experiment: Simpler way, but not working well with nested ColumnList */
-//   let html = `\
-// <div class="${blockMap.column}" style="flex-grow: ${columnRatio};">
-//   ${renderChildren(node.children, renderNext)}
-// </div>
-//   `
+  /** Experiment: Simpler way, but not working well with nested ColumnList */
+  //   let html = `\
+  // <div class="${blockMap.column}" style="flex-grow: ${columnRatio};">
+  //   ${renderChildren(node.children, renderNext)}
+  // </div>
+  //   `
 
   return html
 }
@@ -359,6 +360,29 @@ function renderBookmark(node) {
     </div>
   </div>
 </div>`
+  return renderBlock(node, content)
+}
+
+/**
+ * Block: Video
+ * @param {Video} node
+ * @returns {String}
+ */
+function renderVideo(node) {
+  let width = node['raw_value'].format['block_width']
+  let aspectRatio = node['raw_value'].format['block_aspect_ratio'] * 100
+  let source = node['raw_value'].format['display_source']
+
+  let iframeSandbox = 'allow-scripts allow-popups allow-forms allow-same-origin'
+  let iframeStyle = 'position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; border-radius: 1px; pointer-events: auto; background-color: rgb(247, 246, 245);'
+
+  let content = `\
+<div style="width: ${width}px;">
+  <div style="position: relative; min-height: 100px; height: 0; padding-bottom: ${aspectRatio}%;">
+    <iframe src="${source}" frameborder="0" sandbox="${iframeSandbox}" allowfullscreen style="${iframeStyle}"></iframe>
+  </div>
+</div>`
+
   return renderBlock(node, content)
 }
 

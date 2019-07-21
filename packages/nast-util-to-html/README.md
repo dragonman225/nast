@@ -2,13 +2,13 @@
 
 Render HTML from NotionAST.
 
+This module takes the output of [`notionast-util-from-notionapi (v0.2.0)`](https://github.com/dragonman225/notionast-util-from-notionapi/tree/v0.2.0) as input and generate HTML.
+
+ Here is a [demo page](https://nota.netlify.com/test.html). Also you can take a look at [`test/test.html`](https://github.com/dragonman225/notionast-util-to-html/blob/master/test/test.html) for the generated HTML.
+
 ## Usage
 
-Require [`notionast-util-from-notionapi-v0.2.0`](https://github.com/dragonman225/notionast-util-from-notionapi/tree/v0.2.0)
-
-See `test/test.html` for example result.
-
-See `test/lib.spec.js` for usage details.
+A great starting point is reading [`test/lib.spec.js`](https://github.com/dragonman225/notionast-util-to-html/blob/master/test/lib.spec.js), my test script which is less than 50 lines (core code only 5 lines, most of others are just HTML that wrap the generated content).
 
 ## Supported Blocks
 
@@ -46,7 +46,7 @@ Not yet supported
 
 - [x] Image
 - [x] Web Bookmark
-- [ ] Video
+- [x] Video
 - [ ] Audio
 - [x] Code
 - [ ] File

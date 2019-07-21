@@ -20,12 +20,13 @@ blockquote {
 }
 
 a {
-  color: #00b0ff;
+  color: hsl(45, 8%, 20%);
+  border-bottom: 2px solid hsl(45, 8%, 85%);
   text-decoration: none;
 }
 
 a:hover {
-  border-bottom: 2px solid hsl(199, 100%, 90%);
+  border-bottom: 2px solid hsl(45, 8%, 55%);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -33,6 +34,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
+  margin-bottom: 0.25em;
   font-size: 2.5rem;
 }
 
@@ -41,10 +43,12 @@ h2 {
 }
 
 h3 {
+  margin-top: 1rem;
   font-size: 1.5rem;
 }
 
 h4 {
+  margin-top: 0.5rem;
   font-size: 1.25rem;
 }
 
@@ -68,8 +72,9 @@ code {
   background-color: #fdf2f9;
   color: #ff4081;
   font-size: 0.9em;
-  line-height: 1.7;
-  padding: 3px 5px;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  line-height: normal;
+  padding: 0.2em 0.4em;
   word-break: break-word;
 }
 
