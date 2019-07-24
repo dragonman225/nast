@@ -1,15 +1,25 @@
 import assert from 'assert'
+
+import {
+  BlockNode
+} from './types/api-lagacy'
+
 import {
   NotionAgent,
-  RecordValue,
+  BlockRecordValue,
   RecordRequest,
-  BlockNode
-} from './types/interfaces'
+  QueryCollectionResponse,
+  BlockValue,
+  AggregateQuery
+} from './types/api'
+
+import {
+  Collection
+} from './types/nast'
 
 export = async function downloadPageAsTree(pageID: string, agent: NotionAgent): Promise<BlockNode> {
 
   assert(typeof pageID === 'string')
-
   assert(typeof agent === 'object')
   assert(typeof agent.getRecordValues === 'function')
 
@@ -25,6 +35,33 @@ export = async function downloadPageAsTree(pageID: string, agent: NotionAgent): 
   /* Get all records in a flat array. */
   const allRecords = await getChildrenRecords([pageID])
 
+  /* Replace Notion's "collection_view" with NAST's "collection". */
+  for (let i = 0; i < allRecords.length; ++i) {
+
+    let record = allRecords[i]
+    let recordType = record.value.type
+
+    if (recordType === 'collection_view'
+      || recordType === 'collection_view_page') {
+
+      let collectionID = record.value.collection_id
+      let collectionViewID = record.value.view_ids[0]
+      let aggregateQueries = [] as AggregateQuery[]
+
+      let response = await api.queryCollection(collectionID, collectionViewID, aggregateQueries)
+
+      if (response.statusCode !== 200) {
+        console.log(response)
+        throw new Error('Fail to get collection.')
+      }
+
+      let responseData = response.data
+      allRecords.splice(i, 1, collectionToNastTable(record.value.id, responseData))
+
+    }
+
+  }
+
   return makeTree(allRecords)
   //return { records: allRecords }
 
@@ -33,18 +70,18 @@ export = async function downloadPageAsTree(pageID: string, agent: NotionAgent): 
    * @param ids - Some IDs.
    * @returns RecordValues of those IDs and their descendants.
    */
-  async function getChildrenRecords(ids: string[]): Promise<RecordValue[]> {
+  async function getChildrenRecords(ids: string[]): Promise<BlockRecordValue[]> {
 
     let requests = makeRecordRequests(ids)
     let response = await api.getRecordValues(requests)
 
     if (response.statusCode !== 200) {
       console.log(response)
-      throw new Error('Fail to get data.')
+      throw new Error('Fail to get record.')
     }
 
     let responseData = response.data
-    let childrenRecords: RecordValue[]
+    let childrenRecords: BlockRecordValue[]
     let childrenIDs: string[]
 
     /** 
@@ -60,7 +97,7 @@ export = async function downloadPageAsTree(pageID: string, agent: NotionAgent): 
      */
     if (pageRootDownloaded) {
       /* Filter out "page" blocks. */
-      childrenRecords = responseData.results.filter((record: RecordValue): boolean => {
+      childrenRecords = responseData.results.filter((record: BlockRecordValue): boolean => {
         return record.role !== 'none' && record.value.type !== 'page'
       })
       childrenIDs = collectChildrenIDs(childrenRecords)
@@ -101,7 +138,7 @@ function makeRecordRequests(ids: string[]): RecordRequest[] {
  * @param records - The records array.
  * @returns An array of IDs.
  */
-function collectChildrenIDs(records: RecordValue[]): string[] {
+function collectChildrenIDs(records: BlockRecordValue[]): string[] {
 
   let childrenIDs: string[] = []
 
@@ -123,14 +160,14 @@ function collectChildrenIDs(records: RecordValue[]): string[] {
 }
 
 /**
- * Convert RecordValue array to a Notion abstract syntax tree.
+ * Convert BlockRecordValue array to a Notion abstract syntax tree.
  * The tree must have single root and it is the first item in the array.
- * @param allRecords - The RecordValue array.
+ * @param allRecords - The BlockRecordValue array.
  * @returns A Notion abstract syntax tree.
  */
-function makeTree(allRecords: RecordValue[]): BlockNode {
+function makeTree(allRecords: BlockRecordValue[]): BlockNode {
 
-  /* Cast RecordValue to BlockNode. */
+  /* Cast BlockRecordValue to BlockNode. */
   let list = allRecords.map((record): BlockNode => {
     return {
       id: record.value.id,
@@ -147,7 +184,7 @@ function makeTree(allRecords: RecordValue[]): BlockNode {
     map[list[i].raw_value.id] = i
   }
 
-  /* The tree's root is always the first of RecordValue array. */
+  /* The tree's root is always the first of BlockRecordValue array. */
   let treeRoot = list[0]
   let node
 
@@ -242,9 +279,31 @@ function makeTree(allRecords: RecordValue[]): BlockNode {
 
 }
 
-function newPseudoBlock(type: string): any {
+function newPseudoBlock(type: string): { type: string; children: BlockRecordValue[] } {
   return {
     type,
     children: []
+  }
+}
+
+function collectionToNastTable(id: string, res: QueryCollectionResponse): { value: Collection } {
+  let block = res.recordMap.block
+  let collection = res.recordMap.collection
+  let resultBlockIds = res.result.blockIds
+  let data = [] as BlockValue[]
+
+  for (let i = 0; i < resultBlockIds.length; ++i) {
+    data.push(block[resultBlockIds[i]].value)
+  }
+
+  return {
+    value: {
+      id,
+      type: 'collection',
+      viewType: 'table',
+      name: Object.values(collection)[0].value.name[0][0],
+      schema: Object.values(collection)[0].value.schema,
+      data
+    }
   }
 }

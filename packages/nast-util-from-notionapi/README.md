@@ -74,7 +74,7 @@ Download a Notion page as a Notion Abstract Syntax Tree with a Notion API agent.
 
 #### Returns :
 
-A Notion Abstract Syntax Tree. Refer to `src/types/interfaces.ts` for details.
+A Notion Abstract Syntax Tree. Refer to `src/types/api-lagacy.ts` for details.
 
 ```typescript
 interface BlockNode {

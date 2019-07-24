@@ -33,13 +33,13 @@ function collectChildrenIDs(records) {
     return childrenIDs;
 }
 /**
- * Convert RecordValue array to a Notion abstract syntax tree.
+ * Convert BlockRecordValue array to a Notion abstract syntax tree.
  * The tree must have single root and it is the first item in the array.
- * @param allRecords - The RecordValue array.
+ * @param allRecords - The BlockRecordValue array.
  * @returns A Notion abstract syntax tree.
  */
 function makeTree(allRecords) {
-    /* Cast RecordValue to BlockNode. */
+    /* Cast BlockRecordValue to BlockNode. */
     let list = allRecords.map((record) => {
         return {
             id: record.value.id,
@@ -54,7 +54,7 @@ function makeTree(allRecords) {
     for (let i = 0; i < allRecords.length; ++i) {
         map[list[i].raw_value.id] = i;
     }
-    /* The tree's root is always the first of RecordValue array. */
+    /* The tree's root is always the first of BlockRecordValue array. */
     let treeRoot = list[0];
     let node;
     /**
@@ -152,6 +152,25 @@ function newPseudoBlock(type) {
         children: []
     };
 }
+function collectionToNastTable(id, res) {
+    let block = res.recordMap.block;
+    let collection = res.recordMap.collection;
+    let resultBlockIds = res.result.blockIds;
+    let data = [];
+    for (let i = 0; i < resultBlockIds.length; ++i) {
+        data.push(block[resultBlockIds[i]].value);
+    }
+    return {
+        value: {
+            id,
+            type: 'collection',
+            viewType: 'table',
+            name: Object.values(collection)[0].value.name[0][0],
+            schema: Object.values(collection)[0].value.schema,
+            data
+        }
+    };
+}
 module.exports = async function downloadPageAsTree(pageID, agent) {
     assert_1.default(typeof pageID === 'string');
     assert_1.default(typeof agent === 'object');
@@ -165,6 +184,24 @@ module.exports = async function downloadPageAsTree(pageID, agent) {
     let pageRootDownloaded = false;
     /* Get all records in a flat array. */
     const allRecords = await getChildrenRecords([pageID]);
+    /* Replace Notion's "collection_view" with NAST's "collection". */
+    for (let i = 0; i < allRecords.length; ++i) {
+        let record = allRecords[i];
+        let recordType = record.value.type;
+        if (recordType === 'collection_view'
+            || recordType === 'collection_view_page') {
+            let collectionID = record.value.collection_id;
+            let collectionViewID = record.value.view_ids[0];
+            let aggregateQueries = [];
+            let response = await api.queryCollection(collectionID, collectionViewID, aggregateQueries);
+            if (response.statusCode !== 200) {
+                console.log(response);
+                throw new Error('Fail to get collection.');
+            }
+            let responseData = response.data;
+            allRecords.splice(i, 1, collectionToNastTable(record.value.id, responseData));
+        }
+    }
     return makeTree(allRecords);
     //return { records: allRecords }
     /**
@@ -177,7 +214,7 @@ module.exports = async function downloadPageAsTree(pageID, agent) {
         let response = await api.getRecordValues(requests);
         if (response.statusCode !== 200) {
             console.log(response);
-            throw new Error('Fail to get data.');
+            throw new Error('Fail to get record.');
         }
         let responseData = response.data;
         let childrenRecords;

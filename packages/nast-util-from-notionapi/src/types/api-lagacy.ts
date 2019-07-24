@@ -42,10 +42,10 @@ export interface StyledString {
 }
 
 export interface BlockProperties {
-  link?: any[]
+  link?: []
   title?: StyledString[]
-  description?: any[]
-  checked?: any[]
+  description?: []
+  checked?: []
 }
 
 export interface BlockFormat {
