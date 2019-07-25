@@ -56,7 +56,7 @@ function renderBlock(node, contentHTML, defaultColor, tag = 'div') {
  * @param {StyledString[]} titleTokens
  * @returns {String} HTML
  */
-function renderTitle(titleTokens, isCode = false, lang) {
+function renderTitle(titleTokens = [], isCode = false, lang) {
   let textArr = titleTokens.map(token => {
     let codeLang = codeLangMap[lang]
     let text = token[0]
@@ -79,8 +79,19 @@ function renderTitle(titleTokens, isCode = false, lang) {
 }
 
 function renderCode(str, lang) {
-  loadLanguages([lang])
-  return Prism.highlight(str, Prism.languages[lang], lang)
+  if (lang != null) {
+    /**
+     * Prismjs will do char escape.
+     */
+    loadLanguages([lang])
+    return Prism.highlight(str, Prism.languages[lang], lang)
+  } else {
+    /**
+     * If user does not specify language, "lang" is undefined, so we just
+     * return the plain text.
+     */
+    return escapeString(str)
+  }
 }
 
 /**

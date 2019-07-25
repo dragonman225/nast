@@ -32,8 +32,10 @@ module.exports = {
  */
 function renderRoot(node, elemId = 'notionast-document') {
   let title = node.data ? node.data.title[0][0] : ''
-  let icon = node['raw_value'].format['page_icon']
+  let icon = node['raw_value'].format
     ? node['raw_value'].format['page_icon']
+      ? node['raw_value'].format['page_icon']
+      : ''
     : ''
   return `\
 <div id="${elemId}">

@@ -1,8 +1,12 @@
 'use strict'
 const { renderRoot } = require('./render-node')
+const renderUtils = require('./render-utils')
 
 module.exports = {
-  toHTML
+  toHTML,
+  toHTMLInternal: {
+    ...renderUtils
+  }
 }
 
 /**
