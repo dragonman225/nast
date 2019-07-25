@@ -214,7 +214,7 @@ module.exports = async function downloadPageAsTree(pageID, agent) {
         let response = await api.getRecordValues(requests);
         if (response.statusCode !== 200) {
             console.log(response);
-            throw new Error('Fail to get record.');
+            throw new Error('Fail to get records.');
         }
         let responseData = response.data;
         let childrenRecords;

@@ -77,7 +77,7 @@ export = async function downloadPageAsTree(pageID: string, agent: NotionAgent): 
 
     if (response.statusCode !== 200) {
       console.log(response)
-      throw new Error('Fail to get record.')
+      throw new Error('Fail to get records.')
     }
 
     let responseData = response.data
