@@ -1,10 +1,10 @@
 # nast-util-to-html
 
-Render HTML from NAST.
+Render HTML from NAST (**N**otion-compatible **A**bstract **S**yntax **T**ree).
 
-This module takes the output of [`nast-util-from-notionapi (v0.2.0)`](https://github.com/dragonman225/nast-util-from-notionapi/tree/v0.2.0) as input and generate HTML.
+This module takes the output of [`nast-util-from-notionapi`](https://github.com/dragonman225/nast-util-from-notionapi/) as input to generate HTML.
 
- Here is a [demo page](https://nota.netlify.com/test.html). Also you can take a look at [`test/test.html`](https://github.com/dragonman225/nast-util-to-html/blob/master/test/test.html) for the generated HTML.
+ Here is a [demo page](https://nota.netlify.com/test.html). Also you can take a look at [`test/test.html`](https://github.com/dragonman225/nast-util-to-html/blob/master/test/test.html) for the generation result.
 
 ## Usage
 
@@ -24,7 +24,7 @@ A great starting point is reading [`test/lib.spec.js`](https://github.com/dragon
   - [x] Color & Background
   - [x] Style : Bold, Italic, Strike, Code, Link
   - [x] Nested
-- [ ] Embeded Sub-page
+- [ ] Embedded Sub-page
 - [x] Heading 1, 2, 3
 - [x] Bulleted List
 - [x] Numbered List
