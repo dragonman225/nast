@@ -21,7 +21,7 @@ interface HiddenBlock extends Parent {
   type: string
 }
 
-/** Helper block that only exists in NotionAST. */
+/** Helper block that only exists in NAST. */
 interface PseudoBlock extends Parent {
   type: string
 }

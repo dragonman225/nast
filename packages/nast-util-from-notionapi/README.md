@@ -1,10 +1,10 @@
-# notionast-util-from-notionapi
+# nast-util-from-notionapi
 
-> An util that help users operate their `notionapi-agent` and convert a [Notion](https://www.notion.so) page to a Notion Abstract Syntax Tree (NotionAST).
->
-> The library is currently a *Work In Progress*, so it may be unstable.
->
-> **The library is unofficial.**
+Create NAST (**N**otion-compatible **A**bstract **S**yntax **T**ree) from [Notion](https://www.notion.so)'s API.
+
+The NAST data structure is currently under active development, where the specification is changing often, so there are still no released documentation.
+
+ For related projects, please see the topic [Notajs](https://github.com/topics/notajs).
 
 ## Documentation
 
@@ -15,27 +15,25 @@
 
 ## Usage
 
-This is a Node.js module. You can install in your project.
-
 ```bash
-npm i notionast-util-from-notionapi --save
+npm install nast-util-from-notionapi --save
 ```
 
 You also need [`notionapi-agent`](https://github.com/dragonman225/notionapi-agent).
 
 ```bash
-npm i notionapi-agent --save
+npm install notionapi-agent --save
 ```
 
-The agent is used to retrieve raw data from Notion's API `/api/v3/getRecordValues`.
+The agent is used to retrieve raw data from Notion's API.
 
-## Quickstart
+## Getting Started
 
 ```javascript
 const fs = require('fs')
 
 const NotionAgent = require('notionapi-agent')
-const downloadPageAsTree = require('notionast-util-from-notionapi')
+const downloadPageAsTree = require('nast-util-from-notionapi')
 
 /* Fill in your token. */
 const options = {
@@ -62,19 +60,19 @@ main()
 
 ### `async` `downloadPageAsTree(pageID, agent)`
 
-Download a Notion page as a Notion Abstract Syntax Tree with a Notion API agent.
+Download a Notion page as NAST with a Notion API agent.
 
-* `pageID` - (required) The ID of a Notion page. Must be the one with dashes. e.g.
+* `pageID` - (required) The ID of a Notion page. It must be the one with dashes as below example :
 
   ```javascript
   'cbf2b645-xxxx-xxxx-xxxx-xxxxe8cfed93'
   ```
 
-* `agent` - (required) An API agent with method `getRecordValues`. I recomment using [notionapi-agent](https://github.com/dragonman225/notionapi-agent).
+* `agent` - (required) A `NotionAgent` instance from [notionapi-agent](https://github.com/dragonman225/notionapi-agent).
 
 #### Returns :
 
-A Notion Abstract Syntax Tree. Refer to `src/types/api-lagacy.ts` for details.
+NAST, a tree-like object. Refer to `src/types/api-lagacy.ts` for details.
 
 ```typescript
 interface BlockNode {
@@ -88,4 +86,4 @@ interface BlockNode {
 
 ## Notes
 
-* Notion has somewhat messed up with their data structure recently. `BlockNode.raw_value.parent_id` is incorrect for some blocks.
+* Notion has somewhat messed up with their data recently. `BlockNode.raw_value.parent_id` is not always correct. Do not rely on `parent_id` to traverse the tree.

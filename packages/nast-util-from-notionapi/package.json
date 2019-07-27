@@ -1,6 +1,6 @@
 {
-  "name": "notionast-util-from-notionapi",
-  "version": "0.3.1",
+  "name": "nast-util-from-notionapi",
+  "version": "0.4.0",
   "description": "Convert a Notion page into an abstract syntax tree.",
   "main": "dist/index.js",
   "scripts": {
@@ -8,12 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/dragonman225/notionast-util-from-notionapi.git"
+    "url": "https://github.com/dragonman225/nast-util-from-notionapi.git"
   },
   "keywords": [
     "nodejs",
     "notion",
-    "api"
+    "api",
+    "notajs",
+    "nast"
   ],
   "author": "dragonman225",
   "license": "MIT",
@@ -25,7 +27,7 @@
     "typescript": "^3.5.1"
   },
   "bugs": {
-    "url": "https://github.com/dragonman225/notionast-util-from-notionapi/issues"
+    "url": "https://github.com/dragonman225/nast-util-from-notionapi/issues"
   },
-  "homepage": "https://github.com/dragonman225/notionast-util-from-notionapi"
+  "homepage": "https://github.com/dragonman225/nast-util-from-notionapi"
 }
