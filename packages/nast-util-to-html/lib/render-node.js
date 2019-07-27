@@ -30,7 +30,7 @@ module.exports = {
  * @param {String} elemId 
  * @returns {String}
  */
-function renderRoot(node, elemId = 'notionast-document') {
+function renderRoot(node, elemId = 'nast-document') {
   let title = node.data ? node.data.title[0][0] : ''
   let icon = node['raw_value'].format
     ? node['raw_value'].format['page_icon']

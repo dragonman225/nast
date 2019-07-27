@@ -1,14 +1,14 @@
-# notionast-util-to-html
+# nast-util-to-html
 
-Render HTML from NotionAST.
+Render HTML from NAST.
 
-This module takes the output of [`notionast-util-from-notionapi (v0.2.0)`](https://github.com/dragonman225/notionast-util-from-notionapi/tree/v0.2.0) as input and generate HTML.
+This module takes the output of [`nast-util-from-notionapi (v0.2.0)`](https://github.com/dragonman225/nast-util-from-notionapi/tree/v0.2.0) as input and generate HTML.
 
- Here is a [demo page](https://nota.netlify.com/test.html). Also you can take a look at [`test/test.html`](https://github.com/dragonman225/notionast-util-to-html/blob/master/test/test.html) for the generated HTML.
+ Here is a [demo page](https://nota.netlify.com/test.html). Also you can take a look at [`test/test.html`](https://github.com/dragonman225/nast-util-to-html/blob/master/test/test.html) for the generated HTML.
 
 ## Usage
 
-A great starting point is reading [`test/lib.spec.js`](https://github.com/dragonman225/notionast-util-to-html/blob/master/test/lib.spec.js), my test script which is less than 50 lines (core code only 5 lines, most of others are just HTML that wrap the generated content).
+A great starting point is reading [`test/lib.spec.js`](https://github.com/dragonman225/nast-util-to-html/blob/master/test/lib.spec.js), my test script which is less than 50 lines (core code only 5 lines, most of others are just HTML that wrap the generated content).
 
 ## Supported Blocks
 

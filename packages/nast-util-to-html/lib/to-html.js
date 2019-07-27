@@ -13,8 +13,8 @@ module.exports = {
  */
 
 /**
- * Generate HTML from NotionAST.
- * @param {Root} tree - NotionAST.
+ * Generate HTML from NAST.
+ * @param {Root} tree - NAST.
  * @param {renderOptions} options
  * @returns {String} HTML string.
  */

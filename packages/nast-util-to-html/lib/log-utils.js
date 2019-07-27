@@ -4,6 +4,6 @@ module.exports = {
 
 function raiseWarning() {
   let args = Array.from(arguments)
-  args.unshift('Warning:')
+  args.unshift('(nast-util-to-html) Warning:')
   console.log.apply(console, args)
 }

@@ -1,19 +1,20 @@
 {
-  "name": "notionast-util-to-html",
+  "name": "nast-util-to-html",
   "version": "0.0.11",
-  "description": "Transform NotionAST to HTML.",
+  "description": "Transform NAST to HTML.",
   "main": "index.js",
   "scripts": {
     "test": "node test/index.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/dragonman225/notionast-util-to-html.git"
+    "url": "https://github.com/dragonman225/nast-util-to-html.git"
   },
   "keywords": [
     "notion",
-    "notionast",
-    "util"
+    "nast",
+    "util",
+    "notajs"
   ],
   "author": "dragonman225",
   "license": "MIT",
@@ -24,7 +25,7 @@
     "eslint": "^5.16.0"
   },
   "bugs": {
-    "url": "https://github.com/dragonman225/notionast-util-to-html/issues"
+    "url": "https://github.com/dragonman225/nast-util-to-html/issues"
   },
-  "homepage": "https://github.com/dragonman225/notionast-util-to-html"
+  "homepage": "https://github.com/dragonman225/nast-util-to-html"
 }

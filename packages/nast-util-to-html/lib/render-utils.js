@@ -173,7 +173,7 @@ function getBlockColor(node, defaultColor = '') {
 }
 
 /**
- * Map color string in NotionAST to another string that is intended to use
+ * Map color string in NAST to another string that is intended to use
  * as a CSS class.
  * @param {String} str 
  * @returns {String}
