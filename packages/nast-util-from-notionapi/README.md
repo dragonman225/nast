@@ -16,13 +16,13 @@ The NAST data structure is currently under active development, where the specifi
 ## Usage
 
 ```bash
-npm install nast-util-from-notionapi --save
+npm i nast-util-from-notionapi
 ```
 
 You also need [`notionapi-agent`](https://github.com/dragonman225/notionapi-agent).
 
 ```bash
-npm install notionapi-agent --save
+npm i notionapi-agent
 ```
 
 The agent is used to retrieve raw data from Notion's API.

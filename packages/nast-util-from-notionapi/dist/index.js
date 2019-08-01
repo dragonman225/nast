@@ -3,6 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 const assert_1 = __importDefault(require("assert"));
+const queryCollection_1 = require("./queryCollection");
+const utils_1 = require("./utils");
 /**
  * Make payload for getRecordValues API.
  * @param ids - Notion record ID array.
@@ -40,7 +42,11 @@ function collectChildrenIDs(records) {
  */
 function makeTree(allRecords) {
     /* Cast BlockRecordValue to BlockNode. */
-    let list = allRecords.map((record) => {
+    let list = allRecords
+        .filter((record) => {
+        return record.role !== 'none';
+    })
+        .map((record) => {
         return {
             id: record.value.id,
             type: record.value.type,
@@ -51,7 +57,7 @@ function makeTree(allRecords) {
     });
     /* A map for quick ID -> index lookup. */
     let map = {};
-    for (let i = 0; i < allRecords.length; ++i) {
+    for (let i = 0; i < list.length; ++i) {
         map[list[i].raw_value.id] = i;
     }
     /* The tree's root is always the first of BlockRecordValue array. */
@@ -61,7 +67,7 @@ function makeTree(allRecords) {
      * Wire up each block's children by iterating through its content
      * and find each child's reference by ID.
      */
-    for (let i = 0; i < allRecords.length; ++i) {
+    for (let i = 0; i < list.length; ++i) {
         node = list[i];
         /**
          * It's sad that parent_id of some blocks are incorrect, so the following
@@ -187,19 +193,34 @@ module.exports = async function downloadPageAsTree(pageID, agent) {
     /* Replace Notion's "collection_view" with NAST's "collection". */
     for (let i = 0; i < allRecords.length; ++i) {
         let record = allRecords[i];
+        /** Skip if record is empty. */
+        if (record.role === 'none')
+            continue;
         let recordType = record.value.type;
         if (recordType === 'collection_view'
             || recordType === 'collection_view_page') {
-            let collectionID = record.value.collection_id;
-            let collectionViewID = record.value.view_ids[0];
-            let aggregateQueries = [];
-            let response = await api.queryCollection(collectionID, collectionViewID, aggregateQueries);
-            if (response.statusCode !== 200) {
-                console.log(response);
-                throw new Error('Fail to get collection.');
+            let nastCollection = await queryCollection_1.queryCollection(record.value, api);
+            if (nastCollection != null) {
+                allRecords.splice(i, 1, {
+                    role: 'god',
+                    value: {
+                        ...nastCollection
+                    }
+                });
             }
-            let responseData = response.data;
-            allRecords.splice(i, 1, collectionToNastTable(record.value.id, responseData));
+            else {
+                utils_1.log(`Fail to tranform collection_view block ${record.value.id}`);
+            }
+            // let collectionID = record.value.collection_id
+            // let collectionViewID = record.value.view_ids[0]
+            // let aggregateQueries = [] as AggregateQuery[]
+            // let response = await api.queryCollection(collectionID, collectionViewID, aggregateQueries)
+            // if (response.statusCode !== 200) {
+            //   console.log(response)
+            //   throw new Error('Fail to get collection.')
+            // }
+            // let responseData = response.data
+            // allRecords.splice(i, 1, collectionToNastTable(record.value.id, responseData))
         }
     }
     return makeTree(allRecords);

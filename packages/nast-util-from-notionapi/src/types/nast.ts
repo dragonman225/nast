@@ -1,34 +1,30 @@
-import {
-  StyledString,
-  SchemaItem,
-  BlockValue
-} from './api'
+import * as Notion from './api'
 
-interface Parent {
+export interface Parent {
   children: Block[]
 }
 
 /** Displayed block in Notion.so. */
-interface Block extends Parent {
+export interface Block extends Parent {
   id: string
   type: string
   color?: string
 }
 
 /** Hidden block in Notion.so. */
-interface HiddenBlock extends Parent {
+export interface HiddenBlock extends Parent {
   id: string
   type: string
 }
 
 /** Helper block that only exists in NAST. */
-interface PseudoBlock extends Parent {
+export interface PseudoBlock extends Parent {
   type: string
 }
 
 export interface PlainText extends Block {
   type: 'text'
-  text: StyledString[]
+  text: Notion.StyledString[]
 }
 
 export interface EmbededPage extends Block {
@@ -37,13 +33,13 @@ export interface EmbededPage extends Block {
 
 export interface ToDoList extends Block {
   type: 'to_do'
-  text: StyledString[]
+  text: Notion.StyledString[]
   checked: boolean
 }
 
 export interface Heading extends Block {
   type: 'heading'
-  text: StyledString[]
+  text: Notion.StyledString[]
   depth: number
 }
 
@@ -54,7 +50,7 @@ export interface Heading extends Block {
  */
 export interface ListItem extends Block {
   type: 'list_item'
-  text: StyledString[]
+  text: Notion.StyledString[]
 }
 
 /** Maybe not necessary? */
@@ -70,12 +66,12 @@ export interface ListItem extends Block {
 
 export interface ToggleList extends Block {
   type: 'toggle'
-  text: StyledString[]
+  text: Notion.StyledString[]
 }
 
 export interface Quote extends Block {
   type: 'quote'
-  text: StyledString[]
+  text: Notion.StyledString[]
 }
 
 export interface Divider extends Block {
@@ -124,7 +120,7 @@ export interface WebBookmark extends Block {
 
 export interface Code extends Block {
   type: 'code'
-  text: StyledString[]
+  text: Notion.StyledString[]
   language: string
   wrap: boolean
 }
@@ -157,9 +153,37 @@ export interface OrderedList extends PseudoBlock {
 
 export interface Collection {
   id: string
+  collectionId: string
+  icon: string
   type: 'collection'
-  viewType: string
   name: string
-  schema: Map<string, SchemaItem>
-  data: BlockValue[]
+  schema: {
+    [key: string]: Notion.SchemaItem
+  }
+  blocks: Notion.BlockValue[]
+  views: CollectionViewMetadata[]
+  defaultViewId: string
+}
+
+/**
+ * CollectionViewMetadata mostly comes from
+ * Notion.CollectionViewRecordValue and Notion.CollectionRecordValue
+ */
+export interface CollectionViewMetadata {
+  id: string
+  type: string
+  name: string
+  query: Notion.Query
+  format: {}
+  aggregate: AggregationMetadata[]
+}
+
+/**
+ * AggregationMetadata merges useful parts of
+ * Notion.Query.aggregate and Notion.AggregationResult
+ */
+export interface AggregationMetadata {
+  aggregationType: string // From Notion.Query.aggregate
+  property: string // From Notion.Query.aggregate
+  value: number // From Notion.AggregationResult
 }

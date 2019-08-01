@@ -4,20 +4,22 @@ import {
   BlockNode
 } from './types/api-lagacy'
 
+import { queryCollection } from './queryCollection'
+import { log } from './utils'
+
 import {
-  NotionAgent,
+  Agent,
   BlockRecordValue,
   RecordRequest,
   QueryCollectionResponse,
-  BlockValue,
-  AggregateQuery
+  BlockValue
 } from './types/api'
 
 import {
   Collection
 } from './types/nast'
 
-export = async function downloadPageAsTree(pageID: string, agent: NotionAgent): Promise<BlockNode> {
+export = async function downloadPageAsTree(pageID: string, agent: Agent): Promise<BlockNode> {
 
   assert(typeof pageID === 'string')
   assert(typeof agent === 'object')
@@ -39,24 +41,40 @@ export = async function downloadPageAsTree(pageID: string, agent: NotionAgent): 
   for (let i = 0; i < allRecords.length; ++i) {
 
     let record = allRecords[i]
+
+    /** Skip if record is empty. */
+    if (record.role === 'none') continue
+
     let recordType = record.value.type
 
     if (recordType === 'collection_view'
       || recordType === 'collection_view_page') {
 
-      let collectionID = record.value.collection_id
-      let collectionViewID = record.value.view_ids[0]
-      let aggregateQueries = [] as AggregateQuery[]
-
-      let response = await api.queryCollection(collectionID, collectionViewID, aggregateQueries)
-
-      if (response.statusCode !== 200) {
-        console.log(response)
-        throw new Error('Fail to get collection.')
+      let nastCollection = await queryCollection(record.value, api)
+      if (nastCollection != null) {
+        allRecords.splice(i, 1, {
+          role: 'god',
+          value: {
+            ...nastCollection
+          }
+        })
+      } else {
+        log(`Fail to tranform collection_view block ${record.value.id}`)
       }
 
-      let responseData = response.data
-      allRecords.splice(i, 1, collectionToNastTable(record.value.id, responseData))
+      // let collectionID = record.value.collection_id
+      // let collectionViewID = record.value.view_ids[0]
+      // let aggregateQueries = [] as AggregateQuery[]
+
+      // let response = await api.queryCollection(collectionID, collectionViewID, aggregateQueries)
+
+      // if (response.statusCode !== 200) {
+      //   console.log(response)
+      //   throw new Error('Fail to get collection.')
+      // }
+
+      // let responseData = response.data
+      // allRecords.splice(i, 1, collectionToNastTable(record.value.id, responseData))
 
     }
 
@@ -168,19 +186,23 @@ function collectChildrenIDs(records: BlockRecordValue[]): string[] {
 function makeTree(allRecords: BlockRecordValue[]): BlockNode {
 
   /* Cast BlockRecordValue to BlockNode. */
-  let list = allRecords.map((record): BlockNode => {
-    return {
-      id: record.value.id,
-      type: record.value.type,
-      data: record.value.properties,
-      raw_value: record.value,
-      children: [] as BlockNode[]
-    }
-  })
+  let list = allRecords
+    .filter((record) => {
+      return record.role !== 'none'
+    })
+    .map((record): BlockNode => {
+      return {
+        id: record.value.id,
+        type: record.value.type,
+        data: record.value.properties,
+        raw_value: record.value,
+        children: [] as BlockNode[]
+      }
+    })
 
   /* A map for quick ID -> index lookup. */
   let map: { [key: string]: number } = {}
-  for (let i = 0; i < allRecords.length; ++i) {
+  for (let i = 0; i < list.length; ++i) {
     map[list[i].raw_value.id] = i
   }
 
@@ -192,7 +214,7 @@ function makeTree(allRecords: BlockRecordValue[]): BlockNode {
    * Wire up each block's children by iterating through its content
    * and find each child's reference by ID.
    */
-  for (let i = 0; i < allRecords.length; ++i) {
+  for (let i = 0; i < list.length; ++i) {
     node = list[i]
     /**
      * It's sad that parent_id of some blocks are incorrect, so the following

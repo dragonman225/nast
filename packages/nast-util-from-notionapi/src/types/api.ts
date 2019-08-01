@@ -1,10 +1,35 @@
-export interface NotionAgent {
+export interface Agent {
   loadPageChunk: Function
   getAssetsJson: Function
   getRecordValues: Function
   loadUserContent: Function
   queryCollection: Function
   submitTransaction: Function
+}
+
+export interface AgentResponse {
+  statusCode: number
+  data?: GetRecordValuesResponse | QueryCollectionResponse
+}
+
+/**
+ * Existing tables for getRecordValues: 
+ * block, collection, collection_view, 
+ * follow, notion_user, user_settings, user_root, 
+ * space_view, space
+ */
+export interface GetRecordValuesResponse {
+  results: BlockRecordValue | CollectionRecordValue | CollectionViewRecordValue
+}
+
+export interface QueryCollectionResponse {
+  recordMap: RecordMap
+  result: {
+    aggregationResults: []
+    blockIds: string[]
+    total: number
+    type: string
+  }
 }
 
 export interface BlockRecordValue {
@@ -71,20 +96,16 @@ export interface User {
   locale: string
 }
 
-export interface QueryCollectionResponse {
-  recordMap: RecordMap
-  result: {
-    aggregationResults: []
-    blockIds: string[]
-    total: number
-    type: string
-  }
-}
-
 export interface RecordMap {
-  block: Map<string, BlockRecordValue>
-  collection: Map<string, CollectionRecordValue>
-  collection_view: Map<string, CollectionViewRecordValue>
+  block: {
+    [key: string]: BlockRecordValue
+  }
+  collection: {
+    [key: string]: CollectionRecordValue
+  }
+  collection_view: {
+    [key: string]: CollectionViewRecordValue
+  }
 }
 
 export interface CollectionRecordValue {
@@ -99,7 +120,9 @@ export interface CollectionValue {
   name: string[][]
   parent_id: string
   parent_table: string
-  schema: Map<string, SchemaItem>
+  schema: {
+    [key: string]: SchemaItem
+  }
   version: number
 }
 
@@ -131,10 +154,7 @@ export interface CollectionViewValue {
   page_sort: string[]
   parent_id: string
   parent_table: string
-  query: {
-    aggregate: AggregateQuery
-    filter_operator: string
-  }
+  query: Query
   type: string
   version: number
 }
@@ -143,6 +163,20 @@ export interface TableProperty {
   width: number
   visible: boolean
   property: string
+}
+
+export interface Query {
+  sort: SortQuery[]
+  aggregate?: AggregateQuery[]
+  filter: []
+  filter_operator: string
+}
+
+export interface SortQuery {
+  id: string
+  type: string
+  property: string
+  direction: string
 }
 
 export interface AggregateQuery {
