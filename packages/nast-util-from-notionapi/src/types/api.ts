@@ -32,6 +32,11 @@ export interface QueryCollectionResponse {
   }
 }
 
+export interface LoadPageChunkResponse {
+  recordMap: RecordMap
+  cursor: []
+}
+
 export interface BlockRecordValue {
   role: string
   value: BlockValue
@@ -54,6 +59,7 @@ export interface BlockValue {
   parent_id: string
   parent_table: string
   alive: boolean
+  copied_from?: string
 }
 
 export interface TextStyle {
@@ -70,10 +76,17 @@ export interface BlockProperties {
   link?: []
   title?: StyledString[]
   description?: []
-  checked?: []
+  checked?: {
+    0: { 0: 'Yes' | 'No' }
+  }
 }
 
 export interface BlockFormat {
+  page_icon?: string
+  page_cover?: string
+  page_full_width?: boolean
+  page_cover_position?: number
+  block_color?: string
   block_locked?: boolean
   block_locked_by?: string
   bookmark_icon?: string

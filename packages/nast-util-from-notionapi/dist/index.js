@@ -2,17 +2,84 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 const assert_1 = __importDefault(require("assert"));
-const queryCollection_1 = require("./queryCollection");
-const utils_1 = require("./utils");
+const transformBlock_1 = require("./transformBlock");
+async function getTreeByBlockId(rootID, agent) {
+    assert_1.default(typeof rootID === 'string');
+    assert_1.default(typeof agent === 'object');
+    assert_1.default(typeof agent.getRecordValues === 'function');
+    assert_1.default(typeof agent.queryCollection === 'function');
+    const api = agent;
+    /**
+     * Only downloading children of a root "page" block.
+     * This prevents downloading children of "link to a page" and
+     * "embeded sub-page" blocks.
+     */
+    let pageRootDownloaded = false;
+    /* Get all records in a flat array. */
+    const allRecords = await getChildrenRecords([rootID]);
+    return makeTree(allRecords, api);
+    //return { records: allRecords }
+    /**
+     * Get RecordValues of some IDs and their descendants.
+     * @param blockIds - Some IDs.
+     * @returns RecordValues of those IDs and their descendants.
+     */
+    async function getChildrenRecords(blockIds) {
+        let requests = makeRecordRequests(blockIds, 'block');
+        let response = await api.getRecordValues(requests);
+        if (response.statusCode !== 200) {
+            console.log(response);
+            throw new Error('Fail to get records.');
+        }
+        let responseData = response.data;
+        let childrenRecords;
+        let childrenIDs;
+        /**
+         * Currently, I ignore any "page" block except the root page.
+         *
+         * More information:
+         *
+         * Notion marks a "link to page" block as "page", which has two problems :
+         * 1. The "page" block points to its children, require additional checking
+         * when doing recursive download.
+         * 2. The "parent_id" of the "page" block does not points to the root page
+         * we want to download. This way we can't construct a tree correctly.
+         */
+        if (pageRootDownloaded) {
+            /* Filter out "page" blocks. */
+            childrenRecords = responseData.results;
+            let childrenRecordsNoPage = responseData.results
+                .filter((record) => {
+                return record.role !== 'none' && record.value.type !== 'page';
+            });
+            childrenIDs = collectChildrenIDs(childrenRecordsNoPage);
+        }
+        else {
+            childrenRecords = responseData.results;
+            childrenIDs = collectChildrenIDs(childrenRecords);
+            pageRootDownloaded = true;
+        }
+        /* If there're remaining children, download them. */
+        if (childrenIDs.length > 0) {
+            return childrenRecords.concat(await getChildrenRecords(childrenIDs));
+        }
+        else {
+            return childrenRecords;
+        }
+    }
+}
+exports.getTreeByBlockId = getTreeByBlockId;
 /**
- * Make payload for getRecordValues API.
+ * Make request payload for getRecordValues API.
  * @param ids - Notion record ID array.
- * @returns A payload.
+ * @param table - The table to query.
+ * @returns The payload.
  */
-function makeRecordRequests(ids) {
+function makeRecordRequests(ids, table) {
     let requests = ids.map((id) => {
-        return { id, table: 'block' };
+        return { id, table };
     });
     return requests;
 }
@@ -35,240 +102,100 @@ function collectChildrenIDs(records) {
     return childrenIDs;
 }
 /**
- * Convert BlockRecordValue array to a Notion abstract syntax tree.
- * The tree must have single root and it is the first item in the array.
+ * Convert BlockRecordValue array to NAST.
  * @param allRecords - The BlockRecordValue array.
- * @returns A Notion abstract syntax tree.
+ * @returns NAST.
  */
-function makeTree(allRecords) {
-    /* Cast BlockRecordValue to BlockNode. */
-    let list = allRecords
+async function makeTree(allRecords, apiAgent) {
+    /** Remove blocks with role: none */
+    let nonEmptyRecords = allRecords
         .filter((record) => {
         return record.role !== 'none';
-    })
-        .map((record) => {
-        return {
-            id: record.value.id,
-            type: record.value.type,
-            data: record.value.properties,
-            raw_value: record.value,
-            children: []
-        };
     });
-    /* A map for quick ID -> index lookup. */
+    /* Tranform Notion.BlockRecordValue to Nast.Block */
+    let nastList = await Promise.all(nonEmptyRecords
+        .map((record) => {
+        return transformBlock_1.transformBlock(record.value, apiAgent);
+    }));
+    /* A map for quick ID -> index lookup */
     let map = {};
-    for (let i = 0; i < list.length; ++i) {
-        map[list[i].raw_value.id] = i;
+    for (let i = 0; i < nonEmptyRecords.length; ++i) {
+        map[nonEmptyRecords[i].value.id] = i;
     }
-    /* The tree's root is always the first of BlockRecordValue array. */
-    let treeRoot = list[0];
-    let node;
+    /* The tree's root is always the first record */
+    let treeRoot = nastList[0];
+    let nastBlock;
     /**
-     * Wire up each block's children by iterating through its content
-     * and find each child's reference by ID.
+     * Wire up each block's children
+     * Iterate through blocks and get children IDs from
+     * `nonEmptyRecords[i].value.content`, then find each child's reference
+     * by ID using `map`.
      */
-    for (let i = 0; i < list.length; ++i) {
-        node = list[i];
-        /**
-         * It's sad that parent_id of some blocks are incorrect, so the following
-         * faster way doesn't work.
-         */
-        // list[map[node.raw_value.parent_id]].children.push(node)
-        /** The slower way. */
-        let childrenIDs = node.raw_value.content;
+    for (let i = 0; i < nonEmptyRecords.length; ++i) {
+        nastBlock = nastList[i];
+        let childrenIDs = nonEmptyRecords[i].value.content;
         if (childrenIDs != null) {
-            let pseudoBlock;
-            /**
-             * FSM with 3 states: normal, bulleted, numbered.
-             * Total 3^2 = 9 cases.
-             */
-            let state = 'normal';
             for (let j = 0; j < childrenIDs.length; ++j) {
                 let indexOfChildReference = map[childrenIDs[j]];
-                let childReference = list[indexOfChildReference];
-                /**
-                 * Notion's bug: When downloading a public page,
-                 * some blocks are not accessible (There is an ID in "content" array,
-                 * but we can't find a block having that ID) even if the page is set to "public".
-                 */
+                let childReference = nastList[indexOfChildReference];
                 if (childReference != null) {
-                    // TODO: Too much duplicate code. Need to clean-up.
-                    switch (state) {
-                        case 'normal': {
-                            if (childReference.type === 'bulleted_list') {
-                                pseudoBlock = newPseudoBlock('unordered_list');
-                                pseudoBlock.children.push(childReference);
-                                node.children.push(pseudoBlock);
-                                state = 'bulleted';
-                            }
-                            else if (childReference.type === 'numbered_list') {
-                                pseudoBlock = newPseudoBlock('ordered_list');
-                                pseudoBlock.children.push(childReference);
-                                node.children.push(pseudoBlock);
-                                state = 'numbered';
-                            }
-                            else {
-                                node.children.push(childReference);
-                            }
-                            break;
-                        }
-                        case 'bulleted': {
-                            if (childReference.type === 'bulleted_list') {
-                                pseudoBlock.children.push(childReference);
-                            }
-                            else if (childReference.type === 'numbered_list') {
-                                pseudoBlock = newPseudoBlock('ordered_list');
-                                pseudoBlock.children.push(childReference);
-                                node.children.push(pseudoBlock);
-                                state = 'numbered';
-                            }
-                            else {
-                                node.children.push(childReference);
-                                state = 'normal';
-                            }
-                            break;
-                        }
-                        case 'numbered': {
-                            if (childReference.type === 'numbered_list') {
-                                pseudoBlock.children.push(childReference);
-                            }
-                            else if (childReference.type === 'bulleted_list') {
-                                pseudoBlock = newPseudoBlock('unordered_list');
-                                pseudoBlock.children.push(childReference);
-                                node.children.push(pseudoBlock);
-                                state = 'bulleted';
-                            }
-                            else {
-                                node.children.push(childReference);
-                                state = 'normal';
-                            }
-                            break;
-                        }
-                        default:
-                    }
+                    nastBlock.children.push(childReference);
                 }
             }
         }
     }
     return treeRoot;
 }
-function newPseudoBlock(type) {
-    return {
-        type,
-        children: []
-    };
-}
-function collectionToNastTable(id, res) {
-    let block = res.recordMap.block;
-    let collection = res.recordMap.collection;
-    let resultBlockIds = res.result.blockIds;
-    let data = [];
-    for (let i = 0; i < resultBlockIds.length; ++i) {
-        data.push(block[resultBlockIds[i]].value);
-    }
-    return {
-        value: {
-            id,
-            type: 'collection',
-            viewType: 'table',
-            name: Object.values(collection)[0].value.name[0][0],
-            schema: Object.values(collection)[0].value.schema,
-            data
-        }
-    };
-}
-module.exports = async function downloadPageAsTree(pageID, agent) {
-    assert_1.default(typeof pageID === 'string');
-    assert_1.default(typeof agent === 'object');
-    assert_1.default(typeof agent.getRecordValues === 'function');
-    const api = agent;
-    /**
-     * Only downloading children of a root "page" block.
-     * This prevents downloading children of "link to a page" and
-     * "embeded sub-page" blocks.
-     */
-    let pageRootDownloaded = false;
-    /* Get all records in a flat array. */
-    const allRecords = await getChildrenRecords([pageID]);
-    /* Replace Notion's "collection_view" with NAST's "collection". */
-    for (let i = 0; i < allRecords.length; ++i) {
-        let record = allRecords[i];
-        /** Skip if record is empty. */
-        if (record.role === 'none')
-            continue;
-        let recordType = record.value.type;
-        if (recordType === 'collection_view'
-            || recordType === 'collection_view_page') {
-            let nastCollection = await queryCollection_1.queryCollection(record.value, api);
-            if (nastCollection != null) {
-                allRecords.splice(i, 1, {
-                    role: 'god',
-                    value: {
-                        ...nastCollection
-                    }
-                });
-            }
-            else {
-                utils_1.log(`Fail to tranform collection_view block ${record.value.id}`);
-            }
-            // let collectionID = record.value.collection_id
-            // let collectionViewID = record.value.view_ids[0]
-            // let aggregateQueries = [] as AggregateQuery[]
-            // let response = await api.queryCollection(collectionID, collectionViewID, aggregateQueries)
-            // if (response.statusCode !== 200) {
-            //   console.log(response)
-            //   throw new Error('Fail to get collection.')
-            // }
-            // let responseData = response.data
-            // allRecords.splice(i, 1, collectionToNastTable(record.value.id, responseData))
-        }
-    }
-    return makeTree(allRecords);
-    //return { records: allRecords }
-    /**
-     * Get RecordValues of some IDs and their descendants.
-     * @param ids - Some IDs.
-     * @returns RecordValues of those IDs and their descendants.
-     */
-    async function getChildrenRecords(ids) {
-        let requests = makeRecordRequests(ids);
-        let response = await api.getRecordValues(requests);
-        if (response.statusCode !== 200) {
-            console.log(response);
-            throw new Error('Fail to get records.');
-        }
-        let responseData = response.data;
-        let childrenRecords;
-        let childrenIDs;
-        /**
-         * Currently, I ignore any "page" block except the root page.
-         *
-         * More information:
-         *
-         * Notion marks a "link to page" block as "page", which has two problems :
-         * 1. The "page" block points to its children, require additional checking
-         * when doing recursive download.
-         * 2. The "parent_id" of the "page" block does not points to the root page
-         * we want to download. This way we can't construct a tree correctly.
-         */
-        if (pageRootDownloaded) {
-            /* Filter out "page" blocks. */
-            childrenRecords = responseData.results.filter((record) => {
-                return record.role !== 'none' && record.value.type !== 'page';
-            });
-            childrenIDs = collectChildrenIDs(childrenRecords);
-        }
-        else {
-            childrenRecords = responseData.results;
-            childrenIDs = collectChildrenIDs(childrenRecords);
-            pageRootDownloaded = true;
-        }
-        /* If there're remaining children, download them. */
-        if (childrenIDs.length > 0) {
-            return childrenRecords.concat(await getChildrenRecords(childrenIDs));
-        }
-        else {
-            return childrenRecords;
-        }
-    }
-};
+// TODO: Too much duplicate code. Need to clean-up.
+/**
+ * FSM with 3 states: normal, bulleted, numbered.
+ * Total 3^2 = 9 cases.
+ */
+//let state = 'normal'
+// switch (state) {
+//   case 'normal': {
+//     if (childReference.type === 'bulleted_list') {
+//       pseudoBlock = newPseudoBlock('unordered_list')
+//       pseudoBlock.children.push(childReference)
+//       node.children.push(pseudoBlock)
+//       state = 'bulleted'
+//     } else if (childReference.type === 'numbered_list') {
+//       pseudoBlock = newPseudoBlock('ordered_list')
+//       pseudoBlock.children.push(childReference)
+//       node.children.push(pseudoBlock)
+//       state = 'numbered'
+//     } else {
+//       node.children.push(childReference)
+//     }
+//     break
+//   }
+//   case 'bulleted': {
+//     if (childReference.type === 'bulleted_list') {
+//       pseudoBlock.children.push(childReference)
+//     } else if (childReference.type === 'numbered_list') {
+//       pseudoBlock = newPseudoBlock('ordered_list')
+//       pseudoBlock.children.push(childReference)
+//       node.children.push(pseudoBlock)
+//       state = 'numbered'
+//     } else {
+//       node.children.push(childReference)
+//       state = 'normal'
+//     }
+//     break
+//   }
+//   case 'numbered': {
+//     if (childReference.type === 'numbered_list') {
+//       pseudoBlock.children.push(childReference)
+//     } else if (childReference.type === 'bulleted_list') {
+//       pseudoBlock = newPseudoBlock('unordered_list')
+//       pseudoBlock.children.push(childReference)
+//       node.children.push(pseudoBlock)
+//       state = 'bulleted'
+//     } else {
+//       node.children.push(childReference)
+//       state = 'normal'
+//     }
+//     break
+//   }
+//   default:
+// }

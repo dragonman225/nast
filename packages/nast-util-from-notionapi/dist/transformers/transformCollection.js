@@ -1,9 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-async function queryCollection(collectionBlockRecord, apiAgent) {
-    /** Useful info */
+async function transformCollection(collectionBlockRecord, apiAgent) {
+    /** Block ID */
     let id = collectionBlockRecord.id;
+    /** Collection View IDs */
     let viewIds = collectionBlockRecord['view_ids'] || [];
+    /** Collection ID */
     let collectionId = collectionBlockRecord['collection_id'] || '';
     if (collectionId.length === 0) {
         throw new Error(`Block ${id} has no collection ID.`);
@@ -11,39 +13,8 @@ async function queryCollection(collectionBlockRecord, apiAgent) {
     if (viewIds.length === 0) {
         throw new Error(`Block ${id} - Collection ${collectionId} has no view.`);
     }
-    /**
-     * Get collection view records
-     * This is necessary to get Notion.query object,
-     * which contains sort, aggregate, filter_operator that are used to do
-     * Notion.Agent.queryCollection()
-     */
-    let collectionViewRequests = viewIds.map((viewId) => {
-        return {
-            id: viewId,
-            table: 'collection_view'
-        };
-    });
-    let apiRes = await apiAgent.getRecordValues(collectionViewRequests);
-    if (apiRes.statusCode !== 200) {
-        console.log(apiRes);
-        throw new Error('Fail to get rawCollectionViewRecords.');
-    }
-    let rawCollectionViewRecords = apiRes.data.results;
-    /**
-     * Get collection record
-     * One database only has one collection.
-     */
-    let collectionRequests = [{
-            id: collectionId,
-            table: 'collection'
-        }];
-    apiRes = await apiAgent.getRecordValues(collectionRequests);
-    if (apiRes.statusCode !== 200) {
-        console.log(apiRes);
-        throw new Error('Fail to get collectionResponses.');
-    }
-    let collectionResponses = apiRes.data.results;
-    let rawCollectionRecord = collectionResponses[0];
+    let rawCollectionViewRecords = await getCollectionViewRecords(viewIds, apiAgent);
+    let rawCollectionRecord = await getCollectionRecord(collectionId, apiAgent);
     /**
      * Make query map: collectionViewId -> Notion.Query of the view
      */
@@ -53,26 +24,7 @@ async function queryCollection(collectionBlockRecord, apiAgent) {
         let query = record.value.query;
         queryMap.set(viewId, query);
     });
-    /** Make request objects. */
-    let rawQueryCollectionRequests = [];
-    queryMap.forEach((query, viewId) => {
-        rawQueryCollectionRequests.push({
-            collectionId,
-            collectionViewId: viewId,
-            aggregateQueries: query.aggregate || []
-        });
-    });
-    /** Do queries and receive responses. */
-    let rawQueryCollectionResponses = new Map();
-    for (let i = 0; i < rawQueryCollectionRequests.length; ++i) {
-        let req = rawQueryCollectionRequests[i];
-        let res = await apiAgent.queryCollection(req.collectionId, req.collectionViewId, req.aggregateQueries);
-        if (res.statusCode !== 200) {
-            console.log(res);
-            throw new Error('Fail to get rawQueryCollectionResponse.');
-        }
-        rawQueryCollectionResponses.set(req.collectionViewId, res.data);
-    }
+    let rawQueryCollectionResponses = await getQueryCollectionResponses(collectionId, queryMap, apiAgent);
     /** Transform to Nast */
     /**
      * Choose one of rawQueryCollectionResponses to get blocks, since
@@ -147,8 +99,88 @@ async function queryCollection(collectionBlockRecord, apiAgent) {
                 })
             };
         }),
-        defaultViewId: viewIds[0]
+        defaultViewId: viewIds[0],
+        children: []
     };
     return nastCollection;
 }
-exports.queryCollection = queryCollection;
+exports.transformCollection = transformCollection;
+/**
+ * Get collection view records
+ *
+ * This is necessary to get Notion.Query object,
+ * which contains sort, aggregate, filter_operator that are used to do
+ * Notion.Agent.queryCollection()
+ */
+async function getCollectionViewRecords(viewIds, apiAgent) {
+    let collectionViewRequests = viewIds.map((viewId) => {
+        return {
+            id: viewId,
+            table: 'collection_view'
+        };
+    });
+    let apiRes = await apiAgent.getRecordValues(collectionViewRequests);
+    if (apiRes.statusCode !== 200) {
+        console.log(apiRes);
+        throw new Error('Fail to get rawCollectionViewRecords.');
+    }
+    let rawCollectionViewRecords = apiRes.data.results;
+    return rawCollectionViewRecords;
+}
+exports.getCollectionViewRecords = getCollectionViewRecords;
+/**
+ * Get collection record
+ *
+ * One database only has one collection.
+ */
+async function getCollectionRecord(collectionId, apiAgent) {
+    let collectionRequests = [{
+            id: collectionId,
+            table: 'collection'
+        }];
+    let apiRes = await apiAgent.getRecordValues(collectionRequests);
+    if (apiRes.statusCode !== 200) {
+        console.log(apiRes);
+        throw new Error('Fail to get collectionResponses.');
+    }
+    let collectionResponses = apiRes.data.results;
+    let rawCollectionRecord = collectionResponses[0];
+    return rawCollectionRecord;
+}
+exports.getCollectionRecord = getCollectionRecord;
+/**
+ * Query all entries in this collection
+ *
+ * To get all entries, we must not filter any entries, this means
+ * Notion.Query.filter should be empty. Luckily, current Notion.Agent
+ * set that empty by default.
+ *
+ * The queryCollection API can be used to query one collection_view at
+ * the same time, though we have queried all collection views previously,
+ * we still need to query the aggregationResults for those collection
+ * views.
+ */
+async function getQueryCollectionResponses(collectionId, queryMap, apiAgent) {
+    /** Make request objects. */
+    let rawQueryCollectionRequests = [];
+    queryMap.forEach((query, viewId) => {
+        rawQueryCollectionRequests.push({
+            collectionId,
+            collectionViewId: viewId,
+            aggregateQueries: query.aggregate || []
+        });
+    });
+    /** Do queries and receive responses. */
+    let rawQueryCollectionResponses = new Map();
+    for (let i = 0; i < rawQueryCollectionRequests.length; ++i) {
+        let req = rawQueryCollectionRequests[i];
+        let res = await apiAgent.queryCollection(req.collectionId, req.collectionViewId, req.aggregateQueries);
+        if (res.statusCode !== 200) {
+            console.log(res);
+            throw new Error('Fail to get rawQueryCollectionResponse.');
+        }
+        rawQueryCollectionResponses.set(req.collectionViewId, res.data);
+    }
+    return rawQueryCollectionResponses;
+}
+exports.getQueryCollectionResponses = getQueryCollectionResponses;

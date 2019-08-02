@@ -22,14 +22,24 @@ export interface PseudoBlock extends Parent {
   type: string
 }
 
-export interface PlainText extends Block {
+export interface Page extends Block {
+  type: 'page'
+  title: string
+  icon?: string
+  cover?: string
+  fullWidth?: boolean
+  coverPosition?: number
+}
+
+export interface Text extends Block {
   type: 'text'
   text: Notion.StyledString[]
 }
 
-export interface EmbededPage extends Block {
-  type: 'embeded_page'
-}
+/** Deprecated */
+// export interface EmbededPage extends Block {
+//   type: 'embeded_page'
+// }
 
 export interface ToDoList extends Block {
   type: 'to_do'
@@ -44,25 +54,24 @@ export interface Heading extends Block {
 }
 
 /**
- * Both bulleted_list item & numbered_list use this interface.
- * Since we have wrappers, displayed look can be inferred 
- * by wrappers, so items can be the same.
+ * When transforming blocks, direct mapping is easier.
+ * Also, a wrapper mainly helps rendering, so it may be better to
+ * move it to the renderer side.
  */
-export interface ListItem extends Block {
-  type: 'list_item'
+// export interface ListItem extends Block {
+//   type: 'list_item'
+//   text: Notion.StyledString[]
+// }
+
+export interface BulletedList extends Block {
+  type: 'bulleted_list'
   text: Notion.StyledString[]
 }
 
-/** Maybe not necessary? */
-// export interface BulletedList extends Block {
-//   type: 'bulleted_list'
-//   text: StyledString[]
-// }
-
-// export interface numberedList extends Block {
-//   type: 'numbered_list'
-//   text: StyledString[]
-// }
+export interface NumberedList extends Block {
+  type: 'numbered_list'
+  text: Notion.StyledString[]
+}
 
 export interface ToggleList extends Block {
   type: 'toggle'
@@ -78,9 +87,10 @@ export interface Divider extends Block {
   type: 'divider'
 }
 
-export interface LinkToPage extends Block {
-  type: 'page_link'
-}
+/** Deprecated */
+// export interface LinkToPage extends Block {
+//   type: 'page_link'
+// }
 
 export interface Callout extends Block {
   type: 'callout'
@@ -143,15 +153,15 @@ export interface Root extends PseudoBlock {
   type: 'root'
 }
 
-export interface UnorderedList extends PseudoBlock {
-  type: 'unordered_list'
-}
+// export interface UnorderedList extends PseudoBlock {
+//   type: 'unordered_list'
+// }
 
-export interface OrderedList extends PseudoBlock {
-  type: 'ordered_list'
-}
+// export interface OrderedList extends PseudoBlock {
+//   type: 'ordered_list'
+// }
 
-export interface Collection {
+export interface Collection extends Block{
   id: string
   collectionId: string
   icon: string
