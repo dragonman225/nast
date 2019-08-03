@@ -21,7 +21,17 @@ function getBlockTitle(
   return title
 }
 
+function getBlockIcon(
+  node: Notion.BlockValue
+): string | undefined {
+  let icon = node.format
+    ? node.format.page_icon
+    : undefined
+  return icon
+}
+
 export {
   getBlockColor,
-  getBlockTitle
+  getBlockTitle,
+  getBlockIcon
 }

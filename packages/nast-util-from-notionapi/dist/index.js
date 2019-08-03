@@ -5,72 +5,37 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const assert_1 = __importDefault(require("assert"));
 const transformBlock_1 = require("./transformBlock");
-async function getTreeByBlockId(rootID, agent) {
+async function getPageTreeById(rootID, agent) {
     assert_1.default(typeof rootID === 'string');
     assert_1.default(typeof agent === 'object');
     assert_1.default(typeof agent.getRecordValues === 'function');
     assert_1.default(typeof agent.queryCollection === 'function');
     const api = agent;
     /**
-     * Only downloading children of a root "page" block.
-     * This prevents downloading children of "link to a page" and
-     * "embeded sub-page" blocks.
+     * getChildrenRecords() does not download children of a page,
+     * so we should get the page first.
      */
-    let pageRootDownloaded = false;
-    /* Get all records in a flat array. */
-    const allRecords = await getChildrenRecords([rootID]);
-    return makeTree(allRecords, api);
-    //return { records: allRecords }
-    /**
-     * Get RecordValues of some IDs and their descendants.
-     * @param blockIds - Some IDs.
-     * @returns RecordValues of those IDs and their descendants.
-     */
-    async function getChildrenRecords(blockIds) {
-        let requests = makeRecordRequests(blockIds, 'block');
-        let response = await api.getRecordValues(requests);
-        if (response.statusCode !== 200) {
-            console.log(response);
-            throw new Error('Fail to get records.');
-        }
-        let responseData = response.data;
-        let childrenRecords;
-        let childrenIDs;
-        /**
-         * Currently, I ignore any "page" block except the root page.
-         *
-         * More information:
-         *
-         * Notion marks a "link to page" block as "page", which has two problems :
-         * 1. The "page" block points to its children, require additional checking
-         * when doing recursive download.
-         * 2. The "parent_id" of the "page" block does not points to the root page
-         * we want to download. This way we can't construct a tree correctly.
-         */
-        if (pageRootDownloaded) {
-            /* Filter out "page" blocks. */
-            childrenRecords = responseData.results;
-            let childrenRecordsNoPage = responseData.results
-                .filter((record) => {
-                return record.role !== 'none' && record.value.type !== 'page';
-            });
-            childrenIDs = collectChildrenIDs(childrenRecordsNoPage);
-        }
-        else {
-            childrenRecords = responseData.results;
-            childrenIDs = collectChildrenIDs(childrenRecords);
-            pageRootDownloaded = true;
-        }
-        /* If there're remaining children, download them. */
-        if (childrenIDs.length > 0) {
-            return childrenRecords.concat(await getChildrenRecords(childrenIDs));
-        }
-        else {
-            return childrenRecords;
-        }
+    let pageBlockRequest = makeRecordRequests([rootID], 'block');
+    let pageBlockResponse = await api.getRecordValues(pageBlockRequest);
+    if (pageBlockResponse.statusCode !== 200) {
+        console.log(pageBlockResponse);
+        throw new Error('Fail to get page block.');
     }
+    let pageBlock = pageBlockResponse.data.results[0];
+    let childrenIdsOfPageBlock = pageBlock.value.content;
+    let allRecords = [pageBlock];
+    if (childrenIdsOfPageBlock != null) {
+        /* Get all records in a flat array. */
+        let children = await getChildrenRecords(childrenIdsOfPageBlock, api);
+        allRecords = allRecords.concat(children);
+    }
+    if (allRecords != null)
+        return makeTree(allRecords, api);
+    else
+        throw new Error('Cannot make tree, no records');
+    //return { records: allRecords }
 }
-exports.getTreeByBlockId = getTreeByBlockId;
+exports.getPageTreeById = getPageTreeById;
 /**
  * Make request payload for getRecordValues API.
  * @param ids - Notion record ID array.
@@ -100,6 +65,37 @@ function collectChildrenIDs(records) {
         }
     });
     return childrenIDs;
+}
+/**
+ * Get Notion.BlockRecordValue of IDs and descendants of non-page blocks
+ */
+async function getChildrenRecords(blockIds, apiAgent) {
+    let requests = makeRecordRequests(blockIds, 'block');
+    let response = await apiAgent.getRecordValues(requests);
+    if (response.statusCode !== 200) {
+        console.log(response);
+        throw new Error('Fail to get records.');
+    }
+    let responseData = response.data;
+    let childrenRecords = responseData.results;
+    /**
+     * Filter out "page" blocks and empty blocks.
+     *
+     * If we do not filter out "page" blocks, children of "Embedded Page" and
+     * "Link to Page" will be collected.
+     */
+    let childrenRecordsNoPage = responseData.results
+        .filter((record) => {
+        return record.role !== 'none' && record.value.type !== 'page';
+    });
+    let childrenIDs = collectChildrenIDs(childrenRecordsNoPage);
+    /* If there're remaining children, download them. */
+    if (childrenIDs.length > 0) {
+        return childrenRecords.concat(await getChildrenRecords(childrenIDs, apiAgent));
+    }
+    else {
+        return childrenRecords;
+    }
 }
 /**
  * Convert BlockRecordValue array to NAST.

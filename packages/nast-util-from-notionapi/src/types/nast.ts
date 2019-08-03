@@ -1,4 +1,5 @@
 import * as Notion from './api'
+import { StyledString } from './api-lagacy';
 
 export interface Parent {
   children: Block[]
@@ -94,6 +95,8 @@ export interface Divider extends Block {
 
 export interface Callout extends Block {
   type: 'callout'
+  icon?: string
+  text: StyledString[]
 }
 
 export interface Image extends Block {
@@ -104,14 +107,18 @@ export interface Image extends Block {
   pageWidth: boolean
 }
 
-export interface Video extends Block {
-  type: 'video'
+export interface Embed extends Block {
+  type: 'video' | 'embed'
   width: number
   source: string
   fullWidth: boolean
   pageWidth: boolean
   aspectRatio: number
   preserveScale: boolean
+}
+
+export interface Video extends Embed {
+  type: 'video'
 }
 
 export interface Audio extends Block {
@@ -131,7 +138,7 @@ export interface WebBookmark extends Block {
 export interface Code extends Block {
   type: 'code'
   text: Notion.StyledString[]
-  language: string
+  language?: string
   wrap: boolean
 }
 

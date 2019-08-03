@@ -8,9 +8,7 @@ async function transformPage(node) {
         color: utils_1.getBlockColor(node),
         children: [],
         title: utils_1.getBlockTitle(node)[0][0],
-        icon: node.format
-            ? node.format.page_icon
-            : undefined,
+        icon: utils_1.getBlockIcon(node),
         cover: node.format
             ? node.format.page_cover
             : undefined,

@@ -9,7 +9,24 @@ export interface Agent {
 
 export interface AgentResponse {
   statusCode: number
-  data?: GetRecordValuesResponse | QueryCollectionResponse
+}
+
+export interface BlockRecordValuesResponse extends AgentResponse {
+  data: {
+    results: BlockRecordValue[]
+  }
+}
+
+export interface CollectionRecordValueResponse extends AgentResponse {
+  data: {
+    results: CollectionRecordValue[]
+  }
+}
+
+export interface CollectionViewRecordValueResponse extends AgentResponse {
+  data: {
+    results: CollectionViewRecordValue[]
+  }
 }
 
 /**
@@ -18,9 +35,6 @@ export interface AgentResponse {
  * follow, notion_user, user_settings, user_root, 
  * space_view, space
  */
-export interface GetRecordValuesResponse {
-  results: BlockRecordValue | CollectionRecordValue | CollectionViewRecordValue
-}
 
 export interface QueryCollectionResponse {
   recordMap: RecordMap
@@ -73,24 +87,50 @@ export interface StyledString {
 }
 
 export interface BlockProperties {
-  link?: []
-  title?: StyledString[]
-  description?: []
+  link?: {
+    0: { 0: string } // bookmark
+  }
+  title?: StyledString[] // text, heading, list, bookmark
+  description?: {
+    0: { 0: string } // bookmark
+  }
   checked?: {
-    0: { 0: 'Yes' | 'No' }
+    0: { 0: 'Yes' | 'No' } // to_do
+  }
+  source?: {
+    0: { 0: string } // audio
+  }
+  language?: {
+    0: { 0: string } // code
   }
 }
 
+/**
+ * For non-boolean properties, test with 
+ *  <property> || <default_value>.
+ * 
+ * For boolean properties, test with 
+ *  typeof <property> !== 'undefined' ? <property> : <default_value> 
+ *  because we have to distinguish `false` and `undefined`.
+ */
 export interface BlockFormat {
+  block_color?: string
+  block_width?: number // image, video
+  block_locked?: boolean
+  block_full_width?: boolean // image, video
+  block_page_width?: boolean // image, video
+  block_aspect_ratio?: number // video
+  block_preserve_scale?: boolean // video
+  block_locked_by?: string
+  bookmark_icon?: string // bookmark
+  bookmark_cover?: string // bookmark
+  code_wrap?: boolean // code
+  column_ratio?: number // column
+  display_source?: string // image, video
   page_icon?: string
   page_cover?: string
   page_full_width?: boolean
   page_cover_position?: number
-  block_color?: string
-  block_locked?: boolean
-  block_locked_by?: string
-  bookmark_icon?: string
-  bookmark_cover?: string
 }
 
 export interface BlockPermission {

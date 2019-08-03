@@ -13,6 +13,18 @@ const transformToDo_1 = __importDefault(require("./transformers/transformToDo"))
 const transformHeading_1 = __importDefault(require("./transformers/transformHeading"));
 const transformBulletedList_1 = __importDefault(require("./transformers/transformBulletedList"));
 const transformNumberedList_1 = __importDefault(require("./transformers/transformNumberedList"));
+const transformEmbed_1 = __importDefault(require("./transformers/transformEmbed"));
+const transformImage_1 = __importDefault(require("./transformers/transformImage"));
+const transformCallout_1 = __importDefault(require("./transformers/transformCallout"));
+const transformDivider_1 = __importDefault(require("./transformers/transformDivider"));
+const transformQuote_1 = __importDefault(require("./transformers/transformQuote"));
+const transformToggleList_1 = __importDefault(require("./transformers/transformToggleList"));
+const transformColumn_1 = __importDefault(require("./transformers/transformColumn"));
+const transformColumnList_1 = __importDefault(require("./transformers/transformColumnList"));
+const transformMath_1 = __importDefault(require("./transformers/transformMath"));
+const transformCode_1 = __importDefault(require("./transformers/transformCode"));
+const transformAudio_1 = __importDefault(require("./transformers/transformAudio"));
+const transformBookmark_1 = __importDefault(require("./transformers/transformBookmark"));
 async function transformBlock(node, apiAgent) {
     let nastNode;
     switch (node.type) {
@@ -61,6 +73,71 @@ async function transformBlock(node, apiAgent) {
         /** Nast.NumberedList */
         case block_map_1.default.numberedList: {
             nastNode = transformNumberedList_1.default(node);
+            break;
+        }
+        /** Nast.ToggleList */
+        case block_map_1.default.toggle: {
+            nastNode = transformToggleList_1.default(node);
+            break;
+        }
+        /** Nast.Quote */
+        case block_map_1.default.quote: {
+            nastNode = transformQuote_1.default(node);
+            break;
+        }
+        /** Nast.Divider */
+        case block_map_1.default.divider: {
+            nastNode = transformDivider_1.default(node);
+            break;
+        }
+        /** Nast.Callout */
+        case block_map_1.default.callout: {
+            nastNode = transformCallout_1.default(node);
+            break;
+        }
+        /** Nast.Image */
+        case block_map_1.default.image: {
+            nastNode = transformImage_1.default(node);
+            break;
+        }
+        /** Nast.Video */
+        case block_map_1.default.video: {
+            nastNode = transformEmbed_1.default(node);
+            break;
+        }
+        /** Nast.Embed */
+        case block_map_1.default.embed: {
+            nastNode = transformEmbed_1.default(node);
+            break;
+        }
+        /** Nast.Audio */
+        case block_map_1.default.audio: {
+            nastNode = transformAudio_1.default(node);
+            break;
+        }
+        /** Nast.WebBookmark */
+        case block_map_1.default.bookmark: {
+            nastNode = transformBookmark_1.default(node);
+            break;
+        }
+        /** Nast.Code */
+        case block_map_1.default.code: {
+            nastNode = transformCode_1.default(node);
+            break;
+        }
+        /** Nast.MathEquation */
+        case block_map_1.default.equation: {
+            nastNode = transformMath_1.default(node);
+            break;
+        }
+        /** Nast.ColumnList */
+        case block_map_1.default.columnList: {
+            nastNode = transformColumnList_1.default(node);
+            break;
+        }
+        /** Nast.Column */
+        case block_map_1.default.column: {
+            nastNode = transformColumn_1.default(node);
             break;
         }
         default: {

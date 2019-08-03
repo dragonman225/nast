@@ -1,7 +1,7 @@
 import * as Notion from '../types/api'
 import * as Nast from '../types/nast'
 
-import { getBlockColor, getBlockTitle } from './utils'
+import { getBlockColor, getBlockTitle, getBlockIcon } from './utils'
 
 async function transformPage(
   node: Notion.BlockValue
@@ -12,9 +12,7 @@ async function transformPage(
     color: getBlockColor(node),
     children: [],
     title: getBlockTitle(node)[0][0], 
-    icon: node.format
-      ? node.format.page_icon
-      : undefined,
+    icon: getBlockIcon(node),
     cover: node.format
       ? node.format.page_cover
       : undefined,

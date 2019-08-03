@@ -1,12 +1,11 @@
 import assert from 'assert'
 
 import { transformBlock } from './transformBlock'
-import { log } from './utils'
 
 import * as Notion from './types/api'
 import * as Nast from './types/nast'
 
-async function getTreeByBlockId(
+async function getPageTreeById(
   rootID: string,
   agent: Notion.Agent): Promise<Nast.Block> {
 
@@ -18,70 +17,31 @@ async function getTreeByBlockId(
   const api = agent
 
   /**
-   * Only downloading children of a root "page" block.
-   * This prevents downloading children of "link to a page" and
-   * "embeded sub-page" blocks.
+   * getChildrenRecords() does not download children of a page,
+   * so we should get the page first.
    */
-  let pageRootDownloaded = false
-
-  /* Get all records in a flat array. */
-  const allRecords = await getChildrenRecords([rootID])
-
-  return makeTree(allRecords, api)
-  //return { records: allRecords }
-
-  /**
-   * Get RecordValues of some IDs and their descendants.
-   * @param blockIds - Some IDs.
-   * @returns RecordValues of those IDs and their descendants.
-   */
-  async function getChildrenRecords(blockIds: string[]): Promise<Notion.BlockRecordValue[]> {
-
-    let requests = makeRecordRequests(blockIds, 'block')
-    let response = await api.getRecordValues(requests)
-
-    if (response.statusCode !== 200) {
-      console.log(response)
-      throw new Error('Fail to get records.')
-    }
-
-    let responseData = response.data
-    let childrenRecords: Notion.BlockRecordValue[]
-    let childrenIDs: string[]
-
-    /** 
-     * Currently, I ignore any "page" block except the root page.
-     * 
-     * More information:
-     * 
-     * Notion marks a "link to page" block as "page", which has two problems :
-     * 1. The "page" block points to its children, require additional checking
-     * when doing recursive download.
-     * 2. The "parent_id" of the "page" block does not points to the root page
-     * we want to download. This way we can't construct a tree correctly.
-     */
-    if (pageRootDownloaded) {
-      /* Filter out "page" blocks. */
-      childrenRecords = responseData.results
-      let childrenRecordsNoPage = responseData.results
-        .filter((record: Notion.BlockRecordValue): boolean => {
-          return record.role !== 'none' && record.value.type !== 'page'
-        })
-      childrenIDs = collectChildrenIDs(childrenRecordsNoPage)
-    } else {
-      childrenRecords = responseData.results
-      childrenIDs = collectChildrenIDs(childrenRecords)
-      pageRootDownloaded = true
-    }
-
-    /* If there're remaining children, download them. */
-    if (childrenIDs.length > 0) {
-      return childrenRecords.concat(await getChildrenRecords(childrenIDs))
-    } else {
-      return childrenRecords
-    }
-
+  let pageBlockRequest = makeRecordRequests([rootID], 'block')
+  let pageBlockResponse: Notion.BlockRecordValuesResponse =
+    await api.getRecordValues(pageBlockRequest)
+  if (pageBlockResponse.statusCode !== 200) {
+    console.log(pageBlockResponse)
+    throw new Error('Fail to get page block.')
   }
+  let pageBlock = pageBlockResponse.data.results[0]
+  let childrenIdsOfPageBlock = pageBlock.value.content
+
+  let allRecords: Notion.BlockRecordValue[] = [pageBlock]
+  if (childrenIdsOfPageBlock != null) {
+    /* Get all records in a flat array. */
+    let children = await getChildrenRecords(childrenIdsOfPageBlock, api)
+    allRecords = allRecords.concat(children)
+  }
+
+  if (allRecords != null)
+    return makeTree(allRecords, api)
+  else
+    throw new Error('Cannot make tree, no records')
+  //return { records: allRecords }
 
 }
 
@@ -124,6 +84,46 @@ function collectChildrenIDs(records: Notion.BlockRecordValue[]): string[] {
   })
 
   return childrenIDs
+
+}
+
+/**
+ * Get Notion.BlockRecordValue of IDs and descendants of non-page blocks
+ */
+async function getChildrenRecords(
+  blockIds: string[],
+  apiAgent: Notion.Agent
+): Promise<Notion.BlockRecordValue[]> {
+
+  let requests = makeRecordRequests(blockIds, 'block')
+  let response = await apiAgent.getRecordValues(requests)
+
+  if (response.statusCode !== 200) {
+    console.log(response)
+    throw new Error('Fail to get records.')
+  }
+
+  let responseData = response.data
+  let childrenRecords: Notion.BlockRecordValue[] = responseData.results
+  /**
+   * Filter out "page" blocks and empty blocks.
+   * 
+   * If we do not filter out "page" blocks, children of "Embedded Page" and 
+   * "Link to Page" will be collected.
+   */
+  let childrenRecordsNoPage = responseData.results
+    .filter((record: Notion.BlockRecordValue): boolean => {
+      return record.role !== 'none' && record.value.type !== 'page'
+    })
+  let childrenIDs: string[] = collectChildrenIDs(childrenRecordsNoPage)
+
+  /* If there're remaining children, download them. */
+  if (childrenIDs.length > 0) {
+    return childrenRecords.concat(
+      await getChildrenRecords(childrenIDs, apiAgent))
+  } else {
+    return childrenRecords
+  }
 
 }
 
@@ -188,11 +188,11 @@ async function makeTree(
 }
 
 export {
-  getTreeByBlockId
+  getPageTreeById
 }
 
 // TODO: Too much duplicate code. Need to clean-up.
-/** 
+/**
  * FSM with 3 states: normal, bulleted, numbered.
  * Total 3^2 = 9 cases.
  */

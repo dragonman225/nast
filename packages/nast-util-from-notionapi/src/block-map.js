@@ -19,6 +19,8 @@ const map = {
   breadcrumb: 'breadcrumb',
   image: 'image',
   video: 'video',
+  embed: 'embed',
+  audio: 'audio',
   bookmark: 'bookmark',
   collectionView: 'collection_view',
   collectionViewPage: 'collection_view_page',

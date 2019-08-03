@@ -17,3 +17,10 @@ function getBlockTitle(node) {
     return title;
 }
 exports.getBlockTitle = getBlockTitle;
+function getBlockIcon(node) {
+    let icon = node.format
+        ? node.format.page_icon
+        : undefined;
+    return icon;
+}
+exports.getBlockIcon = getBlockIcon;
