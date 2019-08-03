@@ -1,5 +1,5 @@
 import * as Notion from './api'
-import { StyledString } from './api-lagacy';
+import { StyledString } from './api-lagacy'
 
 export interface Parent {
   children: Block[]

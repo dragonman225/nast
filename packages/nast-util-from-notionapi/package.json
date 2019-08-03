@@ -4,7 +4,9 @@
   "description": "Convert a Notion page into an abstract syntax tree.",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc"
+    "dev:build-webpack": "webpack --mode=development",
+    "dev:build-tsc": "tsc",
+    "prod:build": "webpack --mode=production"
   },
   "repository": {
     "type": "git",
@@ -24,7 +26,10 @@
     "@typescript-eslint/eslint-plugin": "^1.9.0",
     "@typescript-eslint/parser": "^1.9.0",
     "eslint": "^5.16.0",
-    "typescript": "^3.5.1"
+    "ts-loader": "^6.0.4",
+    "typescript": "^3.5.1",
+    "webpack": "^4.39.1",
+    "webpack-cli": "^3.3.6"
   },
   "bugs": {
     "url": "https://github.com/dragonman225/nast-util-from-notionapi/issues"

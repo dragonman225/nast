@@ -17,7 +17,7 @@
     "isolatedModules": true,
     "removeComments": false,
     "preserveConstEnums": true,
-    "sourceMap": false
+    "sourceMap": true
   },
   "include": [
     "./src/**/*"

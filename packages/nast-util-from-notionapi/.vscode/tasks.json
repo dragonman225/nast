@@ -9,6 +9,16 @@
       "problemMatcher": [
         "$tsc"
       ]
+    },
+    {
+      "type": "npm",
+      "script": "dev:build-tsc",
+      "problemMatcher": []
+    },
+    {
+      "type": "npm",
+      "script": "dev:build-webpack",
+      "problemMatcher": []
     }
   ]
 }
