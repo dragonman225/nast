@@ -1,3 +1,6 @@
+/**
+ * Notion.Agent
+ */
 export interface Agent {
   loadPageChunk: Function
   getAssetsJson: Function
@@ -5,6 +8,11 @@ export interface Agent {
   loadUserContent: Function
   queryCollection: Function
   submitTransaction: Function
+}
+
+export interface RecordRequest {
+  id: string
+  table: string
 }
 
 export interface AgentResponse {
@@ -29,17 +37,10 @@ export interface CollectionViewRecordValueResponse extends AgentResponse {
   }
 }
 
-/**
- * Existing tables for getRecordValues: 
- * block, collection, collection_view, 
- * follow, notion_user, user_settings, user_root, 
- * space_view, space
- */
-
 export interface QueryCollectionResponse {
   recordMap: RecordMap
   result: {
-    aggregationResults: []
+    aggregationResults: AggregationResult[]
     blockIds: string[]
     total: number
     type: string
@@ -51,6 +52,31 @@ export interface LoadPageChunkResponse {
   cursor: []
 }
 
+export interface RecordMap {
+  block: {
+    [key: string]: BlockRecordValue
+  }
+  collection: {
+    [key: string]: CollectionRecordValue
+  }
+  collection_view: {
+    [key: string]: CollectionViewRecordValue
+  }
+}
+
+export interface AggregationResult {
+  id: string
+  value: number
+}
+
+export interface User {
+  timeZone: string
+  locale: string
+}
+
+/**
+ * Table: Block
+ */
 export interface BlockRecordValue {
   role: string
   value: BlockValue
@@ -74,16 +100,6 @@ export interface BlockValue {
   parent_table: string
   alive: boolean
   copied_from?: string
-}
-
-export interface TextStyle {
-  0: string
-  1?: string
-}
-
-export interface StyledString {
-  0: string
-  1?: TextStyle[]
 }
 
 export interface BlockProperties {
@@ -139,28 +155,9 @@ export interface BlockPermission {
   user_id: string
 }
 
-export interface RecordRequest {
-  id: string
-  table: string
-}
-
-export interface User {
-  timeZone: string
-  locale: string
-}
-
-export interface RecordMap {
-  block: {
-    [key: string]: BlockRecordValue
-  }
-  collection: {
-    [key: string]: CollectionRecordValue
-  }
-  collection_view: {
-    [key: string]: CollectionViewRecordValue
-  }
-}
-
+/**
+ * Table: Collection
+ */
 export interface CollectionRecordValue {
   role: string
   value: CollectionValue
@@ -191,6 +188,9 @@ export interface SchemaItemOption {
   value: string
 }
 
+/**
+ * Table: CollectionView
+ */
 export interface CollectionViewRecordValue {
   role: string
   value: CollectionViewValue
@@ -240,7 +240,15 @@ export interface AggregateQuery {
   aggregation_type: string
 }
 
-export interface AggregationResult {
-  id: string
-  value: number
+/**
+ * Utils
+ */
+export interface TextStyle {
+  0: string
+  1?: string
+}
+
+export interface StyledString {
+  0: string
+  1?: TextStyle[]
 }

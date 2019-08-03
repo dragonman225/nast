@@ -33,7 +33,7 @@ The agent is used to retrieve raw data from Notion's API.
 const fs = require('fs')
 
 const NotionAgent = require('notionapi-agent')
-const downloadPageAsTree = require('nast-util-from-notionapi')
+const { getPageTreeById } = require('nast-util-from-notionapi')
 
 /* Fill in your token. */
 const options = {
@@ -45,7 +45,7 @@ async function main() {
   try {
     /* Fill in a page ID. */
     let pageID = ''
-    let tree = await downloadPageAsTree(pageID, agent)
+    let tree = await getPageTreeById(pageID, agent)
     let file = `PageTree-${pageID}.json`
     fs.writeFileSync(file, JSON.stringify(tree), { encoding: 'utf-8' })
   } catch (error) {
@@ -58,7 +58,7 @@ main()
 
 ## API Methods
 
-### `async` `downloadPageAsTree(pageID, agent)`
+### `async` `getPageTreeById(pageID, agent)`
 
 Download a Notion page as NAST with a Notion API agent.
 
@@ -72,18 +72,13 @@ Download a Notion page as NAST with a Notion API agent.
 
 #### Returns :
 
-NAST, a tree-like object. Refer to `src/types/api-lagacy.ts` for details.
+NAST, a tree-like object. Refer to `src/types/nast.ts` for details.
 
 ```typescript
-interface BlockNode {
+interface Block {
   id: string
   type: string
-  data?: BlockProperties
-  raw_value: BlockValue
+  color?: string
   children: BlockNode[]
 }
 ```
-
-## Notes
-
-* Notion has somewhat messed up with their data recently. `BlockNode.raw_value.parent_id` is not always correct. Do not rely on `parent_id` to traverse the tree.

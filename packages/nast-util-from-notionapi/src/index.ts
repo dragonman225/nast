@@ -7,7 +7,8 @@ import * as Nast from './types/nast'
 
 async function getPageTreeById(
   rootID: string,
-  agent: Notion.Agent): Promise<Nast.Block> {
+  agent: Notion.Agent
+): Promise<Nast.Block> {
 
   assert(typeof rootID === 'string')
   assert(typeof agent === 'object')
@@ -51,7 +52,10 @@ async function getPageTreeById(
  * @param table - The table to query.
  * @returns The payload.
  */
-function makeRecordRequests(ids: string[], table: string): Notion.RecordRequest[] {
+function makeRecordRequests(
+  ids: string[],
+  table: string
+): Notion.RecordRequest[] {
 
   let requests = ids.map((id): Notion.RecordRequest => {
     return { id, table }
@@ -66,7 +70,9 @@ function makeRecordRequests(ids: string[], table: string): Notion.RecordRequest[
  * @param records - The records array.
  * @returns An array of IDs.
  */
-function collectChildrenIDs(records: Notion.BlockRecordValue[]): string[] {
+function collectChildrenIDs(
+  records: Notion.BlockRecordValue[]
+): string[] {
 
   let childrenIDs: string[] = []
 

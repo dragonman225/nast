@@ -1,5 +1,4 @@
 import * as Notion from './api'
-import { StyledString } from './api-lagacy'
 
 export interface Parent {
   children: Block[]
@@ -96,7 +95,7 @@ export interface Divider extends Block {
 export interface Callout extends Block {
   type: 'callout'
   icon?: string
-  text: StyledString[]
+  text: Notion.StyledString[]
 }
 
 export interface Image extends Block {
