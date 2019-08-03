@@ -139,7 +139,7 @@ async function makeTree(
 
   /** Remove blocks with role: none */
   let nonEmptyRecords = allRecords
-    .filter((record) => {
+    .filter((record): boolean => {
       return record.role !== 'none'
     })
 

@@ -8,22 +8,22 @@ import blockMap from './block-map'
 import transformPage from './transformers/transformPage'
 import transformStub from './transformers/transformStub'
 import transformText from './transformers/transformText'
-import transformToDo from './transformers/transformToDo';
-import transformHeading from './transformers/transformHeading';
-import transformBulletedList from './transformers/transformBulletedList';
-import transformNumberedList from './transformers/transformNumberedList';
-import transformEmbed from './transformers/transformEmbed';
-import transformImage from './transformers/transformImage';
-import transformCallout from './transformers/transformCallout';
-import transformDivider from './transformers/transformDivider';
-import transformQuote from './transformers/transformQuote';
-import transformToggleList from './transformers/transformToggleList';
-import transformColumn from './transformers/transformColumn';
-import transformColumnList from './transformers/transformColumnList';
-import transformMath from './transformers/transformMath';
-import transformCode from './transformers/transformCode';
-import transformAudio from './transformers/transformAudio';
-import transformBookmark from './transformers/transformBookmark';
+import transformToDo from './transformers/transformToDo'
+import transformHeading from './transformers/transformHeading'
+import transformBulletedList from './transformers/transformBulletedList'
+import transformNumberedList from './transformers/transformNumberedList'
+import transformEmbed from './transformers/transformEmbed'
+import transformImage from './transformers/transformImage'
+import transformCallout from './transformers/transformCallout'
+import transformDivider from './transformers/transformDivider'
+import transformQuote from './transformers/transformQuote'
+import transformToggleList from './transformers/transformToggleList'
+import transformColumn from './transformers/transformColumn'
+import transformColumnList from './transformers/transformColumnList'
+import transformMath from './transformers/transformMath'
+import transformCode from './transformers/transformCode'
+import transformAudio from './transformers/transformAudio'
+import transformBookmark from './transformers/transformBookmark'
 
 async function transformBlock(
   node: Notion.BlockValue,

@@ -5,13 +5,6 @@
   "tasks": [
     {
       "type": "npm",
-      "script": "build",
-      "problemMatcher": [
-        "$tsc"
-      ]
-    },
-    {
-      "type": "npm",
       "script": "dev:build-tsc",
       "problemMatcher": []
     },

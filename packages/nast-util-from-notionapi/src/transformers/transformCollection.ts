@@ -29,7 +29,7 @@ async function transformCollection(
    * Make query map: collectionViewId -> Notion.Query of the view
    */
   let queryMap: Map<string, Notion.Query> = new Map()
-  rawCollectionViewRecords.forEach((record: Notion.CollectionViewRecordValue) => {
+  rawCollectionViewRecords.forEach((record: Notion.CollectionViewRecordValue): void => {
     let viewId = record.value.id
     let query = record.value.query
     queryMap.set(viewId, query)
@@ -53,8 +53,12 @@ async function transformCollection(
   /**
    * We won't get undefined below since viewIds guarantee there are views.
    */
-  let blockRecordValueMap = rawQueryCollectionResponses.get(viewIds[0]).recordMap.block
-  let resultBlockIds = rawQueryCollectionResponses.get(viewIds[0]).result.blockIds
+  let rawQueryCollectionResponse = rawQueryCollectionResponses.get(viewIds[0])
+  if (!rawQueryCollectionResponse)
+    throw new Error(`No rawQueryCollectionResponse for ${viewIds[0]}`)
+
+  let blockRecordValueMap = rawQueryCollectionResponse.recordMap.block
+  let resultBlockIds = rawQueryCollectionResponse.result.blockIds
   let nastCollection = {
     id,
     collectionId,
@@ -73,12 +77,13 @@ async function transformCollection(
       ? rawCollectionRecord.value.schema
       : {},
     /** blockRecordValueMap[x] is Notion.BlockRecordValue (The one with role) */
-    blocks: resultBlockIds.map(id => {
+    blocks: resultBlockIds.map((id: string): Notion.BlockValue => {
       return blockRecordValueMap[id].value
     }),
     /** Use viewId to access record value maps. */
-    views: viewIds.map(viewId => {
-      let viewRecord = rawCollectionViewRecords.find(view => view.value.id === viewId)
+    views: viewIds.map((viewId: string): Nast.CollectionViewMetadata => {
+      let viewRecord = rawCollectionViewRecords
+        .find((view): boolean => view.value.id === viewId)
       let view: Notion.CollectionViewValue
       let rawQueryCollectionResponse = rawQueryCollectionResponses.get(viewId)
       let aggregationResults: Notion.AggregationResult[]
@@ -101,16 +106,18 @@ async function transformCollection(
         name: view.name,
         query: view.query,
         format: view.format,
-        aggregate: (view.query.aggregate || []).map(prop => {
-          let aggregationResult = aggregationResults.find(res => res.id === prop.id)
-          return {
-            aggregationType: prop.aggregation_type,
-            property: prop.property,
-            value: aggregationResult
-              ? aggregationResult.value
-              : 0
-          }
-        })
+        aggregate: (view.query.aggregate || [])
+          .map((prop): Nast.AggregationMetadata => {
+            let aggregationResult = aggregationResults
+              .find((res): boolean => res.id === prop.id)
+            return {
+              aggregationType: prop.aggregation_type,
+              property: prop.property,
+              value: aggregationResult
+                ? aggregationResult.value
+                : 0
+            }
+          })
       }
     }),
     defaultViewId: viewIds[0],
@@ -132,7 +139,7 @@ async function getCollectionViewRecords(
   viewIds: string[], apiAgent: Notion.Agent
 ): Promise<Notion.CollectionViewRecordValue[]> {
 
-  let collectionViewRequests = viewIds.map((viewId: string) => {
+  let collectionViewRequests = viewIds.map((viewId: string): Notion.RecordRequest => {
     return {
       id: viewId,
       table: 'collection_view'
@@ -191,7 +198,7 @@ async function getQueryCollectionResponses(
   collectionId: string, queryMap: Map<string, Notion.Query>, apiAgent: Notion.Agent
 ): Promise<Map<string, Notion.QueryCollectionResponse>> {
 
-  type RawQueryCollectionRequest = {
+  interface RawQueryCollectionRequest {
     collectionId: string
     collectionViewId: string
     aggregateQueries: Notion.AggregateQuery[]
@@ -199,7 +206,7 @@ async function getQueryCollectionResponses(
 
   /** Make request objects. */
   let rawQueryCollectionRequests: RawQueryCollectionRequest[] = []
-  queryMap.forEach((query, viewId) => {
+  queryMap.forEach((query, viewId): void => {
     rawQueryCollectionRequests.push({
       collectionId,
       collectionViewId: viewId,
