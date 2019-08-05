@@ -6,7 +6,13 @@ This module takes the output of [`nast-util-from-notionapi`](https://github.com/
 
  Here is a [demo page](https://nota.netlify.com/test.html). Also you can take a look at [`test/test.html`](https://github.com/dragonman225/nast-util-to-html/blob/master/test/test.html) for the generation result.
 
+For related projects, please see the topic [Notajs](https://github.com/topics/notajs).
+
 ## Usage
+
+```bash
+npm i nast-util-to-html
+```
 
 A great starting point is reading [`test/lib.spec.js`](https://github.com/dragonman225/nast-util-to-html/blob/master/test/lib.spec.js), my test script which is less than 50 lines (core code only 5 lines, most of others are just HTML that wrap the generated content).
 

@@ -1,15 +1,29 @@
 module.exports = {
-  convertNotionURLToLocalLink,
-  getPageIDfromNotionURL,
+  getPageIDFromNotionDatabaseURL,
+  getBookmarkLinkFromNotionPageURL,
+  getPageIDFromNotionPageURL,
   toDashID,
-  isValidDashID
+  isValidDashID,
+  convertNotionURLToLocalLink, // Deprecated
+  getPageIDfromNotionURL // Deprecated
 }
 
 const dashIDLen = '0eeee000-cccc-bbbb-aaaa-123450000000'.length
 const noDashIDLen = '0eeee000ccccbbbbaaaa123450000000'.length
 
-function convertNotionURLToLocalLink(str) {
-  let re = /https:\/\/www.notion.so\/.+#([a-f|\d]+)/
+function getPageIDFromNotionDatabaseURL(str) {
+  const re = /https:\/\/www.notion.so\/([\da-f]+)\?v=([\da-f]+)/
+  const found = str.match(re)
+  if (found != null && found[1] != null) {
+    let dashID = toDashID(found[1])
+    return dashID
+  } else {
+    throw new Error(`Cannot get pageID from ${str}.`)
+  }
+}
+
+function getBookmarkLinkFromNotionPageURL(str) {
+  let re = /https:\/\/www.notion.so\/.+#([\da-f]+)/
   let found = str.match(re)
   if (found != null && found[1] != null) {
     let dashID = toDashID(found[1])
@@ -19,12 +33,13 @@ function convertNotionURLToLocalLink(str) {
   }
 }
 
-function getPageIDfromNotionURL(str) {
-  let re = /https:\/\/www.notion.so\/.+-([a-f|\d]+)/
-  let found = str.match(re)
-  if (found != null && found[1] != null) {
-    let dashID = toDashID(found[1])
-    return dashID
+function getPageIDFromNotionPageURL(str) {
+  let splitArr = str.split('/')
+  splitArr = splitArr.pop().split('-')
+
+  let pageID = splitArr.pop()
+  if (pageID.length === noDashIDLen) {
+    return toDashID(pageID)
   } else {
     return str
   }
@@ -55,4 +70,14 @@ function isValidDashID(str) {
   }
 
   return true
+}
+
+/** Deprecated. Please use getBookmarkLinkfromNotionPageURL() instead. */
+function convertNotionURLToLocalLink(str) {
+  return getBookmarkLinkFromNotionPageURL(str)
+}
+
+/** Deprecated. Please use getPageIDFromNotionPageURL() instead. */
+function getPageIDfromNotionURL(str) {
+  return getPageIDFromNotionPageURL(str)
 }
