@@ -10,8 +10,8 @@ import transformStub from './transformers/transformStub'
 import transformText from './transformers/transformText'
 import transformToDo from './transformers/transformToDo'
 import transformHeading from './transformers/transformHeading'
-import transformBulletedList from './transformers/transformBulletedList'
-import transformNumberedList from './transformers/transformNumberedList'
+import transformBulletedListItem from './transformers/transformBulletedListItem'
+import transformNumberedListItem from './transformers/transformNumberedListItem'
 import transformEmbed from './transformers/transformEmbed'
 import transformImage from './transformers/transformImage'
 import transformCallout from './transformers/transformCallout'
@@ -20,7 +20,7 @@ import transformQuote from './transformers/transformQuote'
 import transformToggleList from './transformers/transformToggleList'
 import transformColumn from './transformers/transformColumn'
 import transformColumnList from './transformers/transformColumnList'
-import transformMath from './transformers/transformMath'
+import transformEquation from './transformers/transformEquation'
 import transformCode from './transformers/transformCode'
 import transformAudio from './transformers/transformAudio'
 import transformBookmark from './transformers/transformBookmark'
@@ -70,14 +70,14 @@ async function transformBlock(
       nastNode = transformHeading(node)
       break
     }
-    /** Nast.BulletedList */
+    /** Nast.BulletedListItem */
     case blockMap.bulletedList: {
-      nastNode = transformBulletedList(node)
+      nastNode = transformBulletedListItem(node)
       break
     }
-    /** Nast.NumberedList */
+    /** Nast.NumberedListItem */
     case blockMap.numberedList: {
-      nastNode = transformNumberedList(node)
+      nastNode = transformNumberedListItem(node)
       break
     }
     /** Nast.ToggleList */
@@ -130,9 +130,9 @@ async function transformBlock(
       nastNode = transformCode(node)
       break
     }
-    /** Nast.MathEquation */
+    /** Nast.Equation */
     case blockMap.equation: {
-      nastNode = transformMath(node)
+      nastNode = transformEquation(node)
       break
     }
     /** Nast.ColumnList */

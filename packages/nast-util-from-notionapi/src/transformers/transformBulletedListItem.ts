@@ -3,12 +3,12 @@ import * as Nast from '../types/nast'
 
 import { getBlockColor, getBlockTitle } from './utils'
 
-async function transformNumberedList(
+async function transformBulletedListItem(
   node: Notion.BlockValue
-): Promise<Nast.NumberedList> {
+): Promise<Nast.BulletedListItem> {
   let nastNode = {
     id: node.id,
-    type: 'numbered_list' as 'numbered_list',
+    type: 'bulleted_list_item' as 'bulleted_list_item',
     color: getBlockColor(node),
     children: [],
     text: getBlockTitle(node)
@@ -16,4 +16,4 @@ async function transformNumberedList(
   return nastNode
 }
 
-export default transformNumberedList
+export default transformBulletedListItem

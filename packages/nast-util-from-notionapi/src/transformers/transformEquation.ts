@@ -3,9 +3,9 @@ import * as Nast from '../types/nast'
 
 import { getBlockColor } from './utils'
 
-async function transformMath(
+async function transformEquation(
   node: Notion.BlockValue
-): Promise<Nast.MathEquation> {
+): Promise<Nast.Equation> {
   let nastNode = {
     id: node.id,
     type: 'equation' as 'equation',
@@ -20,4 +20,4 @@ async function transformMath(
   return nastNode
 }
 
-export default transformMath
+export default transformEquation

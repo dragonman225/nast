@@ -1,5 +1,16 @@
 import * as Notion from './api'
 
+/**
+ * ===============
+ * Base Interfaces
+ * ===============
+ */
+
+/**
+ * Theoretically, all blocks can have children, but some blocks can't 
+ * have children semantically. When this is the case, the children array 
+ * should be empty and the renderer can ignore it.
+ */
 export interface Parent {
   children: Block[]
 }
@@ -22,24 +33,42 @@ export interface PseudoBlock extends Parent {
   type: string
 }
 
+/**
+ * ================
+ * Block Interfaces
+ * ================
+ */
+
+/**
+ * Root can be any type of block. The differences are that Root has 
+ * additional properties.
+ */
+export interface Root extends Block {
+  type: string
+  linkedPages: string[]
+}
+
+/**
+ * Page represents all page blocks, so a page may also be "Link to Page"
+ * or "Embedded Sub-page".
+ * 
+ * "Link to Page" can be inferred by the parent_id of linked page not 
+ * being the root's id (if the root is a page), while "Embedded Sub-page" has 
+ * parent_id being the root's id.
+ */
 export interface Page extends Block {
   type: 'page'
   title: string
   icon?: string
   cover?: string
-  fullWidth?: boolean
-  coverPosition?: number
+  fullWidth: boolean
+  coverPosition: number
 }
 
 export interface Text extends Block {
   type: 'text'
   text: Notion.StyledString[]
 }
-
-/** Deprecated */
-// export interface EmbededPage extends Block {
-//   type: 'embeded_page'
-// }
 
 export interface ToDoList extends Block {
   type: 'to_do'
@@ -54,22 +83,17 @@ export interface Heading extends Block {
 }
 
 /**
- * When transforming blocks, direct mapping is easier.
- * Also, a wrapper mainly helps rendering, so it may be better to
- * move it to the renderer side.
+ * BulletedList and NumberedList are stored without wrappers.
+ * 
+ * Their order can be inferred by document context.
  */
-// export interface ListItem extends Block {
-//   type: 'list_item'
-//   text: Notion.StyledString[]
-// }
-
-export interface BulletedList extends Block {
-  type: 'bulleted_list'
+export interface BulletedListItem extends Block {
+  type: 'bulleted_list_item'
   text: Notion.StyledString[]
 }
 
-export interface NumberedList extends Block {
-  type: 'numbered_list'
+export interface NumberedListItem extends Block {
+  type: 'numbered_list_item'
   text: Notion.StyledString[]
 }
 
@@ -87,11 +111,6 @@ export interface Divider extends Block {
   type: 'divider'
 }
 
-/** Deprecated */
-// export interface LinkToPage extends Block {
-//   type: 'page_link'
-// }
-
 export interface Callout extends Block {
   type: 'callout'
   icon?: string
@@ -106,6 +125,12 @@ export interface Image extends Block {
   pageWidth: boolean
 }
 
+/**
+ * Embed and Video seems the same ?
+ * 
+ * In my experience, Youtube videos are "video" blocks, Vimeo videos are
+ * "embed" blocks. As for HTML videos, I haven't test so I'm not sure.
+ */
 export interface Embed extends Block {
   type: 'video' | 'embed'
   width: number
@@ -125,6 +150,11 @@ export interface Audio extends Block {
   source: string
 }
 
+/**
+ * Code represents bookmark including title, description, icon, cover.
+ * 
+ * I guess the additional info is obtained through OpenGraph meta.
+ */
 export interface WebBookmark extends Block {
   type: 'bookmark'
   link: string
@@ -134,6 +164,9 @@ export interface WebBookmark extends Block {
   cover?: string
 }
 
+/**
+ * Code represents code in many languages and can be styled.
+ */
 export interface Code extends Block {
   type: 'code'
   text: Notion.StyledString[]
@@ -141,33 +174,34 @@ export interface Code extends Block {
   wrap: boolean
 }
 
-export interface MathEquation extends Block {
+/**
+ * Equation represents equation in Latex.
+ */
+export interface Equation extends Block {
   type: 'equation'
   latex: string
 }
 
+/**
+ * Children of ColumnList must be Columns.
+ */
 export interface ColumnList extends HiddenBlock {
   type: 'column_list'
 }
 
+/**
+ * Columns are wrappers that make placing blocks on the same horizontal 
+ * row possible.
+ */
 export interface Column extends HiddenBlock {
   type: 'column'
   ratio: number
 }
 
-export interface Root extends PseudoBlock {
-  type: 'root'
-}
-
-// export interface UnorderedList extends PseudoBlock {
-//   type: 'unordered_list'
-// }
-
-// export interface OrderedList extends PseudoBlock {
-//   type: 'ordered_list'
-// }
-
-export interface Collection extends Block{
+/**
+ * Collection represents all types of databases.
+ */
+export interface Collection extends Block {
   id: string
   collectionId: string
   icon: string
@@ -203,3 +237,30 @@ export interface AggregationMetadata {
   property: string // From Notion.Query.aggregate
   value: number // From Notion.AggregationResult
 }
+
+/**
+ * ==========
+ * Deprecated
+ * ========== 
+ */
+
+// export interface EmbededPage extends Block {
+//   type: 'embeded_page'
+// }
+
+// export interface UnorderedList extends PseudoBlock {
+//   type: 'unordered_list'
+// }
+
+// export interface OrderedList extends PseudoBlock {
+//   type: 'ordered_list'
+// }
+
+// export interface LinkToPage extends Block {
+//   type: 'page_link'
+// }
+
+// export interface ListItem extends Block {
+//   type: 'list_item'
+//   text: Notion.StyledString[]
+// }
