@@ -32,12 +32,14 @@ li {
   margin-left: 0;
 } */
 
+/* On Android Firefox, emoji can't be displayed if font-size > 77px. */
 .page-icon {
-  font-size: 78px;
+  font-size: 75px;
+  margin-top: 0.5em;
 }
 
 .page-title > h1 {
-  margin-top: 0.5em;
+  margin-top: 0;
 }
 
 .column {
@@ -97,8 +99,16 @@ li {
   margin: 0;
 }
 
-.block--video {
+.block--video, .block--embed {
   margin: 4px auto;
   display: flex;
   justify-content: center;
+}
+
+.block--audio audio {
+  width: 100%;
+}
+
+.block--equation {
+  margin: 1em 0;
 }

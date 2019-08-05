@@ -1,4 +1,5 @@
 dependencies:
+  katex: 0.10.2
   prismjs: 1.16.0
 devDependencies:
   eslint: 5.16.0
@@ -142,6 +143,10 @@ packages:
     dev: true
     resolution:
       integrity: sha1-p9BVi9icQveV3UIyj3QIMcpTvCU=
+  /commander/2.20.0:
+    dev: false
+    resolution:
+      integrity: sha512-7j2y+40w61zy6YC2iRNpUe/NwhNyoXrYpHMrSunaMG64nRnaf96zO/KMQR4OyN/UnE5KLyEBnKHd4aG3rskjpQ==
   /concat-map/0.0.1:
     dev: true
     resolution:
@@ -485,6 +490,13 @@ packages:
     dev: true
     resolution:
       integrity: sha1-nbe1lJatPzz+8wp1FC0tkwrXJlE=
+  /katex/0.10.2:
+    dependencies:
+      commander: 2.20.0
+    dev: false
+    hasBin: true
+    resolution:
+      integrity: sha512-cQOmyIRoMloCoSIOZ1+gEwsksdJZ1EW4SWm3QzxSza/QsnZr6D4U1V9S4q+B/OLm2OQ8TCBecQ8MaIfnScI7cw==
   /levn/0.3.0:
     dependencies:
       prelude-ls: 1.1.2
@@ -832,4 +844,5 @@ packages:
       integrity: sha512-/lg70HAjtkUgWPVZhZcm+T4hkL8Zbtp1nFNOn3lRrxnlv50SRBv7cR7RqR+GMsd3hUXy9hWBo4CHTbFTcOYwig==
 specifiers:
   eslint: ^5.16.0
+  katex: ^0.10.2
   prismjs: ^1.16.0

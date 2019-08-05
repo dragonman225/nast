@@ -19,6 +19,7 @@
   "author": "dragonman225",
   "license": "MIT",
   "dependencies": {
+    "katex": "^0.10.2",
     "prismjs": "^1.16.0"
   },
   "devDependencies": {

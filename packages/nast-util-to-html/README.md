@@ -53,13 +53,13 @@ Not yet supported
 - [x] Image
 - [x] Web Bookmark
 - [x] Video
-- [ ] Audio
+- [x] Audio
 - [x] Code
 - [ ] File
 
 ### Advanced Blocks
 
 - [ ] Table of Contents
-- [ ] Math Equation
-- [ ] Template Button (This seems to be useless when rendered)
+- [x] Math Equation
+- [ ] Template Button
 - [ ] Breadcrumb

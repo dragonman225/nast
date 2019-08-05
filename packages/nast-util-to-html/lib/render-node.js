@@ -2,7 +2,7 @@
 const blockMap = require('./block-map')
 const {
   renderText,
-  renderHeader,
+  renderHeading,
   renderColumnList,
   renderUnorderedList,
   renderOrderedList,
@@ -13,8 +13,10 @@ const {
   renderCallout,
   renderImage,
   renderBookmark,
-  renderVideo,
-  renderCode
+  renderEmbed,
+  renderAudio,
+  renderCode,
+  renderEquation
 } = require('./render-blocks')
 const { renderChildren } = require('./render-utils')
 const { raiseWarning } = require('./log-utils')
@@ -25,26 +27,41 @@ module.exports = {
 }
 
 /**
- * PseudoBlock: Root.
+ * Render NAST to HTML with given root node.
  * @param {Root} node 
  * @param {String} elemId 
  * @returns {String}
  */
-function renderRoot(node, elemId = 'nast-document') {
-  let title = node.data ? node.data.title[0][0] : ''
-  let icon = node['raw_value'].format
-    ? node['raw_value'].format['page_icon']
-      ? node['raw_value'].format['page_icon']
-      : ''
-    : ''
-  return `\
-<div id="${elemId}">
+function renderRoot(node, elemClass = 'nast-document') {
+  /**
+   * The root node can be any type of block, if it's a "page" block it 
+   * will be treated specially.
+   */
+  if (node.type === 'page') {
+    let title = node.title
+    let icon = node.icon ? node.icon : ''
+    let cover = node.cover ? node.cover : '#'
+    let fullWidth = typeof node.fullWidth !== 'undefined'
+      ? node.fullWidth : false
+
+    let containerClass = fullWidth
+      ? `${elemClass}-full` : `${elemClass}`
+
+    return `\
+<div class="${containerClass}">
+  <img src="${cover}">
   <div id="${node.id}" class="page-title">
     <div class="page-icon">${icon}</div>
     <h1>${title}</h1>
   </div>
   ${renderChildren(node.children, renderNode)}
 </div>`
+  } else {
+    return `\
+<div class="${elemClass}">
+  ${renderNode(node)}
+</div>`
+  }
 }
 
 function renderNode(node) {
@@ -54,22 +71,16 @@ function renderNode(node) {
     case blockMap.text:
       html = renderText(node, renderNode)
       break
-    case blockMap.header:
-      html = renderHeader(node, renderNode, 2)
-      break
-    case blockMap.subHeader:
-      html = renderHeader(node, renderNode, 3)
-      break
-    case blockMap.subSubHeader:
-      html = renderHeader(node, renderNode, 4)
+    case blockMap.heading:
+      html = renderHeading(node, renderNode)
       break
     case blockMap.columnList:
       html = renderColumnList(node, renderNode)
       break
-    case blockMap.unorderedList:
+    case blockMap._unorderedList:
       html = renderUnorderedList(node, renderNode)
       break
-    case blockMap.orderedList:
+    case blockMap._orderedList:
       html = renderOrderedList(node, renderNode)
       break
     case blockMap.toggle:
@@ -93,11 +104,18 @@ function renderNode(node) {
     case blockMap.bookmark:
       html = renderBookmark(node, renderNode)
       break
+    case blockMap.embed:
     case blockMap.video:
-      html = renderVideo(node, renderNode)
+      html = renderEmbed(node, renderNode)
+      break
+    case blockMap.audio:
+      html = renderAudio(node, renderNode)
       break
     case blockMap.code:
       html = renderCode(node, renderNode)
+      break
+    case blockMap.equation:
+      html = renderEquation(node, renderNode)
       break
     default:
       raiseWarning(`No render function for ${node.type}. Ignored.`)

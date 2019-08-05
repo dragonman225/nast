@@ -4,8 +4,7 @@
 
 body {
   line-height: 1.5;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
-  font-size: 16px;
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
   color: #37352f;
   margin: 0;
 }
@@ -20,13 +19,17 @@ blockquote {
 }
 
 a {
-  color: hsl(45, 8%, 20%);
+  color: inherit;
   border-bottom: 2px solid hsl(45, 8%, 85%);
   text-decoration: none;
 }
 
 a:hover {
   border-bottom: 2px solid hsl(45, 8%, 55%);
+}
+
+a:focus {
+  outline: 2px auto #4cff5a;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -72,7 +75,8 @@ code {
   background-color: #fdf2f9;
   color: #ff4081;
   font-size: 0.9em;
-  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  /* Use monospace before Courier so font looks better on Android Chrome. */
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace, Courier;
   line-height: normal;
   padding: 0.2em 0.4em;
   word-break: break-word;
@@ -93,6 +97,7 @@ pre code {
   line-height: 1.4;
   padding: 0;
   word-wrap: break-word;
+  tab-size: 2;
 }
 
 code {
@@ -103,17 +108,17 @@ ul {
   list-style-type: disc;
 }
 
-ul > li {
+ul>li {
   font-size: 20px;
   line-height: 1.2;
 }
 
-ul > li div {
+ul>li div {
   font-size: 16px;
   line-height: 1.5;
 }
 
-details > summary:focus {
+details>summary:focus {
   outline: none;
 }
 
@@ -126,11 +131,11 @@ details > summary:focus {
   border-bottom: 2px solid rgb(255, 212, 0);
 }
 
-.block--bookmark > div > div {
+.block--bookmark>div>div {
   transition: background 120ms ease-in 0s;
 }
 
-.block--bookmark > div > div:hover {
+.block--bookmark>div>div:hover {
   background: rgba(55, 53, 47, 0.08);
 }
 

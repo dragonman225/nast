@@ -8,7 +8,7 @@ module.exports = test
 
 function test() {
   let content = toHTML(tree)
-  let html = renderPage(tree.data.title[0][0], content)
+  let html = renderPage(tree.title, content)
 
   fs.writeFileSync(path.join(__dirname, 'test.html'), html)
 }
@@ -25,6 +25,7 @@ function renderPage(pageTitle, contentHTML) {
     <!-- Chrome, Firefox OS and Opera Status Bar Color -->
     <meta name="theme-color" content="#FFFFFF">
     <title>${pageTitle}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="css/prism.css">
     <link rel="stylesheet" type="text/css" href="css/layout.css">
     <link rel="stylesheet" type="text/css" href="css/notion-color.css">

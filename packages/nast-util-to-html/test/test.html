@@ -8,6 +8,7 @@
     <!-- Chrome, Firefox OS and Opera Status Bar Color -->
     <meta name="theme-color" content="#FFFFFF">
     <title>Testing Blocks</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="css/prism.css">
     <link rel="stylesheet" type="text/css" href="css/layout.css">
     <link rel="stylesheet" type="text/css" href="css/notion-color.css">
@@ -23,7 +24,8 @@
   </head>
   <body>
     <div class="container">
-      <div id="nast-document">
+      <div class="nast-document">
+  <img src="/images/page-cover/gradients_10.jpg">
   <div id="1c4d63a8-ffc7-47be-a565-8672797a595a" class="page-title">
     <div class="page-icon">🚧</div>
     <h1>Testing Blocks</h1>
@@ -72,19 +74,7 @@
   <span>At level one</span>
 </div><div class="block--indent">
   <div id="f4a959a6-95a1-4730-9bc6-b70f493b3069">
-  <div class="block block--text ">
-  <span>At level two</span>
-</div><div class="block--indent">
-  <div id="f56508a8-4c63-4fd2-9a1a-8a4ea52250dc">
-  <div class="block block--text ">
-  <span>At level three</span>
-</div>
-</div><div id="27720212-4f7e-4b50-ac2b-8546da622caf">
-  <div class="block block--text ">
-  <span>&lt;script&gt;alert(&#x27;xss&#x27;);&lt;&#x2F;script&gt;</span>
-</div>
-</div>
-</div>
+  
 </div>
 </div>
 </div>
@@ -194,6 +184,8 @@
   <div class="block ">
   <h4><span>Page</span></h4>
 </div>
+</div><div id="ffba1c1a-2aa4-4ed6-ba8c-44b66c870af3">
+  
 </div><div id="140add59-e9e3-4764-b1f2-3edddb1fbaf2">
   <div class="block ">
   <h4><span>To-do List</span></h4>
@@ -248,66 +240,22 @@
   <div class="block ">
   <h4><span>Bulleted List</span></h4>
 </div>
-</div><div id="">
-  <ul>
-  <li>
-  <div class="block block--bulleted_list ">
-  <span>Item 1</span>
-</div>
+</div><div id="33867f5b-aed1-4ec1-8013-9edf690093c1">
   
-</li><li>
-  <div class="block block--bulleted_list ">
-  <span>Item 2</span>
-</div>
+</div><div id="64b460aa-2735-4f9c-a4ca-0b3a66c93c83">
   
-</li><li>
-  <div class="block block--bulleted_list ">
-  <span>Item 3 Long : Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#x27;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span>
-</div>
-  <div id="">
-  <ul>
-  <li>
-  <div class="block block--bulleted_list ">
-  <span>list-style-typeSub-item : Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#x27;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span>
-</div>
+</div><div id="4d9108ac-7e1b-4e17-8959-fcf980f2de24">
   
-</li>
-</ul>
-</div>
-</li>
-</ul>
 </div><div id="38f17855-556b-47e2-9efa-1b2f55c0e621">
   <div class="block ">
   <h4><span>Numbered List</span></h4>
 </div>
-</div><div id="">
-  <ol>
-  <li>
-  <div class="block block--numbered_list ">
-  <span>Item 1</span>
-</div>
+</div><div id="2203bc74-4041-475d-b8d5-23e56124816b">
   
-</li><li>
-  <div class="block block--numbered_list ">
-  <span>Item 2</span>
-</div>
+</div><div id="8aa7b688-1ed3-423b-9983-fc488489f281">
   
-</li><li>
-  <div class="block block--numbered_list ">
-  <span>Item 3</span>
-</div>
-  <div id="">
-  <ol>
-  <li>
-  <div class="block block--numbered_list ">
-  <span>Item 3-1</span>
-</div>
+</div><div id="dd23712e-9bff-400c-bc4b-559c4b40b45c">
   
-</li>
-</ol>
-</div>
-</li>
-</ol>
 </div><div id="ec37a435-c804-4190-9798-634472f40a91">
   <div class="block ">
   <h4><span>Toggle List</span></h4>
@@ -318,24 +266,10 @@
   <span>Summary</span>
 </summary>
   <div class="block--indent">
-    <div id="">
-  <ul>
-  <li>
-  <div class="block block--bulleted_list ">
-  <span>Bulleted in toggle</span>
-</div>
+    <div id="cbf2b645-55f8-46fa-8311-f851e8cfed93">
   
-</li>
-</ul>
-</div><div id="">
-  <ol>
-  <li>
-  <div class="block block--numbered_list ">
-  <span>Numbered in toggle</span>
-</div>
+</div><div id="7008f567-4472-4270-9357-7e169b1d76ea">
   
-</li>
-</ol>
 </div><div id="08fa93c7-7bba-40fc-ba36-59dd711cc8e7">
   <div class="block block--text ">
   <span><strong><em>Text</em></strong> in toggle</span>
@@ -350,7 +284,7 @@
   <h4><span>Quote</span></h4>
 </div>
 </div><div id="fc7e5bd3-99e6-4fd4-98c0-5926d4fdcdc7">
-  <div class="block block--quote color-green">
+  <div class="block block--quote ">
   <blockquote>
   <span>Say Something</span>
 </blockquote>
@@ -629,11 +563,23 @@
   <div class="column_list" style="display: flex; flex-wrap: wrap;">
   <div class="column" style=" width: calc((100% - 46px) * 0.5); word-break: break-word;">
   <div id="c8600971-68af-4f8d-b653-107f0d2040ba">
-  
+  <div class="block block--embed ">
+  <div style="width: 1280px;">
+  <div style="position: relative; min-height: 100px; height: 0; padding-bottom: 56.25%;">
+    <iframe src="https://player.vimeo.com/video/71278954?app_id=122963" frameborder="0" sandbox="allow-scripts allow-popups allow-forms allow-same-origin" allowfullscreen style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; border-radius: 1px; pointer-events: auto; background-color: rgb(247, 246, 245);"></iframe>
+  </div>
+</div>
+</div>
 </div>
 </div><div class="column" style="margin-left: 46px; width: calc((100% - 46px) * 0.5); word-break: break-word;">
   <div id="967690cd-db72-45d4-9c4e-d6c425f8304f">
-  
+  <div class="block block--embed ">
+  <div style="width: 1280px;">
+  <div style="position: relative; min-height: 100px; height: 0; padding-bottom: 56.25%;">
+    <iframe src="https://player.vimeo.com/video/36579366?app_id=122963" frameborder="0" sandbox="allow-scripts allow-popups allow-forms allow-same-origin" allowfullscreen style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; border-radius: 1px; pointer-events: auto; background-color: rgb(247, 246, 245);"></iframe>
+  </div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -676,7 +622,12 @@
   <h4><span>Audio</span></h4>
 </div>
 </div><div id="19acffbb-fd60-4693-bf3c-769e782e8913">
+  <div class="block block--audio ">
+  <audio controls>
+  <source src="http://www.wordandspirit.co.uk/audio/test-tone.mp3">
+</audio>
   
+</div>
 </div><div id="bfd78c24-9da2-4612-9836-8d03a19387a8">
   <div class="block ">
   <h4><span>Code</span></h4>
@@ -735,7 +686,15 @@ module<span class="token punctuation">.</span>exports <span class="token operato
   <h4><span>Math Equation</span></h4>
 </div>
 </div><div id="2b113766-fabd-4d83-b1be-8912a55fbcde">
-  
+  <div class="block block--equation ">
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi><mo>=</mo><mfrac><mrow><mo>−</mo><mi>b</mi><mo>±</mo><msqrt><mrow><msup><mi>b</mi><mn>2</mn></msup><mo>−</mo><mn>4</mn><mi>a</mi><mi>c</mi></mrow></msqrt></mrow><mrow><mn>2</mn><mi>a</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.276389em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.590389em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span><span class="mord mathdefault">a</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">−</span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.913389em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord"><span class="mord mathdefault">b</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.740108em;"><span style="top:-2.9890000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">4</span><span class="mord mathdefault">a</span><span class="mord mathdefault">c</span></span></span><span style="top:-2.873389em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg width='400em' height='1.08em' viewBox='0 0 400000 1080' preserveAspectRatio='xMinYMin slice'><path d='M95,702c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,
+-10,-9.5,-14c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54c44.2,-33.3,65.8,
+-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10s173,378,173,378c0.7,0,
+35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429c69,-144,104.5,-217.7,106.5,
+-221c5.3,-9.3,12,-14,20,-14H400000v40H845.2724s-225.272,467,-225.272,467
+s-235,486,-235,486c-2.7,4.7,-9,7,-19,7c-6,0,-10,-1,-12,-3s-194,-422,-194,-422
+s-65,47,-65,47z M834 80H400000v40H845z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.12661100000000003em;"><span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span>
+</div>
 </div><div id="df868d9f-2671-4c5e-9f20-6c1a7391c6b9">
   <div class="column_list" style="display: flex; flex-wrap: wrap;">
   <div class="column" style=" width: calc((100% - 46px) * 0.5); word-break: break-word;">

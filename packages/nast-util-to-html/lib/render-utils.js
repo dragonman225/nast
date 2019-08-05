@@ -13,7 +13,8 @@ module.exports = {
   renderChildren,
   renderBlock,
   renderTitle,
-  getBlockColor
+  getBlockColor,
+  renderColor
 }
 
 /**
@@ -57,8 +58,8 @@ function renderBlock(node, contentHTML, defaultColor, tag = 'div') {
  * @returns {String} HTML
  */
 function renderTitle(titleTokens = [], isCode = false, lang) {
+  let codeLang = codeLangMap[lang]
   let textArr = titleTokens.map(token => {
-    let codeLang = codeLangMap[lang]
     let text = token[0]
     if (isCode) {
       text = renderCode(text, codeLang)
