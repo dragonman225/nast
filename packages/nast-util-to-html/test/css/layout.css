@@ -32,14 +32,32 @@ li {
   margin-left: 0;
 } */
 
+.page-cover {
+  position: absolute;
+  top: 0;
+  right: 0; /* Firefox need this while Chrome doesn't. */
+  left: 0;
+  z-index: -1;
+}
+
+.page-cover img {
+  width: 100%;
+  height: 30vh;
+  object-fit: cover;
+}
+
 /* On Android Firefox, emoji can't be displayed if font-size > 77px. */
 .page-icon {
+  line-height: 1.1;
   font-size: 75px;
-  margin-top: 0.5em;
+}
+
+.page-title {
+  margin-top: calc(30vh - 65px);
 }
 
 .page-title > h1 {
-  margin-top: 0;
+  margin-top: 1em;
 }
 
 .column {
@@ -71,11 +89,11 @@ li {
   padding: 3px 0 3px 6px;
 }
 
-.block--bulleted_list {
+.block--bulleted_list_item {
   padding: 2px 0;
 }
 
-.block--numbered_list {
+.block--numbered_list_item {
   padding: 3px 0;
 }
 

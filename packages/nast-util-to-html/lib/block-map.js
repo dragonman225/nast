@@ -1,13 +1,12 @@
 const map = {
   page: 'page',
-  header: 'header',
-  subHeader: 'sub_header',
-  subSubHeader: 'sub_sub_header',
   heading: 'heading',
   toDo: 'to_do',
   toggle: 'toggle',
   columnList: 'column_list',
   column: 'column',
+  bulletedListItem: 'bulleted_list_item',
+  numberedListItem: 'numbered_list_item',
   bulletedList: 'bulleted_list',
   numberedList: 'numbered_list',
   text: 'text',
@@ -23,10 +22,7 @@ const map = {
   embed: 'embed',
   audio: 'audio',
   bookmark: 'bookmark',
-  collectionView: 'collection_view',
-  /** The following are helper block types. */
-  _unorderedList: 'unordered_list',
-  _orderedList: 'ordered_list'
+  collection: 'collection'
 }
 
 module.exports = map

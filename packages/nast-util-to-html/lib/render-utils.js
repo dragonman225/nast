@@ -2,6 +2,7 @@
 const Prism = require('prismjs')
 const loadLanguages = require('prismjs/components/')
 
+const blockMap = require('./block-map')
 const colorMap = require('./color-map')
 const codeLangMap = require('./code-language-map')
 const { convertNotionURLToLocalLink } = require('./notion-utils')
@@ -14,7 +15,8 @@ module.exports = {
   renderBlock,
   renderTitle,
   getBlockColor,
-  renderColor
+  renderColor,
+  preRenderTransform
 }
 
 /**
@@ -259,4 +261,58 @@ function escapeString(str) {
   }
 
   return escapedString
+}
+
+/**
+ * Transform the tree so that it's eaiser to render.
+ * @param {Nast.Root} treeRoot 
+ */
+function preRenderTransform(treeRoot) {
+  let newChildren = []
+  let children = treeRoot.children
+  let list, prevState = 0
+
+  /**
+   * State
+   * normal: 0, bulleted: 1, numbered: 2
+   */
+
+  for (let i = 0; i < children.length; ++i) {
+    let block = children[i]
+
+    if (block.children.length !== 0) {
+      block = preRenderTransform(block)
+    }
+
+    if (block.type === blockMap.bulletedListItem) {
+      if (prevState === 1) {
+        list.children.push(block)
+      } else {
+        list = {
+          type: blockMap.bulletedList,
+          children: [ block ]
+        }
+        newChildren.push(list)
+      }
+      prevState = 1
+    } else if (block.type === blockMap.numberedListItem) {
+      if (prevState === 2) {
+        list.children.push(block)
+      } else {
+        list = {
+          type: blockMap.numberedList,
+          children: [ block ]
+        }
+        newChildren.push(list)
+      }
+      prevState = 2
+    } else {
+      newChildren.push(block)
+      prevState = 0
+    }
+  }
+
+  let newTree = { ...treeRoot }
+  newTree.children = newChildren
+  return newTree
 }

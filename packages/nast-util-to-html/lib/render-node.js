@@ -40,18 +40,26 @@ function renderRoot(node, elemClass = 'nast-document') {
   if (node.type === 'page') {
     let title = node.title
     let icon = node.icon ? node.icon : ''
-    let cover = node.cover ? node.cover : '#'
-    let fullWidth = typeof node.fullWidth !== 'undefined'
-      ? node.fullWidth : false
+    let cover = node.cover
+    let fullWidth = node.fullWidth
+    let coverPosition = (1 - node.coverPosition) * 100
 
     let containerClass = fullWidth
       ? `${elemClass}-full` : `${elemClass}`
 
+    let coverDiv = ''
+    if (node.cover != null) {
+      coverDiv = `\
+<div class="page-cover">
+  <img src="${cover}" style="object-position: center ${coverPosition}%">
+</div>`
+    }
+
     return `\
 <div class="${containerClass}">
-  <img src="${cover}">
+  ${coverDiv}
   <div id="${node.id}" class="page-title">
-    <div class="page-icon">${icon}</div>
+    <span class="page-icon">${icon}</span>
     <h1>${title}</h1>
   </div>
   ${renderChildren(node.children, renderNode)}
@@ -77,10 +85,10 @@ function renderNode(node) {
     case blockMap.columnList:
       html = renderColumnList(node, renderNode)
       break
-    case blockMap._unorderedList:
+    case blockMap.bulletedList:
       html = renderUnorderedList(node, renderNode)
       break
-    case blockMap._orderedList:
+    case blockMap.numberedList:
       html = renderOrderedList(node, renderNode)
       break
     case blockMap.toggle:

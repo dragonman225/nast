@@ -1,6 +1,6 @@
 'use strict'
 const { renderRoot, renderNode } = require('./render-node')
-const { renderChildren } = require('./render-utils')
+const { renderChildren, preRenderTransform } = require('./render-utils')
 
 module.exports = {
   toHTML
@@ -20,9 +20,13 @@ module.exports = {
  */
 function toHTML(tree, options = {}) {
   const contentOnly = options.contentOnly || false
+
+  /** Transform the tree so that it can be rendered */
+  let newTree = preRenderTransform(tree)
+
   if (contentOnly) {
-    return renderChildren(tree.children, renderNode)
+    return renderChildren(newTree.children, renderNode)
   } else {
-    return renderRoot(tree)
+    return renderRoot(newTree)
   }
 }

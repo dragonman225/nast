@@ -179,7 +179,7 @@ function renderOrderedList(node, renderNext) {
  * @returns {String}
  */
 function renderListItem(node, renderNext) {
-  let content = renderTitle(node.data ? node.data.title : [])
+  let content = renderTitle(node.text)
 
   /**
    * Without ul, some content become out of container.
@@ -187,7 +187,9 @@ function renderListItem(node, renderNext) {
    */
   let html = `\
 <li>
-  ${renderBlock(node, content)}
+  <div id="${node.id}">
+    ${renderBlock(node, content)}
+  </div>
   ${renderChildren(node.children, renderNext)}
 </li>`
 

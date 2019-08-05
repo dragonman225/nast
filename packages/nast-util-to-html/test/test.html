@@ -15,6 +15,9 @@
     <link rel="stylesheet" type="text/css" href="css/theme.css">
     <link rel="stylesheet" type="text/css" href="css/debug.css">
     <style>
+      :root {
+        font-size: 16px;
+      }
       .container {
         padding: 1.5em;
         max-width: 8.3in;
@@ -25,9 +28,11 @@
   <body>
     <div class="container">
       <div class="nast-document">
-  <img src="/images/page-cover/gradients_10.jpg">
+  <div class="page-cover">
+  <img src="http://www.sclance.com/backgrounds/gaussian-blur-background/gaussian-blur-background_1049010.jpg" style="object-position: center 91.96%">
+</div>
   <div id="1c4d63a8-ffc7-47be-a565-8672797a595a" class="page-title">
-    <div class="page-icon">🚧</div>
+    <span class="page-icon">🚧</span>
     <h1>Testing Blocks</h1>
   </div>
   <div id="ee7fc736-d9a1-4e0d-b6c6-dea5c454a14c">
@@ -73,8 +78,32 @@
   <div class="block block--text ">
   <span>At level one</span>
 </div><div class="block--indent">
+  <div id="">
+  <ul>
+  <li>
   <div id="f4a959a6-95a1-4730-9bc6-b70f493b3069">
+    <div class="block block--bulleted_list_item ">
+  <span>At level two</span>
+</div>
+  </div>
+  <div id="">
+  <ol>
+  <li>
+  <div id="f56508a8-4c63-4fd2-9a1a-8a4ea52250dc">
+    <div class="block block--numbered_list_item ">
+  <span>At level three</span>
+</div>
+  </div>
   
+</li>
+</ol>
+</div><div id="27720212-4f7e-4b50-ac2b-8546da622caf">
+  <div class="block block--text ">
+  <span>&lt;script&gt;alert(&#x27;xss&#x27;);&lt;&#x2F;script&gt;</span>
+</div>
+</div>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -240,22 +269,82 @@
   <div class="block ">
   <h4><span>Bulleted List</span></h4>
 </div>
-</div><div id="33867f5b-aed1-4ec1-8013-9edf690093c1">
+</div><div id="">
+  <ul>
+  <li>
+  <div id="33867f5b-aed1-4ec1-8013-9edf690093c1">
+    <div class="block block--bulleted_list_item ">
+  <span>Item 1</span>
+</div>
+  </div>
   
-</div><div id="64b460aa-2735-4f9c-a4ca-0b3a66c93c83">
+</li><li>
+  <div id="64b460aa-2735-4f9c-a4ca-0b3a66c93c83">
+    <div class="block block--bulleted_list_item ">
+  <span>Item 2</span>
+</div>
+  </div>
   
-</div><div id="4d9108ac-7e1b-4e17-8959-fcf980f2de24">
+</li><li>
+  <div id="4d9108ac-7e1b-4e17-8959-fcf980f2de24">
+    <div class="block block--bulleted_list_item ">
+  <span>Item 3 Long : Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#x27;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span>
+</div>
+  </div>
+  <div id="">
+  <ul>
+  <li>
+  <div id="440104f3-42fc-46ce-9fef-b5d0b4e48701">
+    <div class="block block--bulleted_list_item ">
+  <span>list-style-typeSub-item : Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#x27;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span>
+</div>
+  </div>
   
+</li>
+</ul>
+</div>
+</li>
+</ul>
 </div><div id="38f17855-556b-47e2-9efa-1b2f55c0e621">
   <div class="block ">
   <h4><span>Numbered List</span></h4>
 </div>
-</div><div id="2203bc74-4041-475d-b8d5-23e56124816b">
+</div><div id="">
+  <ol>
+  <li>
+  <div id="2203bc74-4041-475d-b8d5-23e56124816b">
+    <div class="block block--numbered_list_item ">
+  <span>Item 1</span>
+</div>
+  </div>
   
-</div><div id="8aa7b688-1ed3-423b-9983-fc488489f281">
+</li><li>
+  <div id="8aa7b688-1ed3-423b-9983-fc488489f281">
+    <div class="block block--numbered_list_item ">
+  <span>Item 2</span>
+</div>
+  </div>
   
-</div><div id="dd23712e-9bff-400c-bc4b-559c4b40b45c">
+</li><li>
+  <div id="dd23712e-9bff-400c-bc4b-559c4b40b45c">
+    <div class="block block--numbered_list_item ">
+  <span>Item 3</span>
+</div>
+  </div>
+  <div id="">
+  <ol>
+  <li>
+  <div id="e7778cd9-0f85-4e4a-ae97-e544cb7edae0">
+    <div class="block block--numbered_list_item ">
+  <span>Item 3-1</span>
+</div>
+  </div>
   
+</li>
+</ol>
+</div>
+</li>
+</ol>
 </div><div id="ec37a435-c804-4190-9798-634472f40a91">
   <div class="block ">
   <h4><span>Toggle List</span></h4>
@@ -266,10 +355,28 @@
   <span>Summary</span>
 </summary>
   <div class="block--indent">
-    <div id="cbf2b645-55f8-46fa-8311-f851e8cfed93">
+    <div id="">
+  <ul>
+  <li>
+  <div id="cbf2b645-55f8-46fa-8311-f851e8cfed93">
+    <div class="block block--bulleted_list_item ">
+  <span>Bulleted in toggle</span>
+</div>
+  </div>
   
-</div><div id="7008f567-4472-4270-9357-7e169b1d76ea">
+</li>
+</ul>
+</div><div id="">
+  <ol>
+  <li>
+  <div id="7008f567-4472-4270-9357-7e169b1d76ea">
+    <div class="block block--numbered_list_item ">
+  <span>Numbered in toggle</span>
+</div>
+  </div>
   
+</li>
+</ol>
 </div><div id="08fa93c7-7bba-40fc-ba36-59dd711cc8e7">
   <div class="block block--text ">
   <span><strong><em>Text</em></strong> in toggle</span>
@@ -712,6 +819,10 @@ s-65,47,-65,47z M834 80H400000v40H845z'/></svg></span></span></span><span class=
 </div>
 </div><div id="35f0eee9-2b3b-4e5d-8892-044c6ce55540">
   
+</div><div id="34e4b74b-a063-46b6-abe9-509168a2577d">
+  <div class="block block--text ">
+  <span></span>
+</div>
 </div>
 </div>
 </div>

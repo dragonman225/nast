@@ -32,6 +32,9 @@ function renderPage(pageTitle, contentHTML) {
     <link rel="stylesheet" type="text/css" href="css/theme.css">
     <link rel="stylesheet" type="text/css" href="css/debug.css">
     <style>
+      :root {
+        font-size: 16px;
+      }
       .container {
         padding: 1.5em;
         max-width: 8.3in;
