@@ -20,17 +20,8 @@ export interface Block extends Parent {
   id: string
   type: string
   color?: string
-}
-
-/** Hidden block in Notion.so. */
-export interface HiddenBlock extends Parent {
-  id: string
-  type: string
-}
-
-/** Helper block that only exists in NAST. */
-export interface PseudoBlock extends Parent {
-  type: string
+  createdTime: number
+  lastEditedTime: number
 }
 
 /**
@@ -185,7 +176,7 @@ export interface Equation extends Block {
 /**
  * Children of ColumnList must be Columns.
  */
-export interface ColumnList extends HiddenBlock {
+export interface ColumnList extends Block {
   type: 'column_list'
 }
 
@@ -193,7 +184,7 @@ export interface ColumnList extends HiddenBlock {
  * Columns are wrappers that make placing blocks on the same horizontal 
  * row possible.
  */
-export interface Column extends HiddenBlock {
+export interface Column extends Block {
   type: 'column'
   ratio: number
 }
@@ -210,7 +201,7 @@ export interface Collection extends Block {
   schema: {
     [key: string]: Notion.SchemaItem
   }
-  blocks: Notion.BlockValue[]
+  blocks: Page[]
   views: CollectionViewMetadata[]
   defaultViewId: string
 }
@@ -246,14 +237,6 @@ export interface AggregationMetadata {
 
 // export interface EmbededPage extends Block {
 //   type: 'embeded_page'
-// }
-
-// export interface UnorderedList extends PseudoBlock {
-//   type: 'unordered_list'
-// }
-
-// export interface OrderedList extends PseudoBlock {
-//   type: 'ordered_list'
 // }
 
 // export interface LinkToPage extends Block {
