@@ -1,13 +1,13 @@
 const fs = require('fs')
 const path = require('path')
-const { toHTML } = require('../dist')
+const { renderToHTML } = require('..')
 
 const tree = require('./testdata')
 
 module.exports = test
 
 function test() {
-  let content = toHTML(tree)
+  let content = renderToHTML(tree)
   let html = renderPage(tree.title, content)
 
   fs.writeFileSync(path.join(__dirname, 'test.html'), html)

@@ -46,7 +46,7 @@ A great starting point is reading [`test/lib.spec.js`](https://github.com/dragon
 
 ### Database
 
-Not yet supported
+- [x] Gallery
 
 ### Media
 

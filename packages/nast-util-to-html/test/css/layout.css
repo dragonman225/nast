@@ -130,3 +130,59 @@ li {
 .block--equation {
   margin: 1em 0;
 }
+
+.gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-auto-rows: 1fr;
+  gap: 16px;
+  border-top: 1px solid rgba(55, 53, 47, 0.16);
+  padding-top: 16px;
+  padding-bottom: 4px;
+}
+
+.gallery__grid__item {
+  box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 2px 4px;
+  border-radius: 5px;
+  transition: background 120ms ease-in 0s;
+  position: relative;
+  padding-top: 70%; /* 10:7 */
+}
+
+.gallery__grid__item:hover {
+  background: rgba(55, 53, 47, 0.03);
+}
+
+.gallery__gird__item__content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.gallery__gird__item__content > div {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.gallery__grid__item__cover {
+  flex: 1;
+  box-shadow: rgba(55, 53, 47, 0.09) 0px -1px 0px 0px inset;
+}
+
+.gallery__grid__item__cover > img {
+  width: 100%;
+  height: calc(100% - 42px);
+  border-radius: 5px 5px 0 0;
+  object-fit: cover;
+  object-position: center 50%;
+}
+
+.gallery__grid__item__title {
+  padding: 8px 10px 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

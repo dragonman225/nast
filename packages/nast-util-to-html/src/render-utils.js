@@ -14,8 +14,8 @@ module.exports = {
   renderChildren,
   renderBlock,
   renderTitle,
-  getBlockColor,
   renderColor,
+  escapeString,
   preRenderTransform
 }
 
@@ -42,13 +42,12 @@ function renderChildren(nodeArray, renderNext) {
  * Render a block.
  * @param {Block} node 
  * @param {String} contentHTML
- * @param {String} defaultColor
  * @returns {String} 
  */
-function renderBlock(node, contentHTML, defaultColor, tag = 'div') {
-  let blockColor = getBlockColor(node, defaultColor)
+function renderBlock(node, contentHTML, tag = 'div') {
+  let blockColorClass = node.color ? renderColor(node.color) : ''
   let html = `\
-<${tag} class="${blockClass} ${blockClass}--${node.type} ${blockColor}">
+<${tag} class="${blockClass} ${blockClass}--${node.type} ${blockColorClass}">
   ${contentHTML}
 </${tag}>`
   return html
