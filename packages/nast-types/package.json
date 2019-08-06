@@ -1,0 +1,23 @@
+{
+  "name": "notajs-types",
+  "version": "0.0.0",
+  "private": true,
+  "description": "TypeScript interface definition for Notajs project.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dragonman225/notajs-types.git"
+  },
+  "author": "dragonman225",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^12.0.4",
+    "@typescript-eslint/eslint-plugin": "^1.9.0",
+    "@typescript-eslint/parser": "^1.9.0",
+    "eslint": "^5.16.0",
+    "typescript": "^3.5.1"
+  },
+  "bugs": {
+    "url": "https://github.com/dragonman225/notajs-types/issues"
+  },
+  "homepage": "https://github.com/dragonman225/notajs-types"
+}
