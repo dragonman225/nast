@@ -1,5 +1,4 @@
-import * as Notion from '../types/api'
-import * as Nast from '../types/nast'
+import { Notion, Nast } from '../../../types/src'
 
 import { getBlockColor } from './utils'
 
@@ -10,6 +9,8 @@ async function transformColumn(
     id: node.id,
     type: 'column' as 'column',
     color: getBlockColor(node),
+    createdTime: node.created_time,
+    lastEditedTime: node.last_edited_time,
     children: [],
     ratio: node.format
       ? node.format.column_ratio

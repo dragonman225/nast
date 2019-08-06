@@ -1,5 +1,4 @@
-import * as Notion from '../types/api'
-import * as Nast from '../types/nast'
+import { Notion, Nast } from '../../../types/src'
 
 import { getBlockColor, getBlockTitle } from './utils'
 import blockMap from '../block-map'
@@ -23,6 +22,8 @@ async function transformHeading(
     id: node.id,
     type: 'heading' as 'heading',
     color: getBlockColor(node),
+    createdTime: node.created_time,
+    lastEditedTime: node.last_edited_time,
     children: [],
     text: getBlockTitle(node),
     depth

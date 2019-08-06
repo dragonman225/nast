@@ -1,5 +1,4 @@
-import * as Notion from '../types/api'
-import * as Nast from '../types/nast'
+import { Notion, Nast } from '../../../types/src'
 
 import { getBlockColor } from './utils'
 
@@ -12,6 +11,8 @@ async function transformEmbed(
     type: node.type === 'video'
       ? 'video' as 'video' : 'embed' as 'embed',
     color: getBlockColor(node),
+    createdTime: node.created_time,
+    lastEditedTime: node.last_edited_time,
     children: [],
     width: format.block_width || 9999,
     source: format.display_source || '#',

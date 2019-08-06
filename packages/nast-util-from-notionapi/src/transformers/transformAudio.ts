@@ -1,5 +1,4 @@
-import * as Notion from '../types/api'
-import * as Nast from '../types/nast'
+import { Notion, Nast } from '../../../types/src'
 
 import { getBlockColor } from './utils'
 
@@ -10,6 +9,8 @@ async function transformAudio(
     id: node.id,
     type: 'audio' as 'audio',
     color: getBlockColor(node),
+    createdTime: node.created_time,
+    lastEditedTime: node.last_edited_time,
     children: [],
     source: node.properties
       ? node.properties.source

@@ -1,5 +1,4 @@
-import * as Notion from '../types/api'
-import * as Nast from '../types/nast'
+import { Notion, Nast } from '../../../types/src'
 
 import { getBlockColor } from './utils'
 
@@ -12,6 +11,8 @@ async function transformBookmark(
     id: node.id,
     type: 'bookmark' as 'bookmark',
     color: getBlockColor(node),
+    createdTime: node.created_time,
+    lastEditedTime: node.last_edited_time,
     children: [],
     link: props.link ? props.link[0][0] : '#',
     title: props.title ? props.title[0][0] : undefined,

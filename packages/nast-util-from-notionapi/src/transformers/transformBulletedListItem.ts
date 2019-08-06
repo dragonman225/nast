@@ -1,5 +1,4 @@
-import * as Notion from '../types/api'
-import * as Nast from '../types/nast'
+import { Notion, Nast } from '../../../types/src'
 
 import { getBlockColor, getBlockTitle } from './utils'
 
@@ -10,6 +9,8 @@ async function transformBulletedListItem(
     id: node.id,
     type: 'bulleted_list_item' as 'bulleted_list_item',
     color: getBlockColor(node),
+    createdTime: node.created_time,
+    lastEditedTime: node.last_edited_time,
     children: [],
     text: getBlockTitle(node)
   }

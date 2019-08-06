@@ -1,5 +1,4 @@
-import * as Notion from '../types/api'
-import * as Nast from '../types/nast'
+import { Notion, Nast } from '../../../types/src'
 
 import { getBlockColor, getBlockTitle } from './utils'
 
@@ -12,6 +11,8 @@ async function transformCode(
     id: node.id,
     type: 'code' as 'code',
     color: getBlockColor(node),
+    createdTime: node.created_time,
+    lastEditedTime: node.last_edited_time,
     children: [],
     text: getBlockTitle(node),
     language: props.language ? props.language[0][0] : undefined,

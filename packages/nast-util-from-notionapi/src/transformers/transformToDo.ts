@@ -1,5 +1,4 @@
-import * as Notion from '../types/api'
-import * as Nast from '../types/nast'
+import { Notion, Nast } from '../../../types/src'
 
 import { getBlockColor, getBlockTitle } from './utils'
 
@@ -10,6 +9,8 @@ async function transformToDo(
     id: node.id,
     type: 'to_do' as 'to_do',
     color: getBlockColor(node),
+    createdTime: node.created_time,
+    lastEditedTime: node.last_edited_time,
     children: [],
     text: getBlockTitle(node),
     checked: node.properties

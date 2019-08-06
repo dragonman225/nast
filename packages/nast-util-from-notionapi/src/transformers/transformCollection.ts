@@ -1,5 +1,6 @@
-import * as Notion from '../types/api'
-import * as Nast from '../types/nast'
+import { Notion, Nast } from '../../../types/src'
+
+import transformPage from './transformPage'
 
 async function transformCollection(
   collectionBlockRecord: Notion.BlockValue,
@@ -62,6 +63,8 @@ async function transformCollection(
   let nastCollection = {
     id,
     collectionId,
+    createdTime: collectionBlockRecord.created_time,
+    lastEditedTime: collectionBlockRecord.last_edited_time,
     /** Icon may be undefined */
     icon: rawCollectionRecord.value.icon
       ? rawCollectionRecord.value.icon
@@ -77,9 +80,10 @@ async function transformCollection(
       ? rawCollectionRecord.value.schema
       : {},
     /** blockRecordValueMap[x] is Notion.BlockRecordValue (The one with role) */
-    blocks: resultBlockIds.map((id: string): Notion.BlockValue => {
-      return blockRecordValueMap[id].value
-    }),
+    blocks: await Promise.all(resultBlockIds
+      .map((id: string): Promise<Nast.Page> => {
+        return transformPage(blockRecordValueMap[id].value)
+      })),
     /** Use viewId to access record value maps. */
     views: viewIds.map((viewId: string): Nast.CollectionViewMetadata => {
       let viewRecord = rawCollectionViewRecords

@@ -1,5 +1,4 @@
-import * as Notion from '../types/api'
-import * as Nast from '../types/nast'
+import { Notion, Nast } from '../../../types/src'
 
 import { getBlockColor } from './utils'
 
@@ -10,6 +9,8 @@ async function transformDivider(
     id: node.id,
     type: 'divider' as 'divider',
     color: getBlockColor(node),
+    createdTime: node.created_time,
+    lastEditedTime: node.last_edited_time,
     children: []
   }
   return nastNode

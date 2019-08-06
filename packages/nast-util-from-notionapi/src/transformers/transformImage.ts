@@ -1,5 +1,4 @@
-import * as Notion from '../types/api'
-import * as Nast from '../types/nast'
+import { Notion, Nast } from '../../../types/src'
 
 import { getBlockColor } from './utils'
 
@@ -11,13 +10,15 @@ async function transformImage(
     id: node.id,
     type: 'image' as 'image',
     color: getBlockColor(node),
+    createdTime: node.created_time,
+    lastEditedTime: node.last_edited_time,
     children: [],
     width: format.block_width || 9999,
     source: format.display_source || '#',
     fullWidth: typeof format.block_full_width !== 'undefined'
-        ? format.block_full_width : false,
+      ? format.block_full_width : false,
     pageWidth: typeof format.block_page_width !== 'undefined'
-        ? format.block_page_width : false
+      ? format.block_page_width : false
   }
   return nastNode
 }
