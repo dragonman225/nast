@@ -4,7 +4,10 @@
   "description": "Transform NAST to HTML.",
   "main": "dist/index.js",
   "scripts": {
-    "test": "node dist/index.js"
+    "dev:build-webpack": "webpack --mode=development",
+    "dev:build-tsc": "tsc",
+    "prod:build": "webpack --mode=production",
+    "test": "node test/index.js"
   },
   "repository": {
     "type": "git",

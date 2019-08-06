@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const { toHTML } = require('../')
+const { toHTML } = require('../dist')
 
 const tree = require('./testdata')
 

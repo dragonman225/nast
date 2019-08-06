@@ -1,4 +1,4 @@
-const { raiseWarning } = require('../lib/log-utils')
+const { raiseWarning } = require('../src/log-utils')
 
 module.exports = test
 
