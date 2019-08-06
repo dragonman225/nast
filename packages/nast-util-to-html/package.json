@@ -2,9 +2,9 @@
   "name": "nast-util-to-html",
   "version": "0.1.0",
   "description": "Transform NAST to HTML.",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "node test/index.js"
+    "test": "node dist/index.js"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,14 @@
     "prismjs": "^1.16.0"
   },
   "devDependencies": {
-    "eslint": "^5.16.0"
+    "@types/node": "^12.0.4",
+    "@typescript-eslint/eslint-plugin": "^1.9.0",
+    "@typescript-eslint/parser": "^1.9.0",
+    "eslint": "^5.16.0",
+    "ts-loader": "^6.0.4",
+    "typescript": "^3.5.1",
+    "webpack": "^4.39.1",
+    "webpack-cli": "^3.3.6"
   },
   "bugs": {
     "url": "https://github.com/dragonman225/nast-util-to-html/issues"
