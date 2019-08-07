@@ -5,12 +5,17 @@
   "tasks": [
     {
       "type": "npm",
-      "script": "dev:build-webpack",
+      "script": "build:dev_webpack",
       "problemMatcher": []
     },
     {
       "type": "npm",
-      "script": "dev:build-tsc",
+      "script": "build:prod",
+      "problemMatcher": []
+    },
+    {
+      "type": "npm",
+      "script": "build:dev_tsc",
       "problemMatcher": []
     }
   ]

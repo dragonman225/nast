@@ -84,6 +84,9 @@ function renderCode(str, lang) {
   if (lang != null) {
     /**
      * Prismjs will do char escape.
+     * 
+     * loadLanguages can not be used with webpack.
+     * https://github.com/PrismJS/prism/issues/1477
      */
     loadLanguages([lang])
     return Prism.highlight(str, Prism.languages[lang], lang)
