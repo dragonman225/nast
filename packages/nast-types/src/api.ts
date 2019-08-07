@@ -1,5 +1,7 @@
 /**
- * Notion.Agent
+ * ==================================
+ * Agent & Response / Response Format
+ * ==================================
  */
 export interface Agent {
   loadPageChunk: Function
@@ -62,6 +64,12 @@ export interface RecordMap {
   collection_view: {
     [key: string]: CollectionViewRecordValue
   }
+  notion_user: {
+    [key: string]: NotionUserWithRole
+  }
+  space: {
+    [key: string]: SpaceWithRole
+  }
 }
 
 export interface AggregationResult {
@@ -75,7 +83,9 @@ export interface User {
 }
 
 /**
- * Table: Block
+ * ==================
+ * Block Table Record
+ * ==================
  */
 export interface BlockRecordValue {
   role: string
@@ -156,7 +166,9 @@ export interface BlockPermission {
 }
 
 /**
- * Table: Collection
+ * =======================
+ * Collection Table Record
+ * =======================
  */
 export interface CollectionRecordValue {
   role: string
@@ -171,25 +183,27 @@ export interface CollectionValue {
   parent_id: string
   parent_table: string
   schema: {
-    [key: string]: SchemaItem
+    [key: string]: CollectionColumnInfo
   }
   version: number
 }
 
-export interface SchemaItem {
+export interface CollectionColumnInfo {
   name: string
-  options: SchemaItemOption[]
+  options: CollectionColumnOption[]
   type: string
 }
 
-export interface SchemaItemOption {
+export interface CollectionColumnOption {
   id: string
   color: string
   value: string
 }
 
 /**
- * Table: CollectionView
+ * ============================
+ * collection_view Table Record
+ * ============================
  */
 export interface CollectionViewRecordValue {
   role: string
@@ -241,7 +255,60 @@ export interface AggregateQuery {
 }
 
 /**
+ * ========================
+ * notion_user Table Record
+ * ========================
+ */
+export interface NotionUserWithRole {
+  role: string
+  value: NotionUser
+}
+
+export interface NotionUser {
+  id: string
+  version: number
+  email: string
+  given_name: string
+  family_name: string
+  profile_photo: string
+  onboarding_completed: boolean
+  mobile_onboarding_completed: boolean
+  clipper_onboarding_completed: boolean
+}
+
+/**
+ * ==================
+ * space Table Record
+ * ==================
+ */
+export interface SpaceWithRole {
+  role: string
+  value: Space
+}
+
+export interface Space {
+  id: string
+  version: number
+  name: string
+  permissions: Permission[]
+  beta_enabled: boolean
+  pages: string[]
+  created_by: string
+  created_time: number
+  last_edited_by: string
+  last_edited_time: number
+}
+
+export interface Permission {
+  role: string
+  type: string
+  userid: string
+}
+
+/**
+ * =====
  * Utils
+ * =====
  */
 export interface TextStyle {
   0: string

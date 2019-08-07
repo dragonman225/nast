@@ -199,7 +199,7 @@ export interface Collection extends Block {
   type: 'collection'
   name: string
   schema: {
-    [key: string]: Notion.SchemaItem
+    [key: string]: Notion.CollectionColumnInfo
   }
   blocks: Page[]
   views: CollectionViewMetadata[]
