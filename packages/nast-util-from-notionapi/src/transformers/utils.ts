@@ -1,5 +1,4 @@
-import * as Notion from '../types/api'
-// import * as Nast from '../types/nast'
+import { Notion } from '../../../types/src'
 
 function getBlockColor(
   node: Notion.BlockValue

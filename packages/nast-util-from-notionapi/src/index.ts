@@ -2,8 +2,7 @@ import assert from 'assert'
 
 import { transformBlock } from './transformBlock'
 
-import * as Notion from './types/api'
-import * as Nast from './types/nast'
+import { Notion, Nast } from '../../types/src'
 
 async function getPageTreeById(
   rootID: string,

@@ -1,5 +1,4 @@
-import * as Notion from './types/api'
-import * as Nast from './types/nast'
+import { Notion, Nast } from '../../types/src'
 
 import { transformCollection } from './transformers/transformCollection'
 import { log } from './utils'
