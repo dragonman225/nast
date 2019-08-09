@@ -18,7 +18,8 @@ async function transformPage(
     cover: format.page_cover || undefined,
     fullWidth: typeof format.page_full_width !== 'undefined'
       ? format.page_full_width : false,
-    coverPosition: format.page_cover_position || 1
+    coverPosition: format.page_cover_position || 1,
+    properties: node.properties
   }
   return nastNode
 }

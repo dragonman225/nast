@@ -25,6 +25,7 @@ async function transformCollection(
   let rawCollectionViewRecords = await getCollectionViewRecords(viewIds, apiAgent)
 
   let rawCollectionRecord = await getCollectionRecord(collectionId, apiAgent)
+  let rawCollection = rawCollectionRecord.value
 
   /**
    * Make query map: collectionViewId -> Notion.Query of the view
@@ -61,24 +62,23 @@ async function transformCollection(
   let blockRecordValueMap = rawQueryCollectionResponse.recordMap.block
   let resultBlockIds = rawQueryCollectionResponse.result.blockIds
   let nastCollection = {
+    /** TS cannot assign string to 'collection' */
+    type: 'collection' as 'collection',
     id,
     collectionId,
     createdTime: collectionBlockRecord.created_time,
     lastEditedTime: collectionBlockRecord.last_edited_time,
-    /** Icon may be undefined */
-    icon: rawCollectionRecord.value.icon
-      ? rawCollectionRecord.value.icon
-      : '',
-    /** TS cannot assign string to 'collection' */
-    type: 'collection' as 'collection',
+    icon: rawCollection.icon,
+    cover: rawCollection.cover,
+    description: rawCollection.description,
+    coverPosition: rawCollection.format
+      ? rawCollection.format.collection_cover_position || 1 : 1,
     /** Name may be undefined */
-    name: rawCollectionRecord.value.name
-      ? rawCollectionRecord.value.name[0][0]
+    name: rawCollection.name
+      ? rawCollection.name[0][0] || 'Untitled'
       : 'Untitled',
     /** In case schema is undefined */
-    schema: rawCollectionRecord.value.schema
-      ? rawCollectionRecord.value.schema
-      : {},
+    schema: rawCollection.schema || {},
     /** blockRecordValueMap[x] is Notion.BlockRecordValue (The one with role) */
     blocks: await Promise.all(resultBlockIds
       .map((id: string): Promise<Nast.Page> => {
@@ -92,6 +92,7 @@ async function transformCollection(
       let rawQueryCollectionResponse = rawQueryCollectionResponses.get(viewId)
       let aggregationResults: Notion.AggregationResult[]
 
+      /** Normally, the following two "if" should not happen. */
       if (viewRecord) {
         view = viewRecord.value
       } else {
