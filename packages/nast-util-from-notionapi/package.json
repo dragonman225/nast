@@ -1,7 +1,7 @@
 {
   "name": "nast-util-from-notionapi",
-  "version": "0.4.0",
-  "description": "Convert a Notion page into an abstract syntax tree.",
+  "version": "0.5.0",
+  "description": "Convert a Notion.so page into a tree object.",
   "main": "dist/index.js",
   "scripts": {
     "dev:build-webpack": "webpack --mode=development",
