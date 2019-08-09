@@ -33,21 +33,32 @@ The agent is used to retrieve raw data from Notion's API.
 const fs = require('fs')
 
 const NotionAgent = require('notionapi-agent')
-const { getPageTreeById } = require('nast-util-from-notionapi')
+const { getOnePageAsTree, getAllBlocksInOnePage } = require('nast-util-from-notionapi')
 
-/* Fill in your token. */
+/* Configure NotionAgent's options */
 const options = {
-  token: ''
+  token: '',
+  suppressWarning: false,
+  verbose: true
 }
 const agent = new NotionAgent(options)
 
 async function main() {
   try {
-    /* Fill in a page ID. */
+    /* Fill in a page ID */
     let pageID = ''
-    let tree = await getPageTreeById(pageID, agent)
-    let file = `PageTree-${pageID}.json`
-    fs.writeFileSync(file, JSON.stringify(tree), { encoding: 'utf-8' })
+    let tree = await getOnePageAsTree(pageID, agent)
+    let rawBlocks = await getAllBlocksInOnePage(pageID, agent)
+    fs.writeFileSync(
+        `PageTree-${pageID}.json`,
+        JSON.stringify(tree),
+        { encoding: 'utf-8' }
+    )
+    fs.writeFileSync(
+        `RawBlocks-${pageID}.json`,
+        JSON.stringify(rawBlocks),
+        { encoding: 'utf-8' }
+    )
   } catch (error) {
     console.error(error)
   }
@@ -58,27 +69,46 @@ main()
 
 ## API Methods
 
-### `async` `getPageTreeById(pageID, agent)`
+### `async` `getOnePageAsTree(pageID, agent)`
 
-Download a Notion page as NAST with a Notion API agent.
+Download a Notion page as a re-formated tree with a Notion API agent.
 
 * `pageID` - (required) The ID of a Notion page. It must be the one with dashes as below example :
-
+  
   ```javascript
   'cbf2b645-xxxx-xxxx-xxxx-xxxxe8cfed93'
   ```
 
-* `agent` - (required) A `NotionAgent` instance from [notionapi-agent](https://github.com/dragonman225/notionapi-agent).
+* `agent` - (required) A [`Notion.Agent`](https://github.com/dragonman225/notajs-types/blob/b1d75c1f6a4241afffd40bb74db34e0227bfbf54/src/api.ts#L6) instance from [notionapi-agent](https://github.com/dragonman225/notionapi-agent).
 
 #### Returns :
 
-NAST, a tree-like object. Refer to `src/types/nast.ts` for details.
+The re-formated tree object. [View TypeScript Definition](https://github.com/dragonman225/notajs-types/blob/b1d75c1f6a4241afffd40bb74db34e0227bfbf54/src/nast.ts#L19)
 
 ```typescript
 interface Block {
   id: string
   type: string
   color?: string
-  children: BlockNode[]
+  createdTime: number
+  lastEditedTime: number
+  children: Block[]
+}
+```
+
+### `async` `getAllBlocksInOnePage(pageID, agent)`
+
+Download all blocks of a Notion page as an array in raw format.
+
+Function parameters are the same as `getOnePageAsTree`.
+
+#### Returns :
+
+The array in raw format (`BlockRecordValue[]`). [View TypeScript Definition](https://github.com/dragonman225/notajs-types/blob/b1d75c1f6a4241afffd40bb74db34e0227bfbf54/src/api.ts#L90)
+
+```typescript
+interface BlockRecordValue {
+  role: string
+  value: BlockValue
 }
 ```
