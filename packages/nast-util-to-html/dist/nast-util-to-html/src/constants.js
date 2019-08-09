@@ -55,12 +55,12 @@ const COLOR = {
     redBg: 'red_background'
 };
 exports.COLOR = COLOR;
-const collectionViewTypeMap = {
+const COLLECTION_VIEW_TYPES = {
     table: 'table',
     list: 'list',
     gallery: 'gallery',
     board: 'board',
     calendar: 'calendar'
 };
-exports.collectionViewTypeMap = collectionViewTypeMap;
+exports.COLLECTION_VIEW_TYPES = COLLECTION_VIEW_TYPES;
 //# sourceMappingURL=constants.js.map

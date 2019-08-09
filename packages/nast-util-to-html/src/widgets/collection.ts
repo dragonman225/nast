@@ -1,6 +1,6 @@
 import { Nast, Notion } from '../../../types/src'
 
-import { collectionViewTypeMap } from '../constants'
+import { COLLECTION_VIEW_TYPES } from '../constants'
 import { raiseWarning } from '../log-utils'
 import { escapeString } from '../render-utils'
 
@@ -22,7 +22,7 @@ function renderCollection(
   }
 
   switch (viewMeta.type) {
-    case collectionViewTypeMap.gallery:
+    case COLLECTION_VIEW_TYPES.gallery:
       return renderGallery(node, pages, viewMeta.format)
     default:
       raiseWarning(`No renderer for view type ${viewMeta.type}`)

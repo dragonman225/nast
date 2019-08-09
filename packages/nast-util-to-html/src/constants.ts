@@ -53,7 +53,7 @@ const COLOR = {
   redBg: 'red_background'
 }
 
-const collectionViewTypeMap = {
+const COLLECTION_VIEW_TYPES = {
   table: 'table',
   list: 'list',
   gallery: 'gallery',
@@ -65,5 +65,5 @@ export {
   CSS,
   NAST_BLOCK_TYPES,
   COLOR,
-  collectionViewTypeMap
+  COLLECTION_VIEW_TYPES
 }
