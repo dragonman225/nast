@@ -1,5 +1,6 @@
 "use strict";
-const constants_1 = require("./constants");
+Object.defineProperty(exports, "__esModule", { value: true });
+const constants_1 = require("../constants");
 const log_utils_1 = require("../log-utils");
 const render_utils_1 = require("../render-utils");
 function renderCollection(node) {
@@ -15,7 +16,7 @@ function renderCollection(node) {
         pages = pages.sort(sortFunc);
     }
     switch (viewMeta.type) {
-        case constants_1.viewTypeMap.gallery:
+        case constants_1.collectionViewTypeMap.gallery:
             return renderGallery(node, pages, viewMeta.format);
         default:
             log_utils_1.raiseWarning(`No renderer for view type ${viewMeta.type}`);
@@ -79,5 +80,5 @@ function factorySortFunc(sortQuery) {
         return 0;
     };
 }
-module.exports = renderCollection;
+exports.default = renderCollection;
 //# sourceMappingURL=collection.js.map

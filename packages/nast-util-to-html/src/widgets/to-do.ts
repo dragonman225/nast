@@ -1,6 +1,6 @@
 import { Nast } from '../../../types/src'
 
-import { blockIndentClass } from './constants'
+import { CSS } from '../constants'
 import { renderBlock, renderChildren, renderTitle } from '../render-utils'
 
 function renderToDo(
@@ -22,7 +22,7 @@ function renderToDo(
   let childrenContent = ''
   if (node.children.length > 0) {
     childrenContent = `\
-<div class="${blockIndentClass}">
+<div class="${CSS.blockIndentClass}">
   ${renderChildren(node.children, renderNext)}
 </div>`
   }
@@ -34,4 +34,4 @@ ${childrenContent}`
   return html
 }
 
-export = renderToDo
+export default renderToDo

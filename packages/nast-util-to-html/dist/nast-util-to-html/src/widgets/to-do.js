@@ -1,5 +1,6 @@
 "use strict";
-const constants_1 = require("./constants");
+Object.defineProperty(exports, "__esModule", { value: true });
+const constants_1 = require("../constants");
 const render_utils_1 = require("../render-utils");
 function renderToDo(node, renderNext) {
     let unCheckedIconHTML = '<div style="margin-right: 4px; width: 24px; flex-grow: 0; flex-shrink: 0; display: flex; align-items: center; justify-content: center; min-height: calc(1.5em + 6px); padding-right: 2px;"><div style="width: 16px; height: 16px; display: flex; align-items: stretch; justify-content: stretch; flex-shrink: 0; flex-grow: 0; cursor: pointer; transition: background 200ms ease-out 0s;"><div style="cursor: pointer; user-select: none; transition: background 120ms ease-in 0s; display: flex; align-items: center; justify-content: center; width: 100%;"><svg viewBox="0 0 16 16" style="width: 100%; height: 100%; display: block; fill: inherit; flex-shrink: 0; backface-visibility: hidden;"><path d="M1.5,1.5 L1.5,14.5 L14.5,14.5 L14.5,1.5 L1.5,1.5 Z M0,0 L16,0 L16,16 L0,16 L0,0 Z"></path></svg></div></div></div>';
@@ -15,7 +16,7 @@ function renderToDo(node, renderNext) {
     let childrenContent = '';
     if (node.children.length > 0) {
         childrenContent = `\
-<div class="${constants_1.blockIndentClass}">
+<div class="${constants_1.CSS.blockIndentClass}">
   ${render_utils_1.renderChildren(node.children, renderNext)}
 </div>`;
     }
@@ -24,5 +25,5 @@ ${render_utils_1.renderBlock(node, content)}
 ${childrenContent}`;
     return html;
 }
-module.exports = renderToDo;
+exports.default = renderToDo;
 //# sourceMappingURL=to-do.js.map

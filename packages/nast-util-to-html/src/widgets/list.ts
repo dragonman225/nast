@@ -62,4 +62,4 @@ function renderListItem(
   return html
 }
 
-export = renderList
+export default renderList

@@ -14,4 +14,4 @@ function renderEquation(
   return renderBlock(node, content)
 }
 
-export = renderEquation
+export default renderEquation

@@ -2,6 +2,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 const block_map_1 = __importDefault(require("../block-map"));
 const log_utils_1 = require("../log-utils");
 const render_utils_1 = require("../render-utils");
@@ -37,5 +38,5 @@ function renderColumn(node, renderNext, isFirst, numOfColumns) {
     //   `
     return html;
 }
-module.exports = renderColumnList;
+exports.default = renderColumnList;
 //# sourceMappingURL=column-helper.js.map

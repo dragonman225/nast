@@ -52,4 +52,4 @@ function renderColumn(
   return html
 }
 
-export = renderColumnList
+export default renderColumnList

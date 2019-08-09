@@ -1,23 +1,11 @@
-'use strict'
-const Prism = require('prismjs')
-const loadLanguages = require('prismjs/components/')
+import { Nast, Notion } from '../../types/src'
 
-const blockMap = require('./block-map')
-const colorMap = require('./color-map')
-const codeLangMap = require('./code-language-map')
-const { convertNotionURLToLocalLink } = require('./notion-utils')
-const { raiseWarning } = require('./log-utils')
-
-const blockClass = 'block'
-
-module.exports = {
-  renderChildren,
-  renderBlock,
-  renderTitle,
-  renderColor,
-  escapeString,
-  preRenderTransform
-}
+import blockMap from './block-map'
+import colorMap from './color-map'
+import renderCode from './render-utils-prismjs'
+import { convertNotionURLToLocalLink } from './notion-utils'
+import { raiseWarning } from './log-utils'
+import { CSS } from './constants'
 
 /**
  * Render children nodes.
@@ -26,11 +14,14 @@ module.exports = {
  * a corresponding render function when iterating through nodeArray.
  * @returns {String} HTML.
  */
-function renderChildren(nodeArray, renderNext) {
+function renderChildren(
+  nodeArray: Nast.Block[],
+  renderNext: Function
+): string {
   let childrenHTMLArr = nodeArray.map(node => {
     /** PseudoBlock does not have id! */
     let html = `\
-<div id="${node.id ? node.id : ''}">
+<div ${node.id ? `id="${node.id}"` : ''}>
   ${renderNext(node)}
 </div>`
     return html
@@ -44,10 +35,14 @@ function renderChildren(nodeArray, renderNext) {
  * @param {String} contentHTML
  * @returns {String} 
  */
-function renderBlock(node, contentHTML, tag = 'div') {
+function renderBlock(
+  node: Nast.Block,
+  contentHTML: string,
+  tag: string = 'div'
+): string {
   let blockColorClass = node.color ? renderColor(node.color) : ''
   let html = `\
-<${tag} class="${blockClass} ${blockClass}--${node.type} ${blockColorClass}">
+<${tag} class="${CSS.blockClass} ${CSS.blockClass}--${node.type} ${blockColorClass}">
   ${contentHTML}
 </${tag}>`
   return html
@@ -58,12 +53,15 @@ function renderBlock(node, contentHTML, tag = 'div') {
  * @param {StyledString[]} titleTokens
  * @returns {String} HTML
  */
-function renderTitle(titleTokens = [], isCode = false, lang) {
-  let codeLang = codeLangMap[lang]
+function renderTitle(
+  titleTokens: Notion.StyledString[] = [],
+  isCode?: boolean,
+  lang?: string
+): string {
   let textArr = titleTokens.map(token => {
     let text = token[0]
     if (isCode) {
-      text = renderCode(text, codeLang)
+      text = renderCode(text, lang)
     } else {
       text = escapeString(text)
     }
@@ -80,32 +78,16 @@ function renderTitle(titleTokens = [], isCode = false, lang) {
   return html
 }
 
-function renderCode(str, lang) {
-  if (lang != null) {
-    /**
-     * Prismjs will do char escape.
-     * 
-     * loadLanguages can not be used with webpack.
-     * https://github.com/PrismJS/prism/issues/1477
-     */
-    loadLanguages([lang])
-    return Prism.highlight(str, Prism.languages[lang], lang)
-  } else {
-    /**
-     * If user does not specify language, "lang" is undefined, so we just
-     * return the plain text.
-     */
-    return escapeString(str)
-  }
-}
-
 /**
  * Render a styled string.
  * @param {String} text 
  * @param {TextStyle[]} styles 
  * @returns {String} HTML
  */
-function styleToHTML(text, styles) {
+function styleToHTML(
+  text: string,
+  styles: Notion.TextStyle[]
+): string {
   let html = text
 
   for (let i = styles.length - 1; i >= 0; --i) {
@@ -132,7 +114,8 @@ function styleToHTML(text, styles) {
         break
       /* Color or Background Color */
       case 'h':
-        html = `<span class="${renderColor(styles[i][1])}">${html}</span>`
+        let color = styles[i][1] as string
+        html = `<span class="${renderColor(color)}">${html}</span>`
         break
       /* Inline Mention User */
       case 'u':
@@ -144,7 +127,8 @@ function styleToHTML(text, styles) {
         break
       /* Inline Mention Date */
       case 'd':
-        html = `<span class="color-mention">@${styles[i][1].start_date}</span>`
+        let date = styles[i][1] as Notion.InlineDate
+        html = `<span class="color-mention">@${date.start_date}</span>`
         break
       /* Comment */
       case 'm':
@@ -159,33 +143,16 @@ function styleToHTML(text, styles) {
 }
 
 /**
- * Get color string of a block.
- * @param {Block} node 
- * @param {String} defaultColor 
- * @returns {String} Color string of the block.
- */
-function getBlockColor(node, defaultColor = '') {
-  let blockColor
-
-  if (node['raw_value'] && node['raw_value'].format) {
-    blockColor = node['raw_value'].format['block_color']
-      ? node['raw_value'].format['block_color'] : defaultColor
-  } else {
-    blockColor = defaultColor
-  }
-
-  return renderColor(blockColor)
-}
-
-/**
  * Map color string in NAST to another string that is intended to use
  * as a CSS class.
  * @param {String} str 
  * @returns {String}
  */
-function renderColor(str) {
-  const colorPrefix = 'color-'
-  const colorBgPrefix = 'background-'
+function renderColor(
+  str: string
+): string {
+  const colorPrefix = CSS.colorClassPrefix
+  const colorBgPrefix = CSS.bgColorClassPrefix
   switch (str) {
     case colorMap.gray:
       return colorPrefix + 'gray'
@@ -233,7 +200,9 @@ function renderColor(str) {
  * @param {String} str 
  * @returns {String}
  */
-function escapeString(str) {
+function escapeString(
+  str: string
+): string {
   let character, escapedString = ''
 
   for (let i = 0; i < str.length; ++i) {
@@ -266,10 +235,13 @@ function escapeString(str) {
 }
 
 /**
- * Transform the tree so that it's eaiser to render.
- * @param {Nast.Root} treeRoot 
+ * Add BulletedList and NumberedList helper blocks to the tree, 
+ * so it's easier to render.
+ * @param treeRoot 
  */
-function preRenderTransform(treeRoot) {
+function preRenderTransform(
+  treeRoot: Nast.Block
+): Nast.Block {
   let newChildren = []
   let children = treeRoot.children
   let list, prevState = 0
@@ -281,6 +253,15 @@ function preRenderTransform(treeRoot) {
 
   for (let i = 0; i < children.length; ++i) {
     let block = children[i]
+    /**
+     * Fill helper blocks with dummy property values to make 
+     * the new tree meet the NAST spec.
+     */
+    let dummyBlock = {
+      id: '',
+      createdTime: 0,
+      lastEditedTime: 0
+    }
 
     if (block.children.length !== 0) {
       block = preRenderTransform(block)
@@ -288,22 +269,28 @@ function preRenderTransform(treeRoot) {
 
     if (block.type === blockMap.bulletedListItem) {
       if (prevState === 1) {
-        list.children.push(block)
+        if (list != null) list.children.push(block)
+        else raiseWarning(`preRenderTransform panic:\
+ Push child ${block.id} to undefined list`)
       } else {
         list = {
           type: blockMap.bulletedList,
-          children: [ block ]
+          children: [block],
+          ...dummyBlock
         }
         newChildren.push(list)
       }
       prevState = 1
     } else if (block.type === blockMap.numberedListItem) {
       if (prevState === 2) {
-        list.children.push(block)
+        if (list != null) list.children.push(block)
+        else raiseWarning(`preRenderTransform panic:\
+ Push child ${block.id} to undefined list`)
       } else {
         list = {
           type: blockMap.numberedList,
-          children: [ block ]
+          children: [block],
+          ...dummyBlock
         }
         newChildren.push(list)
       }
@@ -317,4 +304,13 @@ function preRenderTransform(treeRoot) {
   let newTree = { ...treeRoot }
   newTree.children = newChildren
   return newTree
+}
+
+export {
+  renderChildren,
+  renderBlock,
+  renderTitle,
+  renderColor,
+  escapeString,
+  preRenderTransform
 }

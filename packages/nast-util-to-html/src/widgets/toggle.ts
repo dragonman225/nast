@@ -1,6 +1,6 @@
 import { Nast } from '../../../types/src'
 
-import { blockIndentClass } from './constants'
+import { CSS } from '../constants'
 import { renderBlock, renderChildren, renderTitle } from '../render-utils'
 
 function renderToggle(
@@ -12,11 +12,11 @@ function renderToggle(
   let html = `\
 <details>
   ${block}
-  <div class="${blockIndentClass}">
+  <div class="${CSS.blockIndentClass}">
     ${renderChildren(node.children, renderNext)}
   </div>
 </details>`
   return html
 }
 
-export = renderToggle
+export default renderToggle

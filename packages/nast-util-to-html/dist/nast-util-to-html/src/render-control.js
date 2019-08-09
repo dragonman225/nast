@@ -6,15 +6,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const block_map_1 = __importDefault(require("./block-map"));
 const render_utils_1 = require("./render-utils");
 const log_utils_1 = require("./log-utils");
-const render_blocks_1 = require("./render-blocks");
-const text_1 = __importDefault(require("./widgets/text"));
-const heading_1 = __importDefault(require("./widgets/heading"));
-const column_helper_1 = __importDefault(require("./widgets/column-helper"));
-const list_1 = __importDefault(require("./widgets/list"));
-const toggle_1 = __importDefault(require("./widgets/toggle"));
-const to_do_1 = __importDefault(require("./widgets/to-do"));
-const equation_1 = __importDefault(require("./widgets/equation"));
+const audio_1 = __importDefault(require("./widgets/audio"));
+const bookmark_1 = __importDefault(require("./widgets/bookmark"));
+const callout_1 = __importDefault(require("./widgets/callout"));
+const code_1 = __importDefault(require("./widgets/code"));
 const collection_1 = __importDefault(require("./widgets/collection"));
+const column_helper_1 = __importDefault(require("./widgets/column-helper"));
+const divider_1 = __importDefault(require("./widgets/divider"));
+const embed_1 = __importDefault(require("./widgets/embed"));
+const equation_1 = __importDefault(require("./widgets/equation"));
+const heading_1 = __importDefault(require("./widgets/heading"));
+const image_1 = __importDefault(require("./widgets/image"));
+const list_1 = __importDefault(require("./widgets/list"));
+const quote_1 = __importDefault(require("./widgets/quote"));
+const text_1 = __importDefault(require("./widgets/text"));
+const to_do_1 = __importDefault(require("./widgets/to-do"));
+const toggle_1 = __importDefault(require("./widgets/toggle"));
 /**
  * Render with given root node.
  */
@@ -85,29 +92,29 @@ function renderNode(node) {
             html = to_do_1.default(node, renderNode);
             break;
         case block_map_1.default.divider:
-            html = render_blocks_1.renderDivider(node);
+            html = divider_1.default(node);
             break;
         case block_map_1.default.quote:
-            html = render_blocks_1.renderQuote(node);
+            html = quote_1.default(node);
             break;
         case block_map_1.default.callout:
-            html = render_blocks_1.renderCallout(node);
+            html = callout_1.default(node);
             break;
         case block_map_1.default.image:
-            html = render_blocks_1.renderImage(node);
+            html = image_1.default(node);
             break;
         case block_map_1.default.bookmark:
-            html = render_blocks_1.renderBookmark(node);
+            html = bookmark_1.default(node);
             break;
         case block_map_1.default.embed:
         case block_map_1.default.video:
-            html = render_blocks_1.renderEmbed(node);
+            html = embed_1.default(node);
             break;
         case block_map_1.default.audio:
-            html = render_blocks_1.renderAudio(node);
+            html = audio_1.default(node);
             break;
         case block_map_1.default.code:
-            html = render_blocks_1.renderCode(node);
+            html = code_1.default(node);
             break;
         case block_map_1.default.equation:
             html = equation_1.default(node);

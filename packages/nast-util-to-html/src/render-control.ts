@@ -4,30 +4,27 @@ import blockMap from './block-map'
 import { renderChildren } from './render-utils'
 import { raiseWarning } from './log-utils'
 
-import {
-  renderDivider,
-  renderQuote,
-  renderCallout,
-  renderImage,
-  renderBookmark,
-  renderEmbed,
-  renderAudio,
-  renderCode
-} from './render-blocks'
-
-import renderText from './widgets/text'
-import renderHeading from './widgets/heading'
-import renderColumnList from './widgets/column-helper'
-import renderList from './widgets/list'
-import renderToggle from './widgets/toggle'
-import renderToDo from './widgets/to-do'
-import renderEquation from './widgets/equation'
+import renderAudio from './widgets/audio'
+import renderBookmark from './widgets/bookmark'
+import renderCallout from './widgets/callout'
+import renderCode from './widgets/code'
 import renderCollection from './widgets/collection'
+import renderColumnList from './widgets/column-helper'
+import renderDivider from './widgets/divider'
+import renderEmbed from './widgets/embed'
+import renderEquation from './widgets/equation'
+import renderHeading from './widgets/heading'
+import renderImage from './widgets/image'
+import renderList from './widgets/list'
+import renderQuote from './widgets/quote'
+import renderText from './widgets/text'
+import renderToDo from './widgets/to-do'
+import renderToggle from './widgets/toggle'
 
 /**
  * Render with given root node.
  */
-function renderRoot(node: Nast.Root, elemClass = 'nast-document'): string {
+function renderRoot(node: Nast.Block, elemClass = 'nast-document'): string {
   /**
    * The root node can be any type of block, if it's a "page" block it 
    * will be treated specially.
@@ -97,29 +94,29 @@ function renderNode(node: Nast.Block): string {
       html = renderToDo(node as Nast.ToDoList, renderNode)
       break
     case blockMap.divider:
-      html = renderDivider(node)
+      html = renderDivider(node as Nast.Divider)
       break
     case blockMap.quote:
-      html = renderQuote(node)
+      html = renderQuote(node as Nast.Quote)
       break
     case blockMap.callout:
-      html = renderCallout(node)
+      html = renderCallout(node as Nast.Callout)
       break
     case blockMap.image:
-      html = renderImage(node)
+      html = renderImage(node as Nast.Image)
       break
     case blockMap.bookmark:
-      html = renderBookmark(node)
+      html = renderBookmark(node as Nast.WebBookmark)
       break
     case blockMap.embed:
     case blockMap.video:
-      html = renderEmbed(node)
+      html = renderEmbed(node as Nast.Embed)
       break
     case blockMap.audio:
-      html = renderAudio(node)
+      html = renderAudio(node as Nast.Audio)
       break
     case blockMap.code:
-      html = renderCode(node)
+      html = renderCode(node as Nast.Code)
       break
     case blockMap.equation:
       html = renderEquation(node as Nast.Equation)

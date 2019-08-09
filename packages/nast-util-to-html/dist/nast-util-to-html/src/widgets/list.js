@@ -2,6 +2,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 const block_map_1 = __importDefault(require("../block-map"));
 const render_utils_1 = require("../render-utils");
 function renderList(node, renderNext) {
@@ -46,5 +47,5 @@ function renderListItem(node, renderNext) {
 </li>`;
     return html;
 }
-module.exports = renderList;
+exports.default = renderList;
 //# sourceMappingURL=list.js.map

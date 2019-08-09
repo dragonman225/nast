@@ -4,6 +4,7 @@ dependencies:
 devDependencies:
   '@types/katex': 0.10.1
   '@types/node': 12.6.9
+  '@types/prismjs': 1.16.0
   '@typescript-eslint/eslint-plugin': 1.13.0_0b5e999c52a893676e7127c05369c7b6
   '@typescript-eslint/parser': 1.13.0_eslint@5.16.0
   dependency-cruiser: 5.0.0_typescript@3.5.3
@@ -49,6 +50,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-+YB9FtyxXGyD54p8rXwWaN1EWEyar5L58GlGWgtH2I9rGmLGBQcw63+0jw+ujqVavNuO47S1ByAjm9zdHMnskw==
+  /@types/prismjs/1.16.0:
+    dev: true
+    resolution:
+      integrity: sha512-mEyuziLrfDCQ4juQP1k706BUU/c8OGn/ZFl69AXXY6dStHClKX4P+N8+rhqpul1vRDA2VOygzMRSJJZHyDEOfw==
   /@typescript-eslint/eslint-plugin/1.13.0_0b5e999c52a893676e7127c05369c7b6:
     dependencies:
       '@typescript-eslint/experimental-utils': 1.13.0_eslint@5.16.0
@@ -4076,6 +4081,7 @@ packages:
 specifiers:
   '@types/katex': ^0.10.1
   '@types/node': ^12.0.4
+  '@types/prismjs': ^1.16.0
   '@typescript-eslint/eslint-plugin': ^1.9.0
   '@typescript-eslint/parser': ^1.9.0
   dependency-cruiser: ^5.0.0

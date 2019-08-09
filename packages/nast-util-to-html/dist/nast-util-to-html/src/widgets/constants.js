@@ -4,12 +4,12 @@ const blockClass = 'block';
 exports.blockClass = blockClass;
 const blockIndentClass = 'block--indent';
 exports.blockIndentClass = blockIndentClass;
-const viewTypeMap = {
+const collectionViewTypeMap = {
     table: 'table',
     list: 'list',
     gallery: 'gallery',
     board: 'board',
     calendar: 'calendar'
 };
-exports.viewTypeMap = viewTypeMap;
+exports.collectionViewTypeMap = collectionViewTypeMap;
 //# sourceMappingURL=constants.js.map

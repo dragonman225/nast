@@ -1,20 +1,14 @@
-'use strict';
-const Prism = require('prismjs');
-const loadLanguages = require('prismjs/components/');
-const blockMap = require('./block-map');
-const colorMap = require('./color-map');
-const codeLangMap = require('./code-language-map');
-const { convertNotionURLToLocalLink } = require('./notion-utils');
-const { raiseWarning } = require('./log-utils');
-const blockClass = 'block';
-module.exports = {
-    renderChildren,
-    renderBlock,
-    renderTitle,
-    renderColor,
-    escapeString,
-    preRenderTransform
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+Object.defineProperty(exports, "__esModule", { value: true });
+const block_map_1 = __importDefault(require("./block-map"));
+const color_map_1 = __importDefault(require("./color-map"));
+const render_utils_prismjs_1 = __importDefault(require("./render-utils-prismjs"));
+const notion_utils_1 = require("./notion-utils");
+const log_utils_1 = require("./log-utils");
+const constants_1 = require("./constants");
 /**
  * Render children nodes.
  * @param {*} nodeArray - Children nodes to render.
@@ -26,13 +20,14 @@ function renderChildren(nodeArray, renderNext) {
     let childrenHTMLArr = nodeArray.map(node => {
         /** PseudoBlock does not have id! */
         let html = `\
-<div id="${node.id ? node.id : ''}">
+<div ${node.id ? `id="${node.id}"` : ''}>
   ${renderNext(node)}
 </div>`;
         return html;
     });
     return childrenHTMLArr.join('');
 }
+exports.renderChildren = renderChildren;
 /**
  * Render a block.
  * @param {Block} node
@@ -42,22 +37,22 @@ function renderChildren(nodeArray, renderNext) {
 function renderBlock(node, contentHTML, tag = 'div') {
     let blockColorClass = node.color ? renderColor(node.color) : '';
     let html = `\
-<${tag} class="${blockClass} ${blockClass}--${node.type} ${blockColorClass}">
+<${tag} class="${constants_1.CSS.blockClass} ${constants_1.CSS.blockClass}--${node.type} ${blockColorClass}">
   ${contentHTML}
 </${tag}>`;
     return html;
 }
+exports.renderBlock = renderBlock;
 /**
  * Render styled strings.
  * @param {StyledString[]} titleTokens
  * @returns {String} HTML
  */
-function renderTitle(titleTokens = [], isCode = false, lang) {
-    let codeLang = codeLangMap[lang];
+function renderTitle(titleTokens = [], isCode, lang) {
     let textArr = titleTokens.map(token => {
         let text = token[0];
         if (isCode) {
-            text = renderCode(text, codeLang);
+            text = render_utils_prismjs_1.default(text, lang);
         }
         else {
             text = escapeString(text);
@@ -73,25 +68,7 @@ function renderTitle(titleTokens = [], isCode = false, lang) {
 <span>${textArr.join('')}</span>`;
     return html;
 }
-function renderCode(str, lang) {
-    if (lang != null) {
-        /**
-         * Prismjs will do char escape.
-         *
-         * loadLanguages can not be used with webpack.
-         * https://github.com/PrismJS/prism/issues/1477
-         */
-        loadLanguages([lang]);
-        return Prism.highlight(str, Prism.languages[lang], lang);
-    }
-    else {
-        /**
-         * If user does not specify language, "lang" is undefined, so we just
-         * return the plain text.
-         */
-        return escapeString(str);
-    }
-}
+exports.renderTitle = renderTitle;
 /**
  * Render a styled string.
  * @param {String} text
@@ -116,7 +93,7 @@ function styleToHTML(text, styles) {
                 break;
             /* Link */
             case 'a':
-                html = `<a href="${convertNotionURLToLocalLink(styles[i][1])}">${html}</a>`;
+                html = `<a href="${notion_utils_1.convertNotionURLToLocalLink(styles[i][1])}">${html}</a>`;
                 break;
             /* Inline Code */
             case 'c':
@@ -124,7 +101,8 @@ function styleToHTML(text, styles) {
                 break;
             /* Color or Background Color */
             case 'h':
-                html = `<span class="${renderColor(styles[i][1])}">${html}</span>`;
+                let color = styles[i][1];
+                html = `<span class="${renderColor(color)}">${html}</span>`;
                 break;
             /* Inline Mention User */
             case 'u':
@@ -136,34 +114,18 @@ function styleToHTML(text, styles) {
                 break;
             /* Inline Mention Date */
             case 'd':
-                html = `<span class="color-mention">@${styles[i][1].start_date}</span>`;
+                let date = styles[i][1];
+                html = `<span class="color-mention">@${date.start_date}</span>`;
                 break;
             /* Comment */
             case 'm':
                 html = `<span class="color-comment">${html}</span>`;
                 break;
             default:
-                raiseWarning(`Unsupported style: ${styles[i][0]}`);
+                log_utils_1.raiseWarning(`Unsupported style: ${styles[i][0]}`);
         }
     }
     return html;
-}
-/**
- * Get color string of a block.
- * @param {Block} node
- * @param {String} defaultColor
- * @returns {String} Color string of the block.
- */
-function getBlockColor(node, defaultColor = '') {
-    let blockColor;
-    if (node['raw_value'] && node['raw_value'].format) {
-        blockColor = node['raw_value'].format['block_color']
-            ? node['raw_value'].format['block_color'] : defaultColor;
-    }
-    else {
-        blockColor = defaultColor;
-    }
-    return renderColor(blockColor);
 }
 /**
  * Map color string in NAST to another string that is intended to use
@@ -172,49 +134,50 @@ function getBlockColor(node, defaultColor = '') {
  * @returns {String}
  */
 function renderColor(str) {
-    const colorPrefix = 'color-';
-    const colorBgPrefix = 'background-';
+    const colorPrefix = constants_1.CSS.colorClassPrefix;
+    const colorBgPrefix = constants_1.CSS.bgColorClassPrefix;
     switch (str) {
-        case colorMap.gray:
+        case color_map_1.default.gray:
             return colorPrefix + 'gray';
-        case colorMap.brown:
+        case color_map_1.default.brown:
             return colorPrefix + 'brown';
-        case colorMap.orange:
+        case color_map_1.default.orange:
             return colorPrefix + 'orange';
-        case colorMap.yellow:
+        case color_map_1.default.yellow:
             return colorPrefix + 'yellow';
-        case colorMap.green:
+        case color_map_1.default.green:
             return colorPrefix + 'green';
-        case colorMap.blue:
+        case color_map_1.default.blue:
             return colorPrefix + 'blue';
-        case colorMap.purple:
+        case color_map_1.default.purple:
             return colorPrefix + 'purple';
-        case colorMap.pink:
+        case color_map_1.default.pink:
             return colorPrefix + 'pink';
-        case colorMap.red:
+        case color_map_1.default.red:
             return colorPrefix + 'red';
-        case colorMap.grayBg:
+        case color_map_1.default.grayBg:
             return colorBgPrefix + 'gray';
-        case colorMap.brownBg:
+        case color_map_1.default.brownBg:
             return colorBgPrefix + 'brown';
-        case colorMap.orangeBg:
+        case color_map_1.default.orangeBg:
             return colorBgPrefix + 'orange';
-        case colorMap.yellowBg:
+        case color_map_1.default.yellowBg:
             return colorBgPrefix + 'yellow';
-        case colorMap.greenBg:
+        case color_map_1.default.greenBg:
             return colorBgPrefix + 'green';
-        case colorMap.blueBg:
+        case color_map_1.default.blueBg:
             return colorBgPrefix + 'blue';
-        case colorMap.purpleBg:
+        case color_map_1.default.purpleBg:
             return colorBgPrefix + 'purple';
-        case colorMap.pinkBg:
+        case color_map_1.default.pinkBg:
             return colorBgPrefix + 'pink';
-        case colorMap.redBg:
+        case color_map_1.default.redBg:
             return colorBgPrefix + 'red';
         default:
             return str;
     }
 }
+exports.renderColor = renderColor;
 /**
  * Escape special characters in a string.
  * @param {String} str
@@ -249,9 +212,11 @@ function escapeString(str) {
     }
     return escapedString;
 }
+exports.escapeString = escapeString;
 /**
- * Transform the tree so that it's eaiser to render.
- * @param {Nast.Root} treeRoot
+ * Add BulletedList and NumberedList helper blocks to the tree,
+ * so it's easier to render.
+ * @param treeRoot
  */
 function preRenderTransform(treeRoot) {
     let newChildren = [];
@@ -263,30 +228,49 @@ function preRenderTransform(treeRoot) {
      */
     for (let i = 0; i < children.length; ++i) {
         let block = children[i];
+        /**
+         * Fill helper blocks with dummy property values to make
+         * the new tree meet the NAST spec.
+         */
+        let dummyBlock = {
+            id: '',
+            createdTime: 0,
+            lastEditedTime: 0
+        };
         if (block.children.length !== 0) {
             block = preRenderTransform(block);
         }
-        if (block.type === blockMap.bulletedListItem) {
+        if (block.type === block_map_1.default.bulletedListItem) {
             if (prevState === 1) {
-                list.children.push(block);
+                if (list != null)
+                    list.children.push(block);
+                else
+                    log_utils_1.raiseWarning(`preRenderTransform panic:\
+ Push child ${block.id} to undefined list`);
             }
             else {
                 list = {
-                    type: blockMap.bulletedList,
-                    children: [block]
+                    type: block_map_1.default.bulletedList,
+                    children: [block],
+                    ...dummyBlock
                 };
                 newChildren.push(list);
             }
             prevState = 1;
         }
-        else if (block.type === blockMap.numberedListItem) {
+        else if (block.type === block_map_1.default.numberedListItem) {
             if (prevState === 2) {
-                list.children.push(block);
+                if (list != null)
+                    list.children.push(block);
+                else
+                    log_utils_1.raiseWarning(`preRenderTransform panic:\
+ Push child ${block.id} to undefined list`);
             }
             else {
                 list = {
-                    type: blockMap.numberedList,
-                    children: [block]
+                    type: block_map_1.default.numberedList,
+                    children: [block],
+                    ...dummyBlock
                 };
                 newChildren.push(list);
             }
@@ -301,4 +285,5 @@ function preRenderTransform(treeRoot) {
     newTree.children = newChildren;
     return newTree;
 }
+exports.preRenderTransform = preRenderTransform;
 //# sourceMappingURL=render-utils.js.map

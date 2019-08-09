@@ -1,7 +1,7 @@
 import { Nast } from '../../../types/src'
 
 import { renderColor, renderTitle } from '../render-utils'
-import { blockClass } from './constants'
+import { CSS } from '../constants'
 
 function renderHeading(node: Nast.Heading): string {
   let blockColorClass = node.color ? renderColor(node.color) : ''
@@ -15,11 +15,11 @@ function renderHeading(node: Nast.Heading): string {
   }
 
   let html = `\
-<div class="${blockClass} ${blockColorClass}">
+<div class="${CSS.blockClass} ${blockColorClass}">
   ${content}
 </div>`
 
   return html
 }
 
-export = renderHeading
+export default renderHeading

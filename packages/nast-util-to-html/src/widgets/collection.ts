@@ -1,6 +1,6 @@
 import { Nast, Notion } from '../../../types/src'
 
-import { viewTypeMap } from './constants'
+import { collectionViewTypeMap } from '../constants'
 import { raiseWarning } from '../log-utils'
 import { escapeString } from '../render-utils'
 
@@ -22,7 +22,7 @@ function renderCollection(
   }
 
   switch (viewMeta.type) {
-    case viewTypeMap.gallery:
+    case collectionViewTypeMap.gallery:
       return renderGallery(node, pages, viewMeta.format)
     default:
       raiseWarning(`No renderer for view type ${viewMeta.type}`)
@@ -92,4 +92,4 @@ function factorySortFunc(sortQuery: Notion.SortQuery[]) {
   }
 }
 
-export = renderCollection
+export default renderCollection

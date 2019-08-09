@@ -1,21 +1,21 @@
 import { Nast } from '../../../types/src'
 
 import { renderChildren, renderColor, renderTitle } from '../render-utils'
-import { blockClass, blockIndentClass } from './constants'
+import { CSS } from '../constants'
 import blockMap from '../block-map'
 
 function renderText(node: Nast.Text, renderNext: Function) {
   let blockColorClass = node.color ? renderColor(node.color) : ''
 
   let content = `\
-<div class="${blockClass} ${blockClass}--${blockMap.text} ${blockColorClass}">
+<div class="${CSS.blockClass} ${CSS.blockClass}--${blockMap.text} ${blockColorClass}">
   ${renderTitle(node.text, false, '')}
 </div>`
 
   let childrenContent = ''
   if (node.children.length > 0) {
     childrenContent = `\
-<div class="${blockIndentClass}">
+<div class="${CSS.blockIndentClass}">
   ${renderChildren(node.children, renderNext)}
 </div>`
   }
@@ -23,4 +23,4 @@ function renderText(node: Nast.Text, renderNext: Function) {
   return content + childrenContent
 }
 
-export = renderText
+export default renderText

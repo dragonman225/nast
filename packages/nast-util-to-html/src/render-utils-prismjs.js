@@ -1,3 +1,14 @@
+/**
+ * "prismjs/components" doesn't have TS declaration, importing directly
+ * leads to an error, so we use a JS module to wrap it.
+ */
+const Prism = require('prismjs')
+const loadLanguages = require('prismjs/components/index')
+
+/** 
+ * TODO: Make a map like below "map".
+ * The "languages" map contains outdated info.
+ */
 const languages = {
   'html': 'HTML',
   'xml': 'XML',
@@ -148,6 +159,7 @@ let map = {
   'Elixir': 'elixir',
   'Elm': 'elm'
 }
+
 Object.entries(languages).forEach(pair => {
   if (!map[pair[1]]) {
     Object.defineProperty(map, pair[1], {
@@ -156,4 +168,30 @@ Object.entries(languages).forEach(pair => {
   }
 })
 
-module.exports = map
+function renderCode(str, lang) {
+  let codeLang = getLangString(lang)
+  if (lang && codeLang) {
+    /**
+     * Prismjs will do char escape.
+     * 
+     * loadLanguages can not be used with webpack.
+     * https://github.com/PrismJS/prism/issues/1477
+     */
+    loadLanguages([codeLang])
+    return Prism.highlight(str, Prism.languages[codeLang], codeLang)
+  } else {
+    /**
+     * If user does not specify language, "lang" is undefined, so we just
+     * return the plain text.
+     */
+    return escapeString(str)
+  }
+}
+
+function getLangString(str) {
+  let lang = map[str]
+  if (lang != null) return lang
+  else return undefined
+}
+
+module.exports = renderCode

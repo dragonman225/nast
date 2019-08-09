@@ -11,7 +11,7 @@ type RenderOptions = {
  * Generate static HTML from NAST.
  */
 function renderToHTML(
-  tree: Nast.Root,
+  tree: Nast.Block,
   options: RenderOptions = {
     contentOnly: false
   }
