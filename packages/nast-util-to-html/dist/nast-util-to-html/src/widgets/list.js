@@ -1,15 +1,12 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const block_map_1 = __importDefault(require("../block-map"));
+const constants_1 = require("../constants");
 const render_utils_1 = require("../render-utils");
 function renderList(node, renderNext) {
-    if (node.type === block_map_1.default.bulletedList)
+    if (node.type === constants_1.NAST_BLOCK_TYPES.bulletedList)
         return renderBulletedList(node, renderNext);
     else
-        (node.type === block_map_1.default.numberedList);
+        (node.type === constants_1.NAST_BLOCK_TYPES.numberedList);
     return renderNumberedList(node, renderNext);
 }
 function renderBulletedList(node, renderNext) {

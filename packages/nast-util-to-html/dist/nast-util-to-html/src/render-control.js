@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const block_map_1 = __importDefault(require("./block-map"));
+const constants_1 = require("./constants");
 const render_utils_1 = require("./render-utils");
 const log_utils_1 = require("./log-utils");
 const audio_1 = __importDefault(require("./widgets/audio"));
@@ -72,54 +72,54 @@ exports.renderRoot = renderRoot;
 function renderNode(node) {
     let html = '';
     switch (node.type) {
-        case block_map_1.default.text:
+        case constants_1.NAST_BLOCK_TYPES.text:
             html = text_1.default(node, renderNode);
             break;
-        case block_map_1.default.heading:
+        case constants_1.NAST_BLOCK_TYPES.heading:
             html = heading_1.default(node);
             break;
-        case block_map_1.default.columnList:
+        case constants_1.NAST_BLOCK_TYPES.columnList:
             html = column_helper_1.default(node, renderNode);
             break;
-        case block_map_1.default.bulletedList:
-        case block_map_1.default.numberedList:
+        case constants_1.NAST_BLOCK_TYPES.bulletedList:
+        case constants_1.NAST_BLOCK_TYPES.numberedList:
             html = list_1.default(node, renderNode);
             break;
-        case block_map_1.default.toggle:
+        case constants_1.NAST_BLOCK_TYPES.toggle:
             html = toggle_1.default(node, renderNode);
             break;
-        case block_map_1.default.toDo:
+        case constants_1.NAST_BLOCK_TYPES.toDo:
             html = to_do_1.default(node, renderNode);
             break;
-        case block_map_1.default.divider:
+        case constants_1.NAST_BLOCK_TYPES.divider:
             html = divider_1.default(node);
             break;
-        case block_map_1.default.quote:
+        case constants_1.NAST_BLOCK_TYPES.quote:
             html = quote_1.default(node);
             break;
-        case block_map_1.default.callout:
+        case constants_1.NAST_BLOCK_TYPES.callout:
             html = callout_1.default(node);
             break;
-        case block_map_1.default.image:
+        case constants_1.NAST_BLOCK_TYPES.image:
             html = image_1.default(node);
             break;
-        case block_map_1.default.bookmark:
+        case constants_1.NAST_BLOCK_TYPES.bookmark:
             html = bookmark_1.default(node);
             break;
-        case block_map_1.default.embed:
-        case block_map_1.default.video:
+        case constants_1.NAST_BLOCK_TYPES.embed:
+        case constants_1.NAST_BLOCK_TYPES.video:
             html = embed_1.default(node);
             break;
-        case block_map_1.default.audio:
+        case constants_1.NAST_BLOCK_TYPES.audio:
             html = audio_1.default(node);
             break;
-        case block_map_1.default.code:
+        case constants_1.NAST_BLOCK_TYPES.code:
             html = code_1.default(node);
             break;
-        case block_map_1.default.equation:
+        case constants_1.NAST_BLOCK_TYPES.equation:
             html = equation_1.default(node);
             break;
-        case block_map_1.default.collection:
+        case constants_1.NAST_BLOCK_TYPES.collection:
             html = collection_1.default(node);
             break;
         default:

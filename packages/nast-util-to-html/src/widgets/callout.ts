@@ -1,6 +1,6 @@
 import { Nast } from '../../../types/src'
 
-import colorMap from '../color-map'
+import { COLOR } from '../constants'
 import { renderBlock, renderTitle } from '../render-utils'
 
 function renderCallout(
@@ -14,7 +14,7 @@ function renderCallout(
   ${renderTitle(node.text, false, '')}
 </div>`
 
-  return renderBlock(node, content, colorMap.yellowBg)
+  return renderBlock(node, content, COLOR.yellowBg)
 }
 
 export default renderCallout

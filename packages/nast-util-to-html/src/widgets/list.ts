@@ -1,15 +1,15 @@
 import { Nast } from '../../../types/src'
 
-import blockMap from '../block-map'
+import { NAST_BLOCK_TYPES } from '../constants'
 import { renderChildren, renderBlock, renderTitle } from '../render-utils'
 
 function renderList(
   node: Nast.Block,
   renderNext: Function
 ): string {
-  if (node.type === blockMap.bulletedList)
+  if (node.type === NAST_BLOCK_TYPES.bulletedList)
     return renderBulletedList(node, renderNext)
-  else (node.type === blockMap.numberedList)
+  else (node.type === NAST_BLOCK_TYPES.numberedList)
     return renderNumberedList(node, renderNext)
 }
 

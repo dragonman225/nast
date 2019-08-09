@@ -1,7 +1,7 @@
 import { Nast } from '../../../types/src'
 
-import { renderColor, renderTitle } from '../render-utils'
 import { CSS } from '../constants'
+import { renderColor, renderTitle } from '../render-utils'
 
 function renderHeading(node: Nast.Heading): string {
   let blockColorClass = node.color ? renderColor(node.color) : ''

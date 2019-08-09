@@ -1,15 +1,11 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const render_utils_1 = require("../render-utils");
 const constants_1 = require("../constants");
-const block_map_1 = __importDefault(require("../block-map"));
+const render_utils_1 = require("../render-utils");
 function renderText(node, renderNext) {
     let blockColorClass = node.color ? render_utils_1.renderColor(node.color) : '';
     let content = `\
-<div class="${constants_1.CSS.blockClass} ${constants_1.CSS.blockClass}--${block_map_1.default.text} ${blockColorClass}">
+<div class="${constants_1.CSS.blockClass} ${constants_1.CSS.blockClass}--${constants_1.NAST_BLOCK_TYPES.text} ${blockColorClass}">
   ${render_utils_1.renderTitle(node.text, false, '')}
 </div>`;
     let childrenContent = '';

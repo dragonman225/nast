@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const render_utils_1 = require("../render-utils");
 const constants_1 = require("../constants");
+const render_utils_1 = require("../render-utils");
 function renderHeading(node) {
     let blockColorClass = node.color ? render_utils_1.renderColor(node.color) : '';
     let textHTML = render_utils_1.renderTitle(node.text, false, '');

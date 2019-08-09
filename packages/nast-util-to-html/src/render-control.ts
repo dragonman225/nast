@@ -1,6 +1,6 @@
 import { Nast } from '../../types/src'
 
-import blockMap from './block-map'
+import { NAST_BLOCK_TYPES } from './constants'
 import { renderChildren } from './render-utils'
 import { raiseWarning } from './log-utils'
 
@@ -74,54 +74,54 @@ function renderNode(node: Nast.Block): string {
   let html = ''
 
   switch (node.type) {
-    case blockMap.text:
+    case NAST_BLOCK_TYPES.text:
       html = renderText(node as Nast.Text, renderNode)
       break
-    case blockMap.heading:
+    case NAST_BLOCK_TYPES.heading:
       html = renderHeading(node as Nast.Heading)
       break
-    case blockMap.columnList:
+    case NAST_BLOCK_TYPES.columnList:
       html = renderColumnList(node as Nast.ColumnList, renderNode)
       break
-    case blockMap.bulletedList:
-    case blockMap.numberedList:
+    case NAST_BLOCK_TYPES.bulletedList:
+    case NAST_BLOCK_TYPES.numberedList:
       html = renderList(node, renderNode)
       break
-    case blockMap.toggle:
+    case NAST_BLOCK_TYPES.toggle:
       html = renderToggle(node as Nast.ToggleList, renderNode)
       break
-    case blockMap.toDo:
+    case NAST_BLOCK_TYPES.toDo:
       html = renderToDo(node as Nast.ToDoList, renderNode)
       break
-    case blockMap.divider:
+    case NAST_BLOCK_TYPES.divider:
       html = renderDivider(node as Nast.Divider)
       break
-    case blockMap.quote:
+    case NAST_BLOCK_TYPES.quote:
       html = renderQuote(node as Nast.Quote)
       break
-    case blockMap.callout:
+    case NAST_BLOCK_TYPES.callout:
       html = renderCallout(node as Nast.Callout)
       break
-    case blockMap.image:
+    case NAST_BLOCK_TYPES.image:
       html = renderImage(node as Nast.Image)
       break
-    case blockMap.bookmark:
+    case NAST_BLOCK_TYPES.bookmark:
       html = renderBookmark(node as Nast.WebBookmark)
       break
-    case blockMap.embed:
-    case blockMap.video:
+    case NAST_BLOCK_TYPES.embed:
+    case NAST_BLOCK_TYPES.video:
       html = renderEmbed(node as Nast.Embed)
       break
-    case blockMap.audio:
+    case NAST_BLOCK_TYPES.audio:
       html = renderAudio(node as Nast.Audio)
       break
-    case blockMap.code:
+    case NAST_BLOCK_TYPES.code:
       html = renderCode(node as Nast.Code)
       break
-    case blockMap.equation:
+    case NAST_BLOCK_TYPES.equation:
       html = renderEquation(node as Nast.Equation)
       break
-    case blockMap.collection:
+    case NAST_BLOCK_TYPES.collection:
       html = renderCollection(node as Nast.Collection)
       break
     default:

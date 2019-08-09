@@ -1,7 +1,6 @@
 import { Nast, Notion } from '../../types/src'
 
-import blockMap from './block-map'
-import colorMap from './color-map'
+import { NAST_BLOCK_TYPES, COLOR } from './constants'
 import renderCode from './render-utils-prismjs'
 import { convertNotionURLToLocalLink } from './notion-utils'
 import { raiseWarning } from './log-utils'
@@ -154,41 +153,41 @@ function renderColor(
   const colorPrefix = CSS.colorClassPrefix
   const colorBgPrefix = CSS.bgColorClassPrefix
   switch (str) {
-    case colorMap.gray:
+    case COLOR.gray:
       return colorPrefix + 'gray'
-    case colorMap.brown:
+    case COLOR.brown:
       return colorPrefix + 'brown'
-    case colorMap.orange:
+    case COLOR.orange:
       return colorPrefix + 'orange'
-    case colorMap.yellow:
+    case COLOR.yellow:
       return colorPrefix + 'yellow'
-    case colorMap.green:
+    case COLOR.green:
       return colorPrefix + 'green'
-    case colorMap.blue:
+    case COLOR.blue:
       return colorPrefix + 'blue'
-    case colorMap.purple:
+    case COLOR.purple:
       return colorPrefix + 'purple'
-    case colorMap.pink:
+    case COLOR.pink:
       return colorPrefix + 'pink'
-    case colorMap.red:
+    case COLOR.red:
       return colorPrefix + 'red'
-    case colorMap.grayBg:
+    case COLOR.grayBg:
       return colorBgPrefix + 'gray'
-    case colorMap.brownBg:
+    case COLOR.brownBg:
       return colorBgPrefix + 'brown'
-    case colorMap.orangeBg:
+    case COLOR.orangeBg:
       return colorBgPrefix + 'orange'
-    case colorMap.yellowBg:
+    case COLOR.yellowBg:
       return colorBgPrefix + 'yellow'
-    case colorMap.greenBg:
+    case COLOR.greenBg:
       return colorBgPrefix + 'green'
-    case colorMap.blueBg:
+    case COLOR.blueBg:
       return colorBgPrefix + 'blue'
-    case colorMap.purpleBg:
+    case COLOR.purpleBg:
       return colorBgPrefix + 'purple'
-    case colorMap.pinkBg:
+    case COLOR.pinkBg:
       return colorBgPrefix + 'pink'
-    case colorMap.redBg:
+    case COLOR.redBg:
       return colorBgPrefix + 'red'
     default:
       return str
@@ -267,28 +266,28 @@ function preRenderTransform(
       block = preRenderTransform(block)
     }
 
-    if (block.type === blockMap.bulletedListItem) {
+    if (block.type === NAST_BLOCK_TYPES.bulletedListItem) {
       if (prevState === 1) {
         if (list != null) list.children.push(block)
         else raiseWarning(`preRenderTransform panic:\
  Push child ${block.id} to undefined list`)
       } else {
         list = {
-          type: blockMap.bulletedList,
+          type: NAST_BLOCK_TYPES.bulletedList,
           children: [block],
           ...dummyBlock
         }
         newChildren.push(list)
       }
       prevState = 1
-    } else if (block.type === blockMap.numberedListItem) {
+    } else if (block.type === NAST_BLOCK_TYPES.numberedListItem) {
       if (prevState === 2) {
         if (list != null) list.children.push(block)
         else raiseWarning(`preRenderTransform panic:\
  Push child ${block.id} to undefined list`)
       } else {
         list = {
-          type: blockMap.numberedList,
+          type: NAST_BLOCK_TYPES.numberedList,
           children: [block],
           ...dummyBlock
         }

@@ -1,14 +1,13 @@
 import { Nast } from '../../../types/src'
 
+import { CSS, NAST_BLOCK_TYPES } from '../constants'
 import { renderChildren, renderColor, renderTitle } from '../render-utils'
-import { CSS } from '../constants'
-import blockMap from '../block-map'
 
 function renderText(node: Nast.Text, renderNext: Function) {
   let blockColorClass = node.color ? renderColor(node.color) : ''
 
   let content = `\
-<div class="${CSS.blockClass} ${CSS.blockClass}--${blockMap.text} ${blockColorClass}">
+<div class="${CSS.blockClass} ${CSS.blockClass}--${NAST_BLOCK_TYPES.text} ${blockColorClass}">
   ${renderTitle(node.text, false, '')}
 </div>`
 

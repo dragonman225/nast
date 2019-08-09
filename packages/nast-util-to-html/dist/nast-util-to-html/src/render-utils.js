@@ -3,12 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const block_map_1 = __importDefault(require("./block-map"));
-const color_map_1 = __importDefault(require("./color-map"));
+const constants_1 = require("./constants");
 const render_utils_prismjs_1 = __importDefault(require("./render-utils-prismjs"));
 const notion_utils_1 = require("./notion-utils");
 const log_utils_1 = require("./log-utils");
-const constants_1 = require("./constants");
+const constants_2 = require("./constants");
 /**
  * Render children nodes.
  * @param {*} nodeArray - Children nodes to render.
@@ -37,7 +36,7 @@ exports.renderChildren = renderChildren;
 function renderBlock(node, contentHTML, tag = 'div') {
     let blockColorClass = node.color ? renderColor(node.color) : '';
     let html = `\
-<${tag} class="${constants_1.CSS.blockClass} ${constants_1.CSS.blockClass}--${node.type} ${blockColorClass}">
+<${tag} class="${constants_2.CSS.blockClass} ${constants_2.CSS.blockClass}--${node.type} ${blockColorClass}">
   ${contentHTML}
 </${tag}>`;
     return html;
@@ -134,44 +133,44 @@ function styleToHTML(text, styles) {
  * @returns {String}
  */
 function renderColor(str) {
-    const colorPrefix = constants_1.CSS.colorClassPrefix;
-    const colorBgPrefix = constants_1.CSS.bgColorClassPrefix;
+    const colorPrefix = constants_2.CSS.colorClassPrefix;
+    const colorBgPrefix = constants_2.CSS.bgColorClassPrefix;
     switch (str) {
-        case color_map_1.default.gray:
+        case constants_1.COLOR.gray:
             return colorPrefix + 'gray';
-        case color_map_1.default.brown:
+        case constants_1.COLOR.brown:
             return colorPrefix + 'brown';
-        case color_map_1.default.orange:
+        case constants_1.COLOR.orange:
             return colorPrefix + 'orange';
-        case color_map_1.default.yellow:
+        case constants_1.COLOR.yellow:
             return colorPrefix + 'yellow';
-        case color_map_1.default.green:
+        case constants_1.COLOR.green:
             return colorPrefix + 'green';
-        case color_map_1.default.blue:
+        case constants_1.COLOR.blue:
             return colorPrefix + 'blue';
-        case color_map_1.default.purple:
+        case constants_1.COLOR.purple:
             return colorPrefix + 'purple';
-        case color_map_1.default.pink:
+        case constants_1.COLOR.pink:
             return colorPrefix + 'pink';
-        case color_map_1.default.red:
+        case constants_1.COLOR.red:
             return colorPrefix + 'red';
-        case color_map_1.default.grayBg:
+        case constants_1.COLOR.grayBg:
             return colorBgPrefix + 'gray';
-        case color_map_1.default.brownBg:
+        case constants_1.COLOR.brownBg:
             return colorBgPrefix + 'brown';
-        case color_map_1.default.orangeBg:
+        case constants_1.COLOR.orangeBg:
             return colorBgPrefix + 'orange';
-        case color_map_1.default.yellowBg:
+        case constants_1.COLOR.yellowBg:
             return colorBgPrefix + 'yellow';
-        case color_map_1.default.greenBg:
+        case constants_1.COLOR.greenBg:
             return colorBgPrefix + 'green';
-        case color_map_1.default.blueBg:
+        case constants_1.COLOR.blueBg:
             return colorBgPrefix + 'blue';
-        case color_map_1.default.purpleBg:
+        case constants_1.COLOR.purpleBg:
             return colorBgPrefix + 'purple';
-        case color_map_1.default.pinkBg:
+        case constants_1.COLOR.pinkBg:
             return colorBgPrefix + 'pink';
-        case color_map_1.default.redBg:
+        case constants_1.COLOR.redBg:
             return colorBgPrefix + 'red';
         default:
             return str;
@@ -240,7 +239,7 @@ function preRenderTransform(treeRoot) {
         if (block.children.length !== 0) {
             block = preRenderTransform(block);
         }
-        if (block.type === block_map_1.default.bulletedListItem) {
+        if (block.type === constants_1.NAST_BLOCK_TYPES.bulletedListItem) {
             if (prevState === 1) {
                 if (list != null)
                     list.children.push(block);
@@ -250,7 +249,7 @@ function preRenderTransform(treeRoot) {
             }
             else {
                 list = {
-                    type: block_map_1.default.bulletedList,
+                    type: constants_1.NAST_BLOCK_TYPES.bulletedList,
                     children: [block],
                     ...dummyBlock
                 };
@@ -258,7 +257,7 @@ function preRenderTransform(treeRoot) {
             }
             prevState = 1;
         }
-        else if (block.type === block_map_1.default.numberedListItem) {
+        else if (block.type === constants_1.NAST_BLOCK_TYPES.numberedListItem) {
             if (prevState === 2) {
                 if (list != null)
                     list.children.push(block);
@@ -268,7 +267,7 @@ function preRenderTransform(treeRoot) {
             }
             else {
                 list = {
-                    type: block_map_1.default.numberedList,
+                    type: constants_1.NAST_BLOCK_TYPES.numberedList,
                     children: [block],
                     ...dummyBlock
                 };
