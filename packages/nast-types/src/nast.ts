@@ -54,6 +54,7 @@ export interface Page extends Block {
   cover?: string
   fullWidth: boolean
   coverPosition: number
+  properties?: Notion.BlockProperties
 }
 
 export interface Text extends Block {
@@ -193,11 +194,14 @@ export interface Column extends Block {
  * Collection represents all types of databases.
  */
 export interface Collection extends Block {
+  type: 'collection'
   id: string
   collectionId: string
-  icon: string
-  type: 'collection'
   name: string
+  icon?: string
+  cover?: string
+  description?: Notion.StyledString[]
+  coverPosition: number
   schema: {
     [key: string]: Notion.CollectionColumnInfo
   }
@@ -215,7 +219,7 @@ export interface CollectionViewMetadata {
   type: string
   name: string
   query: Notion.Query
-  format: {}
+  format: Notion.CollectionViewFormat
   aggregate: AggregationMetadata[]
 }
 

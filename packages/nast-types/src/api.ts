@@ -176,16 +176,25 @@ export interface CollectionRecordValue {
 }
 
 export interface CollectionValue {
-  alive: boolean
-  icon: string
   id: string
-  name: string[][]
+  name: {
+    0: { 0: string }
+  }
+  icon?: string
+  cover?: string
+  description?: StyledString[]
+  format?: CollectionFormat
   parent_id: string
   parent_table: string
   schema: {
     [key: string]: CollectionColumnInfo
   }
   version: number
+  alive: boolean
+}
+
+export interface CollectionFormat {
+  collection_cover_position?: number
 }
 
 export interface CollectionColumnInfo {
@@ -212,10 +221,7 @@ export interface CollectionViewRecordValue {
 
 export interface CollectionViewValue {
   alive: boolean
-  format: {
-    table_properties: TableProperty[]
-    table_wrap: boolean
-  }
+  format: CollectionViewFormat
   id: string
   name: string
   page_sort: string[]
@@ -226,8 +232,22 @@ export interface CollectionViewValue {
   version: number
 }
 
+export interface CollectionViewFormat {
+  table_properties?: TableProperty[]
+  table_wrap?: boolean
+  gallery_properties?: GalleryProperty[]
+  gallery_cover?: { type: string }
+  gallery_cover_aspect?: string
+  gallery_title_visible?: boolean
+}
+
 export interface TableProperty {
   width: number
+  visible: boolean
+  property: string
+}
+
+export interface GalleryProperty {
   visible: boolean
   property: string
 }
@@ -310,12 +330,18 @@ export interface Permission {
  * Utils
  * =====
  */
-export interface TextStyle {
-  0: string
-  1?: string
-}
-
 export interface StyledString {
   0: string
   1?: TextStyle[]
+}
+
+export interface TextStyle {
+  0: string
+  1?: string | InlineDate
+}
+
+export interface InlineDate {
+  type: string
+  start_date: string
+  date_format: string
 }
