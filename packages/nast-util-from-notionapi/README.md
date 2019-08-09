@@ -1,16 +1,14 @@
 # nast-util-from-notionapi
 
-Create NAST (**N**otion-compatible **A**bstract **S**yntax **T**ree) from [Notion](https://www.notion.so)'s API.
+Convert a Notion.so page into a tree object, using Notion's API.
 
-The NAST data structure is currently under active development, where the specification is changing often, so there are still no released documentation.
-
- For related projects, please see the topic [Notajs](https://github.com/topics/notajs).
+For related projects, please see the topic [notajs](https://github.com/topics/notajs).
 
 ## Documentation
 
 * [Usage](#Usage)
-* [Quickstart](#Quickstart)
-* [API Methods](#API-Methods)
+* [Example](#Example)
+* [API Reference](#API-Reference)
 * [Notes](#Notes)
 
 ## Usage
@@ -19,15 +17,19 @@ The NAST data structure is currently under active development, where the specifi
 npm i nast-util-from-notionapi
 ```
 
-You also need [`notionapi-agent`](https://github.com/dragonman225/notionapi-agent).
+Also need [`notionapi-agent`](https://github.com/dragonman225/notionapi-agent) to retrieve raw data from Notion's API.
 
 ```bash
 npm i notionapi-agent
 ```
 
-The agent is used to retrieve raw data from Notion's API.
+`require` this module,
 
-## Getting Started
+```javascript
+const { getOnePageAsTree, getAllBlocksInOnePage } = require('nast-util-from-notionapi')
+```
+
+## Example
 
 ```javascript
 const fs = require('fs')
@@ -67,23 +69,23 @@ async function main() {
 main()
 ```
 
-## API Methods
+## API Reference
 
 ### `async` `getOnePageAsTree(pageID, agent)`
 
-Download a Notion page as a re-formated tree with a Notion API agent.
+Download a page as a tree object in an easy-to-work-with format.
 
-* `pageID` - (required) The ID of a Notion page. It must be the one with dashes as below example :
+* `pageID` - (required) The ID of a Notion page. It must be the one with dashes as below :
   
-  ```javascript
-  'cbf2b645-xxxx-xxxx-xxxx-xxxxe8cfed93'
+  ```
+  cbf2b645-xxxx-xxxx-xxxx-xxxxe8cfed93
   ```
 
 * `agent` - (required) A [`Notion.Agent`](https://github.com/dragonman225/notajs-types/blob/b1d75c1f6a4241afffd40bb74db34e0227bfbf54/src/api.ts#L6) instance from [notionapi-agent](https://github.com/dragonman225/notionapi-agent).
 
 #### Returns :
 
-The re-formated tree object. [View TypeScript Definition](https://github.com/dragonman225/notajs-types/blob/b1d75c1f6a4241afffd40bb74db34e0227bfbf54/src/nast.ts#L19)
+A tree object `Block` [Go to Definition](https://github.com/dragonman225/notajs-types/blob/b1d75c1f6a4241afffd40bb74db34e0227bfbf54/src/nast.ts#L19)
 
 ```typescript
 interface Block {
@@ -98,13 +100,13 @@ interface Block {
 
 ### `async` `getAllBlocksInOnePage(pageID, agent)`
 
-Download all blocks of a Notion page as an array in raw format.
+Download all blocks of a page as an array in Notion's raw format.
 
 Function parameters are the same as `getOnePageAsTree`.
 
 #### Returns :
 
-The array in raw format (`BlockRecordValue[]`). [View TypeScript Definition](https://github.com/dragonman225/notajs-types/blob/b1d75c1f6a4241afffd40bb74db34e0227bfbf54/src/api.ts#L90)
+An array `BlockRecordValue[]` [Go to Definition](https://github.com/dragonman225/notajs-types/blob/b1d75c1f6a4241afffd40bb74db34e0227bfbf54/src/api.ts#L90)
 
 ```typescript
 interface BlockRecordValue {
