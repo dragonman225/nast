@@ -23,7 +23,7 @@ function renderCollection(
 
   switch (viewMeta.type) {
     case viewTypeMap.gallery:
-      return renderGallery(node, pages)
+      return renderGallery(node, pages, viewMeta.format)
     default:
       raiseWarning(`No renderer for view type ${viewMeta.type}`)
       return ''
@@ -32,15 +32,20 @@ function renderCollection(
 
 function renderGallery(
   node: Nast.Collection,
-  pages: Nast.Page[]
+  pages: Nast.Page[],
+  viewFormat: Notion.CollectionViewFormat
 ): string {
   let title = node.name
+  let imageContain = viewFormat.gallery_cover_aspect
+    ? viewFormat.gallery_cover_aspect === 'contain' : false
+
   let pagesHTMLArr = pages.map(page => {
     return `\
 <div id="${page.id}" class="gallery__grid__item">
   <div class="gallery__gird__item__content">
     <div>
-      <div class="gallery__grid__item__cover">
+      <div class="gallery__grid__item__cover ${imageContain
+        ? 'gallery__grid__item__cover--contain' : ''}">
         ${page.cover ? `<img src="${page.cover}">` : ''}
       </div>
       <div class="gallery__grid__item__title">
@@ -74,7 +79,7 @@ function factorySortFunc(sortQuery: Notion.SortQuery[]) {
 
       if (sortQuery[i].type === 'title') field = 'title'
       else if (sortQuery[i].type === 'created_time') field = 'createdTime'
-      else return 0
+      else continue
 
       /**
        * Tricks here: when a[field] equals b[field], it does

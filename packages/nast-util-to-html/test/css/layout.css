@@ -180,6 +180,10 @@ li {
   object-position: center 50%;
 }
 
+.gallery__grid__item__cover--contain > img {
+  object-fit: contain;
+}
+
 .gallery__grid__item__title {
   padding: 8px 10px 10px;
   white-space: nowrap;
