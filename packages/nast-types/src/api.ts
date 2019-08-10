@@ -142,6 +142,7 @@ export interface BlockProperties {
 export interface BlockFormat {
   block_color?: string
   block_width?: number // image, video
+  block_height?: number // codepen
   block_locked?: boolean
   block_full_width?: boolean // image, video
   block_page_width?: boolean // image, video

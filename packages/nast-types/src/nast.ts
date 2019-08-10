@@ -234,6 +234,16 @@ export interface AggregationMetadata {
 }
 
 /**
+ * ================
+ * Temporary Blocks
+ * ================
+ */
+
+export interface Stub extends Block {
+  raw: Notion.BlockValue
+}
+
+/**
  * ==========
  * Deprecated
  * ========== 
