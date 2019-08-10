@@ -1,5 +1,7 @@
 # nast-util-from-notionapi
 
+![version](https://img.shields.io/npm/v/nast-util-from-notionapi.svg?style=flat-square&color=007acc&label=version) ![language](https://img.shields.io/badge/language-typescript-blue.svg?style=flat-square) ![license](https://img.shields.io/github/license/dragonman225/nast-util-from-notionapi.svg?style=flat-square&label=license&color=08CE5D) ![Notion to Nast](https://img.shields.io/static/v1.svg?label=&message=Notion%E2%86%92Nast&style=flat-square&color=333333)
+
 Convert a Notion.so page into a tree object, using Notion's API.
 
 For related projects, please see the topic [notajs](https://github.com/topics/notajs).
