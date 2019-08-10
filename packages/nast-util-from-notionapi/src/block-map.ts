@@ -20,6 +20,7 @@ const map = {
   image: 'image',
   video: 'video',
   embed: 'embed',
+  codepen: 'codepen',
   audio: 'audio',
   bookmark: 'bookmark',
   collectionView: 'collection_view',

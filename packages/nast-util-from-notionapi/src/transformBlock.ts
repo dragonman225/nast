@@ -105,10 +105,9 @@ async function transformBlock(
       break
     }
     /** Nast.Video */
-    case blockMap.video: {
-      nastNode = transformEmbed(node)
-      break
-    }
+    case blockMap.video: 
+    /** Codepen is Embed */
+    case blockMap.codepen:
     /** Nast.Embed */
     case blockMap.embed: {
       nastNode = transformEmbed(node)
