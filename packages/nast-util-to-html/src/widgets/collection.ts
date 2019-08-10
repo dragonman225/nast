@@ -46,7 +46,7 @@ function renderGallery(
     <div>
       <div class="gallery__grid__item__cover ${imageContain
         ? 'gallery__grid__item__cover--contain' : ''}">
-        ${page.cover ? `<img src="${page.cover}">` : ''}
+        ${page.cover ? `<img src="${page.cover}" data-src="${page.cover}">` : ''}
       </div>
       <div class="gallery__grid__item__title">
         ${escapeString(page.title)}

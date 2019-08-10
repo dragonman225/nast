@@ -14,7 +14,7 @@ function renderImage(node) {
     }
     let content = `\
 <div style="width: ${width}; margin: 0.5em auto; max-width: 100%;">
-  <img src="${source}" style="width: 100%; object-fit: cover;">
+  <img src="${source}" data-src="${source}" style="width: 100%; object-fit: cover;">
 </div>`;
     return render_utils_1.renderBlock(node, content);
 }

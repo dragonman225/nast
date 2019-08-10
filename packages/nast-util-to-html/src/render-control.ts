@@ -49,7 +49,7 @@ function renderRoot(node: Nast.Block, elemClass = 'nast-document'): string {
     if (pageNode.cover != null) {
       coverDiv = `\
 <div class="page-cover">
-  <img src="${cover}" style="object-position: center ${coverPosition}%">
+  <img src="${cover}" data-src="${cover}" style="object-position: center ${coverPosition}%">
 </div>`
     }
 
