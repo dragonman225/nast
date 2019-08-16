@@ -1,0 +1,144 @@
+*::selection {
+  background: rgba(45, 170, 219, 0.3);
+}
+
+body {
+  line-height: 1.5;
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+  color: #37352f;
+  margin: 0;
+}
+
+blockquote {
+  background: rgba(235, 236, 237, 0.3);
+  border-left: 5px solid currentcolor;
+  border-radius: 5px;
+  margin: 5px 0;
+  padding: 0.5em 0.9em;
+  font-size: 1.2em;
+}
+
+a {
+  color: inherit;
+  border-bottom: 2px solid hsl(45, 8%, 85%);
+  text-decoration: none;
+}
+
+a:hover {
+  border-bottom: 2px solid hsl(45, 8%, 55%);
+}
+
+a:focus {
+  outline: 2px auto #4cff5a;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+}
+
+h1 {
+  margin-bottom: 0.25em;
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 1.875rem;
+}
+
+h3 {
+  margin-top: 1rem;
+  font-size: 1.5rem;
+}
+
+h4 {
+  margin-top: 0.5rem;
+  font-size: 1.25rem;
+}
+
+h5 {
+  font-size: 1.15rem;
+}
+
+h6 {
+  font-size: 1.05rem;
+  color: #888;
+}
+
+p {
+  font-size: 1em;
+  font-weight: 400;
+  margin: 15px auto;
+}
+
+code {
+  border-radius: 5px;
+  background-color: #fdf2f9;
+  color: #ff4081;
+  font-size: 0.9em;
+  /* Use monospace before Courier so font looks better on Android Chrome. */
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace, Courier;
+  line-height: normal;
+  padding: 0.2em 0.4em;
+  word-break: break-word;
+}
+
+pre {
+  border-radius: 5px;
+  background-color: rgb(247, 246, 243);
+  margin: 10px 0;
+  padding: 0 16px;
+  overflow: auto;
+}
+
+pre code {
+  background-color: rgb(247, 246, 243);
+  color: rgb(55, 53, 47);
+  font-size: 0.9em;
+  line-height: 1.4;
+  padding: 0;
+  word-wrap: break-word;
+  tab-size: 2;
+}
+
+code {
+  background-color: rgba(135, 131, 120, 0.15);
+}
+
+ul {
+  list-style-type: disc;
+}
+
+ul>li {
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+ul>li div {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+details>summary:focus {
+  outline: none;
+}
+
+.color-mention {
+  opacity: 0.5;
+}
+
+.color-comment {
+  background: rgba(255, 212, 0, 0.14);
+  border-bottom: 2px solid rgb(255, 212, 0);
+}
+
+.block--bookmark>div>div {
+  transition: background 120ms ease-in 0s;
+}
+
+.block--bookmark>div>div:hover {
+  background: rgba(55, 53, 47, 0.08);
+}
+
+.block--bookmark a {
+  border: none;
+}
