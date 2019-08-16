@@ -24,6 +24,7 @@ li {
 }
 
 /** For experiment: */
+
 /* .column {
   margin-left: 46px;
 }
@@ -35,7 +36,8 @@ li {
 .page-cover {
   position: absolute;
   top: 0;
-  right: 0; /* Firefox need this while Chrome doesn't. */
+  right: 0;
+  /* Firefox need this while Chrome doesn't. */
   left: 0;
   z-index: -1;
 }
@@ -47,6 +49,7 @@ li {
 }
 
 /* On Android Firefox, emoji can't be displayed if font-size > 77px. */
+
 .page-icon {
   line-height: 1.1;
   font-size: 75px;
@@ -56,7 +59,11 @@ li {
   margin-top: calc(30vh - 65px);
 }
 
-.page-title > h1 {
+.page-title--nocover {
+  margin-top: 2.5rem;
+}
+
+.page-title>h1 {
   margin-top: 1em;
 }
 
@@ -64,10 +71,7 @@ li {
   padding: 12px 0;
 }
 
-.column div:first-child h1,
-.column div:first-child h2,
-.column div:first-child h3,
-.column div:first-child h4 {
+.column div:first-child h1, .column div:first-child h2, .column div:first-child h3, .column div:first-child h4 {
   margin-top: 1px;
 }
 
@@ -112,8 +116,7 @@ li {
   margin: 8px 0;
 }
 
-.block--bookmark img,
-.block--bookmark div {
+.block--bookmark img, .block--bookmark div {
   margin: 0;
 }
 
@@ -146,7 +149,8 @@ li {
   border-radius: 5px;
   transition: background 120ms ease-in 0s;
   position: relative;
-  padding-top: 70%; /* 10:7 */
+  padding-top: 70%;
+  /* 10:7 */
 }
 
 .gallery__grid__item:hover {
@@ -161,26 +165,20 @@ li {
   left: 0;
 }
 
-.gallery__gird__item__content > div {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
 .gallery__grid__item__cover {
-  flex: 1;
   box-shadow: rgba(55, 53, 47, 0.09) 0px -1px 0px 0px inset;
 }
 
-.gallery__grid__item__cover > img {
+.gallery__grid__item__cover>img {
   width: 100%;
   height: calc(100% - 42px);
   border-radius: 5px 5px 0 0;
   object-fit: cover;
   object-position: center 50%;
+  padding-bottom: 1px;
 }
 
-.gallery__grid__item__cover--contain > img {
+.gallery__grid__item__cover--contain>img {
   object-fit: contain;
 }
 
@@ -189,4 +187,10 @@ li {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+@supports not (display: grid) {
+  .gallery__grid__item {
+    margin-top: 16px;
+  }
 }
