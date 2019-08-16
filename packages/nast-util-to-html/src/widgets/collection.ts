@@ -25,7 +25,7 @@ function renderCollection(
     case COLLECTION_VIEW_TYPES.gallery:
       return renderGallery(node, pages, viewMeta.format)
     default:
-      raiseWarning(`No renderer for view type ${viewMeta.type}`)
+      raiseWarning(`No render function for collection view ${viewMeta.type}`)
       return ''
   }
 }

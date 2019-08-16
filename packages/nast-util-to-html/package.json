@@ -1,12 +1,10 @@
 {
   "name": "nast-util-to-html",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Transform NAST to HTML.",
   "main": "dist/nast-util-to-html/src/index.js",
   "scripts": {
-    "build:dev_webpack": "webpack --mode=development && npm run report:deps_graph",
-    "build:dev_tsc": "tsc && npm run report:deps_graph",
-    "build:prod": "webpack --mode=production && npm run report:deps_graph",
+    "build": "tsc && npm run report:deps_graph",
     "test": "node test/index.js",
     "report:deps_graph": "npx depcruise --exclude '^node_modules' --output-type dot --prefix 'https://github.com/dragonman225/nast-util-to-html/tree/master/' src/index.ts | dot -T svg > report/deps_graph.svg"
   },
@@ -35,10 +33,7 @@
     "dependency-cruiser": "^5.0.0",
     "eslint": "^5.16.0",
     "ts-loader": "^6.0.4",
-    "typescript": "^3.5.1",
-    "webpack": "^4.39.1",
-    "webpack-bundle-analyzer": "^3.4.1",
-    "webpack-cli": "^3.3.6"
+    "typescript": "^3.5.1"
   },
   "bugs": {
     "url": "https://github.com/dragonman225/nast-util-to-html/issues"

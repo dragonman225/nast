@@ -19,7 +19,7 @@ function renderCollection(node) {
         case constants_1.COLLECTION_VIEW_TYPES.gallery:
             return renderGallery(node, pages, viewMeta.format);
         default:
-            log_utils_1.raiseWarning(`No renderer for view type ${viewMeta.type}`);
+            log_utils_1.raiseWarning(`No render function for collection view ${viewMeta.type}`);
             return '';
     }
 }
