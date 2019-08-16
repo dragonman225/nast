@@ -5,18 +5,18 @@ const render_utils_1 = require("./render-utils");
 /**
  * Generate static HTML from NAST or StyledString[].
  */
-function renderToHTML(unknown, options = {
+function renderToHTML(data, options = {
     contentOnly: false,
     bypassPreRenderTransform: false
 }) {
     /** Check which type of input is it */
-    if (Array.isArray(unknown)) {
+    if (Array.isArray(data)) {
         /** View it as StyledString[] if it's an array */
-        return render_utils_1.renderTitle(unknown);
+        return render_utils_1.renderTitle(data);
     }
     else {
         /** Otherwise, a tree */
-        const tree = unknown;
+        const tree = data;
         const contentOnly = typeof options.contentOnly !== 'undefined'
             ? options.contentOnly : false;
         /** Transform the tree if necessary so that it can be rendered */

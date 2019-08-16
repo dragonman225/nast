@@ -15,19 +15,19 @@ type RenderOptions = {
  * Generate static HTML from NAST or StyledString[].
  */
 function renderToHTML(
-  unknown: Nast.Block | Notion.StyledString[],
+  data: Nast.Block | Notion.StyledString[],
   options: RenderOptions = {
     contentOnly: false,
     bypassPreRenderTransform: false
   }
 ): string {
   /** Check which type of input is it */
-  if (Array.isArray(unknown)) {
+  if (Array.isArray(data)) {
     /** View it as StyledString[] if it's an array */
-    return renderTitle(unknown)
+    return renderTitle(data)
   } else {
     /** Otherwise, a tree */
-    const tree = unknown
+    const tree = data
     const contentOnly = typeof options.contentOnly !== 'undefined'
       ? options.contentOnly : false
 
