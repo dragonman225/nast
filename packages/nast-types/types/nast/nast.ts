@@ -1,4 +1,4 @@
-import * as Notion from './api'
+import * as Notion from '../notion-api/api'
 
 /**
  * ===============
