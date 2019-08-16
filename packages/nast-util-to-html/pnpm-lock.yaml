@@ -9,6 +9,7 @@ devDependencies:
   '@typescript-eslint/parser': 1.13.0_eslint@5.16.0
   dependency-cruiser: 5.0.0_typescript@3.5.3
   eslint: 5.16.0
+  notajs-types: 0.1.2
   ts-loader: 6.0.4_typescript@3.5.3
   typescript: 3.5.3
 lockfileVersion: 5.1
@@ -889,6 +890,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==
+  /notajs-types/0.1.2:
+    dev: true
+    resolution:
+      integrity: sha512-2sZ2UWia71tnO/mCfietx6WaRiwHQ7o9uzHUuM0FjnX18M6D1zwlMUED7vr21E3VdKk7LCrF+W7tl+OT3UwfBQ==
   /once/1.4.0:
     dependencies:
       wrappy: 1.0.2
@@ -1413,6 +1418,7 @@ specifiers:
   dependency-cruiser: ^5.0.0
   eslint: ^5.16.0
   katex: ^0.10.2
+  notajs-types: ^0.1.2
   prismjs: ^1.16.0
   ts-loader: ^6.0.4
   typescript: ^3.5.1

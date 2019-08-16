@@ -1,4 +1,5 @@
-import { Nast, Notion } from '../../types/src'
+import Nast from 'notajs-types/nast'
+import Notion from 'notajs-types/notion'
 
 import { NAST_BLOCK_TYPES, COLOR } from './constants'
 import renderCode from './render-utils-prismjs'

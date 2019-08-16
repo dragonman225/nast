@@ -1,4 +1,5 @@
-import { Nast, Notion } from '../../../types/src'
+import Nast from 'notajs-types/nast'
+import Notion from 'notajs-types/notion'
 
 import { COLLECTION_VIEW_TYPES } from '../constants'
 import { raiseWarning } from '../log-utils'

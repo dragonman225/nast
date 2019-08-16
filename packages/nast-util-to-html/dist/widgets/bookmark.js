@@ -1,15 +1,11 @@
-import Nast from 'notajs-types/nast'
-
-import { renderBlock } from '../render-utils'
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const render_utils_1 = require("../render-utils");
 /** !!! This should be replaced with more efficient implementation. */
-function renderBookmark(
-  node: Nast.WebBookmark
-): string {
-  let title = node.title ? node.title : ''
-  let link = node.link
-
-  let content = `\
+function renderBookmark(node) {
+    let title = node.title ? node.title : '';
+    let link = node.link;
+    let content = `\
 <div style="display: flex;">
   <div style="display: flex; text-align: left; overflow: hidden; border: 1px solid rgba(55, 53, 47, 0.16); border-radius: 0.7rem; position: relative; flex-grow: 1; color: rgb(55, 53, 47);">
     <div style="min-height: 1rem; overflow: hidden; text-align: left; width: 100%;">
@@ -23,8 +19,8 @@ function renderBookmark(
       </a>
     </div>
   </div>
-</div>`
-  return renderBlock(node, content)
+</div>`;
+    return render_utils_1.renderBlock(node, content);
 }
-
-export default renderBookmark
+exports.default = renderBookmark;
+//# sourceMappingURL=bookmark.js.map

@@ -1,4 +1,4 @@
-import { Nast } from '../../../types/src'
+import Nast from 'notajs-types/nast'
 
 import katex from 'katex'
 import { renderBlock } from '../render-utils'

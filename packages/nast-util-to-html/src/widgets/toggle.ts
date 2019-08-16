@@ -1,4 +1,4 @@
-import { Nast } from '../../../types/src'
+import Nast from 'notajs-types/nast'
 
 import { CSS } from '../constants'
 import { renderBlock, renderChildren, renderTitle } from '../render-utils'

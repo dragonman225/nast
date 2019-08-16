@@ -1,4 +1,4 @@
-import { Nast } from '../../../types/src'
+import Nast from 'notajs-types/nast'
 
 import { NAST_BLOCK_TYPES } from '../constants'
 import { raiseWarning } from '../log-utils'

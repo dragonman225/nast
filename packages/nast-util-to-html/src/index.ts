@@ -1,4 +1,5 @@
-import { Nast, Notion } from '../../types/src'
+import Nast from 'notajs-types/nast'
+import Notion from 'notajs-types/notion'
 
 import { renderRoot, renderNode } from './render-control'
 import { renderTitle, renderChildren, preRenderTransform } from './render-utils'
