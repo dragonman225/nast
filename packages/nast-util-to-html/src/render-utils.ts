@@ -3,7 +3,7 @@ import Notion from 'notajs-types/notion'
 
 import { NAST_BLOCK_TYPES, COLOR } from './constants'
 import renderCode from './render-utils-prismjs'
-import { convertNotionURLToLocalLink } from './notion-utils'
+import { getBookmarkLinkFromNotionPageURL } from './notion-utils'
 import { raiseWarning } from './log-utils'
 import { CSS } from './constants'
 
@@ -106,7 +106,7 @@ function styleToHTML(
         break
       /* Link */
       case 'a':
-        html = `<a href="${convertNotionURLToLocalLink(styles[i][1])}">${html}</a>`
+        html = `<a href="${getBookmarkLinkFromNotionPageURL(styles[i][1] as string)}">${html}</a>`
         break
       /* Inline Code */
       case 'c':

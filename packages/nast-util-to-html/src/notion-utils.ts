@@ -1,17 +1,7 @@
-module.exports = {
-  getPageIDFromNotionDatabaseURL,
-  getBookmarkLinkFromNotionPageURL,
-  getPageIDFromNotionPageURL,
-  toDashID,
-  isValidDashID,
-  convertNotionURLToLocalLink, // Deprecated
-  getPageIDfromNotionURL // Deprecated
-}
-
 const dashIDLen = '0eeee000-cccc-bbbb-aaaa-123450000000'.length
 const noDashIDLen = '0eeee000ccccbbbbaaaa123450000000'.length
 
-function getPageIDFromNotionDatabaseURL(str) {
+function getPageIDFromNotionDatabaseURL(str: string) {
   const re = /https:\/\/www.notion.so\/([\da-f]+)\?v=([\da-f]+)/
   const found = str.match(re)
   if (found != null && found[1] != null) {
@@ -22,7 +12,8 @@ function getPageIDFromNotionDatabaseURL(str) {
   }
 }
 
-function getBookmarkLinkFromNotionPageURL(str) {
+function getBookmarkLinkFromNotionPageURL(str: string | undefined) {
+  if (!str) return str
   let re = /https:\/\/www.notion.so\/.+#([\da-f]+)/
   let found = str.match(re)
   if (found != null && found[1] != null) {
@@ -33,19 +24,19 @@ function getBookmarkLinkFromNotionPageURL(str) {
   }
 }
 
-function getPageIDFromNotionPageURL(str) {
-  let splitArr = str.split('/')
-  splitArr = splitArr.pop().split('-')
+function getPageIDFromNotionPageURL(str: string) {
+  let lastStrInUrl = str.split('/').pop()
+  let pageID = lastStrInUrl
+    ? lastStrInUrl.split('-').pop() : ''
 
-  let pageID = splitArr.pop()
-  if (pageID.length === noDashIDLen) {
+  if (pageID && pageID.length === noDashIDLen) {
     return toDashID(pageID)
   } else {
     return str
   }
 }
 
-function toDashID(str) {
+function toDashID(str: string) {
   if (isValidDashID(str)) {
     return str
   }
@@ -60,7 +51,7 @@ function toDashID(str) {
   return res
 }
 
-function isValidDashID(str) {
+function isValidDashID(str: string) {
   if (str.length !== dashIDLen) {
     return false
   }
@@ -73,11 +64,21 @@ function isValidDashID(str) {
 }
 
 /** Deprecated. Please use getBookmarkLinkfromNotionPageURL() instead. */
-function convertNotionURLToLocalLink(str) {
+function convertNotionURLToLocalLink(str: string) {
   return getBookmarkLinkFromNotionPageURL(str)
 }
 
 /** Deprecated. Please use getPageIDFromNotionPageURL() instead. */
-function getPageIDfromNotionURL(str) {
+function getPageIDfromNotionURL(str: string) {
   return getPageIDFromNotionPageURL(str)
+}
+
+export {
+  getPageIDFromNotionDatabaseURL,
+  getBookmarkLinkFromNotionPageURL,
+  getPageIDFromNotionPageURL,
+  toDashID,
+  isValidDashID,
+  convertNotionURLToLocalLink, // Deprecated
+  getPageIDfromNotionURL // Deprecated
 }

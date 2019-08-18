@@ -1,15 +1,20 @@
 /**
- * "prismjs/components" doesn't have TS declaration, importing directly
- * leads to an error, so we use a JS module to wrap it.
+ * Using import/from cause an TS error, so fallback to const/require
  */
-const Prism = require('prismjs')
 const loadLanguages = require('prismjs/components/index')
 
+import Prism from 'prismjs'
+
+import { escapeString } from './render-utils'
+
+type LangMap = {
+  [key: string]: string
+}
+
 /** 
- * TODO: Make a map like below "map".
- * The "languages" map contains outdated info.
+ * The following has wrong data and is for temporary use.
  */
-const languages = {
+const languages: LangMap = {
   'html': 'HTML',
   'xml': 'XML',
   'svg': 'SVG',
@@ -142,7 +147,21 @@ const languages = {
   'yml': 'YAML'
 }
 
-let map = {
+/**
+ * TODO: Complete the following map. The key is the string used in Notion, 
+ * and the value is the one used in prismjs.
+ * 
+ * TODO: We shouldn't handle Notion-specific stuffs here, instead, map
+ * these strings to prismjs compatible ones in nast-util-from-notionapi.
+ * 
+ * To extract Notion-specific language strings, get a code block, 
+ * use devtool to copy the html of language selection popup, then apply
+ * this regex on the html string:
+ * `<div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">([^<]+)[<]`
+ * 
+ * On regex101, we can export the matched groups as JSON.
+ */
+let map: LangMap = {
   'ABAP': 'abap',
   'Arduino': 'arduino',
   'Bash': 'shell',
@@ -168,7 +187,7 @@ Object.entries(languages).forEach(pair => {
   }
 })
 
-function renderCode(str, lang) {
+function renderCode(str: string, lang: string | undefined) {
   let codeLang = getLangString(lang)
   if (lang && codeLang) {
     /**
@@ -188,10 +207,13 @@ function renderCode(str, lang) {
   }
 }
 
-function getLangString(str) {
-  let lang = map[str]
-  if (lang != null) return lang
-  else return undefined
+function getLangString(str: string | undefined) {
+  if (!str) return undefined
+  else {
+    let lang = map[str]
+    if (lang != null) return lang
+    else return undefined
+  }
 }
 
-module.exports = renderCode
+export default renderCode

@@ -1,0 +1,1 @@
+{"version":3,"file":"render-control.d.ts","sourceRoot":"","sources":["../src/render-control.ts"],"names":[],"mappings":"AAAA,OAAO,IAAI,MAAM,mBAAmB,CAAA;AAuBpC;;GAEG;AACH,iBAAS,UAAU,CAAC,IAAI,EAAE,IAAI,CAAC,KAAK,EAAE,SAAS,SAAkB,GAAG,MAAM,CA4CzE;AAED,iBAAS,UAAU,CAAC,IAAI,EAAE,IAAI,CAAC,KAAK,GAAG,MAAM,CA2D5C;AAED,OAAO,EACL,UAAU,EACV,UAAU,EACX,CAAA"}

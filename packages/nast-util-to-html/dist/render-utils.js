@@ -92,7 +92,7 @@ function styleToHTML(text, styles) {
                 break;
             /* Link */
             case 'a':
-                html = `<a href="${notion_utils_1.convertNotionURLToLocalLink(styles[i][1])}">${html}</a>`;
+                html = `<a href="${notion_utils_1.getBookmarkLinkFromNotionPageURL(styles[i][1])}">${html}</a>`;
                 break;
             /* Inline Code */
             case 'c':

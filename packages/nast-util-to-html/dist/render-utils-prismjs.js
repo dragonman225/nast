@@ -1,13 +1,16 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
- * "prismjs/components" doesn't have TS declaration, importing directly
- * leads to an error, so we use a JS module to wrap it.
+ * Using import/from cause an TS error, so fallback to const/require
  */
-const Prism = require('prismjs');
 const loadLanguages = require('prismjs/components/index');
+const prismjs_1 = __importDefault(require("prismjs"));
+const render_utils_1 = require("./render-utils");
 /**
- * TODO: Make a map like below "map".
- * The "languages" map contains outdated info.
+ * The following is for temporary use.
  */
 const languages = {
     'html': 'HTML',
@@ -141,6 +144,20 @@ const languages = {
     'yaml': 'YAML',
     'yml': 'YAML'
 };
+/**
+ * TODO: Complete the following map. The key is the string used in Notion,
+ * and the value is the one used in prismjs.
+ *
+ * TODO: We shouldn't handle Notion-specific stuffs here, instead, map
+ * these strings to prismjs compatible ones in nast-util-from-notionapi.
+ *
+ * To extract Notion-specific language strings, get a code block,
+ * use devtool to copy the html of language selection popup, then apply
+ * this regex on the html string:
+ * `<div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">([^<]+)[<]`
+ *
+ * On regex101, we can export the matched groups as JSON.
+ */
 let map = {
     'ABAP': 'abap',
     'Arduino': 'arduino',
@@ -175,22 +192,26 @@ function renderCode(str, lang) {
          * https://github.com/PrismJS/prism/issues/1477
          */
         loadLanguages([codeLang]);
-        return Prism.highlight(str, Prism.languages[codeLang], codeLang);
+        return prismjs_1.default.highlight(str, prismjs_1.default.languages[codeLang], codeLang);
     }
     else {
         /**
          * If user does not specify language, "lang" is undefined, so we just
          * return the plain text.
          */
-        return escapeString(str);
+        return render_utils_1.escapeString(str);
     }
 }
 function getLangString(str) {
-    let lang = map[str];
-    if (lang != null)
-        return lang;
-    else
+    if (!str)
         return undefined;
+    else {
+        let lang = map[str];
+        if (lang != null)
+            return lang;
+        else
+            return undefined;
+    }
 }
-module.exports = renderCode;
+exports.default = renderCode;
 //# sourceMappingURL=render-utils-prismjs.js.map
