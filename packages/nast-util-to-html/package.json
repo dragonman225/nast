@@ -2,12 +2,14 @@
   "name": "nast-util-to-html",
   "version": "0.2.1",
   "description": "Transform NAST to HTML.",
-  "main": "dist/index.js",
+  "main": "dist/index",
+  "types": "dist/index",
   "scripts": {
     "build": "tsc && npm run report:deps_graph",
     "test": "tsc && node test/index.js",
     "release": "npm run build && npm publish",
-    "report:deps_graph": "npx depcruise --exclude '^node_modules' --output-type dot --prefix 'https://github.com/dragonman225/nast-util-to-html/tree/master/' src/index.ts | dot -T svg > report/deps_graph.svg"
+    "report:deps_graph": "npx depcruise --exclude '^node_modules' --output-type dot --prefix 'https://github.com/dragonman225/nast-util-to-html/tree/master/' src/index.ts | dot -T svg > report/deps_graph.svg",
+    "upgrade": "pnpm i typescript@latest notajs-types@latest eslint@latest dependency-cruiser@latest @typescript-eslint/parser@latest @typescript-eslint/eslint-plugin@latest @types/prismjs@latest @types/node@latest @types/katex@latest prismjs@latest katex@latest --save-exact"
   },
   "repository": {
     "type": "git",
@@ -22,20 +24,19 @@
   "author": "dragonman225",
   "license": "MIT",
   "dependencies": {
-    "katex": "^0.10.2",
-    "prismjs": "^1.16.0"
+    "katex": "0.11.0",
+    "prismjs": "1.17.1"
   },
   "devDependencies": {
-    "@types/katex": "^0.10.1",
-    "@types/node": "^12.0.4",
-    "@types/prismjs": "^1.16.0",
-    "@typescript-eslint/eslint-plugin": "^1.9.0",
-    "@typescript-eslint/parser": "^1.9.0",
-    "dependency-cruiser": "^5.0.0",
-    "eslint": "^5.16.0",
-    "notajs-types": "^0.1.2",
-    "ts-loader": "^6.0.4",
-    "typescript": "^3.5.1"
+    "@types/katex": "0.10.1",
+    "@types/node": "12.7.2",
+    "@types/prismjs": "1.16.0",
+    "@typescript-eslint/eslint-plugin": "2.0.0",
+    "@typescript-eslint/parser": "2.0.0",
+    "dependency-cruiser": "5.0.1",
+    "eslint": "6.1.0",
+    "notajs-types": "0.1.2",
+    "typescript": "3.5.3"
   },
   "bugs": {
     "url": "https://github.com/dragonman225/nast-util-to-html/issues"

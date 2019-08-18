@@ -10,7 +10,7 @@ const loadLanguages = require('prismjs/components/index');
 const prismjs_1 = __importDefault(require("prismjs"));
 const render_utils_1 = require("./render-utils");
 /**
- * The following is for temporary use.
+ * The following has wrong data and is for temporary use.
  */
 const languages = {
     'html': 'HTML',
