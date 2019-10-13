@@ -22,17 +22,17 @@
   "author": "dragonman225",
   "license": "MIT",
   "peerDependencies": {
-    "notionapi-agent": "^0.5.1"
+    "notionapi-agent": "^0.6.1"
   },
   "devDependencies": {
-    "@types/node": "^12.0.4",
-    "@typescript-eslint/eslint-plugin": "^1.9.0",
-    "@typescript-eslint/parser": "^1.9.0",
-    "eslint": "^5.16.0",
-    "ts-loader": "^6.0.4",
-    "typescript": "^3.5.1",
-    "webpack": "^4.39.1",
-    "webpack-cli": "^3.3.6"
+    "@types/node": "^12.7.12",
+    "@typescript-eslint/eslint-plugin": "^2.3.3",
+    "@typescript-eslint/parser": "^2.3.3",
+    "eslint": "^6.5.1",
+    "ts-loader": "^6.2.0",
+    "typescript": "^3.6.4",
+    "webpack": "^4.41.1",
+    "webpack-cli": "^3.3.9"
   },
   "bugs": {
     "url": "https://github.com/dragonman225/nast-util-from-notionapi/issues"
