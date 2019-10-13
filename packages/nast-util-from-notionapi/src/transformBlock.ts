@@ -1,4 +1,6 @@
-import { Notion, Nast } from '../../types/src'
+/** For types only */
+import * as Notion from 'notionapi-agent'
+import * as Nast from './nast'
 
 import { transformCollection } from './transformers/transformCollection'
 import { log } from './utils'
@@ -25,8 +27,8 @@ import transformAudio from './transformers/transformAudio'
 import transformBookmark from './transformers/transformBookmark'
 
 async function transformBlock(
-  node: Notion.BlockValue,
-  apiAgent: Notion.Agent
+  node: Notion.Block,
+  apiAgent: Notion.NotionAgent
 ): Promise<Nast.Block> {
 
   let nastNode

@@ -1,13 +1,15 @@
-import { Notion, Nast } from '../../../types/src'
+/** For types only */
+import * as Notion from 'notionapi-agent'
+import * as Nast from '../nast'
 
 import { getBlockColor } from './utils'
 
 async function transformBookmark(
-  node: Notion.BlockValue
+  node: Notion.Block
 ): Promise<Nast.WebBookmark> {
-  let props = node.properties || {}
-  let format = node.format || {}
-  let nastNode = {
+  const props = node.properties || {}
+  const format = node.format || {}
+  const nastNode = {
     id: node.id,
     type: 'bookmark' as 'bookmark',
     color: getBlockColor(node),

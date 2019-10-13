@@ -1,0 +1,32 @@
+declare const map: {
+    page: string;
+    header: string;
+    subHeader: string;
+    subSubHeader: string;
+    toDo: string;
+    toggle: string;
+    columnList: string;
+    column: string;
+    bulletedList: string;
+    numberedList: string;
+    text: string;
+    code: string;
+    equation: string;
+    divider: string;
+    quote: string;
+    callout: string;
+    tableOfContents: string;
+    breadcrumb: string;
+    image: string;
+    video: string;
+    embed: string;
+    codepen: string;
+    audio: string;
+    bookmark: string;
+    collectionView: string;
+    collectionViewPage: string;
+    unorderedList: string;
+    orderedList: string;
+};
+export default map;
+//# sourceMappingURL=block-map.d.ts.map

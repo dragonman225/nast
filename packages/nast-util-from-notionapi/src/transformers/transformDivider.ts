@@ -1,11 +1,13 @@
-import { Notion, Nast } from '../../../types/src'
+/** For types only */
+import * as Notion from 'notionapi-agent'
+import * as Nast from '../nast'
 
 import { getBlockColor } from './utils'
 
 async function transformDivider(
-  node: Notion.BlockValue
+  node: Notion.Block
 ): Promise<Nast.Divider> {
-  let nastNode = {
+  const nastNode = {
     id: node.id,
     type: 'divider' as 'divider',
     color: getBlockColor(node),

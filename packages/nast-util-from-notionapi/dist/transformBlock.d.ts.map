@@ -1,0 +1,1 @@
+{"version":3,"file":"transformBlock.d.ts","sourceRoot":"","sources":["../src/transformBlock.ts"],"names":[],"mappings":"AAAA,qBAAqB;AACrB,OAAO,KAAK,MAAM,MAAM,iBAAiB,CAAA;AACzC,OAAO,KAAK,IAAI,MAAM,QAAQ,CAAA;AA0B9B,iBAAe,cAAc,CAC3B,IAAI,EAAE,MAAM,CAAC,KAAK,EAClB,QAAQ,EAAE,MAAM,CAAC,WAAW,GAC3B,OAAO,CAAC,IAAI,CAAC,KAAK,CAAC,CA4HrB;AAED,OAAO,EACL,cAAc,EACf,CAAA"}

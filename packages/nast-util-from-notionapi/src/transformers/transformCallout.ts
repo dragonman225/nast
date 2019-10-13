@@ -1,11 +1,13 @@
-import { Notion, Nast } from '../../../types/src'
+/** For types only */
+import * as Notion from 'notionapi-agent'
+import * as Nast from '../nast'
 
 import { getBlockColor, getBlockTitle, getBlockIcon } from './utils'
 
 async function transformCallout(
-  node: Notion.BlockValue
+  node: Notion.Block
 ): Promise<Nast.Callout> {
-  let nastNode = {
+  const nastNode = {
     id: node.id,
     type: 'callout' as 'callout',
     color: getBlockColor(node),

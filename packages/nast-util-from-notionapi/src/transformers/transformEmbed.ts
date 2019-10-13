@@ -1,12 +1,14 @@
-import { Notion, Nast } from '../../../types/src'
+/** For types only */
+import * as Notion from 'notionapi-agent'
+import * as Nast from '../nast'
 
 import { getBlockColor } from './utils'
 
 async function transformEmbed(
-  node: Notion.BlockValue
+  node: Notion.Block
 ): Promise<Nast.Embed> {
-  let format = node.format || {}
-  let nastNode = {
+  const format = node.format || {}
+  const nastNode = {
     id: node.id,
     type: node.type === 'video'
       ? 'video' as 'video' : 'embed' as 'embed',

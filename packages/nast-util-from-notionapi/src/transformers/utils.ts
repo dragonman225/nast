@@ -1,18 +1,18 @@
-import { Notion } from '../../../types/src'
+import * as Notion from 'notionapi-agent'
 
 function getBlockColor(
-  node: Notion.BlockValue
+  node: Notion.Block
 ): string | undefined {
-  let color = node.format
+  const color = node.format
     ? node.format['block_color']
     : undefined
   return color
 }
 
 function getBlockTitle(
-  node: Notion.BlockValue
+  node: Notion.Block
 ): Notion.StyledString[] {
-  let title = node.properties
+  const title = node.properties
     ? node.properties.title
       ? node.properties.title
       : [] as Notion.StyledString[]
@@ -21,9 +21,9 @@ function getBlockTitle(
 }
 
 function getBlockIcon(
-  node: Notion.BlockValue
+  node: Notion.Block
 ): string | undefined {
-  let icon = node.format
+  const icon = node.format
     ? node.format.page_icon
     : undefined
   return icon

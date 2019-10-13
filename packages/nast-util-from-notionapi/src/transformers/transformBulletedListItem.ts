@@ -1,11 +1,13 @@
-import { Notion, Nast } from '../../../types/src'
+/** For types only */
+import * as Notion from 'notionapi-agent'
+import * as Nast from '../nast'
 
 import { getBlockColor, getBlockTitle } from './utils'
 
 async function transformBulletedListItem(
-  node: Notion.BlockValue
+  node: Notion.Block
 ): Promise<Nast.BulletedListItem> {
-  let nastNode = {
+  const nastNode = {
     id: node.id,
     type: 'bulleted_list_item' as 'bulleted_list_item',
     color: getBlockColor(node),

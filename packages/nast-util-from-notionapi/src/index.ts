@@ -2,21 +2,23 @@ import assert from 'assert'
 
 import { transformBlock } from './transformBlock'
 
-import { Notion, Nast } from '../../types/src'
+/** For types only */
+import * as Notion from 'notionapi-agent'
+import * as Nast from './nast'
 
 async function getOnePageAsTree(
   pageId: string,
-  apiAgent: Notion.Agent
+  apiAgent: Notion.NotionAgent
 ): Promise<Nast.Block> {
 
-  let allBlocks = await getAllBlocksInOnePage(pageId, apiAgent)
+  const allBlocks = await getAllBlocksInOnePage(pageId, apiAgent)
   return makeBlocksArrayIntoTree(allBlocks, apiAgent)
 }
 
 async function getAllBlocksInOnePage(
   pageId: string,
-  apiAgent: Notion.Agent
-): Promise<Notion.BlockRecordValue[]> {
+  apiAgent: Notion.NotionAgent
+): Promise<(Notion.Record & { value: Notion.Block })[]> {
 
   assert(typeof pageId === 'string')
   assert(typeof apiAgent === 'object')
@@ -28,20 +30,23 @@ async function getAllBlocksInOnePage(
    * getChildrenBlocks() does not download children of a page,
    * so we should get the page first.
    */
-  let pageBlockRequest = generateGRVPayload([pageId], 'block')
-  let pageBlockResponse: Notion.BlockRecordValuesResponse =
-    await apiAgent.getRecordValues(pageBlockRequest)
+  const pageBlockRequest = generateGRVPayload([pageId], 'block')
+  const pageBlockResponse = await apiAgent.getRecordValues(pageBlockRequest)
+
   if (pageBlockResponse.statusCode !== 200) {
     console.log(pageBlockResponse)
     throw new Error('Fail to get page block.')
   }
-  let pageBlock = pageBlockResponse.data.results[0]
-  let childrenIdsOfPageBlock = pageBlock.value.content
 
-  let allRecords: Notion.BlockRecordValue[] = [pageBlock]
+  const pageBlockData = pageBlockResponse.data as Notion.GetRecordValuesResponse
+  const pageBlock = pageBlockData.results[0] as Notion.Record & { value: Notion.Block }
+  const childrenIdsOfPageBlock = pageBlock.value.content
+
+
+  let allRecords = [pageBlock]
   if (childrenIdsOfPageBlock != null) {
     /* Get all records in a flat array. */
-    let children =
+    const children =
       await getChildrenBlocks(childrenIdsOfPageBlock, apiAgent)
     allRecords = allRecords.concat(children)
   }
@@ -60,7 +65,7 @@ function generateGRVPayload(
   table: string
 ): Notion.RecordRequest[] {
 
-  let requests = ids.map((id): Notion.RecordRequest => {
+  const requests = ids.map((id) => {
     return { id, table }
   })
 
@@ -72,31 +77,31 @@ function generateGRVPayload(
  */
 async function getChildrenBlocks(
   blockIds: string[],
-  apiAgent: Notion.Agent
-): Promise<Notion.BlockRecordValue[]> {
+  apiAgent: Notion.NotionAgent
+): Promise<(Notion.Record & { value: Notion.Block })[]> {
 
   /** Get children records with getRecordValues */
-  let requests = generateGRVPayload(blockIds, 'block')
-  let response = await apiAgent.getRecordValues(requests)
+  const requests = generateGRVPayload(blockIds, 'block')
+  const response = await apiAgent.getRecordValues(requests)
 
   if (response.statusCode !== 200) {
     console.log(response)
     throw new Error('Fail to get records.')
   }
 
-  let responseData = response.data
-  let childrenRecords: Notion.BlockRecordValue[] = responseData.results
+  const responseData = response.data as Notion.GetRecordValuesResponse
+  const childrenRecords = responseData.results as (Notion.Record & { value: Notion.Block })[]
   /**
    * Filter out "page" blocks and empty blocks.
    * 
    * If we do not filter out "page" blocks, children of "Embedded Page" and 
    * "Link to Page" will be collected.
    */
-  let childrenRecordsNoPage = responseData.results
-    .filter((record: Notion.BlockRecordValue): boolean => {
+  const childrenRecordsNoPage = childrenRecords
+    .filter((record): boolean => {
       return record.role !== 'none' && record.value.type !== 'page'
     })
-  let childrenIDs: string[] = collectChildrenIDs(childrenRecordsNoPage)
+  const childrenIDs = collectChildrenIDs(childrenRecordsNoPage)
 
   /* If there're remaining children, download them. */
   if (childrenIDs.length > 0) {
@@ -114,7 +119,7 @@ async function getChildrenBlocks(
  * @returns An array of IDs.
  */
 function collectChildrenIDs(
-  records: Notion.BlockRecordValue[]
+  records: (Notion.Record & { value: Notion.Block })[]
 ): string[] {
 
   let childrenIDs: string[] = []
@@ -142,30 +147,30 @@ function collectChildrenIDs(
  * @returns NAST.
  */
 async function makeBlocksArrayIntoTree(
-  allRecords: Notion.BlockRecordValue[],
-  apiAgent: Notion.Agent
+  allRecords: (Notion.Record & { value: Notion.Block })[],
+  apiAgent: Notion.NotionAgent
 ): Promise<Nast.Block> {
 
   /** Remove blocks with role: none */
-  let nonEmptyRecords = allRecords
+  const nonEmptyRecords = allRecords
     .filter((record): boolean => {
       return record.role !== 'none'
     })
 
   /* Tranform Notion.BlockRecordValue to Nast.Block */
-  let nastList = await Promise.all(nonEmptyRecords
+  const nastList = await Promise.all(nonEmptyRecords
     .map((record): Promise<Nast.Block> => {
       return transformBlock(record.value, apiAgent)
     }))
 
   /* A map for quick ID -> index lookup */
-  let map: { [key: string]: number } = {}
+  const map: { [key: string]: number } = {}
   for (let i = 0; i < nonEmptyRecords.length; ++i) {
     map[nonEmptyRecords[i].value.id] = i
   }
 
   /* The tree's root is always the first record */
-  let treeRoot = nastList[0]
+  const treeRoot = nastList[0]
   let nastBlock
 
   /**
@@ -177,12 +182,12 @@ async function makeBlocksArrayIntoTree(
   for (let i = 0; i < nonEmptyRecords.length; ++i) {
     nastBlock = nastList[i]
 
-    let childrenIDs = nonEmptyRecords[i].value.content
+    const childrenIDs = nonEmptyRecords[i].value.content
     if (childrenIDs != null) {
 
       for (let j = 0; j < childrenIDs.length; ++j) {
-        let indexOfChildReference = map[childrenIDs[j]]
-        let childReference = nastList[indexOfChildReference]
+        const indexOfChildReference = map[childrenIDs[j]]
+        const childReference = nastList[indexOfChildReference]
 
         if (childReference != null) {
           nastBlock.children.push(childReference)

@@ -1,12 +1,14 @@
-import { Notion, Nast } from '../../../types/src'
+/** For types only */
+import * as Notion from 'notionapi-agent'
+import * as Nast from '../nast'
 
 import { getBlockColor, getBlockTitle, getBlockIcon } from './utils'
 
 async function transformPage(
-  node: Notion.BlockValue
+  node: Notion.Block
 ): Promise<Nast.Page> {
-  let format = node.format || {}
-  let nastNode = {
+  const format = node.format || {}
+  const nastNode = {
     id: node.id,
     type: 'page' as 'page',
     color: getBlockColor(node),

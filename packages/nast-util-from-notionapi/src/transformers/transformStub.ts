@@ -1,11 +1,13 @@
-import { Notion, Nast } from '../../../types/src'
+/** For types only */
+import * as Notion from 'notionapi-agent'
+import * as Nast from '../nast'
 
 import { getBlockColor } from './utils'
 
 async function transformStub(
-  node: Notion.BlockValue
+  node: Notion.Block
 ): Promise<Nast.Stub> {
-  let nastNode = {
+  const nastNode = {
     id: node.id,
     type: node.type,
     color: getBlockColor(node),

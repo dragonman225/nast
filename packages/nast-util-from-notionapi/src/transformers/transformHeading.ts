@@ -1,10 +1,12 @@
-import { Notion, Nast } from '../../../types/src'
+/** For types only */
+import * as Notion from 'notionapi-agent'
+import * as Nast from '../nast'
 
 import { getBlockColor, getBlockTitle } from './utils'
 import blockMap from '../block-map'
 
 async function transformHeading(
-  node: Notion.BlockValue
+  node: Notion.Block
 ): Promise<Nast.Heading> {
   let depth
   switch (node.type) {
@@ -18,7 +20,7 @@ async function transformHeading(
       depth = 3
   }
 
-  let nastNode = {
+  const nastNode = {
     id: node.id,
     type: 'heading' as 'heading',
     color: getBlockColor(node),

@@ -1,18 +1,20 @@
-import { Notion, Nast } from '../../../types/src'
+/** For types only */
+import * as Notion from 'notionapi-agent'
+import * as Nast from '../nast'
 
 import transformPage from './transformPage'
 
 async function transformCollection(
-  collectionBlockRecord: Notion.BlockValue,
-  apiAgent: Notion.Agent
+  collectionBlockRecord: Notion.Block,
+  apiAgent: Notion.NotionAgent
 ): Promise<Nast.Collection> {
 
   /** Block ID */
-  let id = collectionBlockRecord.id
+  const id = collectionBlockRecord.id
   /** Collection View IDs */
-  let viewIds = collectionBlockRecord['view_ids'] || []
+  const viewIds = collectionBlockRecord['view_ids'] || []
   /** Collection ID */
-  let collectionId = collectionBlockRecord['collection_id'] || ''
+  const collectionId = collectionBlockRecord['collection_id'] || ''
 
   if (collectionId.length === 0) {
     throw new Error(`Block ${id} has no collection ID.`)
@@ -22,22 +24,22 @@ async function transformCollection(
     throw new Error(`Block ${id} - Collection ${collectionId} has no view.`)
   }
 
-  let rawCollectionViewRecords = await getCollectionViewRecords(viewIds, apiAgent)
+  const rawCollectionViewRecords = await getCollectionViewRecords(viewIds, apiAgent)
 
-  let rawCollectionRecord = await getCollectionRecord(collectionId, apiAgent)
-  let rawCollection = rawCollectionRecord.value
+  const rawCollectionRecord = await getCollectionRecord(collectionId, apiAgent)
+  const rawCollection = rawCollectionRecord.value
 
   /**
    * Make query map: collectionViewId -> Notion.Query of the view
    */
-  let queryMap: Map<string, Notion.Query> = new Map()
-  rawCollectionViewRecords.forEach((record: Notion.CollectionViewRecordValue): void => {
-    let viewId = record.value.id
-    let query = record.value.query
+  const queryMap: Map<string, Notion.Query> = new Map()
+  rawCollectionViewRecords.forEach((record): void => {
+    const viewId = record.value.id
+    const query = record.value.query
     queryMap.set(viewId, query)
   })
 
-  let rawQueryCollectionResponses =
+  const rawQueryCollectionResponses =
     await getQueryCollectionResponses(collectionId, queryMap, apiAgent)
 
   /** Transform to Nast */
@@ -55,13 +57,13 @@ async function transformCollection(
   /**
    * We won't get undefined below since viewIds guarantee there are views.
    */
-  let rawQueryCollectionResponse = rawQueryCollectionResponses.get(viewIds[0])
+  const rawQueryCollectionResponse = rawQueryCollectionResponses.get(viewIds[0])
   if (!rawQueryCollectionResponse)
     throw new Error(`No rawQueryCollectionResponse for ${viewIds[0]}`)
 
-  let blockRecordValueMap = rawQueryCollectionResponse.recordMap.block
-  let resultBlockIds = rawQueryCollectionResponse.result.blockIds
-  let nastCollection = {
+  const blockRecordValueMap = rawQueryCollectionResponse.recordMap.block
+  const resultBlockIds = rawQueryCollectionResponse.result.blockIds
+  const nastCollection = {
     /** TS cannot assign string to 'collection' */
     type: 'collection' as 'collection',
     id,
@@ -81,18 +83,19 @@ async function transformCollection(
     schema: rawCollection.schema || {},
     /** blockRecordValueMap[x] is Notion.BlockRecordValue (The one with role) */
     blocks: await Promise.all(resultBlockIds
-      .map((id: string): Promise<Nast.Page> => {
+      .map((id): Promise<Nast.Page> => {
         return transformPage(blockRecordValueMap[id].value)
       })),
     /** Use viewId to access record value maps. */
-    views: viewIds.map((viewId: string): Nast.CollectionViewMetadata => {
-      let viewRecord = rawCollectionViewRecords
+    views: viewIds.map((viewId): Nast.CollectionViewMetadata => {
+      const viewRecord = rawCollectionViewRecords
         .find((view): boolean => view.value.id === viewId)
-      let view: Notion.CollectionViewValue
-      let rawQueryCollectionResponse = rawQueryCollectionResponses.get(viewId)
+      const rawQueryCollectionResponse = rawQueryCollectionResponses.get(viewId)
+
+      let view: Notion.CollectionView
       let aggregationResults: Notion.AggregationResult[]
 
-      /** Normally, the following two "if" should not happen. */
+      /** Normally, the following two errors should not happen. */
       if (viewRecord) {
         view = viewRecord.value
       } else {
@@ -113,7 +116,7 @@ async function transformCollection(
         format: view.format,
         aggregate: (view.query.aggregate || [])
           .map((prop): Nast.AggregationMetadata => {
-            let aggregationResult = aggregationResults
+            const aggregationResult = aggregationResults
               .find((res): boolean => res.id === prop.id)
             return {
               aggregationType: prop.aggregation_type,
@@ -141,24 +144,25 @@ async function transformCollection(
  * Notion.Agent.queryCollection()
  */
 async function getCollectionViewRecords(
-  viewIds: string[], apiAgent: Notion.Agent
-): Promise<Notion.CollectionViewRecordValue[]> {
+  viewIds: string[],
+  apiAgent: Notion.NotionAgent
+): Promise<(Notion.Record & { value: Notion.CollectionView })[]> {
 
-  let collectionViewRequests = viewIds.map((viewId: string): Notion.RecordRequest => {
+  const collectionViewRequests = viewIds.map((viewId): Notion.RecordRequest => {
     return {
       id: viewId,
       table: 'collection_view'
     }
   })
 
-  let apiRes = await apiAgent.getRecordValues(collectionViewRequests)
-  if (apiRes.statusCode !== 200) {
-    console.log(apiRes)
+  const res = await apiAgent.getRecordValues(collectionViewRequests)
+  if (res.statusCode !== 200) {
+    console.log(res)
     throw new Error('Fail to get rawCollectionViewRecords.')
   }
 
-  let rawCollectionViewRecords: Notion.CollectionViewRecordValue[] =
-    apiRes.data.results
+  const rawCollectionViewRecords =
+    (res.data as Notion.GetRecordValuesResponse).results as (Notion.Record & { value: Notion.CollectionView })[]
 
   return rawCollectionViewRecords
 }
@@ -169,20 +173,24 @@ async function getCollectionViewRecords(
  * One database only has one collection.
  */
 async function getCollectionRecord(
-  collectionId: string, apiAgent: Notion.Agent
-): Promise<Notion.CollectionRecordValue> {
+  collectionId: string,
+  apiAgent: Notion.NotionAgent
+): Promise<(Notion.Record & { value: Notion.Collection })> {
 
-  let collectionRequests = [{
+  const collectionRequests = [{
     id: collectionId,
     table: 'collection'
   }]
-  let apiRes = await apiAgent.getRecordValues(collectionRequests)
-  if (apiRes.statusCode !== 200) {
-    console.log(apiRes)
+
+  const res = await apiAgent.getRecordValues(collectionRequests)
+  if (res.statusCode !== 200) {
+    console.log(res)
     throw new Error('Fail to get collectionResponses.')
   }
-  let collectionResponses = apiRes.data.results
-  let rawCollectionRecord: Notion.CollectionRecordValue = collectionResponses[0]
+
+  const collectionResponses =
+    (res.data as Notion.GetRecordValuesResponse).results as (Notion.Record & { value: Notion.Collection })[]
+  const rawCollectionRecord = collectionResponses[0]
 
   return rawCollectionRecord
 }
@@ -200,17 +208,19 @@ async function getCollectionRecord(
  * views.
  */
 async function getQueryCollectionResponses(
-  collectionId: string, queryMap: Map<string, Notion.Query>, apiAgent: Notion.Agent
+  collectionId: string,
+  queryMap: Map<string, Notion.Query>,
+  apiAgent: Notion.NotionAgent
 ): Promise<Map<string, Notion.QueryCollectionResponse>> {
 
-  interface RawQueryCollectionRequest {
+  type RawQueryCollectionRequest = {
     collectionId: string
     collectionViewId: string
     aggregateQueries: Notion.AggregateQuery[]
   }
 
   /** Make request objects. */
-  let rawQueryCollectionRequests: RawQueryCollectionRequest[] = []
+  const rawQueryCollectionRequests: RawQueryCollectionRequest[] = []
   queryMap.forEach((query, viewId): void => {
     rawQueryCollectionRequests.push({
       collectionId,
@@ -220,19 +230,21 @@ async function getQueryCollectionResponses(
   })
 
   /** Do queries and receive responses. */
-  let rawQueryCollectionResponses: Map<string, Notion.QueryCollectionResponse> = new Map()
+  const rawQueryCollectionResponses: Map<string, Notion.QueryCollectionResponse> = new Map()
   for (let i = 0; i < rawQueryCollectionRequests.length; ++i) {
-    let req = rawQueryCollectionRequests[i]
-    let res =
+    const req = rawQueryCollectionRequests[i]
+    const res =
       await apiAgent.queryCollection(
         req.collectionId,
         req.collectionViewId,
         req.aggregateQueries)
+
     if (res.statusCode !== 200) {
       console.log(res)
       throw new Error('Fail to get rawQueryCollectionResponse.')
     }
-    rawQueryCollectionResponses.set(req.collectionViewId, res.data)
+
+    rawQueryCollectionResponses.set(req.collectionViewId, res.data as Notion.QueryCollectionResponse)
   }
 
   return rawQueryCollectionResponses

@@ -1,11 +1,13 @@
-import { Notion, Nast } from '../../../types/src'
+/** For types only */
+import * as Notion from 'notionapi-agent'
+import * as Nast from '../nast'
 
 import { getBlockColor } from './utils'
 
 async function transformAudio(
-  node: Notion.BlockValue
+  node: Notion.Block
 ): Promise<Nast.Audio> {
-  let nastNode = {
+  const nastNode = {
     id: node.id,
     type: 'audio' as 'audio',
     color: getBlockColor(node),

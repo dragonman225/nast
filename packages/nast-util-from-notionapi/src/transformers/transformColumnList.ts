@@ -1,11 +1,13 @@
-import { Notion, Nast } from '../../../types/src'
+/** For types only */
+import * as Notion from 'notionapi-agent'
+import * as Nast from '../nast'
 
 import { getBlockColor } from './utils'
 
 async function transformColumnList(
-  node: Notion.BlockValue
+  node: Notion.Block
 ): Promise<Nast.ColumnList> {
-  let nastNode = {
+  const nastNode = {
     id: node.id,
     type: 'column_list' as 'column_list',
     color: getBlockColor(node),

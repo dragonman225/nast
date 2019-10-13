@@ -1,12 +1,14 @@
-import { Notion, Nast } from '../../../types/src'
+/** For types only */
+import * as Notion from 'notionapi-agent'
+import * as Nast from '../nast'
 
 import { getBlockColor } from './utils'
 
 async function transformImage(
-  node: Notion.BlockValue
+  node: Notion.Block
 ): Promise<Nast.Image> {
   let format = node.format || {}
-  let nastNode = {
+  const nastNode = {
     id: node.id,
     type: 'image' as 'image',
     color: getBlockColor(node),

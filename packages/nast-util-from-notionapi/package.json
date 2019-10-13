@@ -4,9 +4,10 @@
   "description": "Convert a Notion.so page into a tree object.",
   "main": "dist/index.js",
   "scripts": {
-    "dev:build-webpack": "webpack --mode=development",
-    "dev:build-tsc": "tsc",
-    "prod:build": "webpack --mode=production"
+    "build": "tsc && npm run report:deps_graph",
+    "build:webpack-deev": "webpack --mode=development",
+    "build:webpack-prod": "webpack --mode=production",
+    "report:deps_graph": "npx depcruise --exclude '^node_modules' --output-type dot --prefix 'https://github.com/dragonman225/nast-util-from-notionapi/tree/master/' src/index.ts | dot -T svg > report/deps_graph.svg"
   },
   "repository": {
     "type": "git",
@@ -28,7 +29,9 @@
     "@types/node": "^12.7.12",
     "@typescript-eslint/eslint-plugin": "^2.3.3",
     "@typescript-eslint/parser": "^2.3.3",
+    "dependency-cruiser": "^5.2.0",
     "eslint": "^6.5.1",
+    "notionapi-agent": "^0.6.1",
     "ts-loader": "^6.2.0",
     "typescript": "^3.6.4",
     "webpack": "^4.41.1",

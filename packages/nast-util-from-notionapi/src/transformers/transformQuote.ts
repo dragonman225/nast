@@ -1,11 +1,13 @@
-import { Notion, Nast } from '../../../types/src'
+/** For types only */
+import * as Notion from 'notionapi-agent'
+import * as Nast from '../nast'
 
 import { getBlockColor, getBlockTitle } from './utils'
 
 async function transformQuote(
-  node: Notion.BlockValue
+  node: Notion.Block
 ): Promise<Nast.Quote> {
-  let nastNode = {
+  const nastNode = {
     id: node.id,
     type: 'quote' as 'quote',
     color: getBlockColor(node),

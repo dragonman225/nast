@@ -1,0 +1,1 @@
+{"version":3,"file":"transformNumberedListItem.d.ts","sourceRoot":"","sources":["../../src/transformers/transformNumberedListItem.ts"],"names":[],"mappings":"AAAA,qBAAqB;AACrB,OAAO,KAAK,MAAM,MAAM,iBAAiB,CAAA;AACzC,OAAO,KAAK,IAAI,MAAM,SAAS,CAAA;AAI/B,iBAAe,yBAAyB,CACtC,IAAI,EAAE,MAAM,CAAC,KAAK,GACjB,OAAO,CAAC,IAAI,CAAC,gBAAgB,CAAC,CAWhC;AAED,eAAe,yBAAyB,CAAA"}
