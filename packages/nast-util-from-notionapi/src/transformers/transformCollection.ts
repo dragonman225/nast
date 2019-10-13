@@ -3,6 +3,7 @@ import * as Notion from 'notionapi-agent'
 import * as Nast from '../nast'
 
 import transformPage from './transformPage'
+import { convertImageUrl } from './utils'
 
 async function transformCollection(
   collectionBlockRecord: Notion.Block,
@@ -70,8 +71,8 @@ async function transformCollection(
     collectionId,
     createdTime: collectionBlockRecord.created_time,
     lastEditedTime: collectionBlockRecord.last_edited_time,
-    icon: rawCollection.icon,
-    cover: rawCollection.cover,
+    icon: rawCollection.icon ? convertImageUrl(rawCollection.icon) : undefined,
+    cover: rawCollection.cover ? convertImageUrl(rawCollection.cover) : undefined,
     description: rawCollection.description,
     coverPosition: rawCollection.format
       ? rawCollection.format.collection_cover_position || 1 : 1,
