@@ -12,7 +12,7 @@ async function transformPage(node) {
         children: [],
         title: utils_1.getBlockTitle(node)[0] ? utils_1.getBlockTitle(node)[0][0] : '',
         icon: utils_1.getBlockIcon(node),
-        cover: format.page_cover || undefined,
+        cover: format.page_cover ? utils_1.convertImageUrl(format.page_cover) : undefined,
         fullWidth: typeof format.page_full_width !== 'undefined'
             ? format.page_full_width : false,
         coverPosition: format.page_cover_position || 1,

@@ -2,12 +2,12 @@
 import * as Notion from 'notionapi-agent'
 import * as Nast from '../nast'
 
-import { getBlockColor } from './utils'
+import { getBlockColor, convertImageUrl } from './utils'
 
 async function transformImage(
   node: Notion.Block
 ): Promise<Nast.Image> {
-  let format = node.format || {}
+  const format = node.format || {}
   const nastNode = {
     id: node.id,
     type: 'image' as 'image',
@@ -16,7 +16,8 @@ async function transformImage(
     lastEditedTime: node.last_edited_time,
     children: [],
     width: format.block_width || 9999,
-    source: format.display_source || '#',
+    source: format.display_source
+      ? convertImageUrl(format.display_source, format.block_width) : '#',
     fullWidth: typeof format.block_full_width !== 'undefined'
       ? format.block_full_width : false,
     pageWidth: typeof format.block_page_width !== 'undefined'

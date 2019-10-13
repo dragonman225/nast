@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const utils_1 = require("./utils");
 async function transformImage(node) {
-    let format = node.format || {};
+    const format = node.format || {};
     const nastNode = {
         id: node.id,
         type: 'image',
@@ -11,7 +11,8 @@ async function transformImage(node) {
         lastEditedTime: node.last_edited_time,
         children: [],
         width: format.block_width || 9999,
-        source: format.display_source || '#',
+        source: format.display_source
+            ? utils_1.convertImageUrl(format.display_source, format.block_width) : '#',
         fullWidth: typeof format.block_full_width !== 'undefined'
             ? format.block_full_width : false,
         pageWidth: typeof format.block_page_width !== 'undefined'
