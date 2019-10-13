@@ -1,12 +1,13 @@
 {
   "name": "nast-util-from-notionapi",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "Convert a Notion.so page into a tree object.",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc && npm run report:deps_graph",
     "build:webpack-deev": "webpack --mode=development",
     "build:webpack-prod": "webpack --mode=production",
+    "release": "npm run build && npm publish",
     "report:deps_graph": "npx depcruise --exclude '^node_modules' --output-type dot --prefix 'https://github.com/dragonman225/nast-util-from-notionapi/tree/master/' src/index.ts | dot -T svg > report/deps_graph.svg"
   },
   "repository": {

@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const transformPage_1 = __importDefault(require("./transformPage"));
+const utils_1 = require("./utils");
 async function transformCollection(collectionBlockRecord, apiAgent) {
     /** Block ID */
     const id = collectionBlockRecord.id;
@@ -57,8 +58,8 @@ async function transformCollection(collectionBlockRecord, apiAgent) {
         collectionId,
         createdTime: collectionBlockRecord.created_time,
         lastEditedTime: collectionBlockRecord.last_edited_time,
-        icon: rawCollection.icon,
-        cover: rawCollection.cover,
+        icon: rawCollection.icon ? utils_1.convertImageUrl(rawCollection.icon) : undefined,
+        cover: rawCollection.cover ? utils_1.convertImageUrl(rawCollection.cover) : undefined,
         description: rawCollection.description,
         coverPosition: rawCollection.format
             ? rawCollection.format.collection_cover_position || 1 : 1,
