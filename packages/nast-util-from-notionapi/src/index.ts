@@ -18,7 +18,7 @@ async function getOnePageAsTree(
 async function getAllBlocksInOnePage(
   pageId: string,
   apiAgent: Notion.NotionAgent
-): Promise<(Notion.Record & { value: Notion.Block })[]> {
+): Promise<Notion.BlockRecord[]> {
 
   assert(typeof pageId === 'string')
   assert(typeof apiAgent === 'object')
@@ -78,7 +78,7 @@ function generateGRVPayload(
 async function getChildrenBlocks(
   blockIds: string[],
   apiAgent: Notion.NotionAgent
-): Promise<(Notion.Record & { value: Notion.Block })[]> {
+): Promise<Notion.BlockRecord[]> {
 
   /** Get children records with getRecordValues */
   const requests = generateGRVPayload(blockIds, 'block')
@@ -90,7 +90,7 @@ async function getChildrenBlocks(
   }
 
   const responseData = response.data as Notion.GetRecordValuesResponse
-  const childrenRecords = responseData.results as (Notion.Record & { value: Notion.Block })[]
+  const childrenRecords = responseData.results as Notion.BlockRecord[]
   /**
    * Filter out "page" blocks and empty blocks.
    * 
@@ -119,7 +119,7 @@ async function getChildrenBlocks(
  * @returns An array of IDs.
  */
 function collectChildrenIDs(
-  records: (Notion.Record & { value: Notion.Block })[]
+  records: Notion.BlockRecord[]
 ): string[] {
 
   let childrenIDs: string[] = []
@@ -147,7 +147,7 @@ function collectChildrenIDs(
  * @returns NAST.
  */
 async function makeBlocksArrayIntoTree(
-  allRecords: (Notion.Record & { value: Notion.Block })[],
+  allRecords: Notion.BlockRecord[],
   apiAgent: Notion.NotionAgent
 ): Promise<Nast.Block> {
 

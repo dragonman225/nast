@@ -147,7 +147,7 @@ async function transformCollection(
 async function getCollectionViewRecords(
   viewIds: string[],
   apiAgent: Notion.NotionAgent
-): Promise<(Notion.Record & { value: Notion.CollectionView })[]> {
+): Promise<Notion.CollectionViewRecord[]> {
 
   const collectionViewRequests = viewIds.map((viewId): Notion.RecordRequest => {
     return {
@@ -163,7 +163,7 @@ async function getCollectionViewRecords(
   }
 
   const rawCollectionViewRecords =
-    (res.data as Notion.GetRecordValuesResponse).results as (Notion.Record & { value: Notion.CollectionView })[]
+    (res.data as Notion.GetRecordValuesResponse).results as Notion.CollectionViewRecord[]
 
   return rawCollectionViewRecords
 }
@@ -176,7 +176,7 @@ async function getCollectionViewRecords(
 async function getCollectionRecord(
   collectionId: string,
   apiAgent: Notion.NotionAgent
-): Promise<(Notion.Record & { value: Notion.Collection })> {
+): Promise<Notion.CollectionRecord> {
 
   const collectionRequests = [{
     id: collectionId,
@@ -190,7 +190,7 @@ async function getCollectionRecord(
   }
 
   const collectionResponses =
-    (res.data as Notion.GetRecordValuesResponse).results as (Notion.Record & { value: Notion.Collection })[]
+    (res.data as Notion.GetRecordValuesResponse).results as Notion.CollectionRecord[]
   const rawCollectionRecord = collectionResponses[0]
 
   return rawCollectionRecord

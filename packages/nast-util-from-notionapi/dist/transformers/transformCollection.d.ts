@@ -9,17 +9,13 @@ declare function transformCollection(collectionBlockRecord: Notion.Block, apiAge
  * which contains sort, aggregate, filter_operator that are used to do
  * Notion.Agent.queryCollection()
  */
-declare function getCollectionViewRecords(viewIds: string[], apiAgent: Notion.NotionAgent): Promise<(Notion.Record & {
-    value: Notion.CollectionView;
-})[]>;
+declare function getCollectionViewRecords(viewIds: string[], apiAgent: Notion.NotionAgent): Promise<Notion.CollectionViewRecord[]>;
 /**
  * Get collection record
  *
  * One database only has one collection.
  */
-declare function getCollectionRecord(collectionId: string, apiAgent: Notion.NotionAgent): Promise<(Notion.Record & {
-    value: Notion.Collection;
-})>;
+declare function getCollectionRecord(collectionId: string, apiAgent: Notion.NotionAgent): Promise<Notion.CollectionRecord>;
 /**
  * Query all entries in this collection
  *
