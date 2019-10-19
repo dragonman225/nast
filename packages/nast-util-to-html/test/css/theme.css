@@ -3,7 +3,7 @@
 }
 
 body {
-  line-height: 1.5;
+  line-height: 1.8125;
   font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
   color: #37352f;
   margin: 0;
@@ -38,34 +38,40 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
   margin-bottom: 0.25em;
-  font-size: 2.5rem;
+  font-size: 2.625rem;
+  line-height: 1.595;
 }
 
 h2 {
-  font-size: 1.875rem;
+  font-size: 2.0625rem;
+  line-height: 1.636;
 }
 
 h3 {
   margin-top: 1rem;
-  font-size: 1.5rem;
+  font-size: 1.625rem;
+  line-height: 1.654;
 }
 
 h4 {
   margin-top: 0.5rem;
   font-size: 1.25rem;
+  line-height: 1.75;
 }
 
 h5 {
-  font-size: 1.15rem;
+  font-size: 1rem;
+  line-height: 1.8125;
 }
 
 h6 {
-  font-size: 1.05rem;
+  font-size: 0.8125rem;
+  line-height: 1.846;
   color: #888;
 }
 
 p {
-  font-size: 1em;
+  font-size: 1rem;
   font-weight: 400;
   margin: 15px auto;
 }
@@ -108,14 +114,15 @@ ul {
   list-style-type: disc;
 }
 
+/* 18*1.611 = 16*1.8125 */
 ul>li {
-  font-size: 20px;
-  line-height: 1.2;
+  font-size: 18px;
+  line-height: 1.611;
 }
 
 ul>li div {
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1.8125;
 }
 
 details>summary:focus {
@@ -141,4 +148,34 @@ details>summary:focus {
 
 .block--bookmark a {
   border: none;
+}
+
+@media only screen and (max-width: 450px) {
+  h1 {
+    line-height: 1.524;
+  }
+
+  h2 {
+    line-height: 1.545;
+  }
+
+  h3 {
+    line-height: 1.577;
+  }
+
+  h4 {
+    line-height: 1.6;
+  }
+
+  h5, body, ul>li div {
+    line-height: 1.625;
+  }
+
+  h6 {
+    line-height: 1.69;
+  }
+
+  ul>li {
+    line-height: 1.444;
+  }
 }

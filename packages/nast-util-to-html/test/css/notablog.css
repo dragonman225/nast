@@ -1,0 +1,150 @@
+.container {
+  padding: 50px 25px 25px;
+  max-width: 8.3in;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.quote--big {
+  font-size: 1.5em;
+}
+
+.inline-img-icon {
+  height: 1em;
+  vertical-align: sub;
+}
+
+.page-cover > img {
+  height: calc(30vh + 50px);
+}
+
+.fill-h {
+  flex: 1;
+}
+
+.post-brief--title {
+  margin-left: 5px;
+}
+
+.meta {
+  font-size: 0.9rem;
+}
+
+.meta span:not(:first-child) {
+  margin-left: 10px;
+}
+
+.meta--date {
+  color: hsla(45, 2%, 40%, 1);
+}
+
+.meta--tag {
+  color: hsla(45, 8%, 25%, 1);
+  font-size: 0.85rem;
+  padding: 0 6px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.meta--tag > a {
+  border: none;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  width: 100%;
+  height: 50px;
+  padding: 0 20px;
+  /* Blur */
+  background-color: rgba(255, 255, 255, 0.7);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+}
+
+.nav a {
+  border-bottom: none;
+  min-width: 50px;
+  text-align: center;
+}
+
+.nav-btn {
+  border-radius: 5px;
+  padding: 0 6px;
+  transition: background 120ms ease-in 0s;
+  /* For centering inline image */
+  display: flex;
+  align-items: center;
+}
+
+.nav-btn>span:not(:first-child) {
+  margin-left: 6px;
+}
+
+.nav-btn>span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nav-btn:hover {
+  background: rgba(55, 53, 47, 0.08);
+}
+
+.nav-breadcrumb-slash {
+  margin: 0 3px;
+  color: rgba(55, 53, 47, 0.4);
+}
+
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  padding: 5em 3em 0;
+  color: rgba(55, 53, 47, 0.4);
+}
+
+.site-footer>div:nth-child(2) {
+  margin: 0 3px;
+}
+
+.site-footer a {
+  color: rgba(55, 53, 47, 0.8);
+}
+
+@media only screen and (max-width: 680px) {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+  .container {
+    padding-top: 45px;
+  }
+  .nav {
+    height: 45px;
+    box-shadow: rgba(15, 15, 15, 0.1) 0px 1px 0px, transparent 0px 0px 0px;
+  }
+  .nav-btn {
+    font-size: 14px;
+  }
+  .page-icon {
+    font-size: 55px;
+  }
+  .page-cover>img {
+    height: calc(30vh + 30px);
+  }
+}
+
+@supports (not (backdrop-filter: blur(20px))) and (not (-webkit-backdrop-filter: blur(20px))) {
+  .nav {
+    background-color: white;
+  }
+}
