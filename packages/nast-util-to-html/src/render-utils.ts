@@ -74,7 +74,7 @@ function renderTitle(
   })
 
   let html = `\
-<span>${textArr.join('')}</span>`
+<span style="white-space: pre-wrap;">${textArr.join('')}</span>`
   return html
 }
 
