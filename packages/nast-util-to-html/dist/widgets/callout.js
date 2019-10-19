@@ -3,9 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const constants_1 = require("../constants");
 const render_utils_1 = require("../render-utils");
 function renderCallout(node) {
+    let iconHTML = /^http/.test(node.icon || '')
+        ? `<img src="${node.icon}" style="height: 1.5em;">` : node.icon;
     let content = `\
-<div>
-  ${node.icon ? node.icon : ''}
+<div style="padding-top: 2.5px;">
+  ${iconHTML}
 </div>
 <div style="margin-left: 8px;">
   ${render_utils_1.renderTitle(node.text, false, '')}

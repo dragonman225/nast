@@ -64,7 +64,7 @@ function renderTitle(titleTokens = [], isCode, lang) {
         return html;
     });
     let html = `\
-<span>${textArr.join('')}</span>`;
+<span style="white-space: pre-wrap;">${textArr.join('')}</span>`;
     return html;
 }
 exports.renderTitle = renderTitle;
