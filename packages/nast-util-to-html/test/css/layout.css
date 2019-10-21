@@ -143,7 +143,7 @@ li {
   line-height: 1rem; /* Notion: 16px with global base 16px */
 }
 
-.block--bookmark p:nth-child(2) {
+.block--bookmark p:first-of-type {
   opacity: 0.6;
   height: 2rem; /* Notion: 32px with global base 16px */
   overflow: hidden;
