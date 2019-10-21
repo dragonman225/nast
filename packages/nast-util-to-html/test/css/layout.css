@@ -115,10 +115,45 @@ li {
 
 .block--bookmark {
   margin: 8px 0;
+  border: 1px solid rgba(55, 53, 47, 0.16);
+  border-radius: 5px;
+  padding: 12px 14px 14px;
+  transition: background 120ms ease-in 0s;
 }
 
-.block--bookmark img, .block--bookmark div {
+.block--bookmark:hover {
+  background: rgba(55, 53, 47, 0.08);
+}
+
+.block--bookmark h5, .block--bookmark p {
   margin: 0;
+}
+
+.block--bookmark h5 {
+  margin-bottom: 2px;
+  font-size: 0.875rem; /* Notion: 14/16 */
+  font-weight: normal;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.block--bookmark p {
+  font-size: 0.75rem; /* Notion: 12/16 */
+  line-height: 1rem; /* Notion: 16px with global base 16px */
+}
+
+.block--bookmark p:nth-child(2) {
+  opacity: 0.6;
+  height: 2rem; /* Notion: 32px with global base 16px */
+  overflow: hidden;
+}
+
+.block--bookmark p:last-child {
+  margin-top: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .block--video, .block--embed {
