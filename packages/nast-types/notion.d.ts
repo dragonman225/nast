@@ -1,3 +1,4 @@
+// deprecated
 export as namespace Notion
 
 /**
@@ -202,7 +203,7 @@ export interface CollectionFormat {
 
 export interface CollectionColumnInfo {
   name: string
-  options: CollectionColumnOption[]
+  options?: CollectionColumnOption[]
   type: string
 }
 
@@ -245,7 +246,7 @@ export interface CollectionViewFormat {
 }
 
 export interface TableProperty {
-  width: number
+  width?: number
   visible: boolean
   property: string
 }
