@@ -39,9 +39,16 @@ function renderTable(
   viewFormat: Notion.CollectionViewFormat
 ): string {
   const title = escapeString(node.name)
+  // const wrap = (typeof viewFormat.table_wrap === 'undefined')
+  //   ? viewFormat.table_wrap : true
 
   const viewSchema = (viewFormat.table_properties || [])
     .filter(colViewInfo => colViewInfo.visible)
+    /** 
+     * Some collection views have "ghost" properties that don't exist 
+     * in collection schema.
+     */
+    .filter(colViewInfo => node.schema[colViewInfo.property])
     .map(colViewInfo => {
       const colId = colViewInfo.property
 
@@ -68,18 +75,21 @@ function renderTable(
        */
       const pageProps = page.properties as { [key: string]: Notion.StyledString[] }
       const row = viewSchema.map(clctItemProp => {
+
         switch (clctItemProp.type) {
           case COLLECTION_ITEM_PROPERTY_TYPES.title: {
-            return `<td>${escapeString(page.title)}</td>`
+            return `<td><span class="${CSS.collectionItemPropTypeText}">${escapeString(page.title)}</span></td>`
           }
+          case COLLECTION_ITEM_PROPERTY_TYPES.url:
           case COLLECTION_ITEM_PROPERTY_TYPES.text: {
-            return `<td>${renderTitle(pageProps[clctItemProp.id])}</td>`
+            return `<td><span class="${CSS.collectionItemPropTypeText}">${renderTitle(pageProps[clctItemProp.id])}</span></td>`
           }
           case COLLECTION_ITEM_PROPERTY_TYPES.select:
           case COLLECTION_ITEM_PROPERTY_TYPES.multiSelect: {
             const optionNames = pageProps[clctItemProp.id]
               ? pageProps[clctItemProp.id][0][0].split(',') : []
             const optionsHTML = optionNames.map(optionName => {
+              clctItemProp.options = clctItemProp.options as Notion.CollectionColumnOption[]
               const option = clctItemProp.options.find(o => o.value === optionName)
 
               if (!option) {
@@ -95,7 +105,7 @@ function renderTable(
           }
           default:
             raiseWarning(`Collection item property type "${clctItemProp.type}" hasn't been implemented.`)
-            return `<td>${renderTitle(pageProps[clctItemProp.id])}</td>`
+            return `<td><span class="${CSS.collectionItemPropTypeText}">${renderTitle(pageProps[clctItemProp.id])}</span></td>`
         }
       })
 

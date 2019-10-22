@@ -3,6 +3,7 @@ const CSS = {
   blockIndentClass: 'block--indent',
   colorClassPrefix: 'color-',
   bgColorClassPrefix: 'background-',
+  collectionItemPropTypeText: 'prop-type-text',
   collectionItemPropTypeSelect: 'prop-type-select',
   collectionItemPropTypeSelectColorPrefix: 'tag-' // temp: borrow from notablog
 }

@@ -170,16 +170,22 @@ li {
   margin: 1em 0;
 }
 
+.collection-view-table {
+  overflow-x: scroll;
+}
+
 .collection-view-table table {
   font-size: 0.875rem;
   border-collapse: collapse;
+  table-layout: fixed;
 }
 
 .collection-view-table table td, .collection-view-table table th {
   height: 2rem;
   border: 1px solid rgba(55, 53, 47, 0.09);
-  padding-left: 8px;
-  padding-right: 8px;
+  padding: 0 8px;
+  overflow: hidden;
+  word-break: break-word;
 }
 
 .collection-view-table table td:first-child, .collection-view-table table th:first-child {
@@ -196,14 +202,18 @@ li {
   opacity: 0.6;
 }
 
+.collection-view-table .prop-type-text {
+  display: block;
+  margin: 5px 0;
+}
+
 .collection-view-table .prop-type-select {
   padding: 0 6px;
   border-radius: 3px;
   white-space: nowrap;
-}
-
-.collection-view-table .prop-type-select:not(:first-child) {
-  margin-left: 6px;
+  display: inline-block;
+  margin: 3px 0; /* margin of inline-block doesn't collapse */
+  margin-right: 6px;
 }
 
 .gallery__grid {
