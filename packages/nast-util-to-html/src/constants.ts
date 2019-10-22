@@ -2,7 +2,9 @@ const CSS = {
   blockClass: 'block',
   blockIndentClass: 'block--indent',
   colorClassPrefix: 'color-',
-  bgColorClassPrefix: 'background-'
+  bgColorClassPrefix: 'background-',
+  collectionItemPropTypeSelect: 'prop-type-select',
+  collectionItemPropTypeSelectColorPrefix: 'tag-' // temp: borrow from notablog
 }
 
 const NAST_BLOCK_TYPES = {
@@ -61,9 +63,26 @@ const COLLECTION_VIEW_TYPES = {
   calendar: 'calendar'
 }
 
+const COLLECTION_ITEM_PROPERTY_TYPES = {
+  title: 'title',
+  text: 'text',
+  number: '',
+  select: 'select',
+  multiSelect: 'multi_select',
+  date: '',
+  person: '',
+  filesAndMedia: '',
+  checkbox: 'checkbox',
+  url: 'url',
+  email: '',
+  phone: '',
+  createdTime: 'created_time'
+}
+
 export {
   CSS,
   NAST_BLOCK_TYPES,
   COLOR,
-  COLLECTION_VIEW_TYPES
+  COLLECTION_VIEW_TYPES,
+  COLLECTION_ITEM_PROPERTY_TYPES
 }
