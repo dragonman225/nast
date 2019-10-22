@@ -7,14 +7,14 @@ const tree = require('./testdata')
 module.exports = test
 
 function test() {
-  let content = renderToHTML(tree)
-  let html = renderPage(tree.title, content)
+  const content = renderToHTML(tree)
+  const html = renderPage(tree.title, content)
 
   fs.writeFileSync(path.join(__dirname, 'test.html'), html)
 }
 
 function renderPage(pageTitle, contentHTML) {
-  let pageHTML = `\
+  const pageHTML = `\
 <html>
   <head>
     <meta charset="utf-8">
@@ -29,6 +29,7 @@ function renderPage(pageTitle, contentHTML) {
     <link rel="stylesheet" type="text/css" href="css/prism.css">
     <link rel="stylesheet" type="text/css" href="css/layout.css">
     <link rel="stylesheet" type="text/css" href="css/notion-color.css">
+    <link rel="stylesheet" type="text/css" href="css/notablog.css">
     <link rel="stylesheet" type="text/css" href="css/theme.css">
     <link rel="stylesheet" type="text/css" href="css/debug.css">
     <style>

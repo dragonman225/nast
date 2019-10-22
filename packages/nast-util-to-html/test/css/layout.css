@@ -170,6 +170,42 @@ li {
   margin: 1em 0;
 }
 
+.collection-view-table table {
+  font-size: 0.875rem;
+  border-collapse: collapse;
+}
+
+.collection-view-table table td, .collection-view-table table th {
+  height: 2rem;
+  border: 1px solid rgba(55, 53, 47, 0.09);
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.collection-view-table table td:first-child, .collection-view-table table th:first-child {
+  border-left: none;
+}
+
+.collection-view-table table td:last-child, .collection-view-table table th:last-child {
+  border-right: none;
+}
+
+.collection-view-table table thead th {
+  text-align: left;
+  font-weight: normal;
+  opacity: 0.6;
+}
+
+.collection-view-table .prop-type-select {
+  padding: 0 6px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.collection-view-table .prop-type-select:not(:first-child) {
+  margin-left: 6px;
+}
+
 .gallery__grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
