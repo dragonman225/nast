@@ -122,7 +122,9 @@ A HTML string.
 
 #### Database
 
-- [x] Table : Property type "Title", "Text", "URL", "Checkbox", "Select", "Multi-select" are supported, while others are treated as "Text".
+- [x] Table
+  * Property type "Title", "Text", "URL", "Checkbox", "Select", "Multi-select" are supported, while others are treated as "Text".
+  * Always wrap text.
 - [x] Gallery
 - [ ] List
 - [ ] Calendar
