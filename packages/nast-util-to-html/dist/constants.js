@@ -4,7 +4,14 @@ const CSS = {
     blockClass: 'block',
     blockIndentClass: 'block--indent',
     colorClassPrefix: 'color-',
-    bgColorClassPrefix: 'background-'
+    bgColorClassPrefix: 'background-',
+    tableCellContentType: {
+        text: 'cell-type-text',
+        select: 'cell-type-select',
+        checkbox: 'cell-type-checkbox'
+    },
+    tagInTableCellColorPrefix: 'tag-',
+    checkBoxInTablePrefix: 'check-'
 };
 exports.CSS = CSS;
 const NAST_BLOCK_TYPES = {
@@ -63,4 +70,20 @@ const COLLECTION_VIEW_TYPES = {
     calendar: 'calendar'
 };
 exports.COLLECTION_VIEW_TYPES = COLLECTION_VIEW_TYPES;
+const COLLECTION_ITEM_PROPERTY_TYPES = {
+    title: 'title',
+    text: 'text',
+    number: '',
+    select: 'select',
+    multiSelect: 'multi_select',
+    date: '',
+    person: '',
+    filesAndMedia: '',
+    checkbox: 'checkbox',
+    url: 'url',
+    email: '',
+    phone: '',
+    createdTime: 'created_time'
+};
+exports.COLLECTION_ITEM_PROPERTY_TYPES = COLLECTION_ITEM_PROPERTY_TYPES;
 //# sourceMappingURL=constants.js.map

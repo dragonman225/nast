@@ -1,6 +1,6 @@
 {
   "name": "nast-util-to-html",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Transform NAST to HTML.",
   "main": "dist/index",
   "types": "dist/index",

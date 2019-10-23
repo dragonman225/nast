@@ -3,6 +3,13 @@ declare const CSS: {
     blockIndentClass: string;
     colorClassPrefix: string;
     bgColorClassPrefix: string;
+    tableCellContentType: {
+        text: string;
+        select: string;
+        checkbox: string;
+    };
+    tagInTableCellColorPrefix: string;
+    checkBoxInTablePrefix: string;
 };
 declare const NAST_BLOCK_TYPES: {
     page: string;
@@ -57,5 +64,20 @@ declare const COLLECTION_VIEW_TYPES: {
     board: string;
     calendar: string;
 };
-export { CSS, NAST_BLOCK_TYPES, COLOR, COLLECTION_VIEW_TYPES };
+declare const COLLECTION_ITEM_PROPERTY_TYPES: {
+    title: string;
+    text: string;
+    number: string;
+    select: string;
+    multiSelect: string;
+    date: string;
+    person: string;
+    filesAndMedia: string;
+    checkbox: string;
+    url: string;
+    email: string;
+    phone: string;
+    createdTime: string;
+};
+export { CSS, NAST_BLOCK_TYPES, COLOR, COLLECTION_VIEW_TYPES, COLLECTION_ITEM_PROPERTY_TYPES };
 //# sourceMappingURL=constants.d.ts.map
