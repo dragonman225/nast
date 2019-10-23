@@ -113,6 +113,7 @@ A HTML string.
 - [x] Quote
 - [x] Divider
 - [x] Callout
+
 #### Inline
 
 - [ ] Mention a Person (Directly renders `id` of the user)
@@ -121,7 +122,7 @@ A HTML string.
 
 #### Database
 
-- [ ] Table
+- [x] Table : Property type "Title", "Text", "URL", "Checkbox", "Select", "Multi-select" are supported, while others are treated as "Text".
 - [x] Gallery
 - [ ] List
 - [ ] Calendar
