@@ -3,9 +3,13 @@ const CSS = {
   blockIndentClass: 'block--indent',
   colorClassPrefix: 'color-',
   bgColorClassPrefix: 'background-',
-  collectionItemPropTypeText: 'prop-type-text',
-  collectionItemPropTypeSelect: 'prop-type-select',
-  collectionItemPropTypeSelectColorPrefix: 'tag-' // temp: borrow from notablog
+  tableCellContentType: {
+    text: 'cell-type-text',
+    select: 'cell-type-select',
+    checkbox: 'cell-type-checkbox'
+  },
+  tagInTableCellColorPrefix: 'tag-', // temp: borrow from notablog
+  checkBoxInTablePrefix: 'check-'
 }
 
 const NAST_BLOCK_TYPES = {

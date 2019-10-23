@@ -78,11 +78,11 @@ function renderTable(
 
         switch (clctItemProp.type) {
           case COLLECTION_ITEM_PROPERTY_TYPES.title: {
-            return `<td><span class="${CSS.collectionItemPropTypeText}">${escapeString(page.title)}</span></td>`
+            return `<td class="${CSS.tableCellContentType.text}"><span>${escapeString(page.title)}</span></td>`
           }
           case COLLECTION_ITEM_PROPERTY_TYPES.url:
           case COLLECTION_ITEM_PROPERTY_TYPES.text: {
-            return `<td><span class="${CSS.collectionItemPropTypeText}">${renderTitle(pageProps[clctItemProp.id])}</span></td>`
+            return `<td class="${CSS.tableCellContentType.text}"><span>${renderTitle(pageProps[clctItemProp.id])}</span></td>`
           }
           case COLLECTION_ITEM_PROPERTY_TYPES.select:
           case COLLECTION_ITEM_PROPERTY_TYPES.multiSelect: {
@@ -97,15 +97,28 @@ function renderTable(
                 return ''
               }
 
-              const color = `${CSS.collectionItemPropTypeSelectColorPrefix}${option.color}`
-              return `<span class="${CSS.collectionItemPropTypeSelect} ${color}">${escapeString(option.value)}</span>`
+              const color = `${CSS.tagInTableCellColorPrefix}${option.color}`
+              return `<span class="${color}">${escapeString(option.value)}</span>`
             })
 
-            return `<td>${optionsHTML.join('')}</td>`
+            return `<td class="${CSS.tableCellContentType.select}">${optionsHTML.join('')}</td>`
+          }
+          case COLLECTION_ITEM_PROPERTY_TYPES.checkbox: {
+            const checkboxVal = pageProps[clctItemProp.id]
+            const checked = checkboxVal ? checkboxVal[0][0] === 'Yes' : false
+
+            const checkedSvg = '<svg viewBox="0 0 14 14" style="width: 12px; height: 12px; display: block; fill: white; flex-shrink: 0; backface-visibility: hidden;" class="check"><polygon points="5.5 11.9993304 14 3.49933039 12.5 2 5.5 8.99933039 1.5 4.9968652 0 6.49933039"></polygon></svg>'
+            const unCheckedSvg = '<svg viewBox="0 0 16 16" style="width: 100%; height: 100%; display: block; flex-shrink: 0; backface-visibility: hidden;" class="checkboxSquare"><path d="M1.5,1.5 L1.5,14.5 L14.5,14.5 L14.5,1.5 L1.5,1.5 Z M0,0 L16,0 L16,16 L0,16 L0,0 Z"></path></svg>'
+
+            if (checked) {
+              return `<td class="${CSS.tableCellContentType.checkbox}"><div class="${CSS.checkBoxInTablePrefix}yes">${checkedSvg}</div></td>`
+            } else {
+              return `<td class="${CSS.tableCellContentType.checkbox}"><div class="${CSS.checkBoxInTablePrefix}no">${unCheckedSvg}</div></td>`
+            }
           }
           default:
             raiseWarning(`Collection item property type "${clctItemProp.type}" hasn't been implemented.`)
-            return `<td><span class="${CSS.collectionItemPropTypeText}">${renderTitle(pageProps[clctItemProp.id])}</span></td>`
+            return `<td><span class="${CSS.tableCellContentType.text}">${renderTitle(pageProps[clctItemProp.id])}</span></td>`
         }
       })
 
