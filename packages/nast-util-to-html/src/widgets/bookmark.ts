@@ -5,9 +5,9 @@ import { renderBlock } from '../render-utils'
 function renderBookmark(
   node: Nast.WebBookmark
 ): string {
-  let titleHTML = node.title ? `<h5>${node.title}</h5>` : ''
-  let descHTML = node.description ? `<p>${node.description}</p>` : ''
-  let linkHTML = `<p>${node.link}</p>`
+  let titleHTML = node.title ? `<h5 class="title">${node.title}</h5>` : ''
+  let descHTML = node.description ? `<p class="description">${node.description}</p>` : ''
+  let linkHTML = `<p class="link">${node.link}</p>`
 
   let content = `\
 <a href="${node.link}">

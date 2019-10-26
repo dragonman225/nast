@@ -129,7 +129,12 @@ li {
   margin: 0;
 }
 
-.block--bookmark h5 {
+.block--bookmark p {
+  font-size: 0.75rem; /* Notion: 12/16 */
+  line-height: 1rem; /* Notion: 16px with global base 16px */
+}
+
+.block--bookmark h5.title {
   margin-bottom: 2px;
   font-size: 0.875rem; /* Notion: 14/16 */
   font-weight: normal;
@@ -138,18 +143,13 @@ li {
   text-overflow: ellipsis;
 }
 
-.block--bookmark p {
-  font-size: 0.75rem; /* Notion: 12/16 */
-  line-height: 1rem; /* Notion: 16px with global base 16px */
-}
-
-.block--bookmark p:first-of-type {
+.block--bookmark p.description {
   opacity: 0.6;
   height: 2rem; /* Notion: 32px with global base 16px */
   overflow: hidden;
 }
 
-.block--bookmark p:last-child {
+.block--bookmark p.link {
   margin-top: 6px;
   white-space: nowrap;
   overflow: hidden;
@@ -237,7 +237,7 @@ li {
   background: rgb(46, 170, 220);
 }
 
-.gallery__grid {
+.collection-view-gallery .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   grid-auto-rows: 1fr;
@@ -247,7 +247,7 @@ li {
   padding-bottom: 4px;
 }
 
-.gallery__grid__item {
+.collection-view-gallery .grid-item {
   box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 2px 4px;
   border-radius: 5px;
   transition: background 120ms ease-in 0s;
@@ -256,11 +256,11 @@ li {
   /* 10:7 */
 }
 
-.gallery__grid__item:hover {
+.collection-view-gallery .grid-item:hover {
   background: rgba(55, 53, 47, 0.03);
 }
 
-.gallery__gird__item__content {
+.collection-view-gallery .gird-item-content {
   position: absolute;
   top: 0;
   right: 0;
@@ -268,11 +268,11 @@ li {
   left: 0;
 }
 
-.gallery__grid__item__cover {
+.collection-view-gallery .grid-item-cover {
   box-shadow: rgba(55, 53, 47, 0.09) 0px -1px 0px 0px inset;
 }
 
-.gallery__grid__item__cover>img {
+.collection-view-gallery .grid-item-cover > img {
   width: 100%;
   height: calc(100% - 42px);
   border-radius: 5px 5px 0 0;
@@ -281,11 +281,11 @@ li {
   padding-bottom: 1px;
 }
 
-.gallery__grid__item__cover--contain>img {
+.collection-view-gallery .grid-item-cover--contain > img {
   object-fit: contain;
 }
 
-.gallery__grid__item__title {
+.collection-view-gallery .grid-item-title {
   padding: 8px 10px 10px;
   white-space: nowrap;
   overflow: hidden;
@@ -293,7 +293,7 @@ li {
 }
 
 @supports not (display: grid) {
-  .gallery__grid__item {
+  .collection-view-gallery .grid-item {
     margin-top: 16px;
   }
 }

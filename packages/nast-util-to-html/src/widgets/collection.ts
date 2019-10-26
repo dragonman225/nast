@@ -152,14 +152,14 @@ function renderGallery(
 
   let pagesHTMLArr = pages.map(page => {
     return `\
-<div id="${page.id}" class="gallery__grid__item">
-  <div class="gallery__gird__item__content">
+<div id="${page.id}" class="grid-item">
+  <div class="gird-item-content">
     <div>
-      <div class="gallery__grid__item__cover ${imageContain
-        ? 'gallery__grid__item__cover--contain' : ''}">
+      <div class="grid-item-cover ${imageContain
+        ? 'grid-item-cover--contain' : ''}">
         ${page.cover ? `<img src="${page.cover}" data-src="${page.cover}">` : ''}
       </div>
-      <div class="gallery__grid__item__title">
+      <div class="grid-item-title">
         ${escapeString(page.title)}
       </div>
     </div>
@@ -168,9 +168,9 @@ function renderGallery(
   })
 
   let galleryHTML = `\
-<div class="gallery">
+<div class="collection-view-gallery">
   <h4>${title}</h4>
-  <div class="gallery__grid">
+  <div class="grid">
     ${pagesHTMLArr.join('')}
   </div>
 </div>`
