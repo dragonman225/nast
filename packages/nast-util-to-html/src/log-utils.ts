@@ -1,7 +1,10 @@
+const { Logger } = require('@dnpr/logger')
+
+/** Default log level is "warn". */
+const log = new Logger('nast-util-to-html')
+
 function raiseWarning(..._arguments: any[]) {
-  let args = Array.from(_arguments)
-  args.unshift('(nast-util-to-html) Warning:')
-  console.log.apply(console, args as [])
+  log.warn.apply(log, _arguments)
 }
 
 export {

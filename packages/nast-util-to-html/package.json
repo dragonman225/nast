@@ -24,6 +24,7 @@
   "author": "dragonman225",
   "license": "MIT",
   "dependencies": {
+    "@dnpr/logger": "^0.2.0",
     "katex": "0.11.1",
     "prismjs": "1.17.1"
   },
