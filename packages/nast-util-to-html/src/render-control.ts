@@ -125,7 +125,7 @@ function renderNode(node: Nast.Block): string {
       html = renderCollection(node as Nast.Collection)
       break
     default:
-      raiseWarning(`No render function for ${node.type}. Ignored.`)
+      raiseWarning(`No render function for block "${node.type}".`)
   }
 
   return html
