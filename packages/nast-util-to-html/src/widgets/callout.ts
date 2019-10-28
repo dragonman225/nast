@@ -1,6 +1,5 @@
 import Nast from 'notajs-types/nast'
 
-import { COLOR } from '../constants'
 import { renderBlock, renderTitle } from '../render-utils'
 
 function renderCallout(
@@ -17,7 +16,7 @@ function renderCallout(
   ${renderTitle(node.text, false, '')}
 </div>`
 
-  return renderBlock(node, content, COLOR.yellowBg)
+  return renderBlock(node, content)
 }
 
 export default renderCallout
