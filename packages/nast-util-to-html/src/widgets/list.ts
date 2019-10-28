@@ -54,7 +54,7 @@ function renderListItem(
   let html = `\
 <li>
   <div id="${node.id}">
-    ${renderBlock(node, content, )}
+    ${renderBlock(node, content)}
   </div>
   ${renderChildren(node.children, renderNext)}
 </li>`
