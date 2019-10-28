@@ -10,10 +10,10 @@ const log_utils_1 = require("./log-utils");
 const constants_2 = require("./constants");
 /**
  * Render children nodes.
- * @param {*} nodeArray - Children nodes to render.
- * @param {*} renderNext - Render controller that will assign a node to
+ * @param {Nast.Block[]} nodeArray - Children nodes to render.
+ * @param {Function} renderNext - Render controller that will assign a node to
  * a corresponding render function when iterating through nodeArray.
- * @returns {String} HTML.
+ * @returns {string} HTML.
  */
 function renderChildren(nodeArray, renderNext) {
     let childrenHTMLArr = nodeArray.map(node => {
@@ -29,9 +29,10 @@ function renderChildren(nodeArray, renderNext) {
 exports.renderChildren = renderChildren;
 /**
  * Render a block.
- * @param {Block} node
- * @param {String} contentHTML
- * @returns {String}
+ * @param {Nast.Block} node The block node itself.
+ * @param {string} contentHTML The HTML content inside the block.
+ * @param {string} tag The HTML tag to use for the block.
+ * @returns {string} HTML
  */
 function renderBlock(node, contentHTML, tag = 'div') {
     let blockColorClass = node.color ? renderColor(node.color) : '';
@@ -44,8 +45,11 @@ function renderBlock(node, contentHTML, tag = 'div') {
 exports.renderBlock = renderBlock;
 /**
  * Render styled strings.
- * @param {StyledString[]} titleTokens
- * @returns {String} HTML
+ * @param {Notion.StyledString[]} titleTokens
+ * @param {boolean} isCode Whether they should be treated as code.
+ * @param {string} lang One of programming languages listed in
+ * `render-utils-prismjs.ts`.
+ * @returns {string} HTML
  */
 function renderTitle(titleTokens = [], isCode, lang) {
     let textArr = titleTokens.map(token => {
@@ -70,9 +74,9 @@ function renderTitle(titleTokens = [], isCode, lang) {
 exports.renderTitle = renderTitle;
 /**
  * Render a styled string.
- * @param {String} text
- * @param {TextStyle[]} styles
- * @returns {String} HTML
+ * @param {string} text
+ * @param {Notion.TextStyle[]} styles Styles to be applied on the text.
+ * @returns {string} HTML
  */
 function styleToHTML(text, styles) {
     let html = text;
@@ -129,8 +133,8 @@ function styleToHTML(text, styles) {
 /**
  * Map color string in NAST to another string that is intended to use
  * as a CSS class.
- * @param {String} str
- * @returns {String}
+ * @param {string} str A valid color string in NAST.
+ * @returns {string} The CSS class string for the color string.
  */
 function renderColor(str) {
     const colorPrefix = constants_2.CSS.colorClassPrefix;
@@ -179,8 +183,8 @@ function renderColor(str) {
 exports.renderColor = renderColor;
 /**
  * Escape special characters in a string.
- * @param {String} str
- * @returns {String}
+ * @param {string} str Unescaped string.
+ * @returns {string} Escaped string.
  */
 function escapeString(str) {
     let character, escapedString = '';

@@ -123,7 +123,7 @@ function renderNode(node) {
             html = collection_1.default(node);
             break;
         default:
-            log_utils_1.raiseWarning(`No render function for ${node.type}. Ignored.`);
+            log_utils_1.raiseWarning(`No render function for block "${node.type}".`);
     }
     return html;
 }
