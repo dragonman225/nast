@@ -252,8 +252,7 @@ li {
   border-radius: 5px;
   transition: background 120ms ease-in 0s;
   position: relative;
-  padding-top: 70%;
-  /* 10:7 */
+  padding-top: 70%; /* 10:7 */
 }
 
 .collection-view-gallery .grid-item:hover {
@@ -268,13 +267,21 @@ li {
   left: 0;
 }
 
+/* This is the key to make the layout robust. */
+.collection-view-gallery .gird-item-content > div {
+  /* grid-item-title has padding-top 8px, padding-bottom 10px, and its line-height.
+     Since we can't get line-height with CSS, so just assign a large enough value. */
+  height: calc(100% - 18px - 2rem);
+}
+
 .collection-view-gallery .grid-item-cover {
   box-shadow: rgba(55, 53, 47, 0.09) 0px -1px 0px 0px inset;
+  height: 100%; 
 }
 
 .collection-view-gallery .grid-item-cover > img {
   width: 100%;
-  height: calc(100% - 42px);
+  height: 100%;
   border-radius: 5px 5px 0 0;
   object-fit: cover;
   object-position: center 50%;
@@ -286,7 +293,9 @@ li {
 }
 
 .collection-view-gallery .grid-item-title {
-  padding: 8px 10px 10px;
+  padding-top: 8px;
+  padding-left: 10px;
+  padding-right: 10px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
