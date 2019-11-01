@@ -7,7 +7,7 @@
     "build": "tsc",
     "build:webpack-dev": "webpack --mode=development",
     "build:webpack-prod": "webpack --mode=production",
-    "test": "npm run build && jest --config=jest.config.js",
+    "test": "INDENT=true ts-node test/index.ts",
     "release": "npm run build && npm run report:deps_graph && npm publish",
     "report:deps_graph": "npx depcruise --exclude '^node_modules' --output-type dot --prefix 'https://github.com/dragonman225/nast-util-from-notionapi/tree/master/' src/index.ts | dot -T svg > report/deps_graph.svg",
     "upgrade": "node tools/upgrade-deps.js"
@@ -34,15 +34,19 @@
     "@typescript-eslint/parser": "2.6.0",
     "dependency-cruiser": "5.2.2",
     "eslint": "6.6.0",
-    "jest": "24.9.0",
     "notionapi-agent": "0.7.2",
     "ts-loader": "6.2.1",
+    "ts-node": "^8.4.1",
     "typescript": "3.6.4",
     "webpack": "4.41.2",
-    "webpack-cli": "3.3.10"
+    "webpack-cli": "3.3.10",
+    "zora": "^3.1.4"
   },
   "bugs": {
     "url": "https://github.com/dragonman225/nast-util-from-notionapi/issues"
   },
-  "homepage": "https://github.com/dragonman225/nast-util-from-notionapi"
+  "homepage": "https://github.com/dragonman225/nast-util-from-notionapi",
+  "dependencies": {
+    "@dnpr/logger": "^0.2.0"
+  }
 }
