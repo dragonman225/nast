@@ -1,7 +1,4 @@
-/**
- * Wrapper of console.log().
- */
-declare function log(..._arguments: unknown[]): void;
+declare const log: any;
 /**
  * Failsafe JSON.parse() wrapper.
  * @param str - Payload to parse.

@@ -141,7 +141,7 @@ async function transformBlock(node, apiAgent) {
         }
         default: {
             nastNode = transformStub_1.default(node);
-            utils_1.log(`Unsupported block type: ${node.type}`);
+            utils_1.log.warn(`Unsupported block type: ${node.type}`);
         }
     }
     return nastNode;

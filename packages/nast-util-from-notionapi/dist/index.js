@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const assert_1 = __importDefault(require("assert"));
 const transformBlock_1 = require("./transformBlock");
+const utils_1 = require("./utils");
 async function getOnePageAsTree(pageId, apiAgent) {
     const allBlocks = await getAllBlocksInOnePage(pageId, apiAgent);
     return makeBlocksArrayIntoTree(allBlocks, apiAgent);
@@ -22,8 +23,8 @@ async function getAllBlocksInOnePage(pageId, apiAgent) {
      */
     const pageBlockRequest = generateGRVPayload([pageId], 'block');
     const pageBlockResponse = await apiAgent.getRecordValues(pageBlockRequest);
-    if (pageBlockResponse.statusCode !== 200) {
-        console.log(pageBlockResponse);
+    if (pageBlockResponse.error) {
+        utils_1.log.error(pageBlockResponse.error);
         throw new Error('Fail to get page block.');
     }
     const pageBlockData = pageBlockResponse.data;
@@ -57,9 +58,12 @@ async function getChildrenBlocks(blockIds, apiAgent) {
     /** Get children records with getRecordValues */
     const requests = generateGRVPayload(blockIds, 'block');
     const response = await apiAgent.getRecordValues(requests);
-    if (response.statusCode !== 200) {
-        console.log(response);
+    if (response.error) {
+        utils_1.log.error(response.error);
         throw new Error('Fail to get records.');
+    }
+    if (!response.data) {
+        throw new Error('Notion API is unstable. No error but data is undefined.');
     }
     const responseData = response.data;
     const childrenRecords = responseData.results;

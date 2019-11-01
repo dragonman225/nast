@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const transformPage_1 = __importDefault(require("./transformPage"));
 const utils_1 = require("./utils");
+const utils_2 = require("../utils");
 async function transformCollection(collectionBlockRecord, apiAgent) {
     /** Block ID */
     const id = collectionBlockRecord.id;
@@ -135,9 +136,12 @@ async function getCollectionViewRecords(viewIds, apiAgent) {
         };
     });
     const res = await apiAgent.getRecordValues(collectionViewRequests);
-    if (res.statusCode !== 200) {
-        console.log(res);
+    if (res.error) {
+        utils_2.log.error(res.error);
         throw new Error('Fail to get rawCollectionViewRecords.');
+    }
+    if (!res.data) {
+        throw new Error('Notion API is unstable. No error but data is undefined.');
     }
     const rawCollectionViewRecords = res.data.results;
     return rawCollectionViewRecords;
@@ -154,9 +158,12 @@ async function getCollectionRecord(collectionId, apiAgent) {
             table: 'collection'
         }];
     const res = await apiAgent.getRecordValues(collectionRequests);
-    if (res.statusCode !== 200) {
-        console.log(res);
+    if (res.error) {
+        utils_2.log.error(res.error);
         throw new Error('Fail to get collectionResponses.');
+    }
+    if (!res.data) {
+        throw new Error('Notion API is unstable. No error but data is undefined.');
     }
     const collectionResponses = res.data.results;
     const rawCollectionRecord = collectionResponses[0];
@@ -190,9 +197,12 @@ async function getQueryCollectionResponses(collectionId, queryMap, apiAgent) {
     for (let i = 0; i < rawQueryCollectionRequests.length; ++i) {
         const req = rawQueryCollectionRequests[i];
         const res = await apiAgent.queryCollection(req.collectionId, req.collectionViewId, req.aggregateQueries);
-        if (res.statusCode !== 200) {
-            console.log(res);
+        if (res.error) {
+            utils_2.log.error(res.error);
             throw new Error('Fail to get rawQueryCollectionResponse.');
+        }
+        if (!res.data) {
+            throw new Error('Notion API is unstable. No error but data is undefined.');
         }
         rawQueryCollectionResponses.set(req.collectionViewId, res.data);
     }

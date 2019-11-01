@@ -1,6 +1,6 @@
 {
   "name": "nast-util-from-notionapi",
-  "version": "0.5.3",
+  "version": "0.7.0",
   "description": "Convert a Notion.so page into a tree object.",
   "main": "dist/index.js",
   "scripts": {

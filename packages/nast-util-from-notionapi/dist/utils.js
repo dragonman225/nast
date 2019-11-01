@@ -1,13 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-/**
- * Wrapper of console.log().
- */
-function log(..._arguments) {
-    const args = Array.from(_arguments);
-    args.unshift('(nast-util-from-notionapi)');
-    console.log.apply(null, args);
-}
+const { Logger } = require('@dnpr/logger');
+const log = new Logger('nast-util-from-notionapi');
 exports.log = log;
 /**
  * Failsafe JSON.parse() wrapper.
