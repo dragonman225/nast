@@ -1,11 +1,6 @@
-/**
- * Wrapper of console.log().
- */
-function log(..._arguments: unknown[]): void {
-  const args = Array.from(_arguments)
-  args.unshift('(nast-util-from-notionapi)')
-  console.log.apply(null, args as [])
-}
+const { Logger } = require('@dnpr/logger')
+
+const log = new Logger('nast-util-from-notionapi')
 
 /**
  * Failsafe JSON.parse() wrapper.

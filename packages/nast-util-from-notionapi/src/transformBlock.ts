@@ -147,7 +147,7 @@ async function transformBlock(
     }
     default: {
       nastNode = transformStub(node)
-      log(`Unsupported block type: ${node.type}`)
+      log.warn(`Unsupported block type: ${node.type}`)
     }
   }
 

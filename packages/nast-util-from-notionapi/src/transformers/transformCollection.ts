@@ -4,6 +4,7 @@ import * as Nast from '../nast'
 
 import transformPage from './transformPage'
 import { convertImageUrl } from './utils'
+import { log } from '../utils'
 
 async function transformCollection(
   collectionBlockRecord: Notion.Block,
@@ -157,9 +158,13 @@ async function getCollectionViewRecords(
   })
 
   const res = await apiAgent.getRecordValues(collectionViewRequests)
-  if (res.statusCode !== 200) {
-    console.log(res)
+  if (res.error) {
+    log.error(res.error)
     throw new Error('Fail to get rawCollectionViewRecords.')
+  }
+
+  if (!res.data) {
+    throw new Error('Notion API is unstable. No error but data is undefined.')
   }
 
   const rawCollectionViewRecords =
@@ -184,9 +189,13 @@ async function getCollectionRecord(
   }]
 
   const res = await apiAgent.getRecordValues(collectionRequests)
-  if (res.statusCode !== 200) {
-    console.log(res)
+  if (res.error) {
+    log.error(res.error)
     throw new Error('Fail to get collectionResponses.')
+  }
+
+  if (!res.data) {
+    throw new Error('Notion API is unstable. No error but data is undefined.')
   }
 
   const collectionResponses =
@@ -240,9 +249,13 @@ async function getQueryCollectionResponses(
         req.collectionViewId,
         req.aggregateQueries)
 
-    if (res.statusCode !== 200) {
-      console.log(res)
+    if (res.error) {
+      log.error(res.error)
       throw new Error('Fail to get rawQueryCollectionResponse.')
+    }
+
+    if (!res.data) {
+      throw new Error('Notion API is unstable. No error but data is undefined.')
     }
 
     rawQueryCollectionResponses.set(req.collectionViewId, res.data as Notion.QueryCollectionResponse)

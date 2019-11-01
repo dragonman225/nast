@@ -1,6 +1,7 @@
 import assert from 'assert'
 
 import { transformBlock } from './transformBlock'
+import { log } from './utils'
 
 /** For types only */
 import * as Notion from 'notionapi-agent'
@@ -33,8 +34,8 @@ async function getAllBlocksInOnePage(
   const pageBlockRequest = generateGRVPayload([pageId], 'block')
   const pageBlockResponse = await apiAgent.getRecordValues(pageBlockRequest)
 
-  if (pageBlockResponse.statusCode !== 200) {
-    console.log(pageBlockResponse)
+  if (pageBlockResponse.error) {
+    log.error(pageBlockResponse.error)
     throw new Error('Fail to get page block.')
   }
 
@@ -84,9 +85,13 @@ async function getChildrenBlocks(
   const requests = generateGRVPayload(blockIds, 'block')
   const response = await apiAgent.getRecordValues(requests)
 
-  if (response.statusCode !== 200) {
-    console.log(response)
+  if (response.error) {
+    log.error(response.error)
     throw new Error('Fail to get records.')
+  }
+
+  if (!response.data) {
+    throw new Error('Notion API is unstable. No error but data is undefined.')
   }
 
   const responseData = response.data as Notion.GetRecordValuesResponse
