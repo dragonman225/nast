@@ -76,13 +76,13 @@ const COLLECTION_ITEM_PROPERTY_TYPES = {
     number: '',
     select: 'select',
     multiSelect: 'multi_select',
-    date: '',
-    person: '',
-    filesAndMedia: '',
+    date: 'date',
+    person: 'person',
+    filesAndMedia: 'files_and_media',
     checkbox: 'checkbox',
     url: 'url',
-    email: '',
-    phone: '',
+    email: 'email',
+    phone: 'phone',
     createdTime: 'created_time'
 };
 exports.COLLECTION_ITEM_PROPERTY_TYPES = COLLECTION_ITEM_PROPERTY_TYPES;
