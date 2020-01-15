@@ -1,52 +1,57 @@
 {
   "name": "nast-util-from-notionapi",
   "version": "0.7.0",
-  "description": "Convert a Notion.so page into a tree object.",
+  "description": "Transform Notion.so page to NAST.",
+  "author": "dragonman225",
+  "license": "MIT",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "build:webpack-dev": "webpack --mode=development",
-    "build:webpack-prod": "webpack --mode=production",
-    "test": "INDENT=true ts-node test/index.ts",
-    "release": "npm run build && npm run report:deps_graph && npm publish",
-    "report:deps_graph": "npx depcruise --exclude '^node_modules' --output-type dot --prefix 'https://github.com/dragonman225/nast-util-from-notionapi/tree/master/' src/index.ts | dot -T svg > report/deps_graph.svg",
+    "build": "npm run build:module && npm run build:doc",
+    "build:module": "rm -rf dist && rollup -c && tsc --emitDeclarationOnly",
+    "build:doc": "npm run build:typedoc && npm run build:dependency-graph",
+    "build:typedoc": "typedoc --out typedoc --mode file src/",
+    "build:dependency-graph": "npx depcruise --exclude '^(node_modules|src/interfaces)' --output-type dot --prefix 'https://github.com/dragonman225/notionapi-agent/tree/master/' src/index.ts | dot -T svg > documentation/dependency-graph.svg",
+    "test": "ts-node test/index.spec.ts",
+    "release": "npm run build && npm publish",
     "upgrade": "node tools/upgrade-deps.js"
   },
+  "dependencies": {
+    "@dnpr/logger": "^0.2.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^2.0.1",
+    "@types/node": "12.12.5",
+    "@typescript-eslint/eslint-plugin": "2.6.0",
+    "@typescript-eslint/parser": "2.6.0",
+    "dependency-cruiser": "6.3.0",
+    "eslint": "6.6.0",
+    "notionapi-agent": "0.7.2",
+    "rollup": "^1.27.14",
+    "ts-node": "^8.4.1",
+    "typescript": "3.6.4",
+    "zora": "^3.1.4"
+  },
+  "peerDependencies": {
+    "notionapi-agent": "^0.7.2"
+  },
+  "files": [
+    "dist/"
+  ],
+  "keywords": [
+    "notion",
+    "nast",
+    "util",
+    "api"
+  ],
+  "homepage": "https://github.com/dragonman225/nast-util-from-notionapi",
   "repository": {
     "type": "git",
     "url": "https://github.com/dragonman225/nast-util-from-notionapi.git"
   },
-  "keywords": [
-    "nodejs",
-    "notion",
-    "api",
-    "notajs",
-    "nast"
-  ],
-  "author": "dragonman225",
-  "license": "MIT",
-  "peerDependencies": {
-    "notionapi-agent": "^0.7.2"
-  },
-  "devDependencies": {
-    "@types/node": "12.12.5",
-    "@typescript-eslint/eslint-plugin": "2.6.0",
-    "@typescript-eslint/parser": "2.6.0",
-    "dependency-cruiser": "5.2.2",
-    "eslint": "6.6.0",
-    "notionapi-agent": "0.7.2",
-    "ts-loader": "6.2.1",
-    "ts-node": "^8.4.1",
-    "typescript": "3.6.4",
-    "webpack": "4.41.2",
-    "webpack-cli": "3.3.10",
-    "zora": "^3.1.4"
-  },
   "bugs": {
     "url": "https://github.com/dragonman225/nast-util-from-notionapi/issues"
   },
-  "homepage": "https://github.com/dragonman225/nast-util-from-notionapi",
-  "dependencies": {
-    "@dnpr/logger": "^0.2.0"
-  }
+  "typeScriptVersion": "3.7",
+  "runkitExampleFilename": ""
 }

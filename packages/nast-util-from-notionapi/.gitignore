@@ -1,6 +1,11 @@
 # Node.js
 node_modules/
 
+# Package manager lockfiles
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
 # macOS
 .DS_Store
 .AppleDouble
@@ -21,4 +26,5 @@ node_modules/
 
 # Project
 TODO.md
-pnpm-lock.yaml
+dist/
+typedoc/
