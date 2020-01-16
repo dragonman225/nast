@@ -1,5 +1,4 @@
-import * as NAST from "nast"
-import { DateTime, SemanticString } from "notionapi-agent/dist/interfaces/notion-models";
+import { DateTime } from "notionapi-agent/dist/interfaces/notion-models";
 
 import { NAST_BLOCK_TYPES, COLOR } from './constants'
 import renderCode from './render-utils-prismjs'
@@ -72,7 +71,7 @@ function renderTitle(
     let textStyles = token[1]
     let html = text
     if (textStyles) {
-      html = renderSemanticString([text, textStyles] as SemanticString)
+      html = renderSemanticString([text, textStyles] as NAST.SemanticString)
     }
     return html
   })
@@ -131,8 +130,8 @@ function renderSemanticString(
         break
       /* Inline Mention Date */
       case 'd':
-        let date = styles[i][1] as DateTime
-        html = `<span class="color-mention">@${date.start_date}</span>`
+        const date = new Date((styles[i][1] as DateTime).start_date)
+        html = `<span class="color-mention">@${date.getUTCFullYear()}/${date.getUTCMonth() + 1}/${date.getUTCDate()}</span>`
         break
       /* Comment */
       case 'm':

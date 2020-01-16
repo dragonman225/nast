@@ -1,5 +1,3 @@
-import * as NAST from 'nast'
-
 import { CSS, NAST_BLOCK_TYPES } from '../constants'
 import { renderChildren, renderColor, renderTitle } from '../render-utils'
 

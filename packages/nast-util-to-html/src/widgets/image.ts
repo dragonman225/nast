@@ -1,6 +1,4 @@
-import * as NAST from 'nast'
-
-import { renderBlock } from '../render-utils'
+import { renderBlock, renderTitle } from '../render-utils'
 
 function renderImage(
   node: NAST.Image
@@ -19,7 +17,10 @@ function renderImage(
 
   let content = `\
 <div style="width: ${width}; margin: 0.5em auto; max-width: 100%;">
-  <img src="${source}" data-src="${source}" style="width: 100%; object-fit: cover;">
+  <figure>
+    <img src="${source}" data-src="${source}" style="width: 100%; object-fit: cover;">
+    ${node.caption ? `<figcaption>${renderTitle(node.caption)}</figcaption>` : ""}
+  </figure>
 </div>`
 
   return renderBlock(node, content)

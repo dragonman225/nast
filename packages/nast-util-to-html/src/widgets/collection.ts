@@ -1,4 +1,3 @@
-import * as NAST from 'nast'
 import { CollectionView } from "notionapi-agent/dist/interfaces/notion-models"
 
 import { COLLECTION_VIEW_TYPES, COLLECTION_ITEM_PROPERTY_TYPES, CSS } from '../constants'

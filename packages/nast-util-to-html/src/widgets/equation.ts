@@ -1,5 +1,3 @@
-import * as NAST from 'nast'
-
 import katex from 'katex'
 import { renderBlock } from '../render-utils'
 

@@ -1,5 +1,3 @@
-import * as NAST from 'nast'
-
 import { renderBlock } from '../render-utils'
 
 function renderBookmark(

@@ -1,5 +1,3 @@
-import * as NAST from 'nast'
-
 import { CSS } from '../constants'
 import { renderColor, renderTitle } from '../render-utils'
 

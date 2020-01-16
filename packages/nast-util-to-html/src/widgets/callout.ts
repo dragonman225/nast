@@ -1,5 +1,3 @@
-import * as NAST from 'nast'
-
 import { renderBlock, renderTitle } from '../render-utils'
 
 function renderCallout(

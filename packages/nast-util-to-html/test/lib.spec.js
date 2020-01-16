@@ -37,7 +37,7 @@ function renderPage(pageTitle, contentHTML) {
         font-size: 16px;
       }
       .nast-document {
-        padding: 1.5em 96px;
+        padding: 1.5em;
         max-width: 8.3in;
         margin: 0 auto;
       }

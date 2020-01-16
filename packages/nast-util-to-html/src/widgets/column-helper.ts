@@ -1,5 +1,3 @@
-import * as NAST from 'nast'
-
 import { NAST_BLOCK_TYPES } from '../constants'
 import { raiseWarning } from '../log-utils'
 import { renderChildren } from '../render-utils'
