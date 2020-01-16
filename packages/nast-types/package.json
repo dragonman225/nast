@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "description": "TypeScript definitions of NAST.",
-  "types": "index",
+  "types": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/dragonman225/notajs-types.git"
