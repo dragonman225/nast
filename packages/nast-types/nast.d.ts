@@ -1,265 +1,180 @@
-export as namespace Nast
+import {
+  SemanticString, CollectionView
+} from "notionapi-agent/dist/interfaces/notion-models"
+import {
+  CollectionSchema
+} from "notionapi-agent/dist/interfaces/notion-models/Collection"
 
-import * as Notion from './notion'
+type UUID = string
+type URL = string
 
-/**
- * ===============
- * Base Interfaces
- * ===============
- */
-
-/**
- * Theoretically, all blocks can have children, but some blocks can't 
- * have children semantically. When this is the case, the children array 
- * should be empty and the renderer can ignore it.
- */
 export interface Parent {
   children: Block[]
 }
 
-/** Displayed block in Notion.so. */
 export interface Block extends Parent {
-  id: string
+  id: UUID
   type: string
   color?: string
-  createdTime: number
-  lastEditedTime: number
 }
 
-/**
- * ================
- * Block Interfaces
- * ================
- */
-
-/**
- * Root can be any type of block. The differences are that Root has 
- * additional properties.
- */
-export interface Root extends Block {
-  type: string
-  linkedPages: string[]
-}
-
-/**
- * Page represents all page blocks, so a page may also be "Link to Page"
- * or "Embedded Sub-page".
- * 
- * "Link to Page" can be inferred by the parent_id of linked page not 
- * being the root's id (if the root is a page), while "Embedded Sub-page" has 
- * parent_id being the root's id.
- */
 export interface Page extends Block {
-  type: 'page'
-  title: string
-  icon?: string
-  cover?: string
+  type: "page"
+  title: SemanticString[]
+  icon?: URL
+  cover?: URL
   fullWidth: boolean
   coverPosition: number
-  properties?: Notion.BlockProperties
+  properties?: {
+    [key: string]: SemanticString[]
+  }
 }
 
 export interface Text extends Block {
-  type: 'text'
-  text: Notion.StyledString[]
+  type: "text"
+  title: SemanticString[]
 }
 
-export interface ToDoList extends Block {
-  type: 'to_do'
-  text: Notion.StyledString[]
+export interface ToDo extends Block {
+  type: "to_do"
+  title: SemanticString[]
   checked: boolean
 }
 
 export interface Heading extends Block {
-  type: 'heading'
-  text: Notion.StyledString[]
+  type: "heading"
+  title: SemanticString[]
   depth: number
 }
 
-/**
- * BulletedList and NumberedList are stored without wrappers.
- * 
- * Their order can be inferred by document context.
- */
-export interface BulletedListItem extends Block {
-  type: 'bulleted_list_item'
-  text: Notion.StyledString[]
+export interface BulletedList extends Block {
+  type: "bulleted_list"
+  title: SemanticString[]
 }
 
-export interface NumberedListItem extends Block {
-  type: 'numbered_list_item'
-  text: Notion.StyledString[]
+export interface NumberedList extends Block {
+  type: "numbered_list"
+  title: SemanticString[]
 }
 
-export interface ToggleList extends Block {
-  type: 'toggle'
-  text: Notion.StyledString[]
+export interface Toggle extends Block {
+  type: "toggle"
+  title: SemanticString[]
 }
 
 export interface Quote extends Block {
-  type: 'quote'
-  text: Notion.StyledString[]
+  type: "quote"
+  title: SemanticString[]
 }
 
 export interface Divider extends Block {
-  type: 'divider'
+  type: "divider"
 }
 
 export interface Callout extends Block {
-  type: 'callout'
-  icon?: string
-  text: Notion.StyledString[]
-}
-
-export interface Image extends Block {
-  type: 'image'
-  width: number
-  source: string
-  fullWidth: boolean
-  pageWidth: boolean
+  type: "callout"
+  icon?: URL
+  title: SemanticString[]
 }
 
 /**
- * Embed and Video seems the same ?
+ * Visual content container.
  * 
- * In my experience, Youtube videos are "video" blocks, Vimeo videos are
- * "embed" blocks. As for HTML videos, I haven't test so I'm not sure.
+ * If `width`, `height`, or `aspectRatio` is -1, 
+ * it can be decided by the renderer.
  */
-export interface Embed extends Block {
-  type: 'video' | 'embed'
+export interface Visual extends Block {
+  type: "embed" | "image" | "video"
+  source: URL
+  caption?: SemanticString[]
   width: number
-  source: string
+  height: number
   fullWidth: boolean
   pageWidth: boolean
   aspectRatio: number
   preserveScale: boolean
 }
 
-export interface Video extends Embed {
-  type: 'video'
+export interface Embed extends Visual {
+  type: "embed"
+}
+
+export interface Image extends Visual {
+  type: "image"
+}
+
+export interface Video extends Visual {
+  type: "video"
 }
 
 export interface Audio extends Block {
-  type: 'audio'
-  source: string
+  type: "audio"
+  source: URL
 }
 
-/**
- * Code represents bookmark including title, description, icon, cover.
- * 
- * I guess the additional info is obtained through OpenGraph meta.
- */
-export interface WebBookmark extends Block {
-  type: 'bookmark'
-  link: string
+export interface Bookmark extends Block {
+  type: "bookmark"
+  link: URL
   title?: string
   description?: string
   icon?: string
   cover?: string
 }
 
-/**
- * Code represents code in many languages and can be styled.
- */
 export interface Code extends Block {
-  type: 'code'
-  text: Notion.StyledString[]
+  type: "code"
+  title: SemanticString[]
   language?: string
   wrap: boolean
 }
 
-/**
- * Equation represents equation in Latex.
- */
 export interface Equation extends Block {
-  type: 'equation'
+  type: "equation"
   latex: string
 }
 
-/**
- * Children of ColumnList must be Columns.
- */
+/** A kind of helper for parallel layout. */
 export interface ColumnList extends Block {
-  type: 'column_list'
+  type: "column_list"
+  children: Column[]
 }
 
-/**
- * Columns are wrappers that make placing blocks on the same horizontal 
- * row possible.
- */
+/** A kind of helper for parallel layout. */
 export interface Column extends Block {
-  type: 'column'
+  type: "column"
   ratio: number
 }
 
-/**
- * Collection represents all types of databases.
- */
 export interface Collection extends Block {
-  type: 'collection'
-  id: string
-  collectionId: string
-  name: string
-  icon?: string
-  cover?: string
-  description?: Notion.StyledString[]
+  type: "collection_inline" | "collection_page"
+  name: SemanticString[]
+  collectionId: UUID
+  defaultViewId: UUID
+  views: CollectionView[]
+  schema: CollectionSchema
+  children: Page[]
+}
+
+export interface CollectionInline extends Collection {
+  type: "collection_inline"
+}
+
+export interface CollectionPage extends Collection {
+  type: "collection_page"
+  icon?: URL
+  cover?: URL
+  description?: SemanticString[]
   coverPosition: number
-  schema: {
-    [key: string]: Notion.CollectionColumnInfo
-  }
-  blocks: Page[]
-  views: CollectionViewMetadata[]
-  defaultViewId: string
 }
 
-/**
- * CollectionViewMetadata mostly comes from
- * Notion.CollectionViewRecordValue and Notion.CollectionRecordValue
- */
-export interface CollectionViewMetadata {
-  id: string
-  type: string
-  name: string
-  query: Notion.Query
-  format: Notion.CollectionViewFormat
-  aggregate: AggregationMetadata[]
+export interface TableOfContent extends Block {
+  type: "table_of_content"
 }
 
-/**
- * AggregationMetadata merges useful parts of
- * Notion.Query.aggregate and Notion.AggregationResult
- */
-export interface AggregationMetadata {
-  aggregationType: string // From Notion.Query.aggregate
-  property: string // From Notion.Query.aggregate
-  value: number // From Notion.AggregationResult
+export interface BreadCrumb extends Block {
+  type: "breadcrumb"
 }
 
-/**
- * ================
- * Temporary Blocks
- * ================
- */
-
-export interface Stub extends Block {
-  raw: Notion.BlockValue
+export interface File extends Block {
+  type: "file"
 }
-
-/**
- * ==========
- * Deprecated
- * ==========
- */
-
-  // export interface EmbededPage extends Block {
-  //   type: 'embeded_page'
-  // }
-
-  // export interface LinkToPage extends Block {
-  //   type: 'page_link'
-  // }
-
-  // export interface ListItem extends Block {
-  //   type: 'list_item'
-  //   text: Notion.StyledString[]
-  // }
