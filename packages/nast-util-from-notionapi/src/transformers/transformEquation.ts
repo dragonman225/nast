@@ -1,26 +1,23 @@
-/** For types only */
-import * as Notion from 'notionapi-agent'
-import * as Nast from '../nast'
+/** Import scripts. */
+import { getBlockColor } from "./utils"
 
-import { getBlockColor } from './utils'
+/** Import types. */
+import * as NotionBlockAdvanced from "notionapi-agent/dist/interfaces/notion-models/block/AdvancedBlock"
+import * as NAST from "../nast"
 
 async function transformEquation(
-  node: Notion.Block
-): Promise<Nast.Equation> {
-  const nastNode = {
-    id: node.id,
-    type: 'equation' as 'equation',
-    color: getBlockColor(node),
-    createdTime: node.created_time,
-    lastEditedTime: node.last_edited_time,
+  node: NotionBlockAdvanced.Equation
+): Promise<NAST.Equation> {
+  return {
     children: [],
+    id: node.id,
+    type: "equation",
+    color: getBlockColor(node),
     latex: node.properties
       ? node.properties.title
-        ? node.properties.title[0][0]
-        : ''
-      : ''
+        ? node.properties.title[0][0] : ""
+      : ""
   }
-  return nastNode
 }
 
 export default transformEquation

@@ -1,21 +1,19 @@
-/** For types only */
-import * as Notion from 'notionapi-agent'
-import * as Nast from '../nast'
-
+/** Import scripts. */
 import { getBlockColor } from './utils'
 
+/** Import types. */
+import * as NotionBlockBasic from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
+import * as NAST from '../nast'
+
 async function transformDivider(
-  node: Notion.Block
-): Promise<Nast.Divider> {
-  const nastNode = {
+  node: NotionBlockBasic.Divider
+): Promise<NAST.Divider> {
+  return {
+    children: [],
     id: node.id,
-    type: 'divider' as 'divider',
-    color: getBlockColor(node),
-    createdTime: node.created_time,
-    lastEditedTime: node.last_edited_time,
-    children: []
+    type: 'divider',
+    color: getBlockColor(node)
   }
-  return nastNode
 }
 
 export default transformDivider

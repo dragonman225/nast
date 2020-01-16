@@ -1,23 +1,21 @@
-/** For types only */
-import * as Notion from 'notionapi-agent'
-import * as Nast from '../nast'
+/** Import scripts. */
+import { getBlockColor, getBlockIcon } from './utils'
 
-import { getBlockColor, getBlockTitle, getBlockIcon } from './utils'
+/** Import types. */
+import * as NotionBlockBasic from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
+import * as NAST from '../nast'
 
 async function transformCallout(
-  node: Notion.Block
-): Promise<Nast.Callout> {
-  const nastNode = {
-    id: node.id,
-    type: 'callout' as 'callout',
-    color: getBlockColor(node),
-    createdTime: node.created_time,
-    lastEditedTime: node.last_edited_time,
+  node: NotionBlockBasic.Callout
+): Promise<NAST.Callout> {
+  return {
     children: [],
+    id: node.id,
+    type: 'callout',
+    color: getBlockColor(node),
     icon: getBlockIcon(node),
-    text: getBlockTitle(node)
+    title: node.properties ? node.properties.title || [] : []
   }
-  return nastNode
 }
 
 export default transformCallout

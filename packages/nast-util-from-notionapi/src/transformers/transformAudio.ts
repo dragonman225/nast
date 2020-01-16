@@ -1,26 +1,23 @@
-/** For types only */
-import * as Notion from 'notionapi-agent'
-import * as Nast from '../nast'
+/** Import scripts. */
+import { getBlockColor } from "./utils"
 
-import { getBlockColor } from './utils'
+/** Import types. */
+import * as NotionBlockMedia from "notionapi-agent/dist/interfaces/notion-models/block/Media"
+import * as NAST from "../nast"
 
 async function transformAudio(
-  node: Notion.Block
-): Promise<Nast.Audio> {
-  const nastNode = {
-    id: node.id,
-    type: 'audio' as 'audio',
-    color: getBlockColor(node),
-    createdTime: node.created_time,
-    lastEditedTime: node.last_edited_time,
+  node: NotionBlockMedia.Audio
+): Promise<NAST.Audio> {
+  return {
     children: [],
+    id: node.id,
+    type: "audio",
+    color: getBlockColor(node),
     source: node.properties
       ? node.properties.source
-        ? node.properties.source[0][0]
-        : '#'
-      : '#'
+        ? node.properties.source[0][0] : "#"
+      : "#"
   }
-  return nastNode
 }
 
 export default transformAudio

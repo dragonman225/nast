@@ -1,36 +1,34 @@
-/** For types only */
-import * as Notion from 'notionapi-agent'
-import * as Nast from '../nast'
+/** Import scripts. */
+import { getBlockColor } from './utils'
 
-import { getBlockColor, getBlockTitle } from './utils'
-import blockMap from '../block-map'
+/** Import types. */
+import * as NotionBlockBasic from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
+import * as NAST from '../nast'
 
 async function transformHeading(
-  node: Notion.Block
-): Promise<Nast.Heading> {
+  node: NotionBlockBasic.Header | NotionBlockBasic.SubHeader
+    | NotionBlockBasic.SubSubHeader
+): Promise<NAST.Heading> {
   let depth
   switch (node.type) {
-    case blockMap.header:
+    case "header":
       depth = 1
       break
-    case blockMap.subHeader:
+    case "sub_header":
       depth = 2
       break
     default:
       depth = 3
   }
 
-  const nastNode = {
-    id: node.id,
-    type: 'heading' as 'heading',
-    color: getBlockColor(node),
-    createdTime: node.created_time,
-    lastEditedTime: node.last_edited_time,
+  return {
     children: [],
-    text: getBlockTitle(node),
+    id: node.id,
+    type: 'heading',
+    color: getBlockColor(node),
+    title: node.properties ? node.properties.title || [] : [],
     depth
   }
-  return nastNode
 }
 
 export default transformHeading

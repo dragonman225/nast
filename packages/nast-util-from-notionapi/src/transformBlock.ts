@@ -1,152 +1,180 @@
-/** For types only */
-import * as Notion from 'notionapi-agent'
-import * as Nast from './nast'
-
-import { transformCollection } from './transformers/transformCollection'
+/** Import scripts. */
 import { log } from './utils'
-import blockMap from './block-map'
-
-import transformPage from './transformers/transformPage'
-import transformStub from './transformers/transformStub'
-import transformText from './transformers/transformText'
-import transformToDo from './transformers/transformToDo'
-import transformHeading from './transformers/transformHeading'
-import transformBulletedListItem from './transformers/transformBulletedListItem'
-import transformNumberedListItem from './transformers/transformNumberedListItem'
-import transformEmbed from './transformers/transformEmbed'
-import transformImage from './transformers/transformImage'
-import transformCallout from './transformers/transformCallout'
-import transformDivider from './transformers/transformDivider'
-import transformQuote from './transformers/transformQuote'
-import transformToggleList from './transformers/transformToggleList'
-import transformColumn from './transformers/transformColumn'
-import transformColumnList from './transformers/transformColumnList'
-import transformEquation from './transformers/transformEquation'
-import transformCode from './transformers/transformCode'
 import transformAudio from './transformers/transformAudio'
 import transformBookmark from './transformers/transformBookmark'
+import transformBreadcrumb from "./transformers/transformBreadcrumb"
+import transformBulletedList from './transformers/transformBulletedList'
+import transformCallout from './transformers/transformCallout'
+import transformCode from './transformers/transformCode'
+import transformCollection from './transformers/transformCollection'
+import transformColumn from './transformers/transformColumn'
+import transformColumnList from './transformers/transformColumnList'
+import transformDivider from './transformers/transformDivider'
+import transformEquation from './transformers/transformEquation'
+import transformFile from "./transformers/transformFile"
+import transformHeading from './transformers/transformHeading'
+import transformNumberedList from './transformers/transformNumberedList'
+import transformPage from './transformers/transformPage'
+import transformQuote from './transformers/transformQuote'
+import transformTableOfContent from "./transformers/transformTableOfContent"
+import transformText from './transformers/transformText'
+import transformToDo from './transformers/transformToDo'
+import transformToggle from './transformers/transformToggle'
+import transformVisual from './transformers/transformVisual'
+
+/** Import types. */
+import { createAgent } from 'notionapi-agent'
+import { Block } from 'notionapi-agent/dist/interfaces/notion-models'
+import {
+  Breadcrumb, Equation, TableOfContent
+} from "notionapi-agent/dist/interfaces/notion-models/block/AdvancedBlock"
+import {
+  BulletedList, Callout, Column, ColumnList, Divider, Header,
+  NumberedList, Page, Quote, SubHeader, SubSubHeader, Text, ToDo, Toggle
+} from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
+import {
+  CollectionViewInline, CollectionViewPage
+} from "notionapi-agent/dist/interfaces/notion-models/block/Database"
+import {
+  Codepen, Embed, Invision, PDF
+} from "notionapi-agent/dist/interfaces/notion-models/block/Embed"
+import {
+  Audio, Bookmark, Code, File, Image, Video
+} from "notionapi-agent/dist/interfaces/notion-models/block/Media"
+import * as NAST from './nast'
 
 async function transformBlock(
-  node: Notion.Block,
-  apiAgent: Notion.NotionAgent
-): Promise<Nast.Block> {
+  node: Block,
+  apiAgent: ReturnType<typeof createAgent>
+): Promise<NAST.Block> {
 
-  let nastNode
+  let nastNode: Promise<NAST.Block>
 
   switch (node.type) {
-    /** Nast.Page */
-    case blockMap.page: {
-      nastNode = transformPage(node)
+    case "breadcrumb": {
+      nastNode = transformBreadcrumb(node as Breadcrumb)
       break
     }
-    /** Nast.Collection */
-    case blockMap.collectionView: {
-      nastNode = transformCollection(node, apiAgent)
+    case "page": {
+      nastNode = transformPage(node as Page)
       break
     }
-    case blockMap.collectionViewPage: {
-      nastNode = transformCollection(node, apiAgent)
+    case "collection_view": {
+      nastNode = transformCollection(node as CollectionViewInline, apiAgent)
       break
     }
-    /** Nast.Text */
-    case blockMap.text: {
-      nastNode = transformText(node)
+    case "collection_view_page": {
+      nastNode = transformCollection(node as CollectionViewPage, apiAgent)
       break
     }
-    /** Nast.ToDoList */
-    case blockMap.toDo: {
-      nastNode = transformToDo(node)
+    case "file": {
+      nastNode = transformFile(node as File)
       break
     }
-    /** Nast.Heading */
-    case blockMap.header: {
-      nastNode = transformHeading(node)
+    case "text": {
+      nastNode = transformText(node as Text)
       break
     }
-    case blockMap.subHeader: {
-      nastNode = transformHeading(node)
+    case "to_do": {
+      nastNode = transformToDo(node as ToDo)
       break
     }
-    case blockMap.subSubHeader: {
-      nastNode = transformHeading(node)
+    case "header": {
+      nastNode = transformHeading(node as Header)
       break
     }
-    /** Nast.BulletedListItem */
-    case blockMap.bulletedList: {
-      nastNode = transformBulletedListItem(node)
+    case "sub_header": {
+      nastNode = transformHeading(node as SubHeader)
       break
     }
-    /** Nast.NumberedListItem */
-    case blockMap.numberedList: {
-      nastNode = transformNumberedListItem(node)
+    case "sub_sub_header": {
+      nastNode = transformHeading(node as SubSubHeader)
       break
     }
-    /** Nast.ToggleList */
-    case blockMap.toggle: {
-      nastNode = transformToggleList(node)
+    case "bulleted_list": {
+      nastNode = transformBulletedList(node as BulletedList)
       break
     }
-    /** Nast.Quote */
-    case blockMap.quote: {
-      nastNode = transformQuote(node)
+    case "numbered_list": {
+      nastNode = transformNumberedList(node as NumberedList)
       break
     }
-    /** Nast.Divider */
-    case blockMap.divider: {
-      nastNode = transformDivider(node)
+    case "toggle": {
+      nastNode = transformToggle(node as Toggle)
       break
     }
-    /** Nast.Callout */
-    case blockMap.callout: {
-      nastNode = transformCallout(node)
+    case "quote": {
+      nastNode = transformQuote(node as Quote)
       break
     }
-    /** Nast.Image */
-    case blockMap.image: {
-      nastNode = transformImage(node)
+    case "divider": {
+      nastNode = transformDivider(node as Divider)
       break
     }
-    /** Nast.Video */
-    case blockMap.video: 
-    /** Codepen is Embed */
-    case blockMap.codepen:
-    /** Nast.Embed */
-    case blockMap.embed: {
-      nastNode = transformEmbed(node)
+    case "callout": {
+      nastNode = transformCallout(node as Callout)
       break
     }
-    /** Nast.Audio */
-    case blockMap.audio: {
-      nastNode = transformAudio(node)
+    case "codepen": {
+      nastNode = transformVisual(node as Codepen)
       break
     }
-    /** Nast.WebBookmark */
-    case blockMap.bookmark: {
-      nastNode = transformBookmark(node)
+    case "embed": {
+      nastNode = transformVisual(node as Embed)
       break
     }
-    /** Nast.Code */
-    case blockMap.code: {
-      nastNode = transformCode(node)
+    case "invision": {
+      nastNode = transformVisual(node as Invision)
       break
     }
-    /** Nast.Equation */
-    case blockMap.equation: {
-      nastNode = transformEquation(node)
+    case "pdf": {
+      nastNode = transformVisual(node as PDF)
       break
     }
-    /** Nast.ColumnList */
-    case blockMap.columnList: {
-      nastNode = transformColumnList(node)
+    case "image": {
+      nastNode = transformVisual(node as Image)
       break
     }
-    /** Nast.Column */
-    case blockMap.column: {
-      nastNode = transformColumn(node)
+    case "video": {
+      nastNode = transformVisual(node as Video)
+      break
+    }
+    case "audio": {
+      nastNode = transformAudio(node as Audio)
+      break
+    }
+    case "bookmark": {
+      nastNode = transformBookmark(node as Bookmark)
+      break
+    }
+    case "code": {
+      nastNode = transformCode(node as Code)
+      break
+    }
+    case "equation": {
+      nastNode = transformEquation(node as Equation)
+      break
+    }
+    case "column_list": {
+      nastNode = transformColumnList(node as ColumnList)
+      break
+    }
+    case "column": {
+      nastNode = transformColumn(node as Column)
+      break
+    }
+    case "table_of_contents": {
+      nastNode = transformTableOfContent(node as TableOfContent)
       break
     }
     default: {
-      nastNode = transformStub(node)
+      nastNode = new Promise((resolve) => {
+        resolve({
+          children: [],
+          id: node.id,
+          type: node.type
+        })
+      })
       log.warn(`Unsupported block type: ${node.type}`)
     }
   }

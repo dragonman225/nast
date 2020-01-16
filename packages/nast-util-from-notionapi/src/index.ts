@@ -1,51 +1,45 @@
-import assert from 'assert'
-
+/** Import scripts. */
 import { transformBlock } from './transformBlock'
 import { log } from './utils'
 
-/** For types only */
-import * as Notion from 'notionapi-agent'
+/** Import types. */
+import { createAgent } from 'notionapi-agent'
+import { GetRecordValuesRequest } from "notionapi-agent/dist/interfaces/notion-api"
+import { Table, Block } from 'notionapi-agent/dist/interfaces/notion-models'
+import { Page } from 'notionapi-agent/dist/interfaces/notion-models/block/BasicBlock'
 import * as Nast from './nast'
 
 async function getOnePageAsTree(
   pageId: string,
-  apiAgent: Notion.NotionAgent
+  apiAgent: ReturnType<typeof createAgent>
 ): Promise<Nast.Block> {
 
   const allBlocks = await getAllBlocksInOnePage(pageId, apiAgent)
-  return makeBlocksArrayIntoTree(allBlocks, apiAgent)
+  return makeBlockArrayIntoTree(allBlocks, apiAgent)
 }
 
 async function getAllBlocksInOnePage(
   pageId: string,
-  apiAgent: Notion.NotionAgent
-): Promise<Notion.BlockRecord[]> {
-
-  assert(typeof pageId === 'string')
-  assert(typeof apiAgent === 'object')
-  assert(typeof apiAgent.getRecordValues === 'function')
-  assert(typeof apiAgent.queryCollection === 'function')
-  assert(typeof apiAgent.loadPageChunk === 'function')
+  apiAgent: ReturnType<typeof createAgent>
+): Promise<Block[]> {
 
   /**
    * getChildrenBlocks() does not download children of a page,
    * so we should get the page first.
    */
-  const pageBlockRequest = generateGRVPayload([pageId], 'block')
-  const pageBlockResponse = await apiAgent.getRecordValues(pageBlockRequest)
+  const request = generateGRVPayload([pageId], 'block')
+  const response = await apiAgent.getRecordValues(request)
+  const record = response.results[0]
 
-  if (pageBlockResponse.error) {
-    log.error(pageBlockResponse.error)
-    throw new Error('Fail to get page block.')
+  if (record.role === "none") {
+    throw new Error(`Fail to get page ${pageId}, role is "none"`)
   }
 
-  const pageBlockData = pageBlockResponse.data as Notion.GetRecordValuesResponse
-  const pageBlock = pageBlockData.results[0] as Notion.Record & { value: Notion.Block }
-  const childrenIdsOfPageBlock = pageBlock.value.content
+  const pageBlock = record.value as Page
+  const childrenIdsOfPageBlock = pageBlock.content
 
-
-  let allRecords = [pageBlock]
-  if (childrenIdsOfPageBlock != null) {
+  let allRecords: Block[] = [pageBlock]
+  if (childrenIdsOfPageBlock) {
     /* Get all records in a flat array. */
     const children =
       await getChildrenBlocks(childrenIdsOfPageBlock, apiAgent)
@@ -63,120 +57,83 @@ async function getAllBlocksInOnePage(
  */
 function generateGRVPayload(
   ids: string[],
-  table: string
-): Notion.RecordRequest[] {
+  table: Table
+): GetRecordValuesRequest {
 
   const requests = ids.map((id) => {
     return { id, table }
   })
 
-  return requests
+  return {
+    requests
+  }
 }
 
 /**
- * Get Notion.BlockRecordValue of IDs and descendants of non-page blocks
+ * Recursively get all valid blocks in a page.
  */
 async function getChildrenBlocks(
   blockIds: string[],
-  apiAgent: Notion.NotionAgent
-): Promise<Notion.BlockRecord[]> {
+  apiAgent: ReturnType<typeof createAgent>
+): Promise<Block[]> {
 
   /** Get children records with getRecordValues */
-  const requests = generateGRVPayload(blockIds, 'block')
-  const response = await apiAgent.getRecordValues(requests)
+  const request = generateGRVPayload(blockIds, 'block')
+  const response = await apiAgent.getRecordValues(request)
+  const childrenRecords = response.results
 
-  if (response.error) {
-    log.error(response.error)
-    throw new Error('Fail to get records.')
-  }
+  const validBlocks = childrenRecords
+    .reduce((blocks, record, index) => {
+      if (record.role !== "none") blocks.push(record.value as Block)
+      else log.warn(`Fail to get block ${request.requests[index].id}, 
+role is none`)
+      return blocks
+    }, [] as Block[])
 
-  if (!response.data) {
-    throw new Error('Notion API is unstable. No error but data is undefined.')
-  }
-
-  const responseData = response.data as Notion.GetRecordValuesResponse
-  const childrenRecords = responseData.results as Notion.BlockRecord[]
-  /**
-   * Filter out "page" blocks and empty blocks.
-   * 
-   * If we do not filter out "page" blocks, children of "Embedded Page" and 
-   * "Link to Page" will be collected.
-   */
-  const childrenRecordsNoPage = childrenRecords
-    .filter((record): boolean => {
-      return record.role !== 'none' && record.value.type !== 'page'
+  const validBlocksNonPage = validBlocks
+    .filter((block) => {
+      return block.type !== "page"
     })
-  const childrenIDs = collectChildrenIDs(childrenRecordsNoPage)
 
-  /* If there're remaining children, download them. */
-  if (childrenIDs.length > 0) {
-    return childrenRecords.concat(
-      await getChildrenBlocks(childrenIDs, apiAgent))
+  const childrenToGet = validBlocksNonPage
+    .reduce((childrenIds, block) => {
+      if (block.content)
+        return childrenIds.concat(block.content)
+      else
+        return childrenIds
+    }, [] as string[])
+
+  if (childrenToGet.length > 0) {
+    return validBlocks.concat(
+      await getChildrenBlocks(childrenToGet, apiAgent))
   } else {
-    return childrenRecords
+    return validBlocks
   }
 
 }
 
 /**
- * Collect children IDs of an records array.
- * @param records - The records array.
- * @returns An array of IDs.
+ * Convert block array to NAST.
  */
-function collectChildrenIDs(
-  records: Notion.BlockRecord[]
-): string[] {
-
-  let childrenIDs: string[] = []
-
-  records.forEach((record): void => {
-    let _childrenIDs = [] as string[]
-
-    if (record.value != null && record.value.content != null) {
-      _childrenIDs = record.value.content
-    }
-
-    if (_childrenIDs) {
-      childrenIDs = childrenIDs.concat(_childrenIDs)
-    }
-
-  })
-
-  return childrenIDs
-
-}
-
-/**
- * Convert BlockRecordValue array to NAST.
- * @param allRecords - The BlockRecordValue array.
- * @returns NAST.
- */
-async function makeBlocksArrayIntoTree(
-  allRecords: Notion.BlockRecord[],
-  apiAgent: Notion.NotionAgent
+async function makeBlockArrayIntoTree(
+  blocks: Block[],
+  apiAgent: ReturnType<typeof createAgent>
 ): Promise<Nast.Block> {
 
-  /** Remove blocks with role: none */
-  const nonEmptyRecords = allRecords
-    .filter((record): boolean => {
-      return record.role !== 'none'
-    })
-
-  /* Tranform Notion.BlockRecordValue to Nast.Block */
-  const nastList = await Promise.all(nonEmptyRecords
-    .map((record): Promise<Nast.Block> => {
-      return transformBlock(record.value, apiAgent)
+  /* Transform Notion Block to Nast.Block */
+  const nastBlocks = await Promise.all(blocks
+    .map((block) => {
+      return transformBlock(block, apiAgent)
     }))
 
-  /* A map for quick ID -> index lookup */
-  const map: { [key: string]: number } = {}
-  for (let i = 0; i < nonEmptyRecords.length; ++i) {
-    map[nonEmptyRecords[i].value.id] = i
+  /* A map <block id, reference in nastBlocks> */
+  const nastBlockMap: { [key: string]: Nast.Block } = {}
+  for (let i = 0; i < nastBlocks.length; ++i) {
+    nastBlockMap[nastBlocks[i].id] = nastBlocks[i]
   }
 
-  /* The tree's root is always the first record */
-  const treeRoot = nastList[0]
-  let nastBlock
+  /* The tree's root is always the first. */
+  const treeRoot = nastBlocks[0]
 
   /**
    * Wire up each block's children
@@ -184,22 +141,17 @@ async function makeBlocksArrayIntoTree(
    * `nonEmptyRecords[i].value.content`, then find each child's reference 
    * by ID using `map`.
    */
-  for (let i = 0; i < nonEmptyRecords.length; ++i) {
-    nastBlock = nastList[i]
+  for (let i = 0; i < blocks.length; ++i) {
 
-    const childrenIDs = nonEmptyRecords[i].value.content
-    if (childrenIDs != null) {
+    const childrenIds = blocks[i].content
 
-      for (let j = 0; j < childrenIDs.length; ++j) {
-        const indexOfChildReference = map[childrenIDs[j]]
-        const childReference = nastList[indexOfChildReference]
+    if (!childrenIds) continue
 
-        if (childReference != null) {
-          nastBlock.children.push(childReference)
-        }
+    childrenIds.forEach(id => {
+      const childNastBlock = nastBlockMap[id]
+      if (childNastBlock) nastBlocks[i].children.push(childNastBlock)
+    })
 
-      }
-    }
   }
 
   return treeRoot

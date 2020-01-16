@@ -5,16 +5,16 @@ import { getBlockColor } from './utils'
 import * as NotionBlockBasic from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
 import * as NAST from '../nast'
 
-async function transformText(
-  node: NotionBlockBasic.Text
-): Promise<NAST.Text> {
+async function transformBulletedList(
+  node: NotionBlockBasic.BulletedList
+): Promise<NAST.BulletedList> {
   return {
     children: [],
     id: node.id,
-    type: 'text',
+    type: 'bulleted_list',
     color: getBlockColor(node),
-    title: node.properties ? node.properties.title || [] : [],
+    title: node.properties ? node.properties.title || [] : []
   }
 }
 
-export default transformText
+export default transformBulletedList

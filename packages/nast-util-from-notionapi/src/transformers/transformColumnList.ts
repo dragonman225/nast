@@ -1,21 +1,19 @@
-/** For types only */
-import * as Notion from 'notionapi-agent'
-import * as Nast from '../nast'
-
+/** Import scripts. */
 import { getBlockColor } from './utils'
 
+/** Import types. */
+import * as NotionBlockBasic from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
+import * as NAST from '../nast'
+
 async function transformColumnList(
-  node: Notion.Block
-): Promise<Nast.ColumnList> {
-  const nastNode = {
+  node: NotionBlockBasic.ColumnList
+): Promise<NAST.ColumnList> {
+  return {
+    children: [],
     id: node.id,
-    type: 'column_list' as 'column_list',
-    color: getBlockColor(node),
-    createdTime: node.created_time,
-    lastEditedTime: node.last_edited_time,
-    children: []
+    type: 'column_list',
+    color: getBlockColor(node)
   }
-  return nastNode
 }
 
 export default transformColumnList

@@ -1,10 +1,9 @@
 import { test } from 'zora'
 import {
   convertImageUrl,
-  getBlockTitle,
   getBlockIcon,
   getBlockColor
-} from '../../dist/transformers/utils'
+} from '../../src/transformers/utils'
 
 export function testConvertImageUrl() {
 
@@ -31,24 +30,6 @@ export function testConvertImageUrl() {
 
     t.test('Bypass an emoji', t => {
       t.equal(convertImageUrl('😃'), '😃')
-    })
-  })
-
-}
-
-export function testGetBlockTitle() {
-
-  test('Get block title', t => {
-    t.test('Get title from a block without properties', t => {
-      t.deepEqual(getBlockTitle({} as any), [])
-    })
-
-    t.test('Get title from a block with properties but no properties.title', t => {
-      t.deepEqual(getBlockTitle({ properties: {} } as any), [])
-    })
-
-    t.test('Get title from a block with properties and properties.title', t => {
-      t.deepEqual(getBlockTitle({ properties: { title: [['hello']] } } as any), [['hello']])
     })
   })
 

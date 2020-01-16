@@ -1,27 +1,24 @@
-/** For types only */
-import * as Notion from 'notionapi-agent'
-import * as Nast from '../nast'
+/** Import scripts. */
+import { getBlockColor } from "./utils"
 
-import { getBlockColor, getBlockTitle } from './utils'
+/** Import types. */
+import * as NotionBlockBasic from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
+import * as NAST from "../nast"
 
 async function transformToDo(
-  node: Notion.Block
-): Promise<Nast.ToDoList> {
-  const nastNode = {
-    id: node.id,
-    type: 'to_do' as 'to_do',
-    color: getBlockColor(node),
-    createdTime: node.created_time,
-    lastEditedTime: node.last_edited_time,
+  node: NotionBlockBasic.ToDo
+): Promise<NAST.ToDo> {
+  return {
     children: [],
-    text: getBlockTitle(node),
+    id: node.id,
+    type: "to_do",
+    color: getBlockColor(node),
+    title: node.properties ? node.properties.title || [] : [],
     checked: node.properties
       ? node.properties.checked
-        ? node.properties.checked[0][0] === 'Yes'
-        : false
+        ? node.properties.checked[0][0] === "Yes" : false
       : false
   }
-  return nastNode
 }
 
 export default transformToDo

@@ -25,6 +25,7 @@ yarn.lock
 !.vscode/extensions.json
 
 # Project
+test/tree.json
 TODO.md
 dist/
 typedoc/

@@ -1,22 +1,20 @@
-/** For types only */
-import * as Notion from 'notionapi-agent'
-import * as Nast from '../nast'
+/** Import scripts. */
+import { getBlockColor } from './utils'
 
-import { getBlockColor, getBlockTitle } from './utils'
+/** Import types. */
+import * as NotionBlockBasic from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
+import * as NAST from '../nast'
 
 async function transformQuote(
-  node: Notion.Block
-): Promise<Nast.Quote> {
-  const nastNode = {
-    id: node.id,
-    type: 'quote' as 'quote',
-    color: getBlockColor(node),
-    createdTime: node.created_time,
-    lastEditedTime: node.last_edited_time,
+  node: NotionBlockBasic.Quote
+): Promise<NAST.Quote> {
+  return {
     children: [],
-    text: getBlockTitle(node)
+    id: node.id,
+    type: 'quote',
+    color: getBlockColor(node),
+    title: node.properties ? node.properties.title || [] : []
   }
-  return nastNode
 }
 
 export default transformQuote

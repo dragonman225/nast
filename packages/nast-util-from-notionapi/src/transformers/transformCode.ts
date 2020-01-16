@@ -1,27 +1,27 @@
-/** For types only */
-import * as Notion from 'notionapi-agent'
-import * as Nast from '../nast'
+/** Import scripts. */
+import { getBlockColor } from "./utils"
 
-import { getBlockColor, getBlockTitle } from './utils'
+/** Import types. */
+import * as NotionBlockMedia from "notionapi-agent/dist/interfaces/notion-models/block/Media"
+import * as NAST from "../nast"
 
 async function transformCode(
-  node: Notion.Block
-): Promise<Nast.Code> {
-  const props = node.properties || {}
-  const format = node.format || {}
-  const nastNode = {
-    id: node.id,
-    type: 'code' as 'code',
-    color: getBlockColor(node),
-    createdTime: node.created_time,
-    lastEditedTime: node.last_edited_time,
+  node: NotionBlockMedia.Code
+): Promise<NAST.Code> {
+  return {
     children: [],
-    text: getBlockTitle(node),
-    language: props.language ? props.language[0][0] : undefined,
-    wrap: typeof format.code_wrap !== 'undefined'
-      ? format.code_wrap : false
+    id: node.id,
+    type: "code",
+    color: getBlockColor(node),
+    title: node.properties ? node.properties.title || [] : [],
+    language: node.properties
+      ? node.properties.language
+        ? node.properties.language[0][0] : undefined
+      : undefined,
+    wrap: (typeof node.format !== "undefined"
+      && typeof node.format.code_wrap !== "undefined")
+      ? node.format.code_wrap : false
   }
-  return nastNode
 }
 
 export default transformCode

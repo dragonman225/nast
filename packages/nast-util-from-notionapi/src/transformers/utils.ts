@@ -1,23 +1,9 @@
-import * as Notion from 'notionapi-agent'
+import { Block } from 'notionapi-agent/dist/interfaces/notion-models'
 
 function getBlockColor(
-  node: Notion.Block
+  node: Block
 ): string | undefined {
-  const color = node.format
-    ? node.format['block_color']
-    : undefined
-  return color
-}
-
-function getBlockTitle(
-  node: Notion.Block
-): Notion.StyledString[] {
-  const title = node.properties
-    ? node.properties.title
-      ? node.properties.title
-      : [] as Notion.StyledString[]
-    : [] as Notion.StyledString[]
-  return title
+  return node.format ? node.format.block_color : undefined
 }
 
 /**
@@ -25,7 +11,7 @@ function getBlockTitle(
  * @param node - A Notion block
  */
 function getBlockIcon(
-  node: Notion.Block
+  node: Block
 ): string | undefined {
   let icon = node.format
     ? node.format.page_icon
@@ -70,7 +56,6 @@ function convertImageUrl(
 
 export {
   getBlockColor,
-  getBlockTitle,
   getBlockIcon,
   convertImageUrl
 }
