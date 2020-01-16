@@ -8,6 +8,10 @@ import {
 type UUID = string
 type URL = string
 
+export {
+  SemanticString
+}
+
 export interface Parent {
   children: Block[]
 }
