@@ -177,4 +177,8 @@ export interface BreadCrumb extends Block {
 
 export interface File extends Block {
   type: "file"
+  fileId?: UUID
+  title: string
+  size?: string
+  source: string
 }
