@@ -1,5 +1,5 @@
-import Nast from 'notajs-types/nast'
-import Notion from 'notajs-types/notion'
+import * as NAST from "nast"
+import { DateTime, SemanticString } from "notionapi-agent/dist/interfaces/notion-models";
 
 import { NAST_BLOCK_TYPES, COLOR } from './constants'
 import renderCode from './render-utils-prismjs'
@@ -9,13 +9,13 @@ import { CSS } from './constants'
 
 /**
  * Render children nodes.
- * @param {Nast.Block[]} nodeArray - Children nodes to render.
+ * @param {NAST.Block[]} nodeArray - Children nodes to render.
  * @param {Function} renderNext - Render controller that will assign a node to 
  * a corresponding render function when iterating through nodeArray.
  * @returns {string} HTML.
  */
 function renderChildren(
-  nodeArray: Nast.Block[],
+  nodeArray: NAST.Block[],
   renderNext: Function
 ): string {
   let childrenHTMLArr = nodeArray.map(node => {
@@ -31,13 +31,13 @@ function renderChildren(
 
 /**
  * Render a block.
- * @param {Nast.Block} node The block node itself.
+ * @param {NAST.Block} node The block node itself.
  * @param {string} contentHTML The HTML content inside the block.
  * @param {string} tag The HTML tag to use for the block.
  * @returns {string} HTML
  */
 function renderBlock(
-  node: Nast.Block,
+  node: NAST.Block,
   contentHTML: string,
   tag: string = 'div'
 ): string {
@@ -51,14 +51,14 @@ function renderBlock(
 
 /**
  * Render styled strings.
- * @param {Notion.StyledString[]} titleTokens
+ * @param {NAST.SemanticString[]} titleTokens
  * @param {boolean} isCode Whether they should be treated as code.
  * @param {string} lang One of programming languages listed in 
  * `render-utils-prismjs.ts`.
  * @returns {string} HTML
  */
 function renderTitle(
-  titleTokens: Notion.StyledString[] = [],
+  titleTokens: NAST.SemanticString[] = [],
   isCode?: boolean,
   lang?: string
 ): string {
@@ -72,7 +72,7 @@ function renderTitle(
     let textStyles = token[1]
     let html = text
     if (textStyles) {
-      html = styleToHTML(text, textStyles)
+      html = renderSemanticString([text, textStyles] as SemanticString)
     }
     return html
   })
@@ -88,11 +88,11 @@ function renderTitle(
  * @param {Notion.TextStyle[]} styles Styles to be applied on the text.
  * @returns {string} HTML
  */
-function styleToHTML(
-  text: string,
-  styles: Notion.TextStyle[]
+function renderSemanticString(
+  ss: NAST.SemanticString
 ): string {
-  let html = text
+  let html = ss[0]
+  const styles = ss[1] || []
 
   for (let i = styles.length - 1; i >= 0; --i) {
     switch (styles[i][0]) {
@@ -131,7 +131,7 @@ function styleToHTML(
         break
       /* Inline Mention Date */
       case 'd':
-        let date = styles[i][1] as Notion.InlineDate
+        let date = styles[i][1] as DateTime
         html = `<span class="color-mention">@${date.start_date}</span>`
         break
       /* Comment */
@@ -244,8 +244,8 @@ function escapeString(
  * @param treeRoot 
  */
 function preRenderTransform(
-  treeRoot: Nast.Block
-): Nast.Block {
+  treeRoot: NAST.Block
+): NAST.Block {
   let newChildren = []
   let children = treeRoot.children
   let list, prevState = 0
@@ -310,11 +310,25 @@ function preRenderTransform(
   return newTree
 }
 
+/**
+ * If the icon is an url, wrap it with `<img>`.
+ * @param {string} icon 
+ */
+function renderIconToHTML(icon: string) {
+  const re = /^http/
+  if (re.test(icon)) {
+    return `<span><img class="inline-img-icon" src="${icon}"></span>`
+  } else {
+    return icon ? `<span>${icon}</span>` : ''
+  }
+}
+
 export {
   renderChildren,
   renderBlock,
   renderTitle,
   renderColor,
+  renderIconToHTML,
   escapeString,
   preRenderTransform
 }

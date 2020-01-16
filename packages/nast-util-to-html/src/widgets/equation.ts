@@ -1,10 +1,10 @@
-import Nast from 'notajs-types/nast'
+import * as NAST from 'nast'
 
 import katex from 'katex'
 import { renderBlock } from '../render-utils'
 
 function renderEquation(
-  node: Nast.Equation
+  node: NAST.Equation
 ): string {
   let katexOpts = {
     throwOnError: false,

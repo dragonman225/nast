@@ -1,12 +1,12 @@
-import Nast from 'notajs-types/nast'
-import Notion from 'notajs-types/notion'
+import * as NAST from 'nast'
+import { CollectionView } from "notionapi-agent/dist/interfaces/notion-models"
 
 import { COLLECTION_VIEW_TYPES, COLLECTION_ITEM_PROPERTY_TYPES, CSS } from '../constants'
 import { raiseWarning } from '../log-utils'
 import { escapeString, renderTitle } from '../render-utils'
 
 function renderCollection(
-  node: Nast.Collection
+  node: NAST.Collection
 ): string {
   let viewMeta = node.views.find(view => view.id === node.defaultViewId)
 
@@ -15,18 +15,18 @@ function renderCollection(
     return ''
   }
 
-  let pages = node.blocks
-  let sortQueries = viewMeta.query.sort
-  if (sortQueries != null) {
-    let sortFunc = factorySortFunc(sortQueries)
-    pages = pages.sort(sortFunc)
-  }
+  let pages = node.children
+  // let sortQueries = viewMeta.query.sort
+  // if (sortQueries != null) {
+  //   let sortFunc = factorySortFunc(sortQueries)
+  //   pages = pages.sort(sortFunc)
+  // }
 
   switch (viewMeta.type) {
     case COLLECTION_VIEW_TYPES.table:
-      return renderTable(node, pages, viewMeta.format)
+      return renderTable(node, pages, viewMeta)
     case COLLECTION_VIEW_TYPES.gallery:
-      return renderGallery(node, pages, viewMeta.format)
+      return renderGallery(node, pages, viewMeta)
     default:
       raiseWarning(`No render function for collection view "${viewMeta.type}".`)
       return ''
@@ -34,11 +34,12 @@ function renderCollection(
 }
 
 function renderTable(
-  node: Nast.Collection,
-  pages: Nast.Page[],
-  viewFormat: Notion.CollectionViewFormat
+  node: NAST.Collection,
+  pages: NAST.Page[],
+  view: CollectionView
 ): string {
-  const title = escapeString(node.name)
+  const viewFormat = view.format
+  const title = escapeString(node.name[0][0])
   // const wrap = (typeof viewFormat.table_wrap === 'undefined')
   //   ? viewFormat.table_wrap : true
 
@@ -73,12 +74,12 @@ function renderTable(
        * They even mixed those properties with "Notion.BlockProperties". 
        * Quite confusing and messy.
        */
-      const pageProps = page.properties as { [key: string]: Notion.StyledString[] }
+      const pageProps = page.properties as { [key: string]: NAST.SemanticString[] }
       const row = viewSchema.map(clctItemProp => {
 
         switch (clctItemProp.type) {
           case COLLECTION_ITEM_PROPERTY_TYPES.title: {
-            return `<td class="${CSS.tableCellContentType.text}"><span>${escapeString(page.title)}</span></td>`
+            return `<td class="${CSS.tableCellContentType.text}"><span>${escapeString(page.title[0][0])}</span></td>`
           }
           case COLLECTION_ITEM_PROPERTY_TYPES.url:
           case COLLECTION_ITEM_PROPERTY_TYPES.text: {
@@ -89,8 +90,8 @@ function renderTable(
             const optionNames = pageProps[clctItemProp.id]
               ? pageProps[clctItemProp.id][0][0].split(',') : []
             const optionsHTML = optionNames.map(optionName => {
-              clctItemProp.options = clctItemProp.options as Notion.CollectionColumnOption[]
-              const option = clctItemProp.options.find(o => o.value === optionName)
+
+              const option = (clctItemProp.options || []).find(o => o.value === optionName)
 
               if (!option) {
                 raiseWarning(`Select option "${optionName}" isn't found on property "${clctItemProp.id}:${clctItemProp.name}".`)
@@ -142,17 +143,19 @@ function renderTable(
 }
 
 function renderGallery(
-  node: Nast.Collection,
-  pages: Nast.Page[],
-  viewFormat: Notion.CollectionViewFormat
+  node: NAST.Collection,
+  pages: NAST.Page[],
+  view: CollectionView
 ): string {
-  let title = escapeString(node.name)
+  const viewFormat = view.format
+  let title = escapeString(node.name[0][0])
   let imageContain = viewFormat.gallery_cover_aspect
     ? viewFormat.gallery_cover_aspect === 'contain' : false
 
   let pagesHTMLArr = pages.map(page => {
     return `\
 <div id="${page.id}" class="grid-item">
+  <a href="https://www.notion.so/${page.id.replace(/-/g, "")}">
   <div class="gird-item-content">
     <div>
       <div class="grid-item-cover ${imageContain
@@ -160,10 +163,11 @@ function renderGallery(
         ${page.cover ? `<img src="${page.cover}" data-src="${page.cover}">` : ''}
       </div>
       <div class="grid-item-title">
-        ${escapeString(page.title)}
+        ${escapeString(page.title[0][0])}
       </div>
     </div>
   </div>
+  </a>
 </div>`
   })
 
@@ -178,29 +182,29 @@ function renderGallery(
   return galleryHTML
 }
 
-function factorySortFunc(sortQuery: Notion.SortQuery[]) {
-  let directions = sortQuery.map(q => {
-    if (q.direction === 'descending') return -1
-    else return 1
-  })
+// function factorySortFunc(sortQuery: Sort[]) {
+//   let directions = sortQuery.map(q => {
+//     if (q.direction === 'descending') return -1
+//     else return 1
+//   })
 
-  return function (a: Nast.Page, b: Nast.Page): number {
-    for (let i = 0; i < directions.length; ++i) {
-      let field: 'title' | 'createdTime'
+//   return function (a: NAST.Page, b: NAST.Page): number {
+//     for (let i = 0; i < directions.length; ++i) {
+//       let field: 'title' | 'createdTime'
 
-      if (sortQuery[i].type === 'title') field = 'title'
-      else if (sortQuery[i].type === 'created_time') field = 'createdTime'
-      else continue
+//       if (sortQuery[i].type === 'title') field = 'title'
+//       else if (sortQuery[i].type === 'created_time') field = 'createdTime'
+//       else continue
 
-      /**
-       * Tricks here: when a[field] equals b[field], it does
-       * not return, continue to compare the next field.
-       */
-      if (a[field] > b[field]) return directions[i]
-      if (a[field] < b[field]) return -(directions[i])
-    }
-    return 0
-  }
-}
+//       /**
+//        * Tricks here: when a[field] equals b[field], it does
+//        * not return, continue to compare the next field.
+//        */
+//       if (a[field] > b[field]) return directions[i]
+//       if (a[field] < b[field]) return -(directions[i])
+//     }
+//     return 0
+//   }
+// }
 
 export default renderCollection

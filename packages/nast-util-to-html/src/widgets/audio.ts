@@ -1,9 +1,9 @@
-import Nast from 'notajs-types/nast'
+import * as NAST from 'nast'
 
 import { renderBlock } from '../render-utils'
 
 function renderAudio(
-  node: Nast.Audio
+  node: NAST.Audio
 ): string {
   let content = `\
 <audio controls>

@@ -1,9 +1,9 @@
-import Nast from 'notajs-types/nast'
+import * as NAST from 'nast'
 
 import { renderBlock } from '../render-utils'
 
 function renderEmbed(
-  node: Nast.Embed
+  node: NAST.Embed
 ): string {
   let width = node.fullWidth ? '100%' : `${node.width}px`
   let source = node.source

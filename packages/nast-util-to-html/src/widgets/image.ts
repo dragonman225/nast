@@ -1,9 +1,9 @@
-import Nast from 'notajs-types/nast'
+import * as NAST from 'nast'
 
 import { renderBlock } from '../render-utils'
 
 function renderImage(
-  node: Nast.Image
+  node: NAST.Image
 ): string {
   let width = node.fullWidth ? '100%' : `${node.width}px`
   let source = node.source

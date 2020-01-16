@@ -1,9 +1,9 @@
-import Nast from 'notajs-types/nast'
+import * as NAST from 'nast'
 
 import { renderBlock } from '../render-utils'
 
 function renderDivider(
-  node: Nast.Divider
+  node: NAST.Divider
 ): string {
   let content = '\
 <div style="width: 100%; border: 1px solid rgba(55, 53, 47, 0.09);"></div>'

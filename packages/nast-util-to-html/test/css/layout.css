@@ -52,11 +52,11 @@ li {
 
 .page-icon {
   line-height: 1.1;
-  font-size: 75px;
+  font-size: 120px;
 }
 
 .page-title {
-  margin-top: calc(30vh - 65px);
+  margin-top: calc(30vh - 50px);
 }
 
 .page-title--nocover {

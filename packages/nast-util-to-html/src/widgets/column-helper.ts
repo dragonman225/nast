@@ -1,16 +1,16 @@
-import Nast from 'notajs-types/nast'
+import * as NAST from 'nast'
 
 import { NAST_BLOCK_TYPES } from '../constants'
 import { raiseWarning } from '../log-utils'
 import { renderChildren } from '../render-utils'
 
 function renderColumnList(
-  node: Nast.ColumnList,
+  node: NAST.ColumnList,
   renderNext: Function
 ) {
   let numOfColumns = node.children.length
   let columnArrHTML = node.children.map((column, i) => {
-    return renderColumn(column as Nast.Column, renderNext, i === 0, numOfColumns)
+    return renderColumn(column as NAST.Column, renderNext, i === 0, numOfColumns)
   })
 
   let html = `\
@@ -22,7 +22,7 @@ function renderColumnList(
 }
 
 function renderColumn(
-  node: Nast.Column,
+  node: NAST.Column,
   renderNext: Function,
   isFirst: boolean,
   numOfColumns: number

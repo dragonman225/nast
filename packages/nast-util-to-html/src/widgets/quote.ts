@@ -1,13 +1,13 @@
-import Nast from 'notajs-types/nast'
+import * as NAST from 'nast'
 
 import { renderBlock, renderTitle } from '../render-utils'
 
 function renderQuote(
-  node: Nast.Quote
+  node: NAST.Quote
 ): string {
   let content = `\
 <blockquote>
-  ${renderTitle(node.text, false, '')}
+  ${renderTitle(node.title, false, '')}
 </blockquote>`
   return renderBlock(node, content)
 }

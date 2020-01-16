@@ -1,10 +1,10 @@
-import Nast from 'notajs-types/nast'
+import * as NAST from 'nast'
 
 import { NAST_BLOCK_TYPES } from '../constants'
 import { renderChildren, renderBlock, renderTitle } from '../render-utils'
 
 function renderList(
-  node: Nast.Block,
+  node: NAST.Block,
   renderNext: Function
 ): string {
   if (node.type === NAST_BLOCK_TYPES.bulletedList)
@@ -14,11 +14,11 @@ function renderList(
 }
 
 function renderBulletedList(
-  node: Nast.Block,
+  node: NAST.Block,
   renderNext: Function
 ): string {
   let listItemsHTML = node.children.map(listItem => {
-    return renderListItem(listItem as Nast.BulletedListItem, renderNext)
+    return renderListItem(listItem as NAST.BulletedList, renderNext)
   })
   let html = `\
 <ul>
@@ -28,11 +28,11 @@ function renderBulletedList(
 }
 
 function renderNumberedList(
-  node: Nast.Block,
+  node: NAST.Block,
   renderNext: Function
 ): string {
   let listItemsHTML = node.children.map(listItem => {
-    return renderListItem(listItem as Nast.NumberedListItem, renderNext)
+    return renderListItem(listItem as NAST.NumberedList, renderNext)
   })
   let html = `\
 <ol>
@@ -42,10 +42,10 @@ function renderNumberedList(
 }
 
 function renderListItem(
-  node: Nast.BulletedListItem | Nast.NumberedListItem,
+  node: NAST.BulletedList | NAST.NumberedList,
   renderNext: Function
 ): string {
-  let content = renderTitle(node.text, false, '')
+  let content = renderTitle(node.title, false, '')
 
   /**
    * Without ul, some content become out of container.

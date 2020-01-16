@@ -1,14 +1,14 @@
-import Nast from 'notajs-types/nast'
+import * as NAST from 'nast'
 
 import { CSS, NAST_BLOCK_TYPES } from '../constants'
 import { renderChildren, renderColor, renderTitle } from '../render-utils'
 
-function renderText(node: Nast.Text, renderNext: Function) {
+function renderText(node: NAST.Text, renderNext: Function) {
   let blockColorClass = node.color ? renderColor(node.color) : ''
 
   let content = `\
 <div class="${CSS.blockClass} ${CSS.blockClass}--${NAST_BLOCK_TYPES.text} ${blockColorClass}">
-  ${renderTitle(node.text, false, '')}
+  ${renderTitle(node.title, false, '')}
 </div>`
 
   let childrenContent = ''

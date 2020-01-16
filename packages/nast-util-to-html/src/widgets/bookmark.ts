@@ -1,9 +1,9 @@
-import Nast from 'notajs-types/nast'
+import * as NAST from 'nast'
 
 import { renderBlock } from '../render-utils'
 
 function renderBookmark(
-  node: Nast.WebBookmark
+  node: NAST.Bookmark
 ): string {
   let titleHTML = node.title ? `<h5 class="title">${node.title}</h5>` : ''
   let descHTML = node.description ? `<p class="description">${node.description}</p>` : ''

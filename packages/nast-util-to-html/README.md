@@ -1,6 +1,6 @@
 # nast-util-to-html
 
-![version](https://img.shields.io/npm/v/nast-util-to-html.svg?style=flat-square&color=007acc&label=version) ![language](https://img.shields.io/badge/language-typescript-blue.svg?style=flat-square) ![license](https://img.shields.io/github/license/dragonman225/nast-util-to-html.svg?style=flat-square&label=license&color=08CE5D) ![nast version](https://img.shields.io/static/v1.svg?label=Nast&message=v0.1.2&style=flat-square&color=d81b60) ![Notion to Nast](https://img.shields.io/static/v1.svg?label=&message=Nast%E2%86%92HTML&style=flat-square&color=333333)
+![version](https://img.shields.io/npm/v/nast-util-to-html.svg?style=flat-square&color=007acc&label=version) ![language](https://img.shields.io/badge/language-typescript-blue.svg?style=flat-square) ![license](https://img.shields.io/github/license/dragonman225/nast-util-to-html.svg?style=flat-square&label=license&color=08CE5D) ![nast version](https://img.shields.io/static/v1.svg?label=NAST&message=v0.1.2&style=flat-square&color=d81b60) ![Notion to NAST](https://img.shields.io/static/v1.svg?label=&message=NAST%E2%86%92HTML&style=flat-square&color=333333)
 
 Render NAST to HTML.
 
@@ -73,7 +73,7 @@ main()
 
 Render static HTML from NAST.
 
-* `data` - (required) `Nast.Block` [Go to Definition](https://github.com/dragonman225/notajs-types/blob/09d537b220cf8620e8caaa31fd78eaced0ed347a/nast.d.ts#L20) |  `Notion.StyledString[]`[Go to Definition](https://github.com/dragonman225/notajs-types/blob/09d537b220cf8620e8caaa31fd78eaced0ed347a/notion.d.ts#L335)
+* `data` - (required) `NAST.Block` [Go to Definition](https://github.com/dragonman225/notajs-types/blob/09d537b220cf8620e8caaa31fd78eaced0ed347a/nast.d.ts#L20) |  `NAST.SemanticString[]`[Go to Definition](https://github.com/dragonman225/notajs-types/blob/09d537b220cf8620e8caaa31fd78eaced0ed347a/notion.d.ts#L335)
 
 * `options` - (optional) `RenderOptions`
 

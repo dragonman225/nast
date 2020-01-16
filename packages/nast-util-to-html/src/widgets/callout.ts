@@ -1,9 +1,9 @@
-import Nast from 'notajs-types/nast'
+import * as NAST from 'nast'
 
 import { renderBlock, renderTitle } from '../render-utils'
 
 function renderCallout(
-  node: Nast.Callout
+  node: NAST.Callout
 ): string {
   let iconHTML = /^http/.test(node.icon || '')
     ? `<img src="${node.icon}" style="height: 1.5em;">` : node.icon
@@ -13,7 +13,7 @@ function renderCallout(
   ${iconHTML}
 </div>
 <div style="margin-left: 8px;">
-  ${renderTitle(node.text, false, '')}
+  ${renderTitle(node.title, false, '')}
 </div>`
 
   return renderBlock(node, content)

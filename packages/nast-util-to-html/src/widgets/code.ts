@@ -1,14 +1,14 @@
-import Nast from 'notajs-types/nast'
+import * as NAST from 'nast'
 
 import { renderBlock, renderTitle } from '../render-utils'
 
 function renderCode(
-  node: Nast.Code
+  node: NAST.Code
 ): string {
   let content = `\
 <pre>
   <code>
-${renderTitle(node.text, true, node.language)}
+${renderTitle(node.title, true, node.language)}
   </code>
 </pre>`
   return renderBlock(node, content)

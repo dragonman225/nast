@@ -1,5 +1,4 @@
-import Nast from 'notajs-types/nast'
-import Notion from 'notajs-types/notion'
+import * as NAST from "nast"
 
 import { renderRoot, renderNode } from './render-control'
 import { renderTitle, renderChildren, preRenderTransform } from './render-utils'
@@ -15,7 +14,7 @@ type RenderOptions = {
  * Generate static HTML from NAST or StyledString[].
  */
 function renderToHTML(
-  data: Nast.Block | Notion.StyledString[],
+  data: NAST.Block | NAST.SemanticString[],
   options: RenderOptions = {
     contentOnly: false,
     bypassPreRenderTransform: false

@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const { renderToHTML } = require('..')
+const { renderToHTML } = require('../src')
 
 const tree = require('./testdata')
 
@@ -36,17 +36,20 @@ function renderPage(pageTitle, contentHTML) {
       :root {
         font-size: 16px;
       }
-      .container {
-        padding: 1.5em;
+      .nast-document {
+        padding: 1.5em 96px;
         max-width: 8.3in;
+        margin: 0 auto;
+      }
+      .nast-document-full {
+        padding: 1.5em 96px;
+        max-width: 100%;
         margin: 0 auto;
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      ${contentHTML}
-    </div>
+    ${contentHTML}
   </body>
 </html>`
   return pageHTML

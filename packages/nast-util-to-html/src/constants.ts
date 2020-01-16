@@ -19,24 +19,25 @@ const NAST_BLOCK_TYPES = {
   toggle: 'toggle',
   columnList: 'column_list',
   column: 'column',
-  bulletedListItem: 'bulleted_list_item',
-  numberedListItem: 'numbered_list_item',
-  bulletedList: 'bulleted_list',
-  numberedList: 'numbered_list',
+  bulletedListItem: 'bulleted_list',
+  numberedListItem: 'numbered_list',
+  bulletedList: 'bulleted_list_wrapper',
+  numberedList: 'numbered_list_wrapper',
   text: 'text',
   code: 'code',
   equation: 'equation',
   divider: 'divider',
   quote: 'quote',
   callout: 'callout',
-  tableOfContents: 'table_of_contents',
+  tableOfContents: 'table_of_content',
   breadcrumb: 'breadcrumb',
   image: 'image',
   video: 'video',
   embed: 'embed',
   audio: 'audio',
   bookmark: 'bookmark',
-  collection: 'collection'
+  collectionInline: 'collection_inline',
+  collectionPage: 'collection_page'
 }
 
 const COLOR = {

@@ -1,13 +1,13 @@
-import Nast from 'notajs-types/nast'
+import * as NAST from 'nast'
 
 import { CSS } from '../constants'
 import { renderBlock, renderChildren, renderTitle } from '../render-utils'
 
 function renderToggle(
-  node: Nast.ToggleList,
+  node: NAST.Toggle,
   renderNext: Function
 ) {
-  let content = renderTitle(node.text, false, '')
+  let content = renderTitle(node.title, false, '')
   let block = renderBlock(node, content, 'summary')
   let html = `\
 <details>

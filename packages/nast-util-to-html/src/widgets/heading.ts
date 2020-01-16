@@ -1,11 +1,11 @@
-import Nast from 'notajs-types/nast'
+import * as NAST from 'nast'
 
 import { CSS } from '../constants'
 import { renderColor, renderTitle } from '../render-utils'
 
-function renderHeading(node: Nast.Heading): string {
+function renderHeading(node: NAST.Heading): string {
   let blockColorClass = node.color ? renderColor(node.color) : ''
-  let textHTML = renderTitle(node.text, false, '')
+  let textHTML = renderTitle(node.title, false, '')
   let content = ''
 
   if (node.depth < 6 && node.depth > 0) {
