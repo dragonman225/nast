@@ -1,5 +1,5 @@
 import {
-  SemanticString, CollectionView
+  SemanticString as NotionSemanticString, CollectionView
 } from "notionapi-agent/dist/interfaces/notion-models"
 import {
   CollectionSchema
@@ -8,9 +8,7 @@ import {
 type UUID = string
 type URL = string
 
-export {
-  SemanticString
-}
+export type SemanticString = NotionSemanticString
 
 export interface Parent {
   children: Block[]
