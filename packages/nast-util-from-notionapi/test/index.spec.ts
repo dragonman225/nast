@@ -9,9 +9,9 @@ import {
   testConvertImageUrl,
   testGetBlockIcon,
   testGetBlockColor
-} from "./transformers/util.spec"
+} from "./util.spec"
 
-/** Test transformers/util first */
+/** Test util first */
 testConvertImageUrl()
 testGetBlockIcon()
 testGetBlockColor()
@@ -28,18 +28,18 @@ test("Get all blocks in a Notion page", async t => {
 
 test("Get Notion page as a tree", async t => {
   const tree = await getOnePageAsTree(pageId, agent)
-  t.equal(typeof tree.id, "string", "Block.id should be a string.")
+  t.equal(typeof tree.uri, "string", "Block.uri should be a string.")
   t.equal(typeof tree.type, "string", "Block.type should be a string.")
   t.equal(Array.isArray(tree.children), true, "Block.children should be an\
  array.")
 
   const child = tree.children[0]
   if (child) {
-    t.equal(typeof child.id, "string", "Child 0\"s Block.id should be a\
+    t.equal(typeof child.uri, "string", "Child's Block.uri should be a\
  string.")
-    t.equal(typeof child.type, "string", "Child 0\"s Block.type should be a\
+    t.equal(typeof child.type, "string", "Child's Block.type should be a\
  string.")
-    t.equal(Array.isArray(child.children), true, "Child 0\"s Block.children\
+    t.equal(Array.isArray(child.children), true, "Child's Block.children\
  should be an array.")
   } else {
     console.log("This tree contain no children, so some tests are\

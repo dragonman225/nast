@@ -3,24 +3,27 @@ import {
   convertImageUrl,
   getBlockIcon,
   getBlockColor
-} from "../../src/transformers/utils"
+} from "../src/util"
+
+const imageS3 = "https://s3-us-west-2.amazonaws.com/secure.notion-static.com/example.jpg"
+const imageS3Encoded = encodeURIComponent(imageS3)
 
 export function testConvertImageUrl() {
 
   test("Convert these types of image URLs", t => {
     t.test("Convert a private AWS S3 URL to a public one", t => {
-      t.equal(convertImageUrl("https://s3"),
-        "https://notion.so/image/https%3A%2F%2Fs3")
+      t.equal(convertImageUrl(imageS3),
+        `https://notion.so/images/${imageS3Encoded}`)
     })
 
     t.test("Convert a built-in image URL to a public one", t => {
-      t.equal(convertImageUrl("/image/xxx.jpg"),
-        "https://notion.so/image/xxx.jpg")
+      t.equal(convertImageUrl("/images/xxx.jpg"),
+        "https://notion.so/images/xxx.jpg")
     })
 
     t.test("Convert a built-in image URL with width", t => {
-      t.equal(convertImageUrl("/image/xxx.jpg", 123),
-        "https://notion.so/image/xxx.jpg?width=123")
+      t.equal(convertImageUrl("/images/xxx.jpg", 123),
+        "https://notion.so/images/xxx.jpg?width=123")
     })
 
     t.test("Bypass a normal image URL", t => {
@@ -51,11 +54,14 @@ export function testGetBlockIcon() {
     })
 
     t.test("Get URL icon from a block with format and format.page_icon", t => {
-      t.equal(getBlockIcon({ format: { page_icon: "https://foo.com/bar.jpg" } } as any), "https://foo.com/bar.jpg")
+      t.equal(getBlockIcon({ format: { page_icon: "https://foo.com/bar.jpg" } } as any),
+        "https://foo.com/bar.jpg")
     })
 
     t.test("Get uploaded icon from a block with format and format.page_icon", t => {
-      t.equal(getBlockIcon({ format: { page_icon: "https://s3" } } as any), "https://notion.so/image/https%3A%2F%2Fs3")
+      t.equal(getBlockIcon({
+        format: { page_icon: imageS3 }
+      } as any), `https://notion.so/images/${imageS3Encoded}`)
     })
   })
 
