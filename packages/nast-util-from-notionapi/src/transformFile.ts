@@ -1,9 +1,8 @@
 /** Import scripts. */
-import { getBlockColor } from "./utils"
+import { getBlockUri, getBlockColor } from "./util"
 
 /** Import types. */
 import * as NotionBlockMedia from "notionapi-agent/dist/interfaces/notion-models/block/Media"
-import * as NAST from "../nast"
 
 async function transformFile(
   node: NotionBlockMedia.File
@@ -11,7 +10,7 @@ async function transformFile(
   const props = node.properties
   return {
     children: [],
-    id: node.id,
+    uri: getBlockUri(node),
     type: "file",
     color: getBlockColor(node),
     fileId: node.file_ids ? node.file_ids[0] : undefined,
@@ -20,7 +19,7 @@ async function transformFile(
       ? props.size
         ? props.size[0][0] : undefined
       : undefined,
-    source: (function () {
+    source: (function (): string {
       const src = (props || {}).source
       if (!src) return "#"
       const url = src[0][0]

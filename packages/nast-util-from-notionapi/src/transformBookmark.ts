@@ -1,9 +1,8 @@
 /** Import scripts. */
-import { getBlockColor } from "./utils"
+import { getBlockUri, getBlockColor } from "./util"
 
 /** Import types. */
 import * as NotionBlockMedia from "notionapi-agent/dist/interfaces/notion-models/block/Media"
-import * as NAST from "../nast"
 
 async function transformBookmark(
   node: NotionBlockMedia.Bookmark
@@ -11,7 +10,7 @@ async function transformBookmark(
   const props = node.properties
   return {
     children: [],
-    id: node.id,
+    uri: getBlockUri(node),
     type: "bookmark",
     color: getBlockColor(node),
     link: props

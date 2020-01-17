@@ -1,16 +1,15 @@
 /** Import scripts. */
-import { getBlockColor } from "./utils"
+import { getBlockUri, getBlockColor } from "./util"
 
 /** Import types. */
 import * as NotionBlockMedia from "notionapi-agent/dist/interfaces/notion-models/block/Media"
-import * as NAST from "../nast"
 
 async function transformCode(
   node: NotionBlockMedia.Code
 ): Promise<NAST.Code> {
   return {
     children: [],
-    id: node.id,
+    uri: getBlockUri(node),
     type: "code",
     color: getBlockColor(node),
     title: node.properties ? node.properties.title || [] : [],

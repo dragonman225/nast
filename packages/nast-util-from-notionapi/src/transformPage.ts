@@ -1,9 +1,8 @@
 /** Import scripts. */
-import { getBlockColor, getBlockIcon, convertImageUrl } from "./utils"
+import { getBlockUri, getBlockColor, getBlockIcon, convertImageUrl } from "./util"
 
 /** Import types. */
 import * as NotionBlockBasic from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
-import * as NAST from "../nast"
 
 async function transformPage(
   node: NotionBlockBasic.Page
@@ -11,7 +10,7 @@ async function transformPage(
   const format = node.format || {}
   return {
     children: [],
-    id: node.id,
+    uri: getBlockUri(node),
     type: "page",
     color: getBlockColor(node),
     title: node.properties ? node.properties.title || [] : [],

@@ -1,16 +1,15 @@
 /** Import scripts. */
-import { getBlockColor } from "./utils"
+import { getBlockUri, getBlockColor } from "./util"
 
 /** Import types. */
 import * as NotionBlockAdvanced from "notionapi-agent/dist/interfaces/notion-models/block/AdvancedBlock"
-import * as NAST from "../nast"
 
 async function transformTableOfContent(
   node: NotionBlockAdvanced.TableOfContent
 ): Promise<NAST.TableOfContent> {
   return {
     children: [],
-    id: node.id,
+    uri: getBlockUri(node),
     type: "table_of_content",
     color: getBlockColor(node)
   }

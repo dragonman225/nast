@@ -1,16 +1,15 @@
 /** Import scripts. */
-import { getBlockColor, getBlockIcon } from "./utils"
+import { getBlockUri, getBlockColor, getBlockIcon } from "./util"
 
 /** Import types. */
 import * as NotionBlockBasic from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
-import * as NAST from "../nast"
 
 async function transformCallout(
   node: NotionBlockBasic.Callout
 ): Promise<NAST.Callout> {
   return {
     children: [],
-    id: node.id,
+    uri: getBlockUri(node),
     type: "callout",
     color: getBlockColor(node),
     icon: getBlockIcon(node),

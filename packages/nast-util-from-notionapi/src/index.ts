@@ -1,18 +1,19 @@
 /** Import scripts. */
 import { transformBlock } from "./transformBlock"
-import { log } from "./utils"
+import { log } from "./log"
+import { getBlockUri } from "./util"
 
 /** Import types. */
 import { createAgent } from "notionapi-agent"
 import { GetRecordValuesRequest } from "notionapi-agent/dist/interfaces/notion-api"
 import { Table, Block } from "notionapi-agent/dist/interfaces/notion-models"
 import { Page } from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
-import * as Nast from "nast-types"
+import * as NAST from "nast-types"
 
 async function getOnePageAsTree(
   pageId: string,
   apiAgent: ReturnType<typeof createAgent>
-): Promise<Nast.Block> {
+): Promise<NAST.Block> {
 
   const allBlocks = await getAllBlocksInOnePage(pageId, apiAgent)
   return makeBlockArrayIntoTree(allBlocks, apiAgent)
@@ -118,18 +119,18 @@ role is none`)
 async function makeBlockArrayIntoTree(
   blocks: Block[],
   apiAgent: ReturnType<typeof createAgent>
-): Promise<Nast.Block> {
+): Promise<NAST.Block> {
 
-  /* Transform Notion Block to Nast.Block */
+  /* Transform Notion Block to NAST.Block */
   const nastBlocks = await Promise.all(blocks
     .map((block) => {
       return transformBlock(block, apiAgent)
     }))
 
   /* A map <block id, reference in nastBlocks> */
-  const nastBlockMap: { [key: string]: Nast.Block } = {}
+  const nastBlockMap: { [key: string]: NAST.Block } = {}
   for (let i = 0; i < nastBlocks.length; ++i) {
-    nastBlockMap[nastBlocks[i].id] = nastBlocks[i]
+    nastBlockMap[nastBlocks[i].uri] = nastBlocks[i]
   }
 
   /* The tree's root is always the first. */
@@ -148,7 +149,7 @@ async function makeBlockArrayIntoTree(
     if (!childrenIds) continue
 
     childrenIds.forEach(id => {
-      const childNastBlock = nastBlockMap[id]
+      const childNastBlock = nastBlockMap[getBlockUri(id)]
       if (childNastBlock) nastBlocks[i].children.push(childNastBlock)
     })
 

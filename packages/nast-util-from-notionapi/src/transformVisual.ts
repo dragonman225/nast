@@ -1,10 +1,9 @@
 /** Import scripts. */
-import { getBlockColor, convertImageUrl } from "./utils"
+import { getBlockUri, getBlockColor, convertImageUrl } from "./util"
 
 /** Import types. */
 import * as NotionBlockEmbed from "notionapi-agent/dist/interfaces/notion-models/block/Embed"
 import * as NotionBlockMedia from "notionapi-agent/dist/interfaces/notion-models/block/Media"
-import * as NAST from "../nast"
 
 function isDirectVideo(url?: string): boolean {
   if (url)
@@ -21,8 +20,8 @@ async function transformVisual(
   const format = node.format || {}
   return {
     children: [],
-    id: node.id,
-    type: (function () {
+    uri: getBlockUri(node),
+    type: (function (): "image" | "video" | "embed" {
       if (node.type === "image")
         return "image"
       else if (node.type === "video" && node.format
@@ -32,13 +31,13 @@ async function transformVisual(
         return "embed"
     })(),
     color: getBlockColor(node),
-    source: (function () {
+    source: (function (): string {
       if (node.type === "image")
         return convertImageUrl(format.display_source || "#", format.block_width)
       else
         return format.display_source || "#"
     })(),
-    caption: (function () {
+    caption: (function (): NAST.SemanticString[] | undefined {
       if (node.type === "image" || node.type === "video")
         return node.properties ? node.properties.caption : undefined
       else

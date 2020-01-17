@@ -1,26 +1,27 @@
 /** Import scripts. */
-import { log } from "./utils"
-import transformAudio from "./transformers/transformAudio"
-import transformBookmark from "./transformers/transformBookmark"
-import transformBreadcrumb from "./transformers/transformBreadcrumb"
-import transformBulletedList from "./transformers/transformBulletedList"
-import transformCallout from "./transformers/transformCallout"
-import transformCode from "./transformers/transformCode"
-import transformCollection from "./transformers/transformCollection"
-import transformColumn from "./transformers/transformColumn"
-import transformColumnList from "./transformers/transformColumnList"
-import transformDivider from "./transformers/transformDivider"
-import transformEquation from "./transformers/transformEquation"
-import transformFile from "./transformers/transformFile"
-import transformHeading from "./transformers/transformHeading"
-import transformNumberedList from "./transformers/transformNumberedList"
-import transformPage from "./transformers/transformPage"
-import transformQuote from "./transformers/transformQuote"
-import transformTableOfContent from "./transformers/transformTableOfContent"
-import transformText from "./transformers/transformText"
-import transformToDo from "./transformers/transformToDo"
-import transformToggle from "./transformers/transformToggle"
-import transformVisual from "./transformers/transformVisual"
+import { log } from "./log"
+import { getBlockUri } from "./util"
+import transformAudio from "./transformAudio"
+import transformBookmark from "./transformBookmark"
+import transformBreadcrumb from "./transformBreadcrumb"
+import transformBulletedList from "./transformBulletedList"
+import transformCallout from "./transformCallout"
+import transformCode from "./transformCode"
+import transformCollection from "./transformCollection"
+import transformColumn from "./transformColumn"
+import transformColumnList from "./transformColumnList"
+import transformDivider from "./transformDivider"
+import transformEquation from "./transformEquation"
+import transformFile from "./transformFile"
+import transformHeading from "./transformHeading"
+import transformNumberedList from "./transformNumberedList"
+import transformPage from "./transformPage"
+import transformQuote from "./transformQuote"
+import transformTableOfContent from "./transformTableOfContent"
+import transformText from "./transformText"
+import transformToDo from "./transformToDo"
+import transformToggle from "./transformToggle"
+import transformVisual from "./transformVisual"
 
 /** Import types. */
 import { createAgent } from "notionapi-agent"
@@ -41,7 +42,6 @@ import {
 import {
   Audio, Bookmark, Code, File, Image, Video
 } from "notionapi-agent/dist/interfaces/notion-models/block/Media"
-import * as NAST from "./nast"
 
 async function transformBlock(
   node: Block,
@@ -171,7 +171,7 @@ async function transformBlock(
       nastNode = new Promise((resolve) => {
         resolve({
           children: [],
-          id: node.id,
+          uri: getBlockUri(node),
           type: node.type
         })
       })

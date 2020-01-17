@@ -1,16 +1,15 @@
 /** Import scripts. */
-import { getBlockColor } from "./utils"
+import { getBlockUri, getBlockColor } from "./util"
 
 /** Import types. */
 import * as NotionBlockBasic from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
-import * as NAST from "../nast"
 
 async function transformColumn(
   node: NotionBlockBasic.Column
 ): Promise<NAST.Column> {
   return {
     children: [],
-    id: node.id,
+    uri: getBlockUri(node),
     type: "column",
     color: getBlockColor(node),
     ratio: node.format

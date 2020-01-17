@@ -1,11 +1,10 @@
 import transformPage from "./transformPage"
-import { getBlockColor, convertImageUrl } from "./utils"
+import { getBlockUri, getBlockColor, convertImageUrl } from "./util"
 
 import { createAgent } from "notionapi-agent"
 import * as NotionBlockBasic from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
 import * as NotionBlockDatabase from "notionapi-agent/dist/interfaces/notion-models/block/Database"
 import { CollectionView } from "notionapi-agent/dist/interfaces/notion-models"
-import * as NAST from "../nast"
 
 async function transformCollection(
   node: NotionBlockDatabase.CollectionViewInline
@@ -62,7 +61,7 @@ async function transformCollection(
   if (node.type === "collection_view") {
     return {
       children: await Promise.all(pages.map(page => transformPage(page))),
-      id: blockId,
+      uri: getBlockUri(node),
       type: "collection_inline",
       color: getBlockColor(node),
       name: collection.name || [["Untitled"]],
@@ -74,7 +73,7 @@ async function transformCollection(
   } else {
     return {
       children: await Promise.all(pages.map(page => transformPage(page))),
-      id: blockId,
+      uri: getBlockUri(node),
       type: "collection_page",
       color: getBlockColor(node),
       name: collection.name || [["Untitled"]],
