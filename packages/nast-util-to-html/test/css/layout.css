@@ -37,7 +37,7 @@ li {
   position: absolute;
   top: 0;
   right: 0;
-  /* Firefox need this while Chrome doesn't. */
+  /* Firefox need this while Chrome does not. */
   left: 0;
   z-index: -1;
 }
@@ -48,7 +48,7 @@ li {
   object-fit: cover;
 }
 
-/* On Android Firefox, emoji can't be displayed if font-size > 77px. */
+/* On Android Firefox, emoji can not be displayed if font-size > 77px. */
 
 .page-icon {
   line-height: 1.1;
@@ -217,7 +217,7 @@ li {
   border-radius: 3px;
   white-space: nowrap;
   display: inline-block;
-  margin: 3px 0; /* margin of inline-block doesn't collapse */
+  margin: 3px 0; /* margin of inline-block does not collapse */
   margin-right: 6px;
 }
 
@@ -270,7 +270,7 @@ li {
 /* This is the key to make the layout robust. */
 .collection-view-gallery .gird-item-content > div {
   /* grid-item-title has padding-top 8px, padding-bottom 10px, and its line-height.
-     Since we can't get line-height with CSS, so just assign a large enough value. */
+     Since we can not get line-height with CSS, so just assign a large enough value. */
   height: calc(100% - 18px - 2rem);
 }
 

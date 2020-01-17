@@ -1,5 +1,5 @@
-import { NAST_BLOCK_TYPES } from '../constants'
-import { renderChildren, renderBlock, renderTitle } from '../render-utils'
+import { NAST_BLOCK_TYPES } from "../constants"
+import { renderChildren, renderBlock, renderTitle } from "../render-utils"
 
 function renderList(
   node: NAST.Block,
@@ -20,7 +20,7 @@ function renderBulletedList(
   })
   let html = `\
 <ul>
-  ${listItemsHTML.join('')}
+  ${listItemsHTML.join("")}
 </ul>`
   return html
 }
@@ -34,7 +34,7 @@ function renderNumberedList(
   })
   let html = `\
 <ol>
-  ${listItemsHTML.join('')}
+  ${listItemsHTML.join("")}
 </ol>`
   return html
 }
@@ -43,11 +43,11 @@ function renderListItem(
   node: NAST.BulletedList | NAST.NumberedList,
   renderNext: Function
 ): string {
-  let content = renderTitle(node.title, false, '')
+  let content = renderTitle(node.title, false, "")
 
   /**
    * Without ul, some content become out of container.
-   * But ul has its own indent padding, so we don't need the indent class.
+   * But ul has its own indent padding, so we don"t need the indent class.
    */
   let html = `\
 <li>

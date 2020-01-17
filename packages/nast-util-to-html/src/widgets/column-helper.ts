@@ -1,6 +1,6 @@
-import { NAST_BLOCK_TYPES } from '../constants'
-import { raiseWarning } from '../log-utils'
-import { renderChildren } from '../render-utils'
+import { NAST_BLOCK_TYPES } from "../constants"
+import { raiseWarning } from "../log-utils"
+import { renderChildren } from "../render-utils"
 
 function renderColumnList(
   node: NAST.ColumnList,
@@ -13,7 +13,7 @@ function renderColumnList(
 
   let html = `\
 <div class="${NAST_BLOCK_TYPES.columnList}" style="display: flex; flex-wrap: wrap;">
-  ${columnArrHTML.join('')}
+  ${columnArrHTML.join("")}
 </div>`
 
   return html
@@ -27,11 +27,11 @@ function renderColumn(
 ) {
   if (node.type !== NAST_BLOCK_TYPES.column) {
     raiseWarning(`Non-column node in column_list. Block ID: ${node.id}`)
-    return ''
+    return ""
   }
 
   let columnSpacing = 46
-  let margin = isFirst ? '' : `margin-left: ${columnSpacing}px;`
+  let margin = isFirst ? "" : `margin-left: ${columnSpacing}px;`
   let columnRatio = node.ratio
   let width = `width: calc((100% - ${columnSpacing * (numOfColumns - 1)}px) * ${columnRatio});`
 

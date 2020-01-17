@@ -1,10 +1,10 @@
 import { DateTime } from "notionapi-agent/dist/interfaces/notion-models";
 
-import { NAST_BLOCK_TYPES, COLOR } from './constants'
-import renderCode from './render-utils-prismjs'
-import { getBookmarkLinkFromNotionPageURL } from './notion-utils'
-import { raiseWarning } from './log-utils'
-import { CSS } from './constants'
+import { NAST_BLOCK_TYPES, COLOR } from "./constants"
+import renderCode from "./render-utils-prismjs"
+import { getBookmarkLinkFromNotionPageURL } from "./notion-utils"
+import { raiseWarning } from "./log-utils"
+import { CSS } from "./constants"
 
 /**
  * Render children nodes.
@@ -20,12 +20,12 @@ function renderChildren(
   let childrenHTMLArr = nodeArray.map(node => {
     /** PseudoBlock does not have id! */
     let html = `\
-<div ${node.id ? `id="${node.id}"` : ''}>
+<div ${node.id ? `id="${node.id}"` : ""}>
   ${renderNext(node)}
 </div>`
     return html
   })
-  return childrenHTMLArr.join('')
+  return childrenHTMLArr.join("")
 }
 
 /**
@@ -38,9 +38,9 @@ function renderChildren(
 function renderBlock(
   node: NAST.Block,
   contentHTML: string,
-  tag: string = 'div'
+  tag: string = "div"
 ): string {
-  let blockColorClass = node.color ? renderColor(node.color) : ''
+  let blockColorClass = node.color ? renderColor(node.color) : ""
   let html = `\
 <${tag} class="${CSS.blockClass} ${CSS.blockClass}--${node.type} ${blockColorClass}">
   ${contentHTML}
@@ -77,7 +77,7 @@ function renderTitle(
   })
 
   let html = `\
-<span style="white-space: pre-wrap;">${textArr.join('')}</span>`
+<span style="white-space: pre-wrap;">${textArr.join("")}</span>`
   return html
 }
 
@@ -96,45 +96,45 @@ function renderSemanticString(
   for (let i = styles.length - 1; i >= 0; --i) {
     switch (styles[i][0]) {
       /* Bold */
-      case 'b':
+      case "b":
         html = `<strong>${html}</strong>`
         break
       /* Italic */
-      case 'i':
+      case "i":
         html = `<em>${html}</em>`
         break
       /* Strike */
-      case 's':
+      case "s":
         html = `<del>${html}</del>`
         break
       /* Link */
-      case 'a':
+      case "a":
         html = `<a href="${getBookmarkLinkFromNotionPageURL(styles[i][1] as string)}">${html}</a>`
         break
       /* Inline Code */
-      case 'c':
+      case "c":
         html = `<code>${html}</code>`
         break
       /* Color or Background Color */
-      case 'h':
+      case "h":
         let color = styles[i][1] as string
         html = `<span class="${renderColor(color)}">${html}</span>`
         break
       /* Inline Mention User */
-      case 'u':
+      case "u":
         html = `<span class="color-mention">@user_id:${styles[i][1]}</span>`
         break
       /* Inline Mention Page */
-      case 'p':
+      case "p":
         html = `<span class="color-mention">@page_id:${styles[i][1]}</span>`
         break
       /* Inline Mention Date */
-      case 'd':
+      case "d":
         const date = new Date((styles[i][1] as DateTime).start_date)
         html = `<span class="color-mention">@${date.getUTCFullYear()}/${date.getUTCMonth() + 1}/${date.getUTCDate()}</span>`
         break
       /* Comment */
-      case 'm':
+      case "m":
         html = `<span class="color-comment">${html}</span>`
         break
       default:
@@ -158,41 +158,41 @@ function renderColor(
   const colorBgPrefix = CSS.bgColorClassPrefix
   switch (str) {
     case COLOR.gray:
-      return colorPrefix + 'gray'
+      return colorPrefix + "gray"
     case COLOR.brown:
-      return colorPrefix + 'brown'
+      return colorPrefix + "brown"
     case COLOR.orange:
-      return colorPrefix + 'orange'
+      return colorPrefix + "orange"
     case COLOR.yellow:
-      return colorPrefix + 'yellow'
+      return colorPrefix + "yellow"
     case COLOR.green:
-      return colorPrefix + 'green'
+      return colorPrefix + "green"
     case COLOR.blue:
-      return colorPrefix + 'blue'
+      return colorPrefix + "blue"
     case COLOR.purple:
-      return colorPrefix + 'purple'
+      return colorPrefix + "purple"
     case COLOR.pink:
-      return colorPrefix + 'pink'
+      return colorPrefix + "pink"
     case COLOR.red:
-      return colorPrefix + 'red'
+      return colorPrefix + "red"
     case COLOR.grayBg:
-      return colorBgPrefix + 'gray'
+      return colorBgPrefix + "gray"
     case COLOR.brownBg:
-      return colorBgPrefix + 'brown'
+      return colorBgPrefix + "brown"
     case COLOR.orangeBg:
-      return colorBgPrefix + 'orange'
+      return colorBgPrefix + "orange"
     case COLOR.yellowBg:
-      return colorBgPrefix + 'yellow'
+      return colorBgPrefix + "yellow"
     case COLOR.greenBg:
-      return colorBgPrefix + 'green'
+      return colorBgPrefix + "green"
     case COLOR.blueBg:
-      return colorBgPrefix + 'blue'
+      return colorBgPrefix + "blue"
     case COLOR.purpleBg:
-      return colorBgPrefix + 'purple'
+      return colorBgPrefix + "purple"
     case COLOR.pinkBg:
-      return colorBgPrefix + 'pink'
+      return colorBgPrefix + "pink"
     case COLOR.redBg:
-      return colorBgPrefix + 'red'
+      return colorBgPrefix + "red"
     default:
       return str
   }
@@ -206,28 +206,28 @@ function renderColor(
 function escapeString(
   str: string
 ): string {
-  let character, escapedString = ''
+  let character, escapedString = ""
 
   for (let i = 0; i < str.length; ++i) {
     character = str.charAt(i)
     switch (character) {
-      case '<':
-        escapedString += '&lt;'
+      case "<":
+        escapedString += "&lt;"
         break
-      case '>':
-        escapedString += '&gt;'
+      case ">":
+        escapedString += "&gt;"
         break
-      case '&':
-        escapedString += '&amp;'
+      case "&":
+        escapedString += "&amp;"
         break
-      case '/':
-        escapedString += '&#x2F;'
+      case "/":
+        escapedString += "&#x2F;"
         break
-      case '"':
-        escapedString += '&quot;'
+      case """:
+        escapedString += "&quot;"
         break
-      case '\'':
-        escapedString += '&#x27;'
+      case "\"":
+        escapedString += "&#x27;"
         break
       default:
         escapedString += character
@@ -239,7 +239,7 @@ function escapeString(
 
 /**
  * Add BulletedList and NumberedList helper blocks to the tree, 
- * so it's easier to render.
+ * so it"s easier to render.
  * @param treeRoot 
  */
 function preRenderTransform(
@@ -261,7 +261,7 @@ function preRenderTransform(
      * the new tree meet the NAST spec.
      */
     let dummyBlock = {
-      id: '',
+      id: "",
       createdTime: 0,
       lastEditedTime: 0
     }
@@ -318,7 +318,7 @@ function renderIconToHTML(icon: string) {
   if (re.test(icon)) {
     return `<span><img class="inline-img-icon" src="${icon}"></span>`
   } else {
-    return icon ? `<span>${icon}</span>` : ''
+    return icon ? `<span>${icon}</span>` : ""
   }
 }
 

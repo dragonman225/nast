@@ -1,12 +1,12 @@
-import { CSS } from '../constants'
-import { renderBlock, renderChildren, renderTitle } from '../render-utils'
+import { CSS } from "../constants"
+import { renderBlock, renderChildren, renderTitle } from "../render-utils"
 
 function renderToggle(
   node: NAST.Toggle,
   renderNext: Function
 ) {
-  let content = renderTitle(node.title, false, '')
-  let block = renderBlock(node, content, 'summary')
+  let content = renderTitle(node.title, false, "")
+  let block = renderBlock(node, content, "summary")
   let html = `\
 <details>
   ${block}

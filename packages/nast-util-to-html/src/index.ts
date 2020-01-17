@@ -1,7 +1,7 @@
-import * as NAST from 'nast' // Must be imported once.
+import * as NAST from "nast" // Must be imported once.
 
-import { renderRoot, renderNode } from './render-control'
-import { renderTitle, renderChildren, preRenderTransform } from './render-utils'
+import { renderRoot, renderNode } from "./render-control"
+import { renderTitle, renderChildren, preRenderTransform } from "./render-utils"
 
 type RenderOptions = {
   /** Ignore the root node */
@@ -27,7 +27,7 @@ function renderToHTML(
   } else {
     /** Otherwise, a tree */
     const tree = data
-    const contentOnly = typeof options.contentOnly !== 'undefined'
+    const contentOnly = typeof options.contentOnly !== "undefined"
       ? options.contentOnly : false
 
     /** Transform the tree if necessary so that it can be rendered */

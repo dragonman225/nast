@@ -1,41 +1,41 @@
-import { NAST_BLOCK_TYPES } from './constants'
-import { renderChildren, renderIconToHTML } from './render-utils'
-import { raiseWarning } from './log-utils'
+import { NAST_BLOCK_TYPES } from "./constants"
+import { renderChildren, renderIconToHTML } from "./render-utils"
+import { raiseWarning } from "./log-utils"
 
-import renderAudio from './widgets/audio'
-import renderBookmark from './widgets/bookmark'
-import renderCallout from './widgets/callout'
-import renderCode from './widgets/code'
-import renderCollection from './widgets/collection'
-import renderColumnList from './widgets/column-helper'
-import renderDivider from './widgets/divider'
-import renderEmbed from './widgets/embed'
-import renderEquation from './widgets/equation'
-import renderHeading from './widgets/heading'
-import renderImage from './widgets/image'
-import renderList from './widgets/list'
-import renderQuote from './widgets/quote'
-import renderText from './widgets/text'
-import renderToDo from './widgets/to-do'
-import renderToggle from './widgets/toggle'
+import renderAudio from "./widgets/audio"
+import renderBookmark from "./widgets/bookmark"
+import renderCallout from "./widgets/callout"
+import renderCode from "./widgets/code"
+import renderCollection from "./widgets/collection"
+import renderColumnList from "./widgets/column-helper"
+import renderDivider from "./widgets/divider"
+import renderEmbed from "./widgets/embed"
+import renderEquation from "./widgets/equation"
+import renderHeading from "./widgets/heading"
+import renderImage from "./widgets/image"
+import renderList from "./widgets/list"
+import renderQuote from "./widgets/quote"
+import renderText from "./widgets/text"
+import renderToDo from "./widgets/to-do"
+import renderToggle from "./widgets/toggle"
 
 /**
  * Render with given root node.
  */
-function renderRoot(node: NAST.Block, elemClass = 'nast-document'): string {
+function renderRoot(node: NAST.Block, elemClass = "nast-document"): string {
   /**
    * The root node can be any type of block, if it's a "page" block it 
    * will be treated specially.
    */
-  if (node.type === 'page') {
+  if (node.type === "page") {
     /**
      * To solve the casting error:
-     * If this was intentional, convert the expression to 'unknown' first.
+     * If this was intentional, convert the expression to "unknown" first.
      * The following is what that means.
      */
     let pageNode = node as unknown as NAST.Page
     let title = pageNode.title
-    let icon = pageNode.icon ? pageNode.icon : ''
+    let icon = pageNode.icon ? pageNode.icon : ""
     let cover = pageNode.cover
     let fullWidth = pageNode.fullWidth
     let coverPosition = (1 - pageNode.coverPosition) * 100
@@ -43,7 +43,7 @@ function renderRoot(node: NAST.Block, elemClass = 'nast-document'): string {
     let containerClass = fullWidth
       ? `${elemClass}-full` : `${elemClass}`
 
-    let coverDiv = ''
+    let coverDiv = ""
     if (pageNode.cover != null) {
       coverDiv = `\
 <div class="page-cover">
@@ -69,7 +69,7 @@ function renderRoot(node: NAST.Block, elemClass = 'nast-document'): string {
 }
 
 function renderNode(node: NAST.Block): string {
-  let html = ''
+  let html = ""
 
   switch (node.type) {
     case NAST_BLOCK_TYPES.text:

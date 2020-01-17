@@ -1,5 +1,5 @@
-import katex from 'katex'
-import { renderBlock } from '../render-utils'
+import katex from "katex"
+import { renderBlock } from "../render-utils"
 
 function renderEquation(
   node: NAST.Equation

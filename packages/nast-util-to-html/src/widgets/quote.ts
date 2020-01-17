@@ -1,11 +1,11 @@
-import { renderBlock, renderTitle } from '../render-utils'
+import { renderBlock, renderTitle } from "../render-utils"
 
 function renderQuote(
   node: NAST.Quote
 ): string {
   let content = `\
 <blockquote>
-  ${renderTitle(node.title, false, '')}
+  ${renderTitle(node.title, false, "")}
 </blockquote>`
   return renderBlock(node, content)
 }

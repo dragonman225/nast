@@ -1,7 +1,7 @@
-const { Logger } = require('@dnpr/logger')
+import { Logger } from "@dnpr/logger"
 
 /** Default log level is "warn". */
-const log = new Logger('nast-util-to-html')
+const log = new Logger("nast-util-to-html")
 
 function raiseWarning(..._arguments: any[]) {
   log.warn.apply(log, _arguments)

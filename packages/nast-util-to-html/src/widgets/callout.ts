@@ -1,9 +1,9 @@
-import { renderBlock, renderTitle } from '../render-utils'
+import { renderBlock, renderTitle } from "../render-utils"
 
 function renderCallout(
   node: NAST.Callout
 ): string {
-  let iconHTML = /^http/.test(node.icon || '')
+  let iconHTML = /^http/.test(node.icon || "")
     ? `<img src="${node.icon}" style="height: 1.5em;">` : node.icon
 
   let content = `\
@@ -11,7 +11,7 @@ function renderCallout(
   ${iconHTML}
 </div>
 <div style="margin-left: 8px;">
-  ${renderTitle(node.title, false, '')}
+  ${renderTitle(node.title, false, "")}
 </div>`
 
   return renderBlock(node, content)

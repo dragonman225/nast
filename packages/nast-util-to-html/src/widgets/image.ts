@@ -1,13 +1,13 @@
-import { renderBlock, renderTitle } from '../render-utils'
+import { renderBlock, renderTitle } from "../render-utils"
 
 function renderImage(
   node: NAST.Image
 ): string {
-  let width = node.fullWidth ? '100%' : `${node.width}px`
+  let width = node.fullWidth ? "100%" : `${node.width}px`
   let source = node.source
 
   /** 
-   * Some images are hosted by Notion.so so the urls doesn't start with 
+   * Some images are hosted by Notion.so so the urls doesn"t start with 
    * http / https, we need to convert them.
    */
   let re = /^http/

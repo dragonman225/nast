@@ -1,10 +1,10 @@
-import { CSS } from '../constants'
-import { renderColor, renderTitle } from '../render-utils'
+import { CSS } from "../constants"
+import { renderColor, renderTitle } from "../render-utils"
 
 function renderHeading(node: NAST.Heading): string {
-  let blockColorClass = node.color ? renderColor(node.color) : ''
-  let textHTML = renderTitle(node.title, false, '')
-  let content = ''
+  let blockColorClass = node.color ? renderColor(node.color) : ""
+  let textHTML = renderTitle(node.title, false, "")
+  let content = ""
 
   if (node.depth < 6 && node.depth > 0) {
     content = `<h${node.depth + 1}>${textHTML}</h${node.depth + 1}>`

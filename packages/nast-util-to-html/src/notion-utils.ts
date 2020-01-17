@@ -1,5 +1,5 @@
-const dashIDLen = '0eeee000-cccc-bbbb-aaaa-123450000000'.length
-const noDashIDLen = '0eeee000ccccbbbbaaaa123450000000'.length
+const dashIDLen = "0eeee000-cccc-bbbb-aaaa-123450000000".length
+const noDashIDLen = "0eeee000ccccbbbbaaaa123450000000".length
 
 function getPageIDFromNotionDatabaseURL(str: string) {
   const re = /https:\/\/www.notion.so\/([\da-f]+)\?v=([\da-f]+)/
@@ -25,9 +25,9 @@ function getBookmarkLinkFromNotionPageURL(str: string | undefined) {
 }
 
 function getPageIDFromNotionPageURL(str: string) {
-  let lastStrInUrl = str.split('/').pop()
+  let lastStrInUrl = str.split("/").pop()
   let pageID = lastStrInUrl
-    ? lastStrInUrl.split('-').pop() : ''
+    ? lastStrInUrl.split("-").pop() : ""
 
   if (pageID && pageID.length === noDashIDLen) {
     return toDashID(pageID)
@@ -41,13 +41,13 @@ function toDashID(str: string) {
     return str
   }
 
-  let s = str.replace(/-/g, '')
+  let s = str.replace(/-/g, "")
 
   if (s.length !== noDashIDLen) {
     return str
   }
 
-  let res = str.substring(0, 8) + '-' + str.substring(8, 12) + '-' + str.substring(12, 16) + '-' + str.substring(16, 20) + '-' + str.substring(20)
+  let res = str.substring(0, 8) + "-" + str.substring(8, 12) + "-" + str.substring(12, 16) + "-" + str.substring(16, 20) + "-" + str.substring(20)
   return res
 }
 
@@ -56,7 +56,7 @@ function isValidDashID(str: string) {
     return false
   }
 
-  if (str.indexOf('-') === -1) {
+  if (str.indexOf("-") === -1) {
     return false
   }
 
