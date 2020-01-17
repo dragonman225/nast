@@ -1,9 +1,9 @@
 /** Import scripts. */
-import { getBlockColor } from './utils'
+import { getBlockColor } from "./utils"
 
 /** Import types. */
 import * as NotionBlockBasic from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
-import * as NAST from '../nast'
+import * as NAST from "../nast"
 
 async function transformBulletedList(
   node: NotionBlockBasic.BulletedList
@@ -11,7 +11,7 @@ async function transformBulletedList(
   return {
     children: [],
     id: node.id,
-    type: 'bulleted_list',
+    type: "bulleted_list",
     color: getBlockColor(node),
     title: node.properties ? node.properties.title || [] : []
   }

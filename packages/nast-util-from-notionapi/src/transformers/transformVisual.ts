@@ -1,12 +1,12 @@
 /** Import scripts. */
-import { getBlockColor, convertImageUrl } from './utils'
+import { getBlockColor, convertImageUrl } from "./utils"
 
 /** Import types. */
 import * as NotionBlockEmbed from "notionapi-agent/dist/interfaces/notion-models/block/Embed"
 import * as NotionBlockMedia from "notionapi-agent/dist/interfaces/notion-models/block/Media"
-import * as NAST from '../nast'
+import * as NAST from "../nast"
 
-function isDirectVideo(url?: string) {
+function isDirectVideo(url?: string): boolean {
   if (url)
     return /\.mp4|\.ogg|\.webm/.test(url)
   else
@@ -46,12 +46,12 @@ async function transformVisual(
     })(),
     width: format.block_width || -1,
     height: format.block_height || -1,
-    fullWidth: typeof format.block_full_width !== 'undefined'
+    fullWidth: typeof format.block_full_width !== "undefined"
       ? format.block_full_width : false,
-    pageWidth: typeof format.block_page_width !== 'undefined'
+    pageWidth: typeof format.block_page_width !== "undefined"
       ? format.block_page_width : true,
     aspectRatio: format.block_aspect_ratio || -1,
-    preserveScale: typeof format.block_preserve_scale !== 'undefined'
+    preserveScale: typeof format.block_preserve_scale !== "undefined"
       ? format.block_preserve_scale : true
   }
 }

@@ -1,4 +1,4 @@
-import { Block } from 'notionapi-agent/dist/interfaces/notion-models'
+import { Block } from "notionapi-agent/dist/interfaces/notion-models"
 
 function getBlockColor(
   node: Block
@@ -39,7 +39,7 @@ function convertImageUrl(
   let rUrl
 
   if (prefixS3.test(url)) {
-    const cleanUrl = url.split('?')[0].replace('s3.us-west', 's3-us-west')
+    const cleanUrl = url.split("?")[0].replace("s3.us-west", "s3-us-west")
     rUrl = `https://notion.so/image/${encodeURIComponent(cleanUrl)}`
   } else if (prefixBuiltIn.test(url)) {
     rUrl = `https://notion.so${url}`

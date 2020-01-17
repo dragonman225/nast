@@ -1,6 +1,6 @@
-const { Logger } = require('@dnpr/logger')
+const { Logger } = require("@dnpr/logger")
 
-const log = new Logger('nast-util-from-notionapi')
+const log = new Logger("nast-util-from-notionapi")
 
 /**
  * Failsafe JSON.parse() wrapper.

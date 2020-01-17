@@ -1,13 +1,13 @@
 /** Import scripts. */
-import { transformBlock } from './transformBlock'
-import { log } from './utils'
+import { transformBlock } from "./transformBlock"
+import { log } from "./utils"
 
 /** Import types. */
-import { createAgent } from 'notionapi-agent'
+import { createAgent } from "notionapi-agent"
 import { GetRecordValuesRequest } from "notionapi-agent/dist/interfaces/notion-api"
-import { Table, Block } from 'notionapi-agent/dist/interfaces/notion-models'
-import { Page } from 'notionapi-agent/dist/interfaces/notion-models/block/BasicBlock'
-import * as Nast from './nast'
+import { Table, Block } from "notionapi-agent/dist/interfaces/notion-models"
+import { Page } from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
+import * as Nast from "./nast"
 
 async function getOnePageAsTree(
   pageId: string,
@@ -27,7 +27,7 @@ async function getAllBlocksInOnePage(
    * getChildrenBlocks() does not download children of a page,
    * so we should get the page first.
    */
-  const request = generateGRVPayload([pageId], 'block')
+  const request = generateGRVPayload([pageId], "block")
   const response = await apiAgent.getRecordValues(request)
   const record = response.results[0]
 
@@ -78,7 +78,7 @@ async function getChildrenBlocks(
 ): Promise<Block[]> {
 
   /** Get children records with getRecordValues */
-  const request = generateGRVPayload(blockIds, 'block')
+  const request = generateGRVPayload(blockIds, "block")
   const response = await apiAgent.getRecordValues(request)
   const childrenRecords = response.results
 

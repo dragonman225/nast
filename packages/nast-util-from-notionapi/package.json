@@ -26,10 +26,10 @@
     "@typescript-eslint/parser": "^2.16.0",
     "dependency-cruiser": "^6.3.0",
     "eslint": "^6.8.0",
-    "notionapi-agent": "^1.0.1",
+    "notionapi-agent": "^1.0.4",
     "rollup": "^1.29.0",
     "ts-node": "^8.6.2",
-    "typescript": "^3.7.4",
+    "typescript": "^3.7.5",
     "zora": "^3.1.8"
   },
   "peerDependencies": {

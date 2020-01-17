@@ -1,9 +1,9 @@
 /** Import scripts. */
-import { getBlockColor } from './utils'
+import { getBlockColor } from "./utils"
 
 /** Import types. */
 import * as NotionBlockAdvanced from "notionapi-agent/dist/interfaces/notion-models/block/AdvancedBlock"
-import * as NAST from '../nast'
+import * as NAST from "../nast"
 
 async function transformBreadcrumb(
   node: NotionBlockAdvanced.Breadcrumb
@@ -11,7 +11,7 @@ async function transformBreadcrumb(
   return {
     children: [],
     id: node.id,
-    type: 'breadcrumb',
+    type: "breadcrumb",
     color: getBlockColor(node)
   }
 }
