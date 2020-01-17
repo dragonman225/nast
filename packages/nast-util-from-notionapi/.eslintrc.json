@@ -21,8 +21,19 @@
     "sourceType": "module"
   },
   "rules": {
+    "camelcase": "off",
+    "@typescript-eslint/camelcase": [
+      "off"
+    ],
     "indent": [
-      "error",
+      "warn",
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "@typescript-eslint/indent": [
+      "warn",
       2,
       {
         "SwitchCase": 1
@@ -41,13 +52,6 @@
       "never"
     ],
     "no-console": "off",
-    "@typescript-eslint/indent": [
-      "error",
-      2,
-      {
-        "SwitchCase": 1
-      }
-    ],
     "@typescript-eslint/no-use-before-define": [
       "error",
       {
