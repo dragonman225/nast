@@ -11,11 +11,11 @@ export type UUID = string
 export type URL = string
 export type SemanticString = NotionSemanticString
 
-export interface Parent {
-  children: Block[]
+export interface Parent<T> {
+  children: T[]
 }
 
-export interface Block extends Parent {
+export interface Block extends Parent<Block> {
   /**
    * An [RFC3986](https://tools.ietf.org/html/rfc3986) 
    * Uniform Resource Identifier.
