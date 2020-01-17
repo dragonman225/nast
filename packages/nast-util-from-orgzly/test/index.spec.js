@@ -9,12 +9,12 @@ const renderOpts = {
   bypassPreRenderTransform: true
 }
 
-const org = fs.readFileSync(path.join(__dirname, 'Test.org'), { encoding: 'utf-8' })
+const org = fs.readFileSync(path.join(__dirname, 'test.org'), { encoding: 'utf-8' })
 const nast = orgStringToNast(org)
-fs.writeFileSync(path.join(__dirname, 'Test.json'), JSON.stringify(nast), { encoding: 'utf-8' })
+fs.writeFileSync(path.join(__dirname, 'test.json'), JSON.stringify(nast), { encoding: 'utf-8' })
 const contentHTML = renderToHTML(nast, renderOpts)
 const page = renderPage('Test', contentHTML)
-fs.writeFileSync(path.join(__dirname, 'Test.html'), page, { encoding: 'utf-8' })
+fs.writeFileSync(path.join(__dirname, 'test.html'), page, { encoding: 'utf-8' })
 
 function renderPage(pageTitle, contentHTML) {
   const pageHTML = `\
