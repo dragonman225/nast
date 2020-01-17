@@ -16,7 +16,11 @@ export interface Parent {
 }
 
 export interface Block extends Parent {
-  id: UUID
+  /**
+   * An [RFC3986](https://tools.ietf.org/html/rfc3986) 
+   * Uniform Resource Identifier.
+   */
+  uri: string
   type: string
   color?: string
 }
@@ -148,6 +152,9 @@ export interface Column extends Block {
   ratio: number
 }
 
+/**
+ * Collection is experimental, containing many Notion-specific stuffs.
+ */
 export interface Collection extends Block {
   type: "collection_inline" | "collection_page"
   name: SemanticString[]
@@ -178,6 +185,11 @@ export interface BreadCrumb extends Block {
   type: "breadcrumb"
 }
 
+/** `fileId` is Notion-specific. */
 export interface File extends Block {
   type: "file"
+  fileId?: UUID
+  title: string
+  size?: string
+  source: string
 }
