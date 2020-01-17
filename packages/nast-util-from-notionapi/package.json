@@ -30,7 +30,8 @@
     "rollup": "^1.29.0",
     "ts-node": "^8.6.2",
     "typescript": "^3.7.5",
-    "zora": "^3.1.8"
+    "zora": "^3.1.8",
+    "nast-types": "^1.0.0"
   },
   "peerDependencies": {
     "notionapi-agent": "^0.7.2"

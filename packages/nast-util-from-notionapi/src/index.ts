@@ -7,7 +7,7 @@ import { createAgent } from "notionapi-agent"
 import { GetRecordValuesRequest } from "notionapi-agent/dist/interfaces/notion-api"
 import { Table, Block } from "notionapi-agent/dist/interfaces/notion-models"
 import { Page } from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
-import * as Nast from "./nast"
+import * as Nast from "nast-types"
 
 async function getOnePageAsTree(
   pageId: string,

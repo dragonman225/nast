@@ -1,4 +1,4 @@
-import * as NAST from "nast" // Must be imported once.
+import * as NAST from "nast-types" // Must be imported once.
 
 import { renderRoot, renderNode } from "./render-control"
 import { renderTitle, renderChildren, preRenderTransform } from "./render-utils"
