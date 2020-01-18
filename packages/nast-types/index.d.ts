@@ -1,26 +1,21 @@
 import {
-  SemanticString as NotionSemanticString, CollectionView
+  CollectionView
 } from "notionapi-agent/dist/interfaces/notion-models"
 import {
   CollectionSchema
 } from "notionapi-agent/dist/interfaces/notion-models/Collection"
 
-export as namespace NAST
+import { SemanticString } from "./SemanticString"
+import { URI, URL, UUID } from "./util"
 
-export type UUID = string
-export type URL = string
-export type SemanticString = NotionSemanticString
-
-export interface Parent<T> {
+interface Parent<T> {
   children: T[]
 }
 
+export as namespace NAST
+
 export interface Block extends Parent<Block> {
-  /**
-   * An [RFC3986](https://tools.ietf.org/html/rfc3986) 
-   * Uniform Resource Identifier.
-   */
-  uri: string
+  uri: URI
   type: string
   color?: string
 }
@@ -91,7 +86,7 @@ export interface Callout extends Block {
  * it can be decided by the renderer.
  */
 export interface Visual extends Block {
-  type: "embed" | "image" | "video"
+  type: "embed" | "pdf" | "image" | "video"
   source: URL
   caption?: SemanticString[]
   width: number
@@ -104,6 +99,10 @@ export interface Visual extends Block {
 
 export interface Embed extends Visual {
   type: "embed"
+}
+
+export interface PDF extends Visual {
+  type: "pdf"
 }
 
 export interface Image extends Visual {
@@ -193,3 +192,6 @@ export interface File extends Block {
   size?: string
   source: string
 }
+
+export * from "./SemanticString"
+export * from "./util"
