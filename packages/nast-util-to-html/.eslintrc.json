@@ -21,8 +21,19 @@
     "sourceType": "module"
   },
   "rules": {
+    "camelcase": "off",
+    "@typescript-eslint/camelcase": [
+      "off"
+    ],
     "indent": [
-      "error",
+      "warn",
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "@typescript-eslint/indent": [
+      "warn",
       2,
       {
         "SwitchCase": 1
@@ -33,21 +44,18 @@
       "unix"
     ],
     "quotes": [
-      "error",
-      "double"
+      "warn",
+      "double",
+      {
+        "avoidEscape": true,
+        "allowTemplateLiterals": true
+      }
     ],
     "semi": [
       "error",
       "never"
     ],
     "no-console": "off",
-    "@typescript-eslint/indent": [
-      "error",
-      2,
-      {
-        "SwitchCase": 1
-      }
-    ],
     "@typescript-eslint/no-use-before-define": [
       "error",
       {
@@ -67,6 +75,9 @@
           "requireLast": false
         }
       }
+    ],
+    "@typescript-eslint/no-var-requires": [
+      "off"
     ]
   },
   "overrides": [
