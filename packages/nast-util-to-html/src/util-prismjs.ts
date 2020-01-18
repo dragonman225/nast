@@ -5,7 +5,7 @@ const loadLanguages = require("prismjs/components/index")
 
 import Prism from "prismjs"
 
-import { escapeString } from "./render-utils"
+import { escapeString } from "./util"
 
 type LangMap = {
   [key: string]: string
@@ -161,7 +161,7 @@ const languages: LangMap = {
  * 
  * On regex101, we can export the matched groups as JSON.
  */
-let map: LangMap = {
+const map: LangMap = {
   "ABAP": "abap",
   "Arduino": "arduino",
   "Bash": "shell",
@@ -188,7 +188,7 @@ Object.entries(languages).forEach(pair => {
 })
 
 function renderCode(str: string, lang: string | undefined) {
-  let codeLang = getLangString(lang)
+  const codeLang = getLangString(lang)
   if (lang && codeLang) {
     /**
      * Prismjs will do char escape.

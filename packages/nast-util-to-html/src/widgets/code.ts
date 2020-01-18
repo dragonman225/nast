@@ -1,14 +1,11 @@
-import { renderBlock, renderTitle } from '../render-utils'
+import { renderBlock, renderSemanticStringArray } from "../util"
 
 function renderCode(
   node: NAST.Code
 ): string {
-  let content = `\
-<pre>
-  <code>
-${renderTitle(node.title, true, node.language)}
-  </code>
-</pre>`
+  const content = `\
+<pre><code>${renderSemanticStringArray(node.title, true, node.language)}\
+</code></pre>`
   return renderBlock(node, content)
 }
 

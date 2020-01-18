@@ -1,104 +1,63 @@
 import { NAST_BLOCK_TYPES } from "./constants"
-import { renderChildren, renderIconToHTML } from "./render-utils"
-import { raiseWarning } from "./log-utils"
+import { HTML, RenderContext } from "./interface"
 
 import renderAudio from "./widgets/audio"
 import renderBookmark from "./widgets/bookmark"
 import renderCallout from "./widgets/callout"
 import renderCode from "./widgets/code"
 import renderCollection from "./widgets/collection"
-import renderColumnList from "./widgets/column-helper"
+import renderColumnList from "./widgets/column"
 import renderDivider from "./widgets/divider"
 import renderEmbed from "./widgets/embed"
 import renderEquation from "./widgets/equation"
+import renderFile from "./widgets/file"
 import renderHeading from "./widgets/heading"
 import renderImage from "./widgets/image"
 import renderList from "./widgets/list"
+import renderPage from "./widgets/page"
+import renderPDF from "./widgets/pdf"
 import renderQuote from "./widgets/quote"
 import renderText from "./widgets/text"
 import renderToDo from "./widgets/to-do"
 import renderToggle from "./widgets/toggle"
+import renderVideo from "./widgets/video"
 
-/**
- * Render with given root node.
- */
-function renderRoot(node: NAST.Block, elemClass = "nast-document"): string {
-  /**
-   * The root node can be any type of block, if it's a "page" block it 
-   * will be treated specially.
-   */
-  if (node.type === "page") {
-    /**
-     * To solve the casting error:
-     * If this was intentional, convert the expression to "unknown" first.
-     * The following is what that means.
-     */
-    let pageNode = node as unknown as NAST.Page
-    let title = pageNode.title
-    let icon = pageNode.icon ? pageNode.icon : ""
-    let cover = pageNode.cover
-    let fullWidth = pageNode.fullWidth
-    let coverPosition = (1 - pageNode.coverPosition) * 100
-
-    let containerClass = fullWidth
-      ? `${elemClass}-full` : `${elemClass}`
-
-    let coverDiv = ""
-    if (pageNode.cover != null) {
-      coverDiv = `\
-<div class="page-cover">
-  <img src="${cover}" data-src="${cover}" style="object-position: center ${coverPosition}%">
-</div>`
-    }
-
-    return `\
-<div class="${containerClass}">
-  ${coverDiv}
-  <div id="${node.id}" class="page-title">
-    <span class="page-icon">${renderIconToHTML(icon)}</span>
-    <h1>${title}</h1>
-  </div>
-  ${renderChildren(node.children, renderNode)}
-</div>`
-  } else {
-    return `\
-<div class="${elemClass}">
-  ${renderNode(node)}
-</div>`
-  }
-}
-
-function renderNode(node: NAST.Block): string {
+function renderNode(node: NAST.Block, ctx: RenderContext): HTML {
   let html = ""
 
   switch (node.type) {
     case NAST_BLOCK_TYPES.text:
-      html = renderText(node as NAST.Text, renderNode)
+      html = renderText(node as NAST.Text, ctx, renderNodes)
       break
     case NAST_BLOCK_TYPES.heading:
       html = renderHeading(node as NAST.Heading)
       break
     case NAST_BLOCK_TYPES.columnList:
-      html = renderColumnList(node as NAST.ColumnList, renderNode)
+      html = renderColumnList(node as NAST.ColumnList, ctx, renderNodes)
       break
     case NAST_BLOCK_TYPES.bulletedList:
+      html = renderList(node as NAST.BulletedList, ctx, renderNodes)
+      break
+    case NAST_BLOCK_TYPES.file:
+      html = renderFile(node as NAST.File)
+      break
     case NAST_BLOCK_TYPES.numberedList:
-      html = renderList(node, renderNode)
+      html = renderList(node as NAST.NumberedList, ctx, renderNodes)
       break
     case NAST_BLOCK_TYPES.toggle:
-      html = renderToggle(node as NAST.Toggle, renderNode)
+      html = renderToggle(node as NAST.Toggle, ctx, renderNodes)
       break
     case NAST_BLOCK_TYPES.toDo:
-      html = renderToDo(node as NAST.ToDo, renderNode)
+      html = renderToDo(node as NAST.ToDo, ctx, renderNodes)
       break
     case NAST_BLOCK_TYPES.divider:
       html = renderDivider(node as NAST.Divider)
       break
     case NAST_BLOCK_TYPES.quote:
-      html = renderQuote(node as NAST.Quote)
+      html = renderQuote(node as NAST.Quote, ctx, renderNodes)
       break
     case NAST_BLOCK_TYPES.callout:
-      html = renderCallout(node as NAST.Callout)
+      html = renderCallout(node as NAST.Callout, ctx, renderNodes)
       break
     case NAST_BLOCK_TYPES.image:
       html = renderImage(node as NAST.Image)
@@ -107,8 +66,10 @@ function renderNode(node: NAST.Block): string {
       html = renderBookmark(node as NAST.Bookmark)
       break
     case NAST_BLOCK_TYPES.embed:
-    case NAST_BLOCK_TYPES.video:
       html = renderEmbed(node as NAST.Embed)
+      break
+    case NAST_BLOCK_TYPES.video:
+      html = renderVideo(node as NAST.Video)
       break
     case NAST_BLOCK_TYPES.audio:
       html = renderAudio(node as NAST.Audio)
@@ -123,14 +84,97 @@ function renderNode(node: NAST.Block): string {
     case NAST_BLOCK_TYPES.collectionPage:
       html = renderCollection(node as NAST.CollectionInline)
       break
+    case NAST_BLOCK_TYPES.page:
+      html = renderPage(node as NAST.Page)
+      break
+    case NAST_BLOCK_TYPES.pdf:
+      html = renderPDF(node as NAST.PDF)
+      break
     default:
-      raiseWarning(`No render function for block "${node.type}".`)
+      console.log(`No render function for block "${node.type}".`)
+  }
+
+  return html
+}
+
+function renderNodes(nodes: NAST.Block[], ctx: RenderContext): HTML {
+  let html = ""
+  let listState = "none"
+  let listCount = 0
+  for (let i = 0; i < nodes.length; i++) {
+
+    const node = nodes[i]
+
+    switch (listState) {
+      case "none": {
+        if (node.type === NAST_BLOCK_TYPES.bulletedList) {
+          listState = "in_bullet"
+          listCount = 1
+          html += "<ul>"
+        } else if (node.type === NAST_BLOCK_TYPES.numberedList) {
+          listState = "in_number"
+          listCount = 1
+          html += "<ol>"
+        } else {
+          listState = "none"
+          listCount = 0
+        }
+        break
+      }
+      case "in_bullet": {
+        if (node.type === NAST_BLOCK_TYPES.bulletedList) {
+          listState = "in_bullet"
+          listCount++
+        } else if (node.type === NAST_BLOCK_TYPES.numberedList) {
+          listState = "in_number"
+          listCount = 1
+          html += "</ul><ol>"
+        } else {
+          listState = "none"
+          listCount = 0
+          html += "</ul>"
+        }
+        break
+      }
+      case "in_number": {
+        if (node.type === NAST_BLOCK_TYPES.bulletedList) {
+          listState = "in_bullet"
+          listCount = 1
+          html += "</ol><ul>"
+        } else if (node.type === NAST_BLOCK_TYPES.numberedList) {
+          listState = "in_number"
+          listCount++
+        } else {
+          listState = "none"
+          listCount = 0
+          html += "</ol>"
+        }
+        break
+      }
+      default: {
+        listState = "none"
+        listCount = 0
+      }
+    }
+
+    html += renderNode(node, {
+      cssClass: ctx.cssClass,
+      depthFromRoot: ctx.depthFromRoot,
+      numberedListCount: listCount
+    })
+
+    /** If there is an active list, terminate it after the last child. */
+    if (i === nodes.length - 1) {
+      if (listState === "in_bullet") html += "</ul>"
+      else if (listState === "in_number") html += "</ol>"
+    }
+
   }
 
   return html
 }
 
 export {
-  renderRoot,
-  renderNode
+  renderNode,
+  renderNodes
 }

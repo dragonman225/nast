@@ -1,25 +1,19 @@
 import { CollectionView } from "notionapi-agent/dist/interfaces/notion-models"
 
 import { COLLECTION_VIEW_TYPES, COLLECTION_ITEM_PROPERTY_TYPES, CSS } from "../constants"
-import { raiseWarning } from "../log-utils"
-import { escapeString, renderTitle } from "../render-utils"
+import { escapeString, renderSemanticStringArray } from "../util"
 
 function renderCollection(
   node: NAST.Collection
 ): string {
-  let viewMeta = node.views.find(view => view.id === node.defaultViewId)
+  const viewMeta = node.views.find(view => view.id === node.defaultViewId)
 
   if (typeof viewMeta === "undefined") {
-    raiseWarning(`Cannot find view of ${node.defaultViewId}`)
+    console.log(`Cannot find view of ${node.defaultViewId}`)
     return ""
   }
 
-  let pages = node.children
-  // let sortQueries = viewMeta.query.sort
-  // if (sortQueries != null) {
-  //   let sortFunc = factorySortFunc(sortQueries)
-  //   pages = pages.sort(sortFunc)
-  // }
+  const pages = node.children
 
   switch (viewMeta.type) {
     case COLLECTION_VIEW_TYPES.table:
@@ -27,7 +21,7 @@ function renderCollection(
     case COLLECTION_VIEW_TYPES.gallery:
       return renderGallery(node, pages, viewMeta)
     default:
-      raiseWarning(`No render function for collection view "${viewMeta.type}".`)
+      console.log(`No render function for collection view "${viewMeta.type}".`)
       return ""
   }
 }
@@ -59,7 +53,7 @@ function renderTable(
         type: node.schema[colId].type,
         options: node.schema[colId].options
       }
-    });
+    })
 
   const theadHTML = viewSchema
     .map(col => `<th style="${col.width ? `width: ${col.width}px;` : ""}">${escapeString(col.name)}</th>`)
@@ -82,7 +76,7 @@ function renderTable(
           }
           case COLLECTION_ITEM_PROPERTY_TYPES.url:
           case COLLECTION_ITEM_PROPERTY_TYPES.text: {
-            return `<td class="${CSS.tableCellContentType.text}"><span>${renderTitle(pageProps[clctItemProp.id])}</span></td>`
+            return `<td class="${CSS.tableCellContentType.text}"><span>${renderSemanticStringArray(pageProps[clctItemProp.id])}</span></td>`
           }
           case COLLECTION_ITEM_PROPERTY_TYPES.select:
           case COLLECTION_ITEM_PROPERTY_TYPES.multiSelect: {
@@ -93,7 +87,7 @@ function renderTable(
               const option = (clctItemProp.options || []).find(o => o.value === optionName)
 
               if (!option) {
-                raiseWarning(`Select option "${optionName}" isn"t found on property "${clctItemProp.id}:${clctItemProp.name}".`)
+                console.log(`Select option "${optionName}" isn"t found on property "${clctItemProp.id}:${clctItemProp.name}".`)
                 return ""
               }
 
@@ -107,8 +101,8 @@ function renderTable(
             const checkboxVal = pageProps[clctItemProp.id]
             const checked = checkboxVal ? checkboxVal[0][0] === "Yes" : false
 
-            const checkedSvg = "<svg viewBox="0 0 14 14" style="width: 12px; height: 12px; display: block; fill: white; flex-shrink: 0; backface-visibility: hidden;" class="check"><polygon points="5.5 11.9993304 14 3.49933039 12.5 2 5.5 8.99933039 1.5 4.9968652 0 6.49933039"></polygon></svg>"
-            const unCheckedSvg = "<svg viewBox="0 0 16 16" style="width: 100%; height: 100%; display: block; flex-shrink: 0; backface-visibility: hidden;" class="checkboxSquare"><path d="M1.5,1.5 L1.5,14.5 L14.5,14.5 L14.5,1.5 L1.5,1.5 Z M0,0 L16,0 L16,16 L0,16 L0,0 Z"></path></svg>"
+            const checkedSvg = "<svg viewBox=\"0 0 14 14\" style=\"width: 12px; height: 12px; display: block; fill: white; flex-shrink: 0; backface-visibility: hidden;\" class=\"check\"><polygon points=\"5.5 11.9993304 14 3.49933039 12.5 2 5.5 8.99933039 1.5 4.9968652 0 6.49933039\"></polygon></svg>"
+            const unCheckedSvg = "<svg viewBox=\"0 0 16 16\" style=\"width: 100%; height: 100%; display: block; flex-shrink: 0; backface-visibility: hidden;\" class=\"checkboxSquare\"><path d=\"M1.5,1.5 L1.5,14.5 L14.5,14.5 L14.5,1.5 L1.5,1.5 Z M0,0 L16,0 L16,16 L0,16 L0,0 Z\"></path></svg>"
 
             if (checked) {
               return `<td class="${CSS.tableCellContentType.checkbox}"><div class="${CSS.checkBoxInTablePrefix}yes">${checkedSvg}</div></td>`
@@ -117,8 +111,8 @@ function renderTable(
             }
           }
           default:
-            raiseWarning(`Collection item property type "${clctItemProp.type}" hasn"t been implemented.`)
-            return `<td><span class="${CSS.tableCellContentType.text}">${renderTitle(pageProps[clctItemProp.id])}</span></td>`
+            console.log(`Collection item property type "${clctItemProp.type}" hasn"t been implemented.`)
+            return `<td><span class="${CSS.tableCellContentType.text}">${renderSemanticStringArray(pageProps[clctItemProp.id])}</span></td>`
         }
       })
 
@@ -147,14 +141,14 @@ function renderGallery(
   view: CollectionView
 ): string {
   const viewFormat = view.format
-  let title = escapeString(node.name[0][0])
-  let imageContain = viewFormat.gallery_cover_aspect
+  const title = escapeString(node.name[0][0])
+  const imageContain = viewFormat.gallery_cover_aspect
     ? viewFormat.gallery_cover_aspect === "contain" : false
 
-  let pagesHTMLArr = pages.map(page => {
+  const pagesHTMLArr = pages.map(page => {
     return `\
-<div id="${page.id}" class="grid-item">
-  <a href="https://www.notion.so/${page.id.replace(/-/g, "")}">
+<div id="${page.uri}" class="grid-item">
+  <a href="${page.uri}">
   <div class="gird-item-content">
     <div>
       <div class="grid-item-cover ${imageContain
@@ -170,7 +164,7 @@ function renderGallery(
 </div>`
   })
 
-  let galleryHTML = `\
+  const galleryHTML = `\
 <div class="collection-view-gallery">
   <h4>${title}</h4>
   <div class="grid">

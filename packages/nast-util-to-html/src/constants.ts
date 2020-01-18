@@ -14,15 +14,14 @@ const CSS = {
 
 const NAST_BLOCK_TYPES = {
   page: "page",
+  pdf: "pdf",
   heading: "heading",
   toDo: "to_do",
   toggle: "toggle",
   columnList: "column_list",
   column: "column",
-  bulletedListItem: "bulleted_list",
-  numberedListItem: "numbered_list",
-  bulletedList: "bulleted_list_wrapper",
-  numberedList: "numbered_list_wrapper",
+  bulletedList: "bulleted_list",
+  numberedList: "numbered_list",
   text: "text",
   code: "code",
   equation: "equation",
@@ -35,6 +34,7 @@ const NAST_BLOCK_TYPES = {
   video: "video",
   embed: "embed",
   audio: "audio",
+  file: "file",
   bookmark: "bookmark",
   collectionInline: "collection_inline",
   collectionPage: "collection_page"

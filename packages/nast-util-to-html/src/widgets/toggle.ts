@@ -1,17 +1,19 @@
 import { CSS } from "../constants"
-import { renderBlock, renderChildren, renderTitle } from "../render-utils"
+import { renderBlock, renderSemanticStringArray } from "../util"
+import { HTML, RenderContext, RenderNodes } from "../interface"
 
 function renderToggle(
   node: NAST.Toggle,
-  renderNext: Function
-) {
-  let content = renderTitle(node.title, false, "")
-  let block = renderBlock(node, content, "summary")
-  let html = `\
+  ctx: RenderContext,
+  renderChildren: RenderNodes
+): HTML {
+  const content = renderSemanticStringArray(node.title, false, "")
+  const block = renderBlock(node, content, "summary")
+  const html = `\
 <details>
   ${block}
   <div class="${CSS.blockIndentClass}">
-    ${renderChildren(node.children, renderNext)}
+    ${renderChildren(node.children, ctx)}
   </div>
 </details>`
   return html

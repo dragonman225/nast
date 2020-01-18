@@ -1,9 +1,9 @@
 import { CSS } from "../constants"
-import { renderColor, renderTitle } from "../render-utils"
+import { renderColor, renderSemanticStringArray } from "../util"
 
 function renderHeading(node: NAST.Heading): string {
-  let blockColorClass = node.color ? renderColor(node.color) : ""
-  let textHTML = renderTitle(node.title, false, "")
+  const blockColorClass = node.color ? renderColor(node.color) : ""
+  const textHTML = renderSemanticStringArray(node.title)
   let content = ""
 
   if (node.depth < 6 && node.depth > 0) {
@@ -12,10 +12,8 @@ function renderHeading(node: NAST.Heading): string {
     content = `<h6>${textHTML}</h6>`
   }
 
-  let html = `\
-<div class="${CSS.blockClass} ${blockColorClass}">
-  ${content}
-</div>`
+  const html = `\
+<div class="${CSS.blockClass} ${blockColorClass}">${content}</div>`
 
   return html
 }

@@ -1,9 +1,9 @@
-import { renderBlock } from "../render-utils"
+import { renderBlock } from "../util"
 
 function renderDivider(
   node: NAST.Divider
 ): string {
-  let content = `\
+  const content = `\
 <div style="width: 100%; border: 1px solid rgba(55, 53, 47, 0.09);"></div>`
   return renderBlock(node, content)
 }

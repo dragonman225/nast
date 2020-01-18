@@ -1,19 +1,24 @@
 import { CSS, NAST_BLOCK_TYPES } from "../constants"
-import { renderChildren, renderColor, renderTitle } from "../render-utils"
+import { renderColor, renderSemanticStringArray } from "../util"
+import { RenderNodes, RenderContext, HTML } from "../interface"
 
-function renderText(node: NAST.Text, renderNext: Function) {
-  let blockColorClass = node.color ? renderColor(node.color) : ""
+function renderText(
+  node: NAST.Text,
+  ctx: RenderContext,
+  renderChildren: RenderNodes
+): HTML {
+  const blockColorClass = node.color ? renderColor(node.color) : ""
 
-  let content = `\
+  const content = `\
 <div class="${CSS.blockClass} ${CSS.blockClass}--${NAST_BLOCK_TYPES.text} ${blockColorClass}">
-  ${renderTitle(node.title, false, "")}
+  ${renderSemanticStringArray(node.title, false, "")}
 </div>`
 
   let childrenContent = ""
   if (node.children.length > 0) {
     childrenContent = `\
 <div class="${CSS.blockIndentClass}">
-  ${renderChildren(node.children, renderNext)}
+  ${renderChildren(node.children, ctx)}
 </div>`
   }
 

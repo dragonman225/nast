@@ -1,47 +1,53 @@
-import * as NAST from "nast-types" // Must be imported once.
+import * as NAST from "nast-types"
 
-import { renderRoot, renderNode } from "./render-control"
-import { renderTitle, renderChildren, preRenderTransform } from "./render-utils"
+import { RenderContext } from "./interface"
+import { renderNode, renderNodes } from "./render-control"
+import {
+  renderSemanticStringArray
+} from "./util"
 
 type RenderOptions = {
-  /** Ignore the root node */
-  contentOnly: boolean
-  /** Skip bulleted list and numbered list analysis */
-  bypassPreRenderTransform: boolean
+  /** Whether to render the root node. */
+  renderRoot?: boolean
+  cssClass?: {
+    prefixBlock: string
+    prefixColor: string
+    modifierIndent: string
+  }
 }
 
 /**
- * Generate static HTML from NAST or StyledString[].
+ * Render NAST to HTML.
  */
 function renderToHTML(
   data: NAST.Block | NAST.SemanticString[],
   options: RenderOptions = {
-    contentOnly: false,
-    bypassPreRenderTransform: false
+    renderRoot: false
   }
 ): string {
-  /** Check which type of input is it */
-  if (Array.isArray(data)) {
-    /** View it as StyledString[] if it's an array */
-    return renderTitle(data)
-  } else {
-    /** Otherwise, a tree */
-    const tree = data
-    const contentOnly = typeof options.contentOnly !== "undefined"
-      ? options.contentOnly : false
 
-    /** Transform the tree if necessary so that it can be rendered */
-    let newTree =
-      options.bypassPreRenderTransform ? tree : preRenderTransform(tree)
-
-    /** If contentOnly flag is set, do not render the root node */
-    if (contentOnly) {
-      return renderChildren(newTree.children, renderNode)
-    } else {
-      return renderRoot(newTree)
+  const renderContext: RenderContext = {
+    depthFromRoot: 0,
+    numberedListCount: 0,
+    cssClass: options.cssClass || {
+      prefixBlock: "block",
+      prefixColor: "color",
+      modifierIndent: "indent"
     }
-  } // else
-} // function
+  }
+
+  if (Array.isArray(data)) {
+    /** NAST.SemanticString[] */
+    return renderSemanticStringArray(data)
+  } else {
+    /** NAST.Block */
+    if (options.renderRoot)
+      return renderNode(data, renderContext)
+    else
+      return renderNodes(data.children, renderContext)
+  }
+
+}
 
 export {
   renderToHTML

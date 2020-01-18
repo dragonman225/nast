@@ -1,25 +1,16 @@
-import { renderBlock, renderTitle } from "../render-utils"
+import { renderBlock, renderSemanticStringArray } from "../util"
 
 function renderImage(
   node: NAST.Image
 ): string {
-  let width = node.fullWidth ? "100%" : `${node.width}px`
-  let source = node.source
+  const width = node.fullWidth ? "100%" : node.width + "px"
+  const height = node.height + "px"
 
-  /** 
-   * Some images are hosted by Notion.so so the urls doesn"t start with 
-   * http / https, we need to convert them.
-   */
-  let re = /^http/
-  if (!re.test(source)) {
-    source = `https://www.notion.so${source}`
-  }
-
-  let content = `\
-<div style="width: ${width}; margin: 0.5em auto; max-width: 100%;">
-  <figure>
-    <img src="${source}" data-src="${source}" style="width: 100%; object-fit: cover;">
-    ${node.caption ? `<figcaption>${renderTitle(node.caption)}</figcaption>` : ""}
+  const content = `\
+<div style="width: 100%; max-width: ${width}; margin: 0.5em auto; overflow: hidden;">
+  <figure style="margin: 0;">
+    <img src="${node.source}" data-src="${node.source}" style="width: 100%; ${node.fullWidth ? "height: " + height + ";" : ""} object-fit: cover;">
+    ${node.caption ? `<figcaption>${renderSemanticStringArray(node.caption)}</figcaption>` : ""}
   </figure>
 </div>`
 

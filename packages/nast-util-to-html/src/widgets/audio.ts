@@ -1,13 +1,10 @@
-import { renderBlock } from '../render-utils'
+import { HTML, renderBlock } from "../util"
 
 function renderAudio(
   node: NAST.Audio
-): string {
-  let content = `\
-<audio controls>
-  <source src="${node.source}">
-</audio>
-  `
+): HTML {
+  const content = `\
+<audio controls><source src="${node.source}"></audio>`
   return renderBlock(node, content)
 }
 

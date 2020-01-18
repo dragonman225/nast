@@ -1,11 +1,20 @@
-import { renderBlock, renderTitle } from "../render-utils"
+import { renderBlock, renderSemanticStringArray } from "../util"
+import { RenderNodes, RenderContext } from "../interface"
 
 function renderQuote(
-  node: NAST.Quote
+  node: NAST.Quote,
+  ctx: RenderContext,
+  renderChildren: RenderNodes
 ): string {
-  let content = `\
+  const newCtx: RenderContext = {
+    cssClass: ctx.cssClass,
+    depthFromRoot: ctx.depthFromRoot + 1,
+    numberedListCount: ctx.numberedListCount
+  }
+  const content = `\
 <blockquote>
-  ${renderTitle(node.title, false, "")}
+  ${renderSemanticStringArray(node.title, false, "")}
+  ${renderChildren(node.children, newCtx)}
 </blockquote>`
   return renderBlock(node, content)
 }
