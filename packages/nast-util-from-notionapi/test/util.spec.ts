@@ -13,17 +13,17 @@ export function testConvertImageUrl() {
   test("Convert these types of image URLs", t => {
     t.test("Convert a private AWS S3 URL to a public one", t => {
       t.equal(convertImageUrl(imageS3),
-        `https://notion.so/images/${imageS3Encoded}`)
+        `https://www.notion.so/signed/${imageS3Encoded}`)
     })
 
     t.test("Convert a built-in image URL to a public one", t => {
       t.equal(convertImageUrl("/images/xxx.jpg"),
-        "https://notion.so/images/xxx.jpg")
+        "https://www.notion.so/images/xxx.jpg")
     })
 
     t.test("Convert a built-in image URL with width", t => {
       t.equal(convertImageUrl("/images/xxx.jpg", 123),
-        "https://notion.so/images/xxx.jpg?width=123")
+        "https://www.notion.so/images/xxx.jpg?width=123")
     })
 
     t.test("Bypass a normal image URL", t => {
@@ -61,7 +61,7 @@ export function testGetBlockIcon() {
     t.test("Get uploaded icon from a block with format and format.page_icon", t => {
       t.equal(getBlockIcon({
         format: { page_icon: imageS3 }
-      } as any), `https://notion.so/images/${imageS3Encoded}`)
+      } as any), `https://www.notion.so/signed/${imageS3Encoded}`)
     })
   })
 
