@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2019-present Wen-Zhi Wang <zxcvb22217@gmail.com>
+ * All rights reserved.
+ *
+ * Use of this source code is governed by a MIT license that can be found 
+ * in the LICENSE file.
+ */
+
 import { Block } from "notionapi-agent/dist/interfaces/notion-models"
 
 function getBlockUri(block: Block | string): string {
