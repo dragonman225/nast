@@ -7,7 +7,7 @@
  */
 
 /** Import scripts. */
-import { getBlockUri, getBlockColor } from "./util"
+import { getBlockUri, getBlockColor, convertFileUrl } from "./util"
 
 /** Import types. */
 import * as NotionBlockMedia from "notionapi-agent/dist/interfaces/notion-models/block/Media"
@@ -29,12 +29,8 @@ async function transformFile(
       : undefined,
     source: (function (): string {
       const src = (props || {}).source
-      if (!src) return "#"
-      const url = src[0][0]
-      if (/^https:\/\/s3/.test(url))
-        return `https://www.notion.so/signed/${encodeURIComponent(url)}`
-      else
-        return url
+      if (!src) return ""
+      else return convertFileUrl(src[0][0])
     })()
   }
 }
