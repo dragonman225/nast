@@ -13,6 +13,7 @@ import { createAgent } from "notionapi-agent"
 import * as NotionBlockBasic from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
 import * as NotionBlockDatabase from "notionapi-agent/dist/interfaces/notion-models/block/Database"
 import { CollectionView } from "notionapi-agent/dist/interfaces/notion-models"
+import { transformTitle } from "./transformTitle"
 
 async function transformCollection(
   node: NotionBlockDatabase.CollectionViewInline
@@ -93,7 +94,7 @@ async function transformCollection(
         ? convertImageUrl(collection.icon) : undefined,
       cover: collection.cover
         ? convertImageUrl(collection.cover) : undefined,
-      description: collection.description,
+      description: transformTitle(collection.description),
       coverPosition: collection.format
         ? collection.format.collection_cover_position || 1 : 1
     }

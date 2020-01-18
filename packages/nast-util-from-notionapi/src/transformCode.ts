@@ -11,6 +11,7 @@ import { getBlockUri, getBlockColor } from "./util"
 
 /** Import types. */
 import * as NotionBlockMedia from "notionapi-agent/dist/interfaces/notion-models/block/Media"
+import { transformTitle } from "./transformTitle"
 
 async function transformCode(
   node: NotionBlockMedia.Code
@@ -20,7 +21,7 @@ async function transformCode(
     uri: getBlockUri(node),
     type: "code",
     color: getBlockColor(node),
-    title: node.properties ? node.properties.title || [] : [],
+    title: node.properties ? transformTitle(node.properties.title) || [] : [],
     language: node.properties
       ? node.properties.language
         ? node.properties.language[0][0] : undefined

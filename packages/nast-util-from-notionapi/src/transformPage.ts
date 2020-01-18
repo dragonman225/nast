@@ -11,6 +11,7 @@ import { getBlockUri, getBlockColor, getBlockIcon, convertImageUrl } from "./uti
 
 /** Import types. */
 import * as NotionBlockBasic from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
+import { transformTitle } from "./transformTitle"
 
 async function transformPage(
   node: NotionBlockBasic.Page
@@ -21,14 +22,14 @@ async function transformPage(
     uri: getBlockUri(node),
     type: "page",
     color: getBlockColor(node),
-    title: node.properties ? node.properties.title || [] : [],
+    title: node.properties ? transformTitle(node.properties.title) || [] : [],
     icon: getBlockIcon(node),
     cover: format.page_cover
       ? convertImageUrl(format.page_cover) : undefined,
     fullWidth: typeof format.page_full_width !== "undefined"
       ? format.page_full_width : false,
     coverPosition: format.page_cover_position || 1,
-    properties: node.properties
+    properties: node.properties as any
   }
 }
 

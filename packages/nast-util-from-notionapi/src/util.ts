@@ -49,8 +49,7 @@ function convertImageUrl(url: string, width?: number): string {
   const pubUrl = (function (): string {
     if (isNotionSecureUrl(url)) {
       const cleanUrl = url.split("?")[0].replace("s3.us-west", "s3-us-west")
-      /** Both "/image" and "/images" are valid, see getAssetsJson. */
-      return `https://www.notion.so/images/${encodeURIComponent(cleanUrl)}`
+      return `https://www.notion.so/signed/${encodeURIComponent(cleanUrl)}`
     } else if (isNotionRelativePath(url)) {
       return `https://www.notion.so${url}`
     } else {

@@ -11,6 +11,7 @@ import { getBlockUri, getBlockColor } from "./util"
 
 /** Import types. */
 import * as NotionBlockBasic from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
+import { transformTitle } from "./transformTitle"
 
 async function transformNumberedList(
   node: NotionBlockBasic.NumberedList
@@ -20,7 +21,7 @@ async function transformNumberedList(
     uri: getBlockUri(node),
     type: "numbered_list",
     color: getBlockColor(node),
-    title: node.properties ? node.properties.title || [] : []
+    title: node.properties ? transformTitle(node.properties.title) || [] : []
   }
 }
 

@@ -11,6 +11,7 @@ import { getBlockUri, getBlockColor } from "./util"
 
 /** Import types. */
 import * as NotionBlockBasic from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
+import { transformTitle } from "./transformTitle"
 
 async function transformToggle(
   node: NotionBlockBasic.Toggle
@@ -20,7 +21,7 @@ async function transformToggle(
     uri: getBlockUri(node),
     type: "toggle",
     color: getBlockColor(node),
-    title: node.properties ? node.properties.title || [] : []
+    title: node.properties ? transformTitle(node.properties.title) || [] : []
   }
 }
 

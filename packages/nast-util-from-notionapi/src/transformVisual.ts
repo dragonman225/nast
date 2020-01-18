@@ -7,11 +7,12 @@
  */
 
 /** Import scripts. */
-import { getBlockUri, getBlockColor, convertImageUrl } from "./util"
+import { getBlockUri, getBlockColor, convertImageUrl, convertFileUrl } from "./util"
 
 /** Import types. */
 import * as NotionBlockEmbed from "notionapi-agent/dist/interfaces/notion-models/block/Embed"
 import * as NotionBlockMedia from "notionapi-agent/dist/interfaces/notion-models/block/Media"
+import { transformTitle } from "./transformTitle"
 
 function isDirectVideo(url?: string): boolean {
   if (url)
@@ -24,17 +25,19 @@ async function transformVisual(
   node: NotionBlockEmbed.Codepen | NotionBlockEmbed.Embed
     | NotionBlockEmbed.Invision | NotionBlockEmbed.PDF
     | NotionBlockMedia.Image | NotionBlockMedia.Video
-): Promise<NAST.Embed | NAST.Image | NAST.Video> {
+): Promise<NAST.Embed | NAST.PDF | NAST.Image | NAST.Video> {
   const format = node.format || {}
   return {
     children: [],
     uri: getBlockUri(node),
-    type: (function (): "image" | "video" | "embed" {
+    type: (function (): "image" | "video" | "pdf" | "embed" {
       if (node.type === "image")
         return "image"
       else if (node.type === "video" && node.format
         && isDirectVideo(node.format.display_source))
         return "video"
+      else if (node.type === "pdf")
+        return "pdf"
       else
         return "embed"
     })(),
@@ -43,11 +46,14 @@ async function transformVisual(
       if (node.type === "image")
         return convertImageUrl(format.display_source || "#", format.block_width)
       else
-        return format.display_source || "#"
+        return convertFileUrl(
+          format.display_source
+          || (((node.properties || {}).source || {})[0] || [])[0]
+          || "#")
     })(),
     caption: (function (): NAST.SemanticString[] | undefined {
       if (node.type === "image" || node.type === "video")
-        return node.properties ? node.properties.caption : undefined
+        return node.properties ? transformTitle(node.properties.caption) : undefined
       else
         return undefined
     })(),

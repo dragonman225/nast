@@ -7,7 +7,6 @@
  */
 
 /** Import scripts. */
-import { log } from "./log"
 import { getBlockUri } from "./util"
 import transformAudio from "./transformAudio"
 import transformBookmark from "./transformBookmark"
@@ -183,7 +182,7 @@ async function transformBlock(
           type: node.type
         })
       })
-      log.warn(`Unsupported block type: ${node.type}`)
+      console.log(`Unsupported block type: ${node.type}`)
     }
   }
 

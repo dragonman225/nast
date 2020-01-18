@@ -8,15 +8,14 @@
 
 /** Import scripts. */
 import { transformBlock } from "./transformBlock"
-import { log } from "./log"
 import { getBlockUri } from "./util"
 
 /** Import types. */
+import * as NAST from "nast-types"
 import { createAgent } from "notionapi-agent"
 import { GetRecordValuesRequest } from "notionapi-agent/dist/interfaces/notion-api"
 import { Table, Block } from "notionapi-agent/dist/interfaces/notion-models"
 import { Page } from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
-import * as NAST from "nast-types"
 
 async function getOnePageAsTree(
   pageId: string,
@@ -94,7 +93,7 @@ async function getChildrenBlocks(
   const validBlocks = childrenRecords
     .reduce((blocks, record, index) => {
       if (record.role !== "none") blocks.push(record.value as Block)
-      else log.warn(`Fail to get block ${request.requests[index].id}, 
+      else console.log(`Fail to get block ${request.requests[index].id}, 
 role is none`)
       return blocks
     }, [] as Block[])
