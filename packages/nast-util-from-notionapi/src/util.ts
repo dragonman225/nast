@@ -8,6 +8,9 @@
 
 import { Block } from "notionapi-agent/dist/interfaces/notion-models"
 
+const dashIDLen = "0eeee000-cccc-bbbb-aaaa-123450000000".length
+const noDashIDLen = "0eeee000ccccbbbbaaaa123450000000".length
+
 function getBlockUri(block: Block | string): string {
   if (typeof block === "string") // Got block id
     return `https://www.notion.so/${block.replace(/-/g, "")}`
@@ -35,6 +38,24 @@ function getBlockIcon(node: Block): string | undefined {
     return undefined
   }
 
+}
+
+
+
+/**
+ * Get a link that starts with # if the input URL links to an element 
+ * in the same page.
+ */
+function getHashLink(
+  str: string
+): string {
+  const re = /https:\/\/www.notion.so\/.+#([\da-f]+)/
+  const found = str.match(re)
+  if (found != null && found[1] != null) {
+    return "#" + getBlockUri(found[1])
+  } else {
+    return str
+  }
 }
 
 
@@ -86,6 +107,40 @@ function convertFileUrl(url: string): string {
 
 
 
+function toDashID(str: string): string {
+  if (isValidDashID(str)) {
+    return str
+  }
+
+  const s = str.replace(/-/g, "")
+
+  if (s.length !== noDashIDLen) {
+    return str
+  }
+
+  return str.substring(0, 8) + "-"
+    + str.substring(8, 12) + "-"
+    + str.substring(12, 16) + "-"
+    + str.substring(16, 20) + "-"
+    + str.substring(20)
+}
+
+
+
+function isValidDashID(str: string): boolean {
+  if (str.length !== dashIDLen) {
+    return false
+  }
+
+  if (str.indexOf("-") === -1) {
+    return false
+  }
+
+  return true
+}
+
+
+
 /**
  * Whether an URL is a NotionRelativePath.
  * 
@@ -117,8 +172,11 @@ export {
   getBlockUri,
   getBlockColor,
   getBlockIcon,
+  getHashLink,
   convertImageUrl,
   convertFileUrl,
+  toDashID,
+  isValidDashID,
   isNotionRelativePath,
   isNotionSecureUrl
 }

@@ -1,17 +1,49 @@
 import { SemanticString } from "notionapi-agent/dist/interfaces/notion-models/"
+import * as NAST from "nast-types"
+import { getHashLink } from "./util"
 
 export function transformTitle(
-  title: SemanticString[] | undefined): NAST.SemanticString[] | undefined {
-  if (!title) return undefined
+  semanticStrings: SemanticString[] | undefined
+): NAST.SemanticString[] | undefined {
 
-  title.forEach(str => {
-    const formattings = str[1]
+  if (!semanticStrings) return undefined
+
+  const newSemanticStrings: NAST.SemanticString[] = []
+
+  semanticStrings.forEach(ss => {
+
+    const text = ss[0]
+    const formattings = ss[1]
+
     if (formattings) {
-      formattings.forEach(f => {
-        if (f[0] === "u") f[1] = { name: f[1] }
+
+      const newFormattings: NAST.FormattingAll[] = []
+
+      formattings.forEach(formatting => {
+
+        const formattingId = formatting[0]
+        const formattingOpt = formatting[1]
+
+        switch (formattingId) {
+          case "a":
+            newFormattings.push(["a", getHashLink(formattingOpt)])
+            break
+          case "u":
+            newFormattings.push(["u", { name: formattingOpt }])
+            break
+          default:
+            newFormattings.push(formatting)
+        }
+
       })
+
+      newSemanticStrings.push([text, newFormattings])
+
+    } else {
+      newSemanticStrings.push([text])
     }
+
   })
 
-  return title as NAST.SemanticString[]
+  return newSemanticStrings
 }
