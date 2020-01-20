@@ -1,10 +1,12 @@
 import { SemanticString } from "notionapi-agent/dist/interfaces/notion-models/"
 import * as NAST from "nast-types"
 import { getHashLink } from "./util"
+import { createAgent } from "notionapi-agent"
+import { NotionUser } from "notionapi-agent/dist/interfaces/notion-models"
 
-export function transformTitle(
+export async function transformTitle(
   semanticStrings: SemanticString[] | undefined
-): NAST.SemanticString[] | undefined {
+): Promise<NAST.SemanticString[] | undefined> {
 
   if (!semanticStrings) return undefined
 
@@ -19,7 +21,7 @@ export function transformTitle(
 
       const newFormattings: NAST.FormattingAll[] = []
 
-      formattings.forEach(formatting => {
+      formattings.forEach(async formatting => {
 
         const formattingId = formatting[0]
         const formattingOpt = formatting[1]
@@ -29,7 +31,7 @@ export function transformTitle(
             newFormattings.push(["a", getHashLink(formattingOpt)])
             break
           case "u":
-            newFormattings.push(["u", { name: formattingOpt }])
+            newFormattings.push(["u", await getNotionUser(formattingOpt)])
             break
           default:
             newFormattings.push(formatting)
@@ -46,4 +48,38 @@ export function transformTitle(
   })
 
   return newSemanticStrings
+}
+
+async function getNotionUser(id: string): Promise<NAST.Individual> {
+  try {
+    const notion = createAgent()
+    const resp = await notion.getRecordValues({
+      requests: [{ table: "notion_user", id }]
+    })
+
+    if (resp.results[0].role === "none") {
+      return {
+        name: "Unknown Notion User"
+      }
+    } else {
+      const user = resp.results[0].value as NotionUser
+      return {
+        name: user.given_name + " " + user.family_name,
+        contacts: [
+          {
+            namespace: "notion.so",
+            identifier: id
+          }, {
+            namespace: "email",
+            identifier: user.email
+          }
+        ]
+      }
+    }
+
+  } catch (error) {
+    return {
+      name: "Unknown Notion User"
+    }
+  }
 }

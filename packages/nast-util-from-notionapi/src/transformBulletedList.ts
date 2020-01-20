@@ -21,7 +21,7 @@ async function transformBulletedList(
     uri: getBlockUri(node),
     type: "bulleted_list",
     color: getBlockColor(node),
-    title: node.properties ? transformTitle(node.properties.title) || [] : []
+    title: node.properties ? await transformTitle(node.properties.title) || [] : []
   }
 }
 

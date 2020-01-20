@@ -94,7 +94,7 @@ async function transformCollection(
         ? convertImageUrl(collection.icon) : undefined,
       cover: collection.cover
         ? convertImageUrl(collection.cover) : undefined,
-      description: transformTitle(collection.description),
+      description: await transformTitle(collection.description),
       coverPosition: collection.format
         ? collection.format.collection_cover_position || 1 : 1
     }

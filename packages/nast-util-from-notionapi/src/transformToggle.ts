@@ -21,7 +21,7 @@ async function transformToggle(
     uri: getBlockUri(node),
     type: "toggle",
     color: getBlockColor(node),
-    title: node.properties ? transformTitle(node.properties.title) || [] : []
+    title: node.properties ? await transformTitle(node.properties.title) || [] : []
   }
 }
 

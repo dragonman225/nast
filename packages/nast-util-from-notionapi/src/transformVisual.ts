@@ -51,9 +51,9 @@ async function transformVisual(
           || (((node.properties || {}).source || {})[0] || [])[0]
           || "#")
     })(),
-    caption: (function (): NAST.SemanticString[] | undefined {
+    caption: await (async function (): Promise<NAST.SemanticString[] | undefined> {
       if (node.type === "image" || node.type === "video")
-        return node.properties ? transformTitle(node.properties.caption) : undefined
+        return node.properties ? await transformTitle(node.properties.caption) : undefined
       else
         return undefined
     })(),

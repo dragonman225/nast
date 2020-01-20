@@ -21,7 +21,7 @@ async function transformToDo(
     uri: getBlockUri(node),
     type: "to_do",
     color: getBlockColor(node),
-    title: node.properties ? transformTitle(node.properties.title) || [] : [],
+    title: node.properties ? await transformTitle(node.properties.title) || [] : [],
     checked: node.properties
       ? node.properties.checked
         ? node.properties.checked[0][0] === "Yes" : false

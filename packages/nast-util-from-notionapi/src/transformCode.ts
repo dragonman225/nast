@@ -21,7 +21,7 @@ async function transformCode(
     uri: getBlockUri(node),
     type: "code",
     color: getBlockColor(node),
-    title: node.properties ? transformTitle(node.properties.title) || [] : [],
+    title: node.properties ? await transformTitle(node.properties.title) || [] : [],
     language: node.properties
       ? node.properties.language
         ? node.properties.language[0][0] : undefined

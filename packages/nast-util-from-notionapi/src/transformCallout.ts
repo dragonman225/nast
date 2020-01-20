@@ -22,7 +22,7 @@ async function transformCallout(
     type: "callout",
     color: getBlockColor(node),
     icon: getBlockIcon(node),
-    title: node.properties ? transformTitle(node.properties.title) || [] : []
+    title: node.properties ? await transformTitle(node.properties.title) || [] : []
   }
 }
 

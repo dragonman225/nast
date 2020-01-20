@@ -22,7 +22,7 @@ async function transformPage(
     uri: getBlockUri(node),
     type: "page",
     color: getBlockColor(node),
-    title: node.properties ? transformTitle(node.properties.title) || [] : [],
+    title: node.properties ? await transformTitle(node.properties.title) || [] : [],
     icon: getBlockIcon(node),
     cover: format.page_cover
       ? convertImageUrl(format.page_cover) : undefined,

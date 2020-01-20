@@ -34,7 +34,7 @@ async function transformHeading(
     uri: getBlockUri(node),
     type: "heading",
     color: getBlockColor(node),
-    title: node.properties ? transformTitle(node.properties.title) || [] : [],
+    title: node.properties ? await transformTitle(node.properties.title) || [] : [],
     depth
   }
 }

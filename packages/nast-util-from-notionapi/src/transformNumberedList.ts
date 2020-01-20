@@ -21,7 +21,7 @@ async function transformNumberedList(
     uri: getBlockUri(node),
     type: "numbered_list",
     color: getBlockColor(node),
-    title: node.properties ? transformTitle(node.properties.title) || [] : []
+    title: node.properties ? await transformTitle(node.properties.title) || [] : []
   }
 }
 
