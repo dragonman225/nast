@@ -43,8 +43,8 @@ function renderBlock(
 ): string {
   const blockColorClass = node.color ? renderColor(node.color) : ""
   const html = `\
-<${tag} class="${CSS.blockClass} ${CSS.blockClass}--${node.type} ${blockColorClass}">
-  ${contentHTML}
+<${tag} class="${CSS.blockClass} ${CSS.blockClass}--${node.type} ${blockColorClass}">\
+${contentHTML}\
 </${tag}>`
   return html
 }

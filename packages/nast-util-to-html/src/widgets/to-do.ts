@@ -12,18 +12,18 @@ function renderToDo(
   const checked = node.checked
 
   const content = `\
-<div style="display: flex; align-items: flex-start;">
-  ${checked ? checkedIconHTML : unCheckedIconHTML}
-  <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column; justify-content: center; padding-top: 2px; padding-bottom: 2px; min-height: calc(1.5em + 6px); ${checked ? "opacity: 0.375;" : ""}">
-    ${checked ? "<s>" : ""}${renderSemanticStringArray(node.title, false, "")}${checked ? "</s>" : ""}
-  </div>
+<div style="display: flex; align-items: flex-start;">\
+${checked ? checkedIconHTML : unCheckedIconHTML}\
+<div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column; justify-content: center; padding-top: 2px; padding-bottom: 2px; min-height: calc(1.5em + 6px); ${checked ? "opacity: 0.375;" : ""}">\
+${checked ? "<s>" : ""}${renderSemanticStringArray(node.title, false, "")}${checked ? "</s>" : ""}\
+</div>\
 </div>`
 
   let childrenContent = ""
   if (node.children.length > 0) {
     childrenContent = `\
-<div class="${CSS.blockIndentClass}">
-  ${renderChildren(node.children, ctx)}
+<div class="${CSS.blockIndentClass}">\
+${renderChildren(node.children, ctx)}\
 </div>`
   }
 

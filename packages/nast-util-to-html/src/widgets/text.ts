@@ -10,15 +10,15 @@ function renderText(
   const blockColorClass = node.color ? renderColor(node.color) : ""
 
   const content = `\
-<div class="${CSS.blockClass} ${CSS.blockClass}--${NAST_BLOCK_TYPES.text} ${blockColorClass}">
-  ${renderSemanticStringArray(node.title, false, "")}
+<div class="${CSS.blockClass} ${CSS.blockClass}--${NAST_BLOCK_TYPES.text} ${blockColorClass}">\
+${renderSemanticStringArray(node.title, false, "")}\
 </div>`
 
   let childrenContent = ""
   if (node.children.length > 0) {
     childrenContent = `\
-<div class="${CSS.blockIndentClass}">
-  ${renderChildren(node.children, ctx)}
+<div class="${CSS.blockIndentClass}">\
+${renderChildren(node.children, ctx)}\
 </div>`
   }
 

@@ -13,11 +13,11 @@ function renderList(
    * But ul has its own indent padding, so we do not need the indent class.
    */
   const html = `\
-<li>
-  <div id="${node.uri}">
-    ${renderBlock(node, content)}
-  </div>
-  ${renderChildren(node.children, ctx)}
+<li>\
+<div id="${node.uri}">\
+${renderBlock(node, content)}\
+</div>\
+${renderChildren(node.children, ctx)}\
 </li>`
 
   return html

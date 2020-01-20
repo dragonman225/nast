@@ -41,10 +41,17 @@ function renderToHTML(
     return renderSemanticStringArray(data)
   } else {
     /** NAST.Block */
-    if (options.renderRoot)
-      return renderNode(data, renderContext)
-    else
+    if (options.renderRoot) {
+      if (data.type === "page")
+        return "<h1>"
+          + `${renderSemanticStringArray((data as NAST.Page).title)}`
+          + "</h1>"
+          + renderNodes(data.children, renderContext)
+      else
+        return renderNode(data, renderContext)
+    } else {
       return renderNodes(data.children, renderContext)
+    }
   }
 
 }

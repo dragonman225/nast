@@ -12,9 +12,9 @@ function renderQuote(
     numberedListCount: ctx.numberedListCount
   }
   const content = `\
-<blockquote>
-  ${renderSemanticStringArray(node.title, false, "")}
-  ${renderChildren(node.children, newCtx)}
+<blockquote>\
+${renderSemanticStringArray(node.title, false, "")}\
+${renderChildren(node.children, newCtx)}\
 </blockquote>`
   return renderBlock(node, content)
 }

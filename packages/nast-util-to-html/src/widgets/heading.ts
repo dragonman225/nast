@@ -7,7 +7,7 @@ function renderHeading(node: NAST.Heading): string {
   let content = ""
 
   if (node.depth < 6 && node.depth > 0) {
-    content = `<h${node.depth + 1}>${textHTML}</h${node.depth + 1}>`
+    content = `<h${node.depth + 1} id="${node.uri}">${textHTML}</h${node.depth + 1}>`
   } else {
     content = `<h6>${textHTML}</h6>`
   }
