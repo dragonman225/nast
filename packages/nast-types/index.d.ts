@@ -1,9 +1,4 @@
-import {
-  CollectionView
-} from "notionapi-agent/dist/interfaces/notion-models"
-import {
-  CollectionSchema
-} from "notionapi-agent/dist/interfaces/notion-models/Collection"
+import * as Notion from "notionapi-agent/dist/interfaces"
 
 import { SemanticString } from "./SemanticString"
 import { URI, URL, UUID } from "./util"
@@ -159,8 +154,8 @@ export interface Collection extends Block {
   name: SemanticString[]
   collectionId: UUID
   defaultViewId: UUID
-  views: CollectionView[]
-  schema: CollectionSchema
+  views: Notion.CollectionView[]
+  schema: Notion.Collection.Schema
   children: Page[]
 }
 
