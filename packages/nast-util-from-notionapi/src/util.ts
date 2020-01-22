@@ -6,7 +6,7 @@
  * in the LICENSE file.
  */
 
-import { Block } from "notionapi-agent/dist/interfaces/notion-models"
+import { Block } from "notionapi-agent/dist/interfaces"
 
 const dashIDLen = "0eeee000-cccc-bbbb-aaaa-123450000000".length
 const noDashIDLen = "0eeee000ccccbbbbaaaa123450000000".length

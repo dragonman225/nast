@@ -10,11 +10,11 @@
 import { getBlockUri, getBlockColor, getBlockIcon, convertImageUrl } from "./util"
 
 /** Import types. */
-import * as NotionBlockBasic from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
+import * as Notion from "notionapi-agent/dist/interfaces"
 import { transformTitle } from "./transformTitle"
 
 async function transformPage(
-  node: NotionBlockBasic.Page
+  node: Notion.Block.Page
 ): Promise<NAST.Page> {
   const format = node.format || {}
   return {

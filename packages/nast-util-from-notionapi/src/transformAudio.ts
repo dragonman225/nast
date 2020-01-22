@@ -10,10 +10,10 @@
 import { getBlockUri, getBlockColor } from "./util"
 
 /** Import types. */
-import * as NotionBlockMedia from "notionapi-agent/dist/interfaces/notion-models/block/Media"
+import * as Notion from "notionapi-agent/dist/interfaces"
 
 async function transformAudio(
-  node: NotionBlockMedia.Audio
+  node: Notion.Block.Audio
 ): Promise<NAST.Audio> {
   return {
     children: [],

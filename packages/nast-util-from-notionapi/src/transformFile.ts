@@ -10,10 +10,10 @@
 import { getBlockUri, getBlockColor, convertFileUrl } from "./util"
 
 /** Import types. */
-import * as NotionBlockMedia from "notionapi-agent/dist/interfaces/notion-models/block/Media"
+import * as Notion from "notionapi-agent/dist/interfaces"
 
 async function transformFile(
-  node: NotionBlockMedia.File
+  node: Notion.Block.File
 ): Promise<NAST.File> {
   const props = node.properties
   return {

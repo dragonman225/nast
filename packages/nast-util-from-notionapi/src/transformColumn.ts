@@ -10,10 +10,10 @@
 import { getBlockUri, getBlockColor } from "./util"
 
 /** Import types. */
-import * as NotionBlockBasic from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
+import * as Notion from "notionapi-agent/dist/interfaces"
 
 async function transformColumn(
-  node: NotionBlockBasic.Column
+  node: Notion.Block.Column
 ): Promise<NAST.Column> {
   return {
     children: [],

@@ -10,18 +10,19 @@
 import { getBlockUri, getBlockColor } from "./util"
 
 /** Import types. */
-import * as NotionBlockBasic from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
+import * as Notion from "notionapi-agent/dist/interfaces"
 import { transformTitle } from "./transformTitle"
 
 async function transformToDo(
-  node: NotionBlockBasic.ToDo
+  node: Notion.Block.ToDo
 ): Promise<NAST.ToDo> {
   return {
     children: [],
     uri: getBlockUri(node),
     type: "to_do",
     color: getBlockColor(node),
-    title: node.properties ? await transformTitle(node.properties.title) || [] : [],
+    title: node.properties ?
+      await transformTitle(node.properties.title) || [] : [],
     checked: node.properties
       ? node.properties.checked
         ? node.properties.checked[0][0] === "Yes" : false

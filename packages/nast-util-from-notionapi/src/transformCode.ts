@@ -10,11 +10,11 @@
 import { getBlockUri, getBlockColor } from "./util"
 
 /** Import types. */
-import * as NotionBlockMedia from "notionapi-agent/dist/interfaces/notion-models/block/Media"
+import * as Notion from "notionapi-agent/dist/interfaces"
 import { transformTitle } from "./transformTitle"
 
 async function transformCode(
-  node: NotionBlockMedia.Code
+  node: Notion.Block.Code
 ): Promise<NAST.Code> {
   return {
     children: [],

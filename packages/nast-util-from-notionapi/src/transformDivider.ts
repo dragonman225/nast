@@ -10,10 +10,10 @@
 import { getBlockUri, getBlockColor } from "./util"
 
 /** Import types. */
-import * as NotionBlockBasic from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
+import * as Notion from "notionapi-agent/dist/interfaces"
 
 async function transformDivider(
-  node: NotionBlockBasic.Divider
+  node: Notion.Block.Divider
 ): Promise<NAST.Divider> {
   return {
     children: [],

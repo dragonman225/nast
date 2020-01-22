@@ -10,12 +10,12 @@
 import { getBlockUri, getBlockColor } from "./util"
 
 /** Import types. */
-import * as NotionBlockBasic from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
+import * as Notion from "notionapi-agent/dist/interfaces"
 import { transformTitle } from "./transformTitle"
 
 async function transformHeading(
-  node: NotionBlockBasic.Header | NotionBlockBasic.SubHeader
-    | NotionBlockBasic.SubSubHeader
+  node: Notion.Block.Header | Notion.Block.SubHeader |
+    Notion.Block.SubSubHeader
 ): Promise<NAST.Heading> {
   let depth
   switch (node.type) {

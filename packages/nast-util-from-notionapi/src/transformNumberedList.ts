@@ -10,18 +10,19 @@
 import { getBlockUri, getBlockColor } from "./util"
 
 /** Import types. */
-import * as NotionBlockBasic from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
+import * as Notion from "notionapi-agent/dist/interfaces"
 import { transformTitle } from "./transformTitle"
 
 async function transformNumberedList(
-  node: NotionBlockBasic.NumberedList
+  node: Notion.Block.NumberedList
 ): Promise<NAST.NumberedList> {
   return {
     children: [],
     uri: getBlockUri(node),
     type: "numbered_list",
     color: getBlockColor(node),
-    title: node.properties ? await transformTitle(node.properties.title) || [] : []
+    title: node.properties ?
+      await transformTitle(node.properties.title) || [] : []
   }
 }
 

@@ -1,11 +1,10 @@
-import { SemanticString } from "notionapi-agent/dist/interfaces/notion-models/"
+import * as Notion from "notionapi-agent/dist/interfaces"
 import * as NAST from "nast-types"
 import { getHashLink } from "./util"
 import { createAgent } from "notionapi-agent"
-import { NotionUser } from "notionapi-agent/dist/interfaces/notion-models"
 
 export async function transformTitle(
-  semanticStrings: SemanticString[] | undefined
+  semanticStrings: Notion.SemanticString[] | undefined
 ): Promise<NAST.SemanticString[] | undefined> {
 
   if (!semanticStrings) return undefined
@@ -62,7 +61,7 @@ async function getNotionUser(id: string): Promise<NAST.Individual> {
         name: "Unknown Notion User"
       }
     } else {
-      const user = resp.results[0].value as NotionUser
+      const user = resp.results[0].value as Notion.NotionUser
       return {
         name: user.given_name + " " + user.family_name,
         contacts: [

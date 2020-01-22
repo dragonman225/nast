@@ -10,11 +10,11 @@
 import { getBlockUri, getBlockColor } from "./util"
 
 /** Import types. */
-import * as NotionBlockBasic from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
+import * as Notion from "notionapi-agent/dist/interfaces"
 import { transformTitle } from "./transformTitle"
 
 async function transformBulletedList(
-  node: NotionBlockBasic.BulletedList
+  node: Notion.Block.BulletedList
 ): Promise<NAST.BulletedList> {
   return {
     children: [],

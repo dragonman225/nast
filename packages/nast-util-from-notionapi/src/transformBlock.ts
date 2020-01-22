@@ -32,26 +32,10 @@ import transformVisual from "./transformVisual"
 
 /** Import types. */
 import { createAgent } from "notionapi-agent"
-import { Block } from "notionapi-agent/dist/interfaces/notion-models"
-import {
-  Breadcrumb, Equation, TableOfContent
-} from "notionapi-agent/dist/interfaces/notion-models/block/AdvancedBlock"
-import {
-  BulletedList, Callout, Column, ColumnList, Divider, Header,
-  NumberedList, Page, Quote, SubHeader, SubSubHeader, Text, ToDo, Toggle
-} from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
-import {
-  CollectionViewInline, CollectionViewPage
-} from "notionapi-agent/dist/interfaces/notion-models/block/Database"
-import {
-  Codepen, Embed, Invision, PDF
-} from "notionapi-agent/dist/interfaces/notion-models/block/Embed"
-import {
-  Audio, Bookmark, Code, File, Image, Video
-} from "notionapi-agent/dist/interfaces/notion-models/block/Media"
+import * as Notion from "notionapi-agent/dist/interfaces"
 
 async function transformBlock(
-  node: Block,
+  node: Notion.Block,
   apiAgent: ReturnType<typeof createAgent>
 ): Promise<NAST.Block> {
 
@@ -59,119 +43,119 @@ async function transformBlock(
 
   switch (node.type) {
     case "breadcrumb": {
-      nastNode = transformBreadcrumb(node as Breadcrumb)
+      nastNode = transformBreadcrumb(node as Notion.Block.Breadcrumb)
       break
     }
     case "page": {
-      nastNode = transformPage(node as Page)
+      nastNode = transformPage(node as Notion.Block.Page)
       break
     }
     case "collection_view": {
-      nastNode = transformCollection(node as CollectionViewInline, apiAgent)
+      nastNode = transformCollection(node as Notion.Block.CollectionViewInline, apiAgent)
       break
     }
     case "collection_view_page": {
-      nastNode = transformCollection(node as CollectionViewPage, apiAgent)
+      nastNode = transformCollection(node as Notion.Block.CollectionViewPage, apiAgent)
       break
     }
     case "file": {
-      nastNode = transformFile(node as File)
+      nastNode = transformFile(node as Notion.Block.File)
       break
     }
     case "text": {
-      nastNode = transformText(node as Text)
+      nastNode = transformText(node as Notion.Block.Text)
       break
     }
     case "to_do": {
-      nastNode = transformToDo(node as ToDo)
+      nastNode = transformToDo(node as Notion.Block.ToDo)
       break
     }
     case "header": {
-      nastNode = transformHeading(node as Header)
+      nastNode = transformHeading(node as Notion.Block.Header)
       break
     }
     case "sub_header": {
-      nastNode = transformHeading(node as SubHeader)
+      nastNode = transformHeading(node as Notion.Block.SubHeader)
       break
     }
     case "sub_sub_header": {
-      nastNode = transformHeading(node as SubSubHeader)
+      nastNode = transformHeading(node as Notion.Block.SubSubHeader)
       break
     }
     case "bulleted_list": {
-      nastNode = transformBulletedList(node as BulletedList)
+      nastNode = transformBulletedList(node as Notion.Block.BulletedList)
       break
     }
     case "numbered_list": {
-      nastNode = transformNumberedList(node as NumberedList)
+      nastNode = transformNumberedList(node as Notion.Block.NumberedList)
       break
     }
     case "toggle": {
-      nastNode = transformToggle(node as Toggle)
+      nastNode = transformToggle(node as Notion.Block.Toggle)
       break
     }
     case "quote": {
-      nastNode = transformQuote(node as Quote)
+      nastNode = transformQuote(node as Notion.Block.Quote)
       break
     }
     case "divider": {
-      nastNode = transformDivider(node as Divider)
+      nastNode = transformDivider(node as Notion.Block.Divider)
       break
     }
     case "callout": {
-      nastNode = transformCallout(node as Callout)
+      nastNode = transformCallout(node as Notion.Block.Callout)
       break
     }
     case "codepen": {
-      nastNode = transformVisual(node as Codepen)
+      nastNode = transformVisual(node as Notion.Block.Codepen)
       break
     }
     case "embed": {
-      nastNode = transformVisual(node as Embed)
+      nastNode = transformVisual(node as Notion.Block.Embed)
       break
     }
     case "invision": {
-      nastNode = transformVisual(node as Invision)
+      nastNode = transformVisual(node as Notion.Block.Invision)
       break
     }
     case "pdf": {
-      nastNode = transformVisual(node as PDF)
+      nastNode = transformVisual(node as Notion.Block.PDF)
       break
     }
     case "image": {
-      nastNode = transformVisual(node as Image)
+      nastNode = transformVisual(node as Notion.Block.Image)
       break
     }
     case "video": {
-      nastNode = transformVisual(node as Video)
+      nastNode = transformVisual(node as Notion.Block.Video)
       break
     }
     case "audio": {
-      nastNode = transformAudio(node as Audio)
+      nastNode = transformAudio(node as Notion.Block.Audio)
       break
     }
     case "bookmark": {
-      nastNode = transformBookmark(node as Bookmark)
+      nastNode = transformBookmark(node as Notion.Block.Bookmark)
       break
     }
     case "code": {
-      nastNode = transformCode(node as Code)
+      nastNode = transformCode(node as Notion.Block.Code)
       break
     }
     case "equation": {
-      nastNode = transformEquation(node as Equation)
+      nastNode = transformEquation(node as Notion.Block.Equation)
       break
     }
     case "column_list": {
-      nastNode = transformColumnList(node as ColumnList)
+      nastNode = transformColumnList(node as Notion.Block.ColumnList)
       break
     }
     case "column": {
-      nastNode = transformColumn(node as Column)
+      nastNode = transformColumn(node as Notion.Block.Column)
       break
     }
     case "table_of_contents": {
-      nastNode = transformTableOfContent(node as TableOfContent)
+      nastNode = transformTableOfContent(node as Notion.Block.TableOfContents)
       break
     }
     default: {

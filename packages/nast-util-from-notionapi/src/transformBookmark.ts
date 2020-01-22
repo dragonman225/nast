@@ -10,10 +10,10 @@
 import { getBlockUri, getBlockColor } from "./util"
 
 /** Import types. */
-import * as NotionBlockMedia from "notionapi-agent/dist/interfaces/notion-models/block/Media"
+import * as Notion from "notionapi-agent/dist/interfaces"
 
 async function transformBookmark(
-  node: NotionBlockMedia.Bookmark
+  node: Notion.Block.Bookmark
 ): Promise<NAST.Bookmark> {
   const props = node.properties
   return {

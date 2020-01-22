@@ -10,14 +10,11 @@ import transformPage from "./transformPage"
 import { getBlockUri, getBlockColor, convertImageUrl } from "./util"
 
 import { createAgent } from "notionapi-agent"
-import * as NotionBlockBasic from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
-import * as NotionBlockDatabase from "notionapi-agent/dist/interfaces/notion-models/block/Database"
-import { CollectionView } from "notionapi-agent/dist/interfaces/notion-models"
+import * as Notion from "notionapi-agent/dist/interfaces"
 import { transformTitle } from "./transformTitle"
 
 async function transformCollection(
-  node: NotionBlockDatabase.CollectionViewInline
-    | NotionBlockDatabase.CollectionViewPage,
+  node: Notion.Block.CollectionViewInline | Notion.Block.CollectionViewPage,
   apiAgent: ReturnType<typeof createAgent>
 ): Promise<NAST.CollectionInline | NAST.CollectionPage> {
 
@@ -108,7 +105,7 @@ async function transformCollection(
 async function getCollectionViews(
   viewIds: string[],
   apiAgent: ReturnType<typeof createAgent>
-): Promise<CollectionView[]> {
+): Promise<Notion.CollectionView[]> {
 
   const { results } = await apiAgent.getRecordValues({
     requests: viewIds.map((id) => {
@@ -118,9 +115,9 @@ async function getCollectionViews(
 
   return results.reduce((collectionViews, record) => {
     if (record.role !== "none")
-      collectionViews.push(record.value as CollectionView)
+      collectionViews.push(record.value as Notion.CollectionView)
     return collectionViews
-  }, [] as CollectionView[])
+  }, [] as Notion.CollectionView[])
 
 }
 
@@ -130,7 +127,7 @@ async function getCollectionViews(
 async function getPageBlocks(
   blockIds: string[],
   apiAgent: ReturnType<typeof createAgent>
-): Promise<NotionBlockBasic.Page[]> {
+): Promise<Notion.Block.Page[]> {
 
   const { results } = await apiAgent.getRecordValues({
     requests: blockIds.map((id) => {
@@ -140,9 +137,9 @@ async function getPageBlocks(
 
   return results.reduce((pageBlocks, record) => {
     if (record.role !== "none")
-      pageBlocks.push(record.value as NotionBlockBasic.Page)
+      pageBlocks.push(record.value as Notion.Block.Page)
     return pageBlocks
-  }, [] as NotionBlockBasic.Page[])
+  }, [] as Notion.Block.Page[])
 
 }
 

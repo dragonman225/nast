@@ -12,10 +12,8 @@ import { getBlockUri } from "./util"
 
 /** Import types. */
 import * as NAST from "nast-types"
+import * as Notion from "notionapi-agent/dist/interfaces"
 import { createAgent } from "notionapi-agent"
-import { GetRecordValuesRequest } from "notionapi-agent/dist/interfaces/notion-api"
-import { Table, Block } from "notionapi-agent/dist/interfaces/notion-models"
-import { Page } from "notionapi-agent/dist/interfaces/notion-models/block/BasicBlock"
 
 async function getOnePageAsTree(
   pageId: string,
@@ -29,7 +27,7 @@ async function getOnePageAsTree(
 async function getAllBlocksInOnePage(
   pageId: string,
   apiAgent: ReturnType<typeof createAgent>
-): Promise<Block[]> {
+): Promise<Notion.Block[]> {
 
   /**
    * getChildrenBlocks() does not download children of a page,
@@ -43,10 +41,10 @@ async function getAllBlocksInOnePage(
     throw new Error(`Fail to get page ${pageId}, role is "none"`)
   }
 
-  const pageBlock = record.value as Page
+  const pageBlock = record.value as Notion.Block.Page
   const childrenIdsOfPageBlock = pageBlock.content
 
-  let allRecords: Block[] = [pageBlock]
+  let allRecords: Notion.Block[] = [pageBlock]
   if (childrenIdsOfPageBlock) {
     /* Get all records in a flat array. */
     const children =
@@ -65,8 +63,8 @@ async function getAllBlocksInOnePage(
  */
 function generateGRVPayload(
   ids: string[],
-  table: Table
-): GetRecordValuesRequest {
+  table: Notion.Util.Table
+): Notion.API.GetRecordValues.Request {
 
   const requests = ids.map((id) => {
     return { id, table }
@@ -83,7 +81,7 @@ function generateGRVPayload(
 async function getChildrenBlocks(
   blockIds: string[],
   apiAgent: ReturnType<typeof createAgent>
-): Promise<Block[]> {
+): Promise<Notion.Block[]> {
 
   /** Get children records with getRecordValues */
   const request = generateGRVPayload(blockIds, "block")
@@ -92,11 +90,11 @@ async function getChildrenBlocks(
 
   const validBlocks = childrenRecords
     .reduce((blocks, record, index) => {
-      if (record.role !== "none") blocks.push(record.value as Block)
+      if (record.role !== "none") blocks.push(record.value as Notion.Block)
       else console.log(`Fail to get block ${request.requests[index].id}, 
 role is none`)
       return blocks
-    }, [] as Block[])
+    }, [] as Notion.Block[])
 
   const validBlocksNonPage = validBlocks
     .filter((block) => {
@@ -124,7 +122,7 @@ role is none`)
  * Convert block array to NAST.
  */
 async function makeBlockArrayIntoTree(
-  blocks: Block[],
+  blocks: Notion.Block[],
   apiAgent: ReturnType<typeof createAgent>
 ): Promise<NAST.Block> {
 

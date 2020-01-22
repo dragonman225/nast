@@ -10,10 +10,10 @@
 import { getBlockUri, getBlockColor } from "./util"
 
 /** Import types. */
-import * as NotionBlockAdvanced from "notionapi-agent/dist/interfaces/notion-models/block/AdvancedBlock"
+import * as Notion from "notionapi-agent/dist/interfaces"
 
 async function transformBreadcrumb(
-  node: NotionBlockAdvanced.Breadcrumb
+  node: Notion.Block.Breadcrumb
 ): Promise<NAST.BreadCrumb> {
   return {
     children: [],

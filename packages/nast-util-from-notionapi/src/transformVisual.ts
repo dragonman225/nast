@@ -7,11 +7,12 @@
  */
 
 /** Import scripts. */
-import { getBlockUri, getBlockColor, convertImageUrl, convertFileUrl } from "./util"
+import {
+  getBlockUri, getBlockColor, convertImageUrl, convertFileUrl
+} from "./util"
 
 /** Import types. */
-import * as NotionBlockEmbed from "notionapi-agent/dist/interfaces/notion-models/block/Embed"
-import * as NotionBlockMedia from "notionapi-agent/dist/interfaces/notion-models/block/Media"
+import * as Notion from "notionapi-agent/dist/interfaces"
 import { transformTitle } from "./transformTitle"
 
 function isDirectVideo(url?: string): boolean {
@@ -22,9 +23,8 @@ function isDirectVideo(url?: string): boolean {
 }
 
 async function transformVisual(
-  node: NotionBlockEmbed.Codepen | NotionBlockEmbed.Embed
-    | NotionBlockEmbed.Invision | NotionBlockEmbed.PDF
-    | NotionBlockMedia.Image | NotionBlockMedia.Video
+  node: Notion.Block.Codepen | Notion.Block.Embed | Notion.Block.Invision |
+    Notion.Block.PDF | Notion.Block.Image | Notion.Block.Video
 ): Promise<NAST.Embed | NAST.PDF | NAST.Image | NAST.Video> {
   const format = node.format || {}
   return {
@@ -51,12 +51,7 @@ async function transformVisual(
           || (((node.properties || {}).source || {})[0] || [])[0]
           || "#")
     })(),
-    caption: await (async function (): Promise<NAST.SemanticString[] | undefined> {
-      if (node.type === "image" || node.type === "video")
-        return node.properties ? await transformTitle(node.properties.caption) : undefined
-      else
-        return undefined
-    })(),
+    caption: await getCaption(node),
     width: format.block_width || -1,
     height: format.block_height || -1,
     fullWidth: typeof format.block_full_width !== "undefined"
@@ -67,6 +62,17 @@ async function transformVisual(
     preserveScale: typeof format.block_preserve_scale !== "undefined"
       ? format.block_preserve_scale : true
   }
+}
+
+async function getCaption(
+  node: Notion.Block.Codepen | Notion.Block.Embed | Notion.Block.Invision |
+    Notion.Block.PDF | Notion.Block.Image | Notion.Block.Video
+): Promise<NAST.SemanticString[] | undefined> {
+  if (node.type === "image" || node.type === "video")
+    return node.properties ?
+      await transformTitle(node.properties.caption) : undefined
+  else
+    return undefined
 }
 
 export default transformVisual

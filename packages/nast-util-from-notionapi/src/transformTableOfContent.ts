@@ -10,10 +10,10 @@
 import { getBlockUri, getBlockColor } from "./util"
 
 /** Import types. */
-import * as NotionBlockAdvanced from "notionapi-agent/dist/interfaces/notion-models/block/AdvancedBlock"
+import * as Notion from "notionapi-agent/dist/interfaces"
 
 async function transformTableOfContent(
-  node: NotionBlockAdvanced.TableOfContent
+  node: Notion.Block.TableOfContents
 ): Promise<NAST.TableOfContent> {
   return {
     children: [],
