@@ -15,7 +15,7 @@ function renderCallout(
     ? `<img src="${node.icon}" style="height: 1.5em;">` : node.icon
 
   const content = `\
-<div style="padding-top: 2.5px;">${iconHTML}</div>\
+<div id="${node.uri}" style="padding-top: 2.5px;">${iconHTML}</div>\
 <div style="margin-left: 8px;">\
 ${renderSemanticStringArray(node.title, false, "")}\
 ${renderChildren(node.children, newCtx)}\

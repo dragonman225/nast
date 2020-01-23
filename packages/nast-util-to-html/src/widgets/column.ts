@@ -8,7 +8,9 @@ function renderColumnList(
 ): HTML {
   const numOfColumns = node.children.length
 
-  let html = `<div class="${NAST_BLOCK_TYPES.columnList}" style="display: flex; flex-wrap: wrap;">`
+  let html = `\
+<div id="${node.uri}" class="${NAST_BLOCK_TYPES.columnList}"\
+ style="display: flex; flex-wrap: wrap;">`
   node.children.forEach((child, i) => {
     html += renderColumn(child, ctx, renderChildren, i === 0, numOfColumns)
   })

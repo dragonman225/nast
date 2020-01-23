@@ -110,8 +110,10 @@ function renderColor(
  * @returns {string} Escaped string.
  */
 function escapeString(
-  str: string
+  str?: string
 ): string {
+
+  if (!str) return ""
 
   let character, escapedString = ""
 
@@ -246,7 +248,7 @@ function renderInlineMentionIndividual(data: NAST.Individual): HTML {
 }
 
 function renderInlineMentionResource(data: NAST.Resource): HTML {
-  return `<span class="color-mention">@\
+  return `<span class="color-mention">\
 <a href="${data.uri}">${renderSemanticStringArray(data.title)}</a></span>`
 }
 

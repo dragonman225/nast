@@ -8,7 +8,7 @@ function renderBookmark(
   const linkHTML = `<p class="link">${node.link}</p>`
 
   const content = `\
-<a href="${node.link}">\
+<a id="${node.uri}" href="${node.link}">\
 ${titleHTML}\
 ${descHTML}\
 ${linkHTML}\

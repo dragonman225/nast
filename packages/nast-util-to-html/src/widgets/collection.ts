@@ -1,4 +1,4 @@
-import { CollectionView } from "notionapi-agent/dist/interfaces/notion-models"
+import { CollectionView } from "notionapi-agent/dist/interfaces"
 
 import { COLLECTION_VIEW_TYPES, COLLECTION_ITEM_PROPERTY_TYPES, CSS } from "../constants"
 import { escapeString, renderSemanticStringArray } from "../util"
@@ -72,22 +72,30 @@ function renderTable(
 
         switch (clctItemProp.type) {
           case COLLECTION_ITEM_PROPERTY_TYPES.title: {
-            return `<td class="${CSS.tableCellContentType.text}"><span>${escapeString(page.title[0][0])}</span></td>`
+            return `\
+<td class="${CSS.tableCellContentType.text}">\
+<span>${renderSemanticStringArray(page.title)}</span>\
+</td>`
           }
           case COLLECTION_ITEM_PROPERTY_TYPES.url:
           case COLLECTION_ITEM_PROPERTY_TYPES.text: {
-            return `<td class="${CSS.tableCellContentType.text}"><span>${renderSemanticStringArray(pageProps[clctItemProp.id])}</span></td>`
+            return `\
+<td class="${CSS.tableCellContentType.text}">\
+<span>${renderSemanticStringArray(pageProps[clctItemProp.id])}</span>\
+</td>`
           }
           case COLLECTION_ITEM_PROPERTY_TYPES.select:
           case COLLECTION_ITEM_PROPERTY_TYPES.multiSelect: {
             const optionNames = pageProps[clctItemProp.id]
               ? pageProps[clctItemProp.id][0][0].split(",") : []
-            const optionsHTML = optionNames.map(optionName => {
 
-              const option = (clctItemProp.options || []).find(o => o.value === optionName)
+            const optionsHTML = optionNames.map(optionName => {
+              const option = (clctItemProp.options || [])
+                .find(o => o.value === optionName)
 
               if (!option) {
-                console.log(`Select option "${optionName}" isn"t found on property "${clctItemProp.id}:${clctItemProp.name}".`)
+                console.log(`Select option "${optionName}" is not found\
+ on property "${clctItemProp.id}:${clctItemProp.name}".`)
                 return ""
               }
 
@@ -95,7 +103,8 @@ function renderTable(
               return `<span class="${color}">${escapeString(option.value)}</span>`
             })
 
-            return `<td class="${CSS.tableCellContentType.select}">${optionsHTML.join("")}</td>`
+            return `\
+<td class="${CSS.tableCellContentType.select}">${optionsHTML.join("")}</td>`
           }
           case COLLECTION_ITEM_PROPERTY_TYPES.checkbox: {
             const checkboxVal = pageProps[clctItemProp.id]
@@ -111,8 +120,12 @@ function renderTable(
             }
           }
           default:
-            console.log(`Collection item property type "${clctItemProp.type}" hasn"t been implemented.`)
-            return `<td><span class="${CSS.tableCellContentType.text}">${renderSemanticStringArray(pageProps[clctItemProp.id])}</span></td>`
+            console.log(`Collection item property type\
+ "${clctItemProp.type}" hasn"t been implemented.`)
+            return `\
+<td class="${CSS.tableCellContentType.text}">\
+<span>${renderSemanticStringArray(pageProps[clctItemProp.id])}</span>\
+</td>`
         }
       })
 

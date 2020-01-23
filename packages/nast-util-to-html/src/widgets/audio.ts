@@ -4,7 +4,7 @@ function renderAudio(
   node: NAST.Audio
 ): HTML {
   const content = `\
-<audio controls><source src="${node.source}"></audio>`
+<audio id="${node.uri}" controls><source src="${node.source}"></audio>`
   return renderBlock(node, content)
 }
 

@@ -13,7 +13,7 @@ function renderEmbed(
  background-color: rgb(247, 246, 245);"
 
   const content = `\
-<div style="width: ${width};">\
+<div id="${node.uri}" style="width: ${width};">\
 <div style="position: relative; min-height: 100px; height: 0; padding-bottom: ${aspectRatio}%;">\
 <iframe src="${source}" sandbox="${iframeSandbox}" allowfullscreen style="${iframeStyle}"></iframe>\
 </div>\
