@@ -1,13 +1,13 @@
 import * as Notion from "notionapi-agent/dist/interfaces"
 import * as NAST from "nast-types"
-import { getHashLink } from "./util"
+import { convertFileUrl, getBlockUri, getHashLink } from "./util"
 import { createAgent } from "notionapi-agent"
 
 export async function transformTitle(
   semanticStrings: Notion.SemanticString[] | undefined
-): Promise<NAST.SemanticString[] | undefined> {
+): Promise<NAST.SemanticString[]> {
 
-  if (!semanticStrings) return undefined
+  if (!semanticStrings) return []
 
   const newSemanticStrings: NAST.SemanticString[] = []
 
@@ -27,13 +27,16 @@ export async function transformTitle(
 
         switch (formattingId) {
           case "a":
-            newFormattings.push(["a", getHashLink(formattingOpt)])
+            newFormattings.push(["a", processLink(formattingOpt)])
             break
           case "u":
             newFormattings.push(["u", await getNotionUser(formattingOpt)])
             break
+          case "p":
+            newFormattings.push(["p", await getResource(formattingOpt)])
+            break
           default:
-            newFormattings.push(formatting)
+            newFormattings.push([formattingId, formattingOpt])
         }
 
       })
@@ -47,6 +50,10 @@ export async function transformTitle(
   })
 
   return newSemanticStrings
+}
+
+function processLink(link: string) {
+  return getHashLink(convertFileUrl(link))
 }
 
 async function getNotionUser(id: string): Promise<NAST.Individual> {
@@ -79,6 +86,34 @@ async function getNotionUser(id: string): Promise<NAST.Individual> {
   } catch (error) {
     return {
       name: "Unknown Notion User"
+    }
+  }
+}
+
+async function getResource(id: string): Promise<NAST.Resource> {
+  try {
+    const notion = createAgent()
+    const resp = await notion.getRecordValues({
+      requests: [{ table: "block", id }]
+    })
+
+    if (resp.results[0].role === "none") {
+      return {
+        title: [["Unknown Page"]],
+        uri: ""
+      }
+    } else {
+      const page = resp.results[0].value as Notion.Block.Page
+      return {
+        title: await transformTitle((page.properties || {}).title),
+        uri: getBlockUri(page)
+      }
+    }
+
+  } catch (error) {
+    return {
+      title: [["Unknown Page"]],
+      uri: ""
     }
   }
 }

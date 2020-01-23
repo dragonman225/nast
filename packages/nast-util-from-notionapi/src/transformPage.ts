@@ -17,19 +17,28 @@ async function transformPage(
   node: Notion.Block.Page
 ): Promise<NAST.Page> {
   const format = node.format || {}
+  const newProperties: { [key: string]: NAST.SemanticString[] } = {}
+
+  if (node.properties) {
+    const keys = Object.keys(node.properties)
+    for (let i = 0; i < keys.length; i++) {
+      newProperties[keys[i]] = await transformTitle(node.properties[keys[i]])
+    }
+  }
+
   return {
     children: [],
     uri: getBlockUri(node),
     type: "page",
     color: getBlockColor(node),
-    title: node.properties ? await transformTitle(node.properties.title) || [] : [],
+    title: newProperties.title ? newProperties.title : [],
     icon: getBlockIcon(node),
     cover: format.page_cover
       ? convertImageUrl(format.page_cover) : undefined,
     fullWidth: typeof format.page_full_width !== "undefined"
       ? format.page_full_width : false,
     coverPosition: format.page_cover_position || 1,
-    properties: node.properties as any
+    properties: newProperties
   }
 }
 
