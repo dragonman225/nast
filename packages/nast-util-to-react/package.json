@@ -1,0 +1,38 @@
+{
+  "name": "nast-util-to-react",
+  "version": "1.0.0",
+  "description": "Render NAST to React JSX.Element and HTML.",
+  "author": "dragonman225",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist && rollup -c && tsc --emitDeclarationOnly",
+    "watch": "rollup -cw",
+    "release": "npm run build && npm publish",
+    "upgrade": "node tools/upgrade-deps.js"
+  },
+  "dependencies": {
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "katex": "^0.11.1",
+    "prismjs": "^1.19.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^2.1.0",
+    "@types/katex": "^0.11.0",
+    "@types/node": "^13.5.0",
+    "@types/prismjs": "^1.16.0",
+    "@types/react": "^16.9.19",
+    "@types/react-dom": "^16.9.5",
+    "@typescript-eslint/eslint-plugin": "^2.17.0",
+    "@typescript-eslint/parser": "^2.17.0",
+    "dependency-cruiser": "^6.3.0",
+    "eslint": "^6.8.0",
+    "nast-types": "^1.0.0",
+    "rollup": "^1.29.1",
+    "typescript": "^3.7.5"
+  },
+  "typeScriptVersion": "3.7",
+  "runkitExampleFilename": ""
+}
