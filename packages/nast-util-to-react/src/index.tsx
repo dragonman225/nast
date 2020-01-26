@@ -5,17 +5,21 @@ import { RenderBlockOptions, Renderer } from "./interfaces"
 
 /** Components. TODO: How to dynamically load these ? */
 import { Audio } from "./components/Audio"
+import { BulletedList } from "./components/BulletedList"
 import { Code } from "./components/Code"
 import { Column, ColumnList } from "./components/ColumnList"
 import { Heading } from "./components/Heading"
+import { NumberedList } from "./components/NumberedList"
 import { Text } from "./components/Text"
 
 const rendererRegistry = new Map<string, Renderer>()
 rendererRegistry.set("audio", Audio as Renderer)
+rendererRegistry.set("bulleted_list", BulletedList as Renderer)
 rendererRegistry.set("code", Code as Renderer)
 rendererRegistry.set("column", Column as Renderer)
 rendererRegistry.set("column_list", ColumnList as Renderer)
 rendererRegistry.set("heading", Heading as Renderer)
+rendererRegistry.set("numbered_list", NumberedList as Renderer)
 rendererRegistry.set("text", Text as Renderer)
 
 function renderBlock(opts: RenderBlockOptions): JSX.Element {
@@ -27,7 +31,7 @@ function renderBlock(opts: RenderBlockOptions): JSX.Element {
 
   let childrenRendered: JSX.Element[] = []
   let listItemQueue: RenderBlockOptions[] = []
-  let listOrder = 0
+  let listOrder = 1
 
   for (let i = 0; i < childrenData.length; i++) {
 
@@ -38,14 +42,14 @@ function renderBlock(opts: RenderBlockOptions): JSX.Element {
     if (prev && prev.type === current.type) {
       listOrder++
     } else {
-      listOrder = 0
+      listOrder = 1
     }
 
     const parent = opts.current
     const root = opts.root
     const depth = opts.depth + 1
     const reactKey = `${opts.reactKey}+` +
-      `d${depth}-c${i}-${current.type}${listOrder}`
+      `d${depth}-c${i + 1}-${current.type}${listOrder}`
     const rendererRegistry = opts.rendererRegistry
 
     /**
@@ -57,7 +61,7 @@ function renderBlock(opts: RenderBlockOptions): JSX.Element {
      * 
      * A list boundary is where adjacent blocks are of different types.
      */
-    if (listOrder === 0) {
+    if (listOrder === 1) {
       for (let i = 0; i < listItemQueue.length; i++) {
         listItemQueue[i].listLength = listItemQueue.length
         childrenRendered.push(renderBlock(listItemQueue[i]))
@@ -109,9 +113,9 @@ function renderToJSX(tree: NAST.Block): JSX.Element {
     current: tree,
     root: tree,
     depth: 0,
-    listOrder: 0,
+    listOrder: 1,
     listLength: 1,
-    reactKey: `d0-c0-${tree.type}0`,
+    reactKey: `d0-c1-${tree.type}1`,
     rendererRegistry
   })
 

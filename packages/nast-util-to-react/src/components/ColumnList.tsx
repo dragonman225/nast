@@ -28,7 +28,7 @@ export function Column(props: ColumnProps) {
 ${columnSpacing * (props.listLength - 1)}px) * ${props.current.ratio})`
   }
 
-  if (props.listOrder !== 0) {
+  if (props.listOrder !== 1) {
     style.marginLeft = columnSpacing + "px"
   }
 
