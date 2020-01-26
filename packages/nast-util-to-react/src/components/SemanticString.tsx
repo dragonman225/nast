@@ -1,4 +1,4 @@
-import * as React from "react" // for <></>
+import * as React from "react"
 import * as NAST from "nast-types"
 import { renderColor } from "../lagacy/util"
 import renderCode from "../lagacy/util-prismjs"

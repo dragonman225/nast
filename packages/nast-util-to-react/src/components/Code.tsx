@@ -9,15 +9,13 @@ export interface CodeProps extends RendererProps {
 
 export function Code(props: CodeProps) {
   return (
-    <>
-      <pre id={props.current.uri} className="code">
-        <code>
-          <SemanticStringArray
-            semanticStringArray={props.current.title}
-            isCode={true}
-            codeLang={props.current.language} />
-        </code>
-      </pre>
-    </>
+    <pre id={props.current.uri} className="code">
+      <code>
+        <SemanticStringArray
+          semanticStringArray={props.current.title}
+          isCode={true}
+          codeLang={props.current.language} />
+      </code>
+    </pre>
   )
 }
