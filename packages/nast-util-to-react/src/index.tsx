@@ -5,6 +5,7 @@ import { RenderBlockOptions, Renderer } from "./interfaces"
 
 /** Components. TODO: How to dynamically load these ? */
 import { Audio } from "./components/Audio"
+import { Bookmark } from "./components/Bookmark"
 import { BulletedList } from "./components/BulletedList"
 import { Code } from "./components/Code"
 import { Column, ColumnList } from "./components/ColumnList"
@@ -14,6 +15,7 @@ import { Text } from "./components/Text"
 
 const rendererRegistry = new Map<string, Renderer>()
 rendererRegistry.set("audio", Audio as Renderer)
+rendererRegistry.set("bookmark", Bookmark as Renderer)
 rendererRegistry.set("bulleted_list", BulletedList as Renderer)
 rendererRegistry.set("code", Code as Renderer)
 rendererRegistry.set("column", Column as Renderer)
