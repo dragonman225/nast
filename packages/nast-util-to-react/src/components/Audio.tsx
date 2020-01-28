@@ -1,8 +1,8 @@
 import * as React from "react"
 import * as NAST from "nast-types"
-import { RendererProps } from "../interfaces"
+import { BlockRendererProps } from "../interfaces"
 
-export interface AudioProps extends RendererProps {
+export interface AudioProps extends BlockRendererProps {
   current: NAST.Audio
 }
 

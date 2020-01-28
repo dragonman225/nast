@@ -1,9 +1,9 @@
 import * as React from "react"
 import * as NAST from "nast-types"
-import { RendererProps } from "../interfaces"
+import { BlockRendererProps } from "../interfaces"
 import { SemanticStringArray } from "./SemanticString"
 
-export interface TableOfContentsProps extends RendererProps {
+export interface TableOfContentsProps extends BlockRendererProps {
   current: NAST.TableOfContent
 }
 

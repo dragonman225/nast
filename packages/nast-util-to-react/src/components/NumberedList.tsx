@@ -1,9 +1,9 @@
 import * as React from "react"
 import * as NAST from "nast-types"
-import { RendererProps } from "../interfaces"
+import { BlockRendererProps, ListWrapperProps } from "../interfaces"
 import { SemanticStringArray } from "./SemanticString"
 
-export interface NumberedListProps extends RendererProps {
+export interface NumberedListProps extends BlockRendererProps {
   current: NAST.NumberedList
 }
 
@@ -14,5 +14,11 @@ export function NumberedList(props: NumberedListProps) {
       <SemanticStringArray semanticStringArray={props.current.title} />
       {props.children}
     </li>
+  )
+}
+
+export function NumberedListWrapper(props: ListWrapperProps) {
+  return (
+    <ol>{props.children}</ol>
   )
 }

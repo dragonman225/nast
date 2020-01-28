@@ -1,38 +1,43 @@
 import * as React from 'react'
 import * as ReactDOMServer from 'react-dom/server'
 import * as NAST from "nast-types"
-import { RenderBlockOptions, Renderer } from "./interfaces"
+import { RenderBlockOptions, BlockRenderer, ListWrapper } from "./interfaces"
 
 /** Components. TODO: How to dynamically load these ? */
 import { Audio } from "./components/Audio"
 import { Bookmark } from "./components/Bookmark"
-import { BulletedList } from "./components/BulletedList"
+import { BulletedList, BulletedListWrapper } from "./components/BulletedList"
 import { Callout } from "./components/Callout"
 import { Code } from "./components/Code"
 import { Column, ColumnList } from "./components/ColumnList"
 import { Heading } from "./components/Heading"
-import { NumberedList } from "./components/NumberedList"
+import { NumberedList, NumberedListWrapper } from "./components/NumberedList"
 import { TableOfContents } from "./components/TableOfContents"
 import { Text } from "./components/Text"
 
-const rendererRegistry = new Map<string, Renderer>()
-rendererRegistry.set("audio", Audio as Renderer)
-rendererRegistry.set("bookmark", Bookmark as Renderer)
-rendererRegistry.set("bulleted_list", BulletedList as Renderer)
-rendererRegistry.set("callout", Callout as Renderer)
-rendererRegistry.set("code", Code as Renderer)
-rendererRegistry.set("column", Column as Renderer)
-rendererRegistry.set("column_list", ColumnList as Renderer)
-rendererRegistry.set("heading", Heading as Renderer)
-rendererRegistry.set("numbered_list", NumberedList as Renderer)
-rendererRegistry.set("table_of_content", TableOfContents as Renderer)
-rendererRegistry.set("text", Text as Renderer)
+const blockRendererRegistry = new Map<string, BlockRenderer>()
+blockRendererRegistry.set("audio", Audio as BlockRenderer)
+blockRendererRegistry.set("bookmark", Bookmark as BlockRenderer)
+blockRendererRegistry.set("bulleted_list", BulletedList as BlockRenderer)
+blockRendererRegistry.set("callout", Callout as BlockRenderer)
+blockRendererRegistry.set("code", Code as BlockRenderer)
+blockRendererRegistry.set("column", Column as BlockRenderer)
+blockRendererRegistry.set("column_list", ColumnList as BlockRenderer)
+blockRendererRegistry.set("heading", Heading as BlockRenderer)
+blockRendererRegistry.set("numbered_list", NumberedList as BlockRenderer)
+blockRendererRegistry.set("table_of_content", TableOfContents as BlockRenderer)
+blockRendererRegistry.set("text", Text as BlockRenderer)
+
+const listWrapperRegistry = new Map<string, ListWrapper>()
+listWrapperRegistry.set("bulleted_list", BulletedListWrapper)
+listWrapperRegistry.set("numbered_list", NumberedListWrapper)
 
 function renderBlock(opts: RenderBlockOptions): JSX.Element {
 
   console.log(`depth: ${opts.depth}, listOrder: ${opts.listOrder}, key: ${opts.reactKey}`)
 
-  const Renderer = opts.rendererRegistry.get(opts.current.type)
+  const blockRendererRegistry = opts.blockRendererRegistry
+  const listWrapperRegistry = opts.listWrapperRegistry
   const childrenData = opts.current.children
 
   let childrenRendered: JSX.Element[] = []
@@ -56,7 +61,6 @@ function renderBlock(opts: RenderBlockOptions): JSX.Element {
     const depth = opts.depth + 1
     const reactKey = `${opts.reactKey}+` +
       `d${depth}-c${i + 1}-${current.type}${listOrder}`
-    const rendererRegistry = opts.rendererRegistry
 
     /**
      * When a block is processed for the first time, it is not rendered 
@@ -68,26 +72,26 @@ function renderBlock(opts: RenderBlockOptions): JSX.Element {
      * A list boundary is where adjacent blocks are of different types.
      */
     if (listOrder === 1) {
-      for (let i = 0; i < listItemQueue.length; i++) {
-        listItemQueue[i].listLength = listItemQueue.length
-        childrenRendered.push(renderBlock(listItemQueue[i]))
-      }
+      /** Render the list. */
+      const listRendered = renderList(listItemQueue, listWrapperRegistry)
+      childrenRendered = childrenRendered.concat(listRendered)
+      /** Clear listItemQueue. */
       listItemQueue = []
     }
 
     listItemQueue.push({
       current, prev, next, parent, root, depth, listOrder,
-      listLength: 0, reactKey, rendererRegistry
+      listLength: 0, reactKey, blockRendererRegistry, listWrapperRegistry
     })
 
   }
 
-  /** Render blocks in the last listItemQueue. */
-  for (let i = 0; i < listItemQueue.length; i++) {
-    listItemQueue[i].listLength = listItemQueue.length
-    childrenRendered.push(renderBlock(listItemQueue[i]))
-  }
+  /** Render the last list in children. */
+  const listRendered = renderList(listItemQueue, listWrapperRegistry)
+  childrenRendered = childrenRendered.concat(listRendered)
 
+  /** Render current block. */
+  const Renderer = blockRendererRegistry.get(opts.current.type)
   if (Renderer)
     return (
       <Renderer
@@ -107,14 +111,48 @@ function renderBlock(opts: RenderBlockOptions): JSX.Element {
     return <div key={opts.reactKey}>{childrenRendered}</div>
 }
 
-function renderToHTML(tree: NAST.Block): string {
-
-  return ReactDOMServer.renderToStaticMarkup(renderToJSX(tree))
-
+/**
+ * Render a list of one type, if a ListWrapper of the type is registered, 
+ * the list will be wrapped by the wrapper.
+ * @param listItemQueue 
+ * @param listWrapperRegistry 
+ */
+function renderList(
+  listItemQueue: RenderBlockOptions[],
+  listWrapperRegistry: Map<string, ListWrapper>
+): JSX.Element[] {
+  /** Render blocks. */
+  const listRendered: JSX.Element[] = []
+  for (let i = 0; i < listItemQueue.length; i++) {
+    listItemQueue[i].listLength = listItemQueue.length
+    listRendered.push(renderBlock(listItemQueue[i]))
+  }
+  /** Render list wrapper. */
+  if (listItemQueue.length > 0) {
+    const listType = listItemQueue[0].current.type
+    const ListWrapper = listWrapperRegistry.get(listType)
+    if (ListWrapper)
+      return [<ListWrapper>{listRendered}</ListWrapper>]
+    else
+      return listRendered
+  } else {
+    return listRendered
+  }
 }
 
-function renderToJSX(tree: NAST.Block): JSX.Element {
+/**
+ * Render NAST to HTML.
+ * @param tree 
+ */
+function renderToHTML(tree: NAST.Block): string {
+  return ReactDOMServer.renderToStaticMarkup(renderToJSX(tree))
+}
 
+/**
+ * Render NAST to JSX.Element.
+ * @param tree 
+ */
+function renderToJSX(tree: NAST.Block): JSX.Element {
   return renderBlock({
     current: tree,
     root: tree,
@@ -122,9 +160,9 @@ function renderToJSX(tree: NAST.Block): JSX.Element {
     listOrder: 1,
     listLength: 1,
     reactKey: `d0-c1-${tree.type}1`,
-    rendererRegistry
+    blockRendererRegistry,
+    listWrapperRegistry
   })
-
 }
 
 export { renderToHTML, renderToJSX }

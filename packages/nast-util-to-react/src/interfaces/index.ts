@@ -10,14 +10,24 @@ export interface RenderBlockOptions {
   listOrder: number
   listLength: number
   reactKey: string
-  rendererRegistry: Map<string, Renderer>
+  blockRendererRegistry: Map<string, BlockRenderer>
+  listWrapperRegistry: Map<string, ListWrapper>
 }
 
-export interface RendererProps extends
-  Omit<RenderBlockOptions, "reactKey" | "rendererRegistry"> {
+export interface BlockRendererProps extends
+  Omit<RenderBlockOptions,
+  "reactKey" | "blockRendererRegistry" | "listWrapperRegistry"> {
   children: JSX.Element[]
 }
 
-export interface Renderer {
-  (props: RendererProps): JSX.Element
+export interface BlockRenderer {
+  (props: BlockRendererProps): JSX.Element
+}
+
+export interface ListWrapperProps {
+  children: JSX.Element[]
+}
+
+export interface ListWrapper {
+  (props: ListWrapperProps): JSX.Element
 }

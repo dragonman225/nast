@@ -1,8 +1,8 @@
 import * as React from "react"
 import * as NAST from "nast-types"
-import { RendererProps } from "../interfaces"
+import { BlockRendererProps } from "../interfaces"
 
-export interface ColumnListProps extends RendererProps {
+export interface ColumnListProps extends BlockRendererProps {
   current: NAST.ColumnList
 }
 
@@ -16,7 +16,7 @@ export function ColumnList(props: ColumnListProps) {
   )
 }
 
-export interface ColumnProps extends RendererProps {
+export interface ColumnProps extends BlockRendererProps {
   current: NAST.Column
 }
 

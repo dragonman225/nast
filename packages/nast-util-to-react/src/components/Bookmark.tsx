@@ -1,8 +1,8 @@
 import * as React from "react"
 import * as NAST from "nast-types"
-import { RendererProps } from "../interfaces"
+import { BlockRendererProps } from "../interfaces"
 
-export interface BookmarkProps extends RendererProps {
+export interface BookmarkProps extends BlockRendererProps {
   current: NAST.Bookmark
 }
 

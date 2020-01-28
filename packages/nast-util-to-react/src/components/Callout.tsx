@@ -1,10 +1,10 @@
 import * as React from "react"
 import * as NAST from "nast-types"
-import { RendererProps } from "../interfaces"
+import { BlockRendererProps } from "../interfaces"
 import { SemanticStringArray } from "./SemanticString"
 import { Icon } from "./Icon"
 
-export interface CalloutProps extends RendererProps {
+export interface CalloutProps extends BlockRendererProps {
   current: NAST.Callout
 }
 
