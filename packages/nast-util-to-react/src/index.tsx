@@ -11,6 +11,7 @@ import { Code } from "./components/Code"
 import { Column, ColumnList } from "./components/ColumnList"
 import { Heading } from "./components/Heading"
 import { NumberedList } from "./components/NumberedList"
+import { TableOfContents } from "./components/TableOfContents"
 import { Text } from "./components/Text"
 
 const rendererRegistry = new Map<string, Renderer>()
@@ -22,6 +23,7 @@ rendererRegistry.set("column", Column as Renderer)
 rendererRegistry.set("column_list", ColumnList as Renderer)
 rendererRegistry.set("heading", Heading as Renderer)
 rendererRegistry.set("numbered_list", NumberedList as Renderer)
+rendererRegistry.set("table_of_content", TableOfContents as Renderer)
 rendererRegistry.set("text", Text as Renderer)
 
 function renderBlock(opts: RenderBlockOptions): JSX.Element {
