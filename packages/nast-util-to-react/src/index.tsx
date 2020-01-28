@@ -7,6 +7,7 @@ import { RenderBlockOptions, Renderer } from "./interfaces"
 import { Audio } from "./components/Audio"
 import { Bookmark } from "./components/Bookmark"
 import { BulletedList } from "./components/BulletedList"
+import { Callout } from "./components/Callout"
 import { Code } from "./components/Code"
 import { Column, ColumnList } from "./components/ColumnList"
 import { Heading } from "./components/Heading"
@@ -18,6 +19,7 @@ const rendererRegistry = new Map<string, Renderer>()
 rendererRegistry.set("audio", Audio as Renderer)
 rendererRegistry.set("bookmark", Bookmark as Renderer)
 rendererRegistry.set("bulleted_list", BulletedList as Renderer)
+rendererRegistry.set("callout", Callout as Renderer)
 rendererRegistry.set("code", Code as Renderer)
 rendererRegistry.set("column", Column as Renderer)
 rendererRegistry.set("column_list", ColumnList as Renderer)
