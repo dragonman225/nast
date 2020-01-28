@@ -9,7 +9,7 @@ export interface BulletedListProps extends RendererProps {
 
 export function BulletedList(props: BulletedListProps) {
   return (
-    <li id={props.current.uri}>
+    <li id={props.current.uri} className="bulleted_list">
       <SemanticStringArray semanticStringArray={props.current.title} />
       {props.children}
     </li>

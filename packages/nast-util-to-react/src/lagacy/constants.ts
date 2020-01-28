@@ -1,7 +1,7 @@
 const CSS = {
   blockClass: "block",
   blockIndentClass: "block--indent",
-  colorClassPrefix: "color-",
+  colorClassPrefix: "color--",
   bgColorClassPrefix: "background-",
   tableCellContentType: {
     text: "cell-type-text",

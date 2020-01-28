@@ -9,7 +9,8 @@ export interface NumberedListProps extends RendererProps {
 
 export function NumberedList(props: NumberedListProps) {
   return (
-    <li id={props.current.uri} value={props.listOrder}>
+    <li id={props.current.uri} className="numbered_list"
+      value={props.listOrder}>
       <SemanticStringArray semanticStringArray={props.current.title} />
       {props.children}
     </li>

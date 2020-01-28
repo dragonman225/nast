@@ -54,7 +54,7 @@ export function SemanticString(props: SemanticStringProps) {
       /* Comment */
       case "m":
         return rendered =
-          <span className="color-comment">{rendered}</span>
+          <span className="color--comment">{rendered}</span>
       /** Inline Mention Individual */
       case "u": {
         const individual = formattingOpts as NAST.Individual
@@ -103,7 +103,7 @@ export interface InlineMentionIndividualProps {
 
 function InlineMentionIndividual(props: InlineMentionIndividualProps) {
   return (
-    <span className="color-mention">@{props.data.name}</span>
+    <span className="color--mention">@{props.data.name}</span>
   )
 }
 
@@ -113,7 +113,7 @@ export interface InlineMentionResourceProps {
 
 function InlineMentionResource(props: InlineMentionResourceProps) {
   return (
-    <span className="color-mention">
+    <span className="color--mention">
       <a href={props.data.uri}>
         <SemanticStringArray semanticStringArray={props.data.title} />
       </a>
@@ -128,7 +128,7 @@ export interface InlineMentionDateProps {
 function InlineMentionDate(props: InlineMentionDateProps) {
   const startDate = new Date(props.data.start_date)
   return (
-    <span className="color-mention">
+    <span className="color--mention">
       @{startDate.getUTCFullYear()}/
       {startDate.getUTCMonth() + 1}/
       {startDate.getUTCDate()}

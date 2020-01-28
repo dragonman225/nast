@@ -8,7 +8,7 @@ export interface AudioProps extends RendererProps {
 
 export function Audio(props: AudioProps) {
   return (
-    <audio id={props.current.uri} controls>
+    <audio id={props.current.uri} className="audio" controls>
       <source src={props.current.source} />
     </audio>
   )

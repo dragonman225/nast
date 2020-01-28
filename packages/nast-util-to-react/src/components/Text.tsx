@@ -8,14 +8,15 @@ export interface TextProps extends RendererProps {
 }
 
 export function Text(props: TextProps) {
+  const name = "text"
   return (
     <>
-      <p id={props.current.uri} className="text">
+      <p id={props.current.uri} className={name}>
         <SemanticStringArray semanticStringArray={props.current.title} />
       </p>
       {
         props.children.length ?
-          <div className="indent" style={{ marginLeft: "1em" }}>
+          <div className={`${name}__children`}>
             {props.children}
           </div>
           : ""
