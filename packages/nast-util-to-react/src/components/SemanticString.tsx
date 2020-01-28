@@ -86,14 +86,14 @@ export interface SemanticStringArrayProps {
 
 export function SemanticStringArray(props: SemanticStringArrayProps) {
   return (
-    <>
+    <span style={{ whiteSpace: "pre-wrap" }}>
       {props.semanticStringArray.map((ss, i) =>
         <SemanticString
           semanticString={ss}
           isCode={props.isCode}
           codeLang={props.codeLang} 
           key={i} />)}
-    </>
+    </span>
   )
 }
 
