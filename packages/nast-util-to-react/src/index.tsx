@@ -10,6 +10,7 @@ import { BulletedList, BulletedListWrapper } from "./components/BulletedList"
 import { Callout } from "./components/Callout"
 import { Code } from "./components/Code"
 import { Column, ColumnList } from "./components/ColumnList"
+import { Divider } from "./components/Divider"
 import { Heading } from "./components/Heading"
 import { NumberedList, NumberedListWrapper } from "./components/NumberedList"
 import { TableOfContents } from "./components/TableOfContents"
@@ -23,6 +24,7 @@ blockRendererRegistry.set("callout", Callout as BlockRenderer)
 blockRendererRegistry.set("code", Code as BlockRenderer)
 blockRendererRegistry.set("column", Column as BlockRenderer)
 blockRendererRegistry.set("column_list", ColumnList as BlockRenderer)
+blockRendererRegistry.set("divider", Divider as BlockRenderer)
 blockRendererRegistry.set("heading", Heading as BlockRenderer)
 blockRendererRegistry.set("numbered_list", NumberedList as BlockRenderer)
 blockRendererRegistry.set("table_of_content", TableOfContents as BlockRenderer)
