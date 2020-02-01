@@ -22,7 +22,11 @@ export type TimeZone = string
  * Uniform Resource Identifier.
  */
 export type URI = string
-export type URL = string
+
+/**
+ * A publicly accessible URL.
+ */
+export type PublicUrl = string
 
 /**
  * An UUID string, e.g. `0297b381-6319-417b-a4f8-2ca1f2a96a81`

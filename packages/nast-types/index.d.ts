@@ -1,7 +1,7 @@
 import * as Notion from "notionapi-agent/dist/interfaces"
 
 import { SemanticString } from "./SemanticString"
-import { URI, URL, UUID } from "./util"
+import { Emoji, PublicUrl, URI, UUID } from "./util"
 
 interface Parent<T> {
   children: T[]
@@ -18,8 +18,8 @@ export interface Block extends Parent<Block> {
 export interface Page extends Block {
   type: "page"
   title: SemanticString[]
-  icon?: URL
-  cover?: URL
+  icon?: Emoji | PublicUrl
+  cover?: PublicUrl
   fullWidth: boolean
   coverPosition: number
   properties?: {
@@ -70,7 +70,7 @@ export interface Divider extends Block {
 
 export interface Callout extends Block {
   type: "callout"
-  icon?: URL
+  icon?: Emoji | PublicUrl
   title: SemanticString[]
 }
 
@@ -82,7 +82,7 @@ export interface Callout extends Block {
  */
 export interface Visual extends Block {
   type: "embed" | "pdf" | "image" | "video"
-  source: URL
+  source: PublicUrl
   caption?: SemanticString[]
   width: number
   height: number
@@ -110,12 +110,12 @@ export interface Video extends Visual {
 
 export interface Audio extends Block {
   type: "audio"
-  source: URL
+  source: PublicUrl
 }
 
 export interface Bookmark extends Block {
   type: "bookmark"
-  link: URL
+  link: PublicUrl
   title?: string
   description?: string
   icon?: string
@@ -165,14 +165,14 @@ export interface CollectionInline extends Collection {
 
 export interface CollectionPage extends Collection {
   type: "collection_page"
-  icon?: URL
-  cover?: URL
+  icon?: Emoji | PublicUrl
+  cover?: PublicUrl
   description?: SemanticString[]
   coverPosition: number
 }
 
-export interface TableOfContent extends Block {
-  type: "table_of_content"
+export interface TableOfContents extends Block {
+  type: "table_of_contents"
 }
 
 export interface BreadCrumb extends Block {
