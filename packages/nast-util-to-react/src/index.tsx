@@ -13,6 +13,7 @@ import { Column, ColumnList } from "./components/ColumnList"
 import { Divider } from "./components/Divider"
 import { Heading } from "./components/Heading"
 import { NumberedList, NumberedListWrapper } from "./components/NumberedList"
+import { Page } from "./components/Page"
 import { TableOfContents } from "./components/TableOfContents"
 import { Text } from "./components/Text"
 
@@ -27,6 +28,7 @@ blockRendererRegistry.set("column_list", ColumnList as BlockRenderer)
 blockRendererRegistry.set("divider", Divider as BlockRenderer)
 blockRendererRegistry.set("heading", Heading as BlockRenderer)
 blockRendererRegistry.set("numbered_list", NumberedList as BlockRenderer)
+blockRendererRegistry.set("page", Page as BlockRenderer)
 blockRendererRegistry.set("table_of_content", TableOfContents as BlockRenderer)
 blockRendererRegistry.set("text", Text as BlockRenderer)
 
