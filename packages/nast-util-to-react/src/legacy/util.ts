@@ -40,7 +40,7 @@ function renderBlock(
   contentHTML: string,
   tag = "div"
 ): string {
-  const blockColorClass = node.color ? renderColor(node.color) : ""
+  const blockColorClass = node.color ? getColorName(node.color) : ""
   const html = `\
 <${tag} class="${CSS.blockClass} ${CSS.blockClass}--${node.type} ${blockColorClass}">\
 ${contentHTML}\
@@ -56,11 +56,11 @@ ${contentHTML}\
  * @param {string} str A valid color string in NAST.
  * @returns {string} The CSS class string for the color string.
  */
-function renderColor(
+function getColorName(
   str: string
 ): string {
-  const colorPrefix = CSS.colorClassPrefix
-  const colorBgPrefix = CSS.bgColorClassPrefix
+  const colorPrefix = "semantic-string--color-"
+  const colorBgPrefix = "semantic-string--bg-"
   switch (str) {
     case COLOR.gray:
       return colorPrefix + "gray"
@@ -229,7 +229,7 @@ function addFormattingToHTML(
     /* Color or Background Color */
     case "h":
       const color = formatting[1]
-      return `<span class="${renderColor(color)}">${html}</span>`
+      return `<span class="${getColorName(color)}">${html}</span>`
     /* Comment */
     case "m":
       return `<span class="color-comment">${html}</span>`
@@ -296,7 +296,7 @@ export {
   renderChildren,
   renderBlock,
   renderSemanticStringArray,
-  renderColor,
+  getColorName,
   renderIconToHTML,
   escapeString,
   htmlTag

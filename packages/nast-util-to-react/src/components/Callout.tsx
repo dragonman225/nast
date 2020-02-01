@@ -9,13 +9,15 @@ export interface CalloutProps extends BlockRendererProps {
 }
 
 export function Callout(props: CalloutProps) {
+  const cname = "callout"
   const data = props.current
   return (
-    <div id={data.uri} className={data.type}>
-      <div className={`${data.type}__icon`}>
-        {data.icon ? <Icon src={data.icon} /> : ""}
+    <div id={data.uri} className={cname}>
+      <div className={`${cname}__icon`} >
+        {data.icon ?
+          <Icon src={data.icon} size="1.5em" /> : ""}
       </div>
-      <div className={`${data.type}__content`}>
+      <div className={`${cname}__content`}>
         <SemanticStringArray semanticStringArray={data.title} />
         {props.children}
       </div>

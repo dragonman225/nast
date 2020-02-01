@@ -8,9 +8,7 @@ export interface ColumnListProps extends BlockRendererProps {
 
 export function ColumnList(props: ColumnListProps) {
   return (
-    <div id={props.current.uri}
-      className="column_list"
-      style={{ display: "flex", flexWrap: "wrap" }}>
+    <div id={props.current.uri} className="column_list">
       {props.children}
     </div>
   )
@@ -23,7 +21,6 @@ export interface ColumnProps extends BlockRendererProps {
 export function Column(props: ColumnProps) {
   const columnSpacing = 46
   const style: React.CSSProperties = {
-    wordBreak: "break-word",
     width: `calc((100% - \
 ${columnSpacing * (props.listLength - 1)}px) * ${props.current.ratio})`
   }

@@ -1,7 +1,7 @@
 import * as React from "react"
 import * as NAST from "nast-types"
-import { renderColor } from "../lagacy/util"
-import renderCode from "../lagacy/util-prismjs"
+import { getColorName } from "../legacy/util"
+import renderCode from "../legacy/util-prismjs"
 
 export interface SemanticStringProps {
   semanticString: NAST.SemanticString
@@ -49,12 +49,12 @@ export function SemanticString(props: SemanticStringProps) {
       case "h": {
         const color = formattingOpts as string
         return rendered =
-          <span className={renderColor(color)}>{rendered}</span>
+          <span className={getColorName(color)}>{rendered}</span>
       }
       /* Comment */
       case "m":
         return rendered =
-          <span className="color--comment">{rendered}</span>
+          <span className="semantic-string--commented">{rendered}</span>
       /** Inline Mention Individual */
       case "u": {
         const individual = formattingOpts as NAST.Individual
@@ -86,12 +86,12 @@ export interface SemanticStringArrayProps {
 
 export function SemanticStringArray(props: SemanticStringArrayProps) {
   return (
-    <span style={{ whiteSpace: "pre-wrap" }}>
+    <span className="semantic-string-array">
       {props.semanticStringArray.map((ss, i) =>
         <SemanticString
           semanticString={ss}
           isCode={props.isCode}
-          codeLang={props.codeLang} 
+          codeLang={props.codeLang}
           key={i} />)}
     </span>
   )
@@ -103,7 +103,7 @@ export interface InlineMentionIndividualProps {
 
 function InlineMentionIndividual(props: InlineMentionIndividualProps) {
   return (
-    <span className="color--mention">@{props.data.name}</span>
+    <span className="semantic-string--mentioned">@{props.data.name}</span>
   )
 }
 
@@ -113,7 +113,7 @@ export interface InlineMentionResourceProps {
 
 function InlineMentionResource(props: InlineMentionResourceProps) {
   return (
-    <span className="color--mention">
+    <span className="semantic-string--mentioned">
       <a href={props.data.uri}>
         <SemanticStringArray semanticStringArray={props.data.title} />
       </a>
@@ -128,7 +128,7 @@ export interface InlineMentionDateProps {
 function InlineMentionDate(props: InlineMentionDateProps) {
   const startDate = new Date(props.data.start_date)
   return (
-    <span className="color--mention">
+    <span className="semantic-string--mentioned">
       @{startDate.getUTCFullYear()}/
       {startDate.getUTCMonth() + 1}/
       {startDate.getUTCDate()}

@@ -7,15 +7,17 @@ export interface BookmarkProps extends BlockRendererProps {
 }
 
 export function Bookmark(props: BookmarkProps) {
-  const name = "bookmark"
+  const cname = "bookmark"
   const data = props.current
   return (
-    <a id={data.uri} className={name} href={data.link}>
-      {data.title ?
-        <h5 className={`${name}__title`}>{data.title}</h5> : ""}
-      {data.description ?
-        <p className={`${name}__desc`}>{data.description}</p> : ""}
-      <p className={`${name}__link`}>{data.link}</p>
-    </a>
+    <div id={data.uri} className={cname}>
+      <a href={data.link}>
+        {data.title ?
+          <h5 className={`${cname}__title`}>{data.title}</h5> : ""}
+        {data.description ?
+          <p className={`${cname}__desc`}>{data.description}</p> : ""}
+        <p className={`${cname}__link`}>{data.link}</p>
+      </a>
+    </div>
   )
 }

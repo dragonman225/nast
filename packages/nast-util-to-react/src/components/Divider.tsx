@@ -8,10 +8,6 @@ export interface DividerProps extends BlockRendererProps {
 
 export function Divider(props: DividerProps) {
   return (
-    <div id={props.current.uri} className="divider"
-      style={{
-        width: "100%",
-        border: "1px solid rgba(55, 53, 47, 0.09)"
-      }} />
+    <div id={props.current.uri} className="divider" />
   )
 }

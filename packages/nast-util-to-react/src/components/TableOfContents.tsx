@@ -10,9 +10,10 @@ export interface TableOfContentsProps extends BlockRendererProps {
 export function TableOfContents(props: TableOfContentsProps) {
   const blocks = getBlocksThatCanBePutInTOC(props.root)
   const rendered: JSX.Element[] = []
+  const indentWidth = 24
+  const indentUnit = "px"
   let prevHDepth = 0 // previous heading depth
   let indentNum = 0
-  let indentWidth = 24
   for (let i = 0; i < blocks.length; i++) {
     const h = blocks[i] as NAST.Heading
 
@@ -38,9 +39,11 @@ export function TableOfContents(props: TableOfContentsProps) {
     }
 
     rendered.push(
-      <li style={{ marginLeft: `${indentNum * indentWidth}px` }}>
+      <li>
         <a href={`#${h.uri}`}>
-          <SemanticStringArray semanticStringArray={h.title} />
+          <div style={{ marginLeft: `${indentNum * indentWidth}${indentUnit}` }}>
+            <SemanticStringArray semanticStringArray={h.title} />
+          </div>
         </a>
       </li>
     )

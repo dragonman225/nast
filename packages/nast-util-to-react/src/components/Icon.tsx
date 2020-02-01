@@ -3,23 +3,19 @@ import * as React from "react"
 export interface IconProps {
   src: string
   size?: string
-  borderRadius?: string
 }
 
 export function Icon(props: IconProps) {
+  const cname = "icon"
   const isEmoji = !/^http/.test(props.src)
-  const defaultSize = "1em"
-  const defaultBorderRadius = "3px"
-  const style: React.CSSProperties = isEmoji ?
-    { width: props.size || defaultSize, textAlign: "center" } :
-    {
-      width: props.size || defaultSize,
-      height: props.size || defaultSize,
-      borderRadius: props.borderRadius || defaultBorderRadius
-    }
+  const defaultSize = "1.5em"
+  const style: React.CSSProperties = {
+    width: props.size || defaultSize,
+    height: props.size || defaultSize,
+  }
   if (isEmoji) {
-    return <div style={style}>{props.src}</div>
+    return <div className={cname} style={style}>{props.src}</div>
   } else {
-    return <img src={props.src} style={style} />
+    return <img className={cname} style={style} src={props.src} />
   }
 }
