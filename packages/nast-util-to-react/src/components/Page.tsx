@@ -25,7 +25,8 @@ export function Page(props: PageProps) {
                 <svg viewBox="0 0 30 30" style={{
                   width: "1.1875em",
                   height: "1.1875em",
-                  fill: "rgba(55, 53, 47, 0.8)"
+                  fill: "inherit",
+                  opacity: "0.8"
                 }}>
                   <g>
                     <path d="M16,1H4v28h22V11L16,1z M23.172,11H16V3.828L23.172,11z M24,27H6V3h8v10h10V27z"></path>
