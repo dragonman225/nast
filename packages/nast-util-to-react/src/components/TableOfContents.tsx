@@ -4,7 +4,7 @@ import { BlockRendererProps } from "../interfaces"
 import { SemanticStringArray } from "./SemanticString"
 
 export interface TableOfContentsProps extends BlockRendererProps {
-  current: NAST.TableOfContent
+  current: NAST.TableOfContents
 }
 
 export function TableOfContents(props: TableOfContentsProps) {

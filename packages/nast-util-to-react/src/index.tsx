@@ -29,7 +29,7 @@ blockRendererRegistry.set("divider", Divider as BlockRenderer)
 blockRendererRegistry.set("heading", Heading as BlockRenderer)
 blockRendererRegistry.set("numbered_list", NumberedList as BlockRenderer)
 blockRendererRegistry.set("page", Page as BlockRenderer)
-blockRendererRegistry.set("table_of_content", TableOfContents as BlockRenderer)
+blockRendererRegistry.set("table_of_contents", TableOfContents as BlockRenderer)
 blockRendererRegistry.set("text", Text as BlockRenderer)
 
 const listWrapperRegistry = new Map<string, ListWrapper>()
