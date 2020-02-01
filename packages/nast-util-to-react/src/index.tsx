@@ -11,6 +11,7 @@ import { Callout } from "./components/Callout"
 import { Code } from "./components/Code"
 import { Column, ColumnList } from "./components/ColumnList"
 import { Divider } from "./components/Divider"
+import { File } from "./components/File"
 import { Heading } from "./components/Heading"
 import { NumberedList, NumberedListWrapper } from "./components/NumberedList"
 import { Page } from "./components/Page"
@@ -27,6 +28,7 @@ blockRendererRegistry.set("code", Code as BlockRenderer)
 blockRendererRegistry.set("column", Column as BlockRenderer)
 blockRendererRegistry.set("column_list", ColumnList as BlockRenderer)
 blockRendererRegistry.set("divider", Divider as BlockRenderer)
+blockRendererRegistry.set("file", File as BlockRenderer)
 blockRendererRegistry.set("heading", Heading as BlockRenderer)
 blockRendererRegistry.set("numbered_list", NumberedList as BlockRenderer)
 blockRendererRegistry.set("page", Page as BlockRenderer)
