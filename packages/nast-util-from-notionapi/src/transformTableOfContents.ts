@@ -14,11 +14,11 @@ import * as Notion from "notionapi-agent/dist/interfaces"
 
 async function transformTableOfContent(
   node: Notion.Block.TableOfContents
-): Promise<NAST.TableOfContent> {
+): Promise<NAST.TableOfContents> {
   return {
     children: [],
     uri: getBlockUri(node),
-    type: "table_of_content",
+    type: "table_of_contents",
     color: getBlockColor(node)
   }
 }

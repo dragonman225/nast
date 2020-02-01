@@ -24,7 +24,7 @@ import transformHeading from "./transformHeading"
 import transformNumberedList from "./transformNumberedList"
 import transformPage from "./transformPage"
 import transformQuote from "./transformQuote"
-import transformTableOfContent from "./transformTableOfContent"
+import transformTableOfContents from "./transformTableOfContents"
 import transformText from "./transformText"
 import transformToDo from "./transformToDo"
 import transformToggle from "./transformToggle"
@@ -155,7 +155,7 @@ async function transformBlock(
       break
     }
     case "table_of_contents": {
-      nastNode = transformTableOfContent(node as Notion.Block.TableOfContents)
+      nastNode = transformTableOfContents(node as Notion.Block.TableOfContents)
       break
     }
     default: {
