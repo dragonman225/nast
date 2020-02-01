@@ -13,7 +13,12 @@ export function Page(props: PageProps) {
   const data = props.current
   const isRoot = props.current === props.root
   if (isRoot) {
-    return props.children
+    return (
+      <div id={data.uri} className={data.fullWidth ?
+        `${cname}--root ${cname}--full-width` : `${cname}--root`}>
+        {props.children}
+      </div>
+    )
   } else {
     return (
       <a id={data.uri} className={cname} href={data.uri}>
