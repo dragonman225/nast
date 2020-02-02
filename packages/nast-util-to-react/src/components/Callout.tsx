@@ -17,10 +17,10 @@ export function Callout(props: CalloutProps) {
         {data.icon ?
           <Icon src={data.icon} size="1.5em" /> : ""}
       </div>
-      <div className={`${cname}__content`}>
+      <p className={`${cname}__content`}>
         <SemanticStringArray semanticStringArray={data.title} />
         {props.children}
-      </div>
+      </p>
     </div>
   )
 }

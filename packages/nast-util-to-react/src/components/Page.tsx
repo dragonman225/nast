@@ -26,7 +26,7 @@ export function Page(props: PageProps) {
           <div className={`${cname}__icon`}>
             {
               data.icon ?
-                <Icon src={data.icon} size="1.1875em" /> :
+                <Icon src={data.icon} size="1em" /> :
                 <svg viewBox="0 0 30 30" style={{
                   width: "1.1875em",
                   height: "1.1875em",

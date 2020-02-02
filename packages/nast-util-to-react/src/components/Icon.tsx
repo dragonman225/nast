@@ -8,13 +8,13 @@ export interface IconProps {
 export function Icon(props: IconProps) {
   const cname = "icon"
   const isEmoji = !/^http/.test(props.src)
-  const defaultSize = "1.5em"
+  const defaultSize = "1em"
   const style: React.CSSProperties = {
     width: props.size || defaultSize,
     height: props.size || defaultSize,
   }
   if (isEmoji) {
-    return <div className={cname} style={style}>{props.src}</div>
+    return <div className={cname}>{props.src}</div>
   } else {
     return <img className={cname} style={style} src={props.src} />
   }
