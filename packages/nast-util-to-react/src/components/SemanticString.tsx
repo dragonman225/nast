@@ -1,7 +1,26 @@
 import * as React from "react"
 import * as NAST from "nast-types"
-import { getColorName } from "../legacy/util"
+import { colorElemClass } from "../legacy/util"
 import renderCode from "../legacy/util-prismjs"
+
+export interface SemanticStringArrayProps {
+  semanticStringArray: NAST.SemanticString[]
+  isCode?: boolean
+  codeLang?: string
+}
+
+export function SemanticStringArray(props: SemanticStringArrayProps) {
+  return (
+    <span className="SemanticStringArray">
+      {props.semanticStringArray.map((ss, i) =>
+        <SemanticString
+          semanticString={ss}
+          isCode={props.isCode}
+          codeLang={props.codeLang}
+          key={i} />)}
+    </span>
+  )
+}
 
 export interface SemanticStringProps {
   semanticString: NAST.SemanticString
@@ -11,6 +30,7 @@ export interface SemanticStringProps {
 
 export function SemanticString(props: SemanticStringProps) {
 
+  const blockName = "SemanticString"
   const text = props.semanticString[0]
   const formattings = props.semanticString[1] || []
   let renderedText: JSX.Element
@@ -24,77 +44,92 @@ export function SemanticString(props: SemanticStringProps) {
     renderedText = <>{text}</>
   }
 
-  return formattings.reduce((rendered, formatting) => {
+  renderedText = formattings.reduce((rendered, formatting) => {
+    const elemName = `${blockName}__Fragment`
     const formattingId = formatting[0]
     const formattingOpts = formatting[1]
     switch (formattingId) {
       /* Bold */
       case "b":
-        return rendered = <strong>{rendered}</strong>
+        return rendered =
+          <strong className={`${elemName} ${elemName}--bold`}>
+            {rendered}
+          </strong>
       /* Italic */
       case "i":
-        return rendered = <em>{rendered}</em>
+        return rendered =
+          <em className={`${elemName} ${elemName}--italic`}>
+            {rendered}
+          </em>
       /* Strike */
       case "s":
-        return rendered = <del>{rendered}</del>
+        return rendered =
+          <del className={`${elemName} ${elemName}--strike`}>
+            {rendered}
+          </del>
       /* Link */
       case "a": {
         const link = formattingOpts as string
-        return rendered = <a href={link}>{rendered}</a>
+        return rendered =
+          <a className={`${elemName} ${elemName}--link`} href={link}>
+            {rendered}
+          </a>
       }
       /* Inline Code */
       case "c":
-        return rendered = <code>{rendered}</code>
+        return rendered =
+          <code className={`${elemName} ${elemName}--code`}>
+            {rendered}
+          </code>
       /* Color or Background Color */
       case "h": {
         const color = formattingOpts as string
         return rendered =
-          <span className={getColorName(color)}>{rendered}</span>
+          <span className={`${elemName} ${colorElemClass(elemName, color)}`}>
+            {rendered}
+          </span>
       }
       /* Comment */
       case "m":
         return rendered =
-          <span className="semantic-string--commented">{rendered}</span>
+          <span className={`${elemName} ${elemName}--commented`}>
+            {rendered}
+          </span>
       /** Inline Mention Individual */
       case "u": {
         const individual = formattingOpts as NAST.Individual
-        return rendered = <InlineMentionIndividual data={individual} />
+        return rendered =
+          <span className={`${elemName} ${elemName}--individual`}>
+            <InlineMentionIndividual data={individual} />
+          </span>
       }
       /** Inline Mention Resource */
       case "p": {
         const resource = formattingOpts as NAST.Resource
-        return rendered = <InlineMentionResource data={resource} />
+        return rendered =
+          <span className={`${elemName} ${elemName}--resource`}>
+            <InlineMentionResource data={resource} />
+          </span>
       }
       /** Inline Mention Date */
       case "d": {
         const date = formattingOpts as NAST.DateTime
-        return rendered = <InlineMentionDate data={date} />
+        return rendered =
+          <span className={`${elemName} ${elemName}--date`}>
+            <InlineMentionDate data={date} />
+          </span>
       }
       default:
         console.log(`Unsupported formatting: ${formatting[0]}`)
-        return rendered
+        return rendered =
+          <span className={`${elemName} ${elemName}--unknown`}>
+            {rendered}
+          </span>
     }
   }, renderedText)
 
-}
+  return <span className={blockName}>{renderedText}</span>
 
-export interface SemanticStringArrayProps {
-  semanticStringArray: NAST.SemanticString[]
-  isCode?: boolean
-  codeLang?: string
-}
-
-export function SemanticStringArray(props: SemanticStringArrayProps) {
-  return (
-    <span className="semantic-string-array">
-      {props.semanticStringArray.map((ss, i) =>
-        <SemanticString
-          semanticString={ss}
-          isCode={props.isCode}
-          codeLang={props.codeLang}
-          key={i} />)}
-    </span>
-  )
 }
 
 export interface InlineMentionIndividualProps {
@@ -103,7 +138,7 @@ export interface InlineMentionIndividualProps {
 
 function InlineMentionIndividual(props: InlineMentionIndividualProps) {
   return (
-    <span className="semantic-string--mentioned">@{props.data.name}</span>
+    <>@{props.data.name}</>
   )
 }
 
@@ -113,11 +148,9 @@ export interface InlineMentionResourceProps {
 
 function InlineMentionResource(props: InlineMentionResourceProps) {
   return (
-    <span className="semantic-string--mentioned">
-      <a href={props.data.uri}>
-        <SemanticStringArray semanticStringArray={props.data.title} />
-      </a>
-    </span>
+    <a href={props.data.uri}>
+      <SemanticStringArray semanticStringArray={props.data.title} />
+    </a>
   )
 }
 
@@ -128,10 +161,10 @@ export interface InlineMentionDateProps {
 function InlineMentionDate(props: InlineMentionDateProps) {
   const startDate = new Date(props.data.start_date)
   return (
-    <span className="semantic-string--mentioned">
+    <>
       @{startDate.getUTCFullYear()}/
       {startDate.getUTCMonth() + 1}/
       {startDate.getUTCDate()}
-    </span>
+    </>
   )
 }

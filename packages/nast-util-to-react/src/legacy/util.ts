@@ -40,7 +40,7 @@ function renderBlock(
   contentHTML: string,
   tag = "div"
 ): string {
-  const blockColorClass = node.color ? getColorName(node.color) : ""
+  const blockColorClass = node.color ? colorElemClass("block", node.color) : ""
   const html = `\
 <${tag} class="${CSS.blockClass} ${CSS.blockClass}--${node.type} ${blockColorClass}">\
 ${contentHTML}\
@@ -56,12 +56,13 @@ ${contentHTML}\
  * @param {string} str A valid color string in NAST.
  * @returns {string} The CSS class string for the color string.
  */
-function getColorName(
-  str: string
+function colorElemClass(
+  elemClass: string,
+  color: string
 ): string {
-  const colorPrefix = "semantic-string--color-"
-  const colorBgPrefix = "semantic-string--bg-"
-  switch (str) {
+  const colorPrefix = `${elemClass}--color-`
+  const bgPrefix = `${elemClass}--bg-`
+  switch (color) {
     case COLOR.gray:
       return colorPrefix + "gray"
     case COLOR.brown:
@@ -81,25 +82,25 @@ function getColorName(
     case COLOR.red:
       return colorPrefix + "red"
     case COLOR.grayBg:
-      return colorBgPrefix + "gray"
+      return bgPrefix + "gray"
     case COLOR.brownBg:
-      return colorBgPrefix + "brown"
+      return bgPrefix + "brown"
     case COLOR.orangeBg:
-      return colorBgPrefix + "orange"
+      return bgPrefix + "orange"
     case COLOR.yellowBg:
-      return colorBgPrefix + "yellow"
+      return bgPrefix + "yellow"
     case COLOR.greenBg:
-      return colorBgPrefix + "green"
+      return bgPrefix + "green"
     case COLOR.blueBg:
-      return colorBgPrefix + "blue"
+      return bgPrefix + "blue"
     case COLOR.purpleBg:
-      return colorBgPrefix + "purple"
+      return bgPrefix + "purple"
     case COLOR.pinkBg:
-      return colorBgPrefix + "pink"
+      return bgPrefix + "pink"
     case COLOR.redBg:
-      return colorBgPrefix + "red"
+      return bgPrefix + "red"
     default:
-      return str
+      return colorPrefix + "default"
   }
 }
 
@@ -229,7 +230,7 @@ function addFormattingToHTML(
     /* Color or Background Color */
     case "h":
       const color = formatting[1]
-      return `<span class="${getColorName(color)}">${html}</span>`
+      return `<span class="${colorElemClass("text", color)}">${html}</span>`
     /* Comment */
     case "m":
       return `<span class="color-comment">${html}</span>`
@@ -296,7 +297,7 @@ export {
   renderChildren,
   renderBlock,
   renderSemanticStringArray,
-  getColorName,
+  colorElemClass,
   renderIconToHTML,
   escapeString,
   htmlTag
