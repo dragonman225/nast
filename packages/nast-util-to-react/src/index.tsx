@@ -17,6 +17,7 @@ import { NumberedList, NumberedListWrapper } from "./components/NumberedList"
 import { Page } from "./components/Page"
 import { TableOfContents } from "./components/TableOfContents"
 import { Text } from "./components/Text"
+import { ToDo } from "./components/ToDo"
 import { Toggle } from "./components/Toggle"
 
 const blockRendererRegistry = new Map<string, BlockRenderer>()
@@ -34,6 +35,7 @@ blockRendererRegistry.set("numbered_list", NumberedList as BlockRenderer)
 blockRendererRegistry.set("page", Page as BlockRenderer)
 blockRendererRegistry.set("table_of_contents", TableOfContents as BlockRenderer)
 blockRendererRegistry.set("text", Text as BlockRenderer)
+blockRendererRegistry.set("to_do", ToDo as BlockRenderer)
 blockRendererRegistry.set("toggle", Toggle as BlockRenderer)
 
 const listWrapperRegistry = new Map<string, ListWrapper>()
