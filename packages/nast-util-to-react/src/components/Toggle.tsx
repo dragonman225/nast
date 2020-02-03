@@ -8,14 +8,14 @@ export interface ToggleProps extends BlockRendererProps {
 }
 
 export function Toggle(props: ToggleProps) {
-  const cname = "toggle"
+  const cname = "Toggle"
   const data = props.current
   return (
     <details id={data.uri} className={cname}>
-      <summary className={`${cname}__summary`}>
+      <summary className={`${cname}__Summary`}>
         <SemanticStringArray semanticStringArray={data.title} />
       </summary>
-      <div className={`${cname}__content`}>
+      <div className={`${cname}__Content`}>
         {props.children}
       </div>
     </details>

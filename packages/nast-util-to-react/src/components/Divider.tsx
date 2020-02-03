@@ -8,6 +8,6 @@ export interface DividerProps extends BlockRendererProps {
 
 export function Divider(props: DividerProps) {
   return (
-    <div id={props.current.uri} className="divider" />
+    <div id={props.current.uri} className="Divider" />
   )
 }

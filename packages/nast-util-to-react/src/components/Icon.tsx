@@ -6,7 +6,7 @@ export interface IconProps {
 }
 
 export function Icon(props: IconProps) {
-  const cname = "icon"
+  const cname = "Icon"
   const isEmoji = !/^http/.test(props.src)
   const defaultSize = "1em"
   const style: React.CSSProperties = {

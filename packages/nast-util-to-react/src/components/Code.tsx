@@ -9,7 +9,7 @@ export interface CodeProps extends BlockRendererProps {
 
 export function Code(props: CodeProps) {
   return (
-    <pre id={props.current.uri} className="code">
+    <pre id={props.current.uri} className="Code">
       <code>
         <SemanticStringArray
           semanticStringArray={props.current.title}

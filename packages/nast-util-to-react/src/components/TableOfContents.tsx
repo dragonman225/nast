@@ -50,7 +50,7 @@ export function TableOfContents(props: TableOfContentsProps) {
   }
 
   return (
-    <ul id={props.current.uri} className="table_of_contents">
+    <ul id={props.current.uri} className="TableOfContents">
       {rendered}
     </ul>
   )

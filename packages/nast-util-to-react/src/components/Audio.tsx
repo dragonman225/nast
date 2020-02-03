@@ -8,7 +8,7 @@ export interface AudioProps extends BlockRendererProps {
 
 export function Audio(props: AudioProps) {
   return (
-    <audio id={props.current.uri} className="audio" controls>
+    <audio id={props.current.uri} className="Audio" controls>
       <source src={props.current.source} />
     </audio>
   )

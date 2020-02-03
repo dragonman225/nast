@@ -8,7 +8,7 @@ export interface TextProps extends BlockRendererProps {
 }
 
 export function Text(props: TextProps) {
-  const name = "text"
+  const name = "Text"
   return (
     <>
       <p id={props.current.uri} className={name}>
@@ -16,7 +16,7 @@ export function Text(props: TextProps) {
       </p>
       {
         props.children.length ?
-          <div className={`${name}__children`}>
+          <div className={`${name}__Children`}>
             {props.children}
           </div>
           : ""

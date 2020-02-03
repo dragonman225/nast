@@ -8,7 +8,7 @@ export interface ColumnListProps extends BlockRendererProps {
 
 export function ColumnList(props: ColumnListProps) {
   return (
-    <div id={props.current.uri} className="column_list">
+    <div id={props.current.uri} className="ColumnList">
       {props.children}
     </div>
   )
@@ -31,7 +31,7 @@ ${columnSpacing * (props.listLength - 1)}px) * ${props.current.ratio})`
 
   return (
     <div id={props.current.uri}
-      className="column"
+      className="Column"
       style={style}>
       {props.children}
     </div>

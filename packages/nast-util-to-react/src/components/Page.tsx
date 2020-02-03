@@ -9,21 +9,22 @@ export interface PageProps extends BlockRendererProps {
 }
 
 export function Page(props: PageProps) {
-  const cname = "page"
   const data = props.current
   const isRoot = props.current === props.root
   if (isRoot) {
+    const blockName = "PageRoot"
     return (
       <div id={data.uri} className={data.fullWidth ?
-        `${cname}-root ${cname}-root--full-width` : `${cname}-root`}>
+        `${blockName} ${blockName}--FullWidth` : `${blockName}`}>
         {props.children}
       </div>
     )
   } else {
+    const blockName = "Page"
     return (
-      <a id={data.uri} className={cname} href={data.uri}>
+      <a id={data.uri} className={blockName} href={data.uri}>
         <div>
-          <div className={`${cname}__icon`}>
+          <div className={`${blockName}__Icon`}>
             {
               data.icon ?
                 <Icon src={data.icon} size="1em" /> :
@@ -39,7 +40,7 @@ export function Page(props: PageProps) {
                 </svg>
             }
           </div>
-          <div className={`${cname}__title`}>
+          <div className={`${blockName}__Title`}>
             <SemanticStringArray
               semanticStringArray={data.title.length ? data.title : [["Untitled"]]} />
           </div>

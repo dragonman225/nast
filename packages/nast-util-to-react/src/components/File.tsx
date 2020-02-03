@@ -7,12 +7,12 @@ export interface FileProps extends BlockRendererProps {
 }
 
 export function File(props: FileProps) {
-  const cname = "file"
+  const cname = "File"
   const data = props.current
   return (
     <a id={data.uri} className={cname} href={data.source}>
       <div>
-        <div className={`${cname}__icon`}>
+        <div className={`${cname}__Icon`}>
           <svg viewBox="0 0 30 30" style={{
             width: "1.35em",
             height: "1.35em",
@@ -24,10 +24,10 @@ export function File(props: FileProps) {
           </svg>
         </div>
         <div>
-          <span className={`${cname}__title`}>{data.title}</span>
+          <span className={`${cname}__Title`}>{data.title}</span>
           {
             data.size ?
-              <span className={`${cname}__size`}>{data.size}</span> : ""
+              <span className={`${cname}__Size`}>{data.size}</span> : ""
           }
         </div>
       </div>
