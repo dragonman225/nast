@@ -12,6 +12,7 @@ import { Code } from "./components/Code"
 import { Column, ColumnList } from "./components/ColumnList"
 import { Divider } from "./components/Divider"
 import { Embed } from "./components/Embed"
+import { EquationDriver } from "./components/Equation"
 import { File } from "./components/File"
 import { Heading } from "./components/Heading"
 import { NumberedList, NumberedListWrapper } from "./components/NumberedList"
@@ -31,6 +32,7 @@ blockRendererRegistry.set("column", Column as BlockRenderer)
 blockRendererRegistry.set("column_list", ColumnList as BlockRenderer)
 blockRendererRegistry.set("divider", Divider as BlockRenderer)
 blockRendererRegistry.set("embed", Embed as BlockRenderer)
+blockRendererRegistry.set("equation", EquationDriver as BlockRenderer)
 blockRendererRegistry.set("file", File as BlockRenderer)
 blockRendererRegistry.set("heading", Heading as BlockRenderer)
 blockRendererRegistry.set("numbered_list", NumberedList as BlockRenderer)
