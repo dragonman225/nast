@@ -15,6 +15,7 @@ import { Embed } from "./components/Embed"
 import { EquationDriver } from "./components/Equation"
 import { File } from "./components/File"
 import { Heading } from "./components/Heading"
+import { Image } from "./components/Image"
 import { NumberedList, NumberedListWrapper } from "./components/NumberedList"
 import { Page } from "./components/Page"
 import { TableOfContents } from "./components/TableOfContents"
@@ -35,6 +36,7 @@ blockRendererRegistry.set("embed", Embed as BlockRenderer)
 blockRendererRegistry.set("equation", EquationDriver as BlockRenderer)
 blockRendererRegistry.set("file", File as BlockRenderer)
 blockRendererRegistry.set("heading", Heading as BlockRenderer)
+blockRendererRegistry.set("image", Image as BlockRenderer)
 blockRendererRegistry.set("numbered_list", NumberedList as BlockRenderer)
 blockRendererRegistry.set("page", Page as BlockRenderer)
 blockRendererRegistry.set("table_of_contents", TableOfContents as BlockRenderer)
