@@ -15,7 +15,7 @@ export function Page(props: PageProps) {
   if (isRoot) {
     return (
       <div id={data.uri} className={data.fullWidth ?
-        `${cname}--root ${cname}--full-width` : `${cname}--root`}>
+        `${cname}-root ${cname}-root--full-width` : `${cname}-root`}>
         {props.children}
       </div>
     )
