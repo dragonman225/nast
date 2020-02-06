@@ -9,13 +9,14 @@ export interface HeadingProps extends BlockRendererProps {
 
 export function Heading(props: HeadingProps) {
   const blockName = "Heading"
-  switch (props.current.depth) {
+  const data = props.current
+  switch (data.depth) {
     case 1: {
       return (
         <>
-          <h1 id={props.current.uri} className={blockName}>
+          <h1 id={data.uri} className={`${blockName} ${blockName}--D1`}>
             <SemanticStringArray
-              semanticStringArray={props.current.title} />
+              semanticStringArray={data.title} />
           </h1>
           {props.children}
         </>
@@ -25,9 +26,9 @@ export function Heading(props: HeadingProps) {
     case 2: {
       return (
         <>
-          <h2 id={props.current.uri} className={blockName}>
+          <h2 id={data.uri} className={`${blockName} ${blockName}--D2`}>
             <SemanticStringArray
-              semanticStringArray={props.current.title} />
+              semanticStringArray={data.title} />
           </h2>
           {props.children}
         </>
@@ -37,9 +38,9 @@ export function Heading(props: HeadingProps) {
     default: {
       return (
         <>
-          <h3 id={props.current.uri} className={blockName}>
+          <h3 id={data.uri} className={`${blockName} ${blockName}--D3`}>
             <SemanticStringArray
-              semanticStringArray={props.current.title} />
+              semanticStringArray={data.title} />
           </h3>
           {props.children}
         </>
