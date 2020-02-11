@@ -18,6 +18,7 @@ import { Heading } from "./components/Heading"
 import { Image } from "./components/Image"
 import { NumberedList, NumberedListWrapper } from "./components/NumberedList"
 import { Page } from "./components/Page"
+import { PDF } from "./components/PDF"
 import { QuoteDriver } from "./components/Quote"
 import { TableOfContents } from "./components/TableOfContents"
 import { Text } from "./components/Text"
@@ -40,6 +41,7 @@ blockRendererRegistry.set("heading", Heading as BlockRenderer)
 blockRendererRegistry.set("image", Image as BlockRenderer)
 blockRendererRegistry.set("numbered_list", NumberedList as BlockRenderer)
 blockRendererRegistry.set("page", Page as BlockRenderer)
+blockRendererRegistry.set("pdf", PDF as BlockRenderer)
 blockRendererRegistry.set("quote", QuoteDriver as BlockRenderer)
 blockRendererRegistry.set("table_of_contents", TableOfContents as BlockRenderer)
 blockRendererRegistry.set("text", Text as BlockRenderer)
