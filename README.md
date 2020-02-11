@@ -1,21 +1,17 @@
 # NAST
 
-A view model for linear documents.
-
-## Specification
-
-The view model specification is currently written as a TypeScript type definition module. See [packages/nast-types](./packages/nast-types).
+A growing framework for information. 
 
 ## Packages
 
-This is a monorepo and all officially implemented libraries are in the `packages` directory.
-
-| Name                                                         | Direction | Description                                                  | Status           |
-| :----------------------------------------------------------- | --------- | :----------------------------------------------------------- | :--------------- |
-| [nast-util-from-notionapi](./packages/nast-util-from-notionapi) | From      | Get *NAST* from a [Notion](https://www.notion.so/) page.     | Experimental     |
-| [nast-util-from-orgzly](./packages/nast-util-from-orgzly)    | From      | Get *NAST* from an org-mode file exported by [Orgzly](http://www.orgzly.com/). | Proof of Concept |
-| [nast-util-to-html](./packages/nast-util-to-html)            | To        | Render *NAST* to HTML.                                       | Experimental     |
-| nast-util-md                                                 | From / To | Get *NAST* from and render *NAST* to a Markdown file.        | Planned          |
+| Name                                                         | Description                                                  | Status           |
+| :----------------------------------------------------------- | :----------------------------------------------------------- | :--------------- |
+| [nast-types]()                                               | A TypeScript type definition module to specify data models for intermediate representation of data. | Experimental     |
+| [nast-util-from-notionapi](./packages/nast-util-from-notionapi) | Import data from a [Notion](https://www.notion.so/) page.    | Experimental     |
+| [nast-util-from-orgzly](./packages/nast-util-from-orgzly)    | Import data from an org-mode file exported by [Orgzly](http://www.orgzly.com/). | Proof of Concept |
+| [nast-util-to-html](./packages/nast-util-to-html)            | Render data to HTML. (Deprecated)                            | Experimental     |
+| [nast-util-to-react](./packages/nast-util-to-react)          | Render data to `JSX.Element` or HTML. (Preferred)            | Experimental     |
+| nast-util-to-svelte                                          | Render data to HTML using Svelte.                            | -                |
 
 * Stability : **Stable** > **Experimental** > **Proof of Concept**
 
@@ -23,7 +19,7 @@ This is a monorepo and all officially implemented libraries are in the `packages
 
 ### Setup
 
-This project uses [lerna](https://github.com/lerna/lerna). If you haven't used it before, [this tutorial](https://github.com/reggi/lerna-tutorial) is a good start point.
+This project uses [lerna](https://github.com/lerna/lerna) to manage the monorepo. If you haven't used it before, [this tutorial](https://github.com/reggi/lerna-tutorial) is a good start point.
 
 ```bash
 npm i -g lerna
