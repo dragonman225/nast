@@ -1,43 +1,3 @@
-const CSS = {
-  blockClass: "block",
-  blockIndentClass: "block--indent",
-  tableCellContentType: {
-    text: "cell-type-text",
-    select: "cell-type-select",
-    checkbox: "cell-type-checkbox"
-  },
-  tagInTableCellColorPrefix: "tag-", // temp: borrow from notablog
-  checkBoxInTablePrefix: "check-"
-}
-
-const NAST_BLOCK_TYPES = {
-  page: "page",
-  pdf: "pdf",
-  heading: "heading",
-  toDo: "to_do",
-  toggle: "toggle",
-  columnList: "column_list",
-  column: "column",
-  bulletedList: "bulleted_list",
-  numberedList: "numbered_list",
-  text: "text",
-  code: "code",
-  equation: "equation",
-  divider: "divider",
-  quote: "quote",
-  callout: "callout",
-  tableOfContents: "table_of_content",
-  breadcrumb: "breadcrumb",
-  image: "image",
-  video: "video",
-  embed: "embed",
-  audio: "audio",
-  file: "file",
-  bookmark: "bookmark",
-  collectionInline: "collection_inline",
-  collectionPage: "collection_page"
-}
-
 const COLOR = {
   gray: "gray",
   brown: "brown",
@@ -84,8 +44,6 @@ const COLLECTION_ITEM_PROPERTY_TYPES = {
 }
 
 export {
-  CSS,
-  NAST_BLOCK_TYPES,
   COLOR,
   COLLECTION_VIEW_TYPES,
   COLLECTION_ITEM_PROPERTY_TYPES

@@ -115,7 +115,7 @@ const languages: LangMap = {
   "q": "Q (kdb+ database)",
   "jsx": "React JSX",
   "tsx": "React TSX",
-  "renpy": "Ren\"py",
+  "renpy": "Ren'py",
   "rest": "reST (reStructuredText)",
   "rb": "Ruby",
   "sas": "SAS",
@@ -151,7 +151,7 @@ const languages: LangMap = {
  * TODO: Complete the following map. The key is the string used in Notion, 
  * and the value is the one used in prismjs.
  * 
- * TODO: We shouldn"t handle Notion-specific stuffs here, instead, map
+ * TODO: We should not handle Notion-specific stuffs here, instead, map
  * these strings to prismjs compatible ones in nast-util-from-notionapi.
  * 
  * To extract Notion-specific language strings, get a code block, 

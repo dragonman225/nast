@@ -5,6 +5,14 @@ import renderCode from "../legacy/util-prismjs"
 
 export interface SemanticStringArrayProps {
   semanticStringArray: NAST.SemanticString[]
+  /** Whether the content is code. */
+  isCode?: boolean
+  /** One of programming languages listed in `../legacy/util-prismjs.ts`. */
+  codeLang?: string
+}
+
+export interface SemanticStringProps {
+  semanticString: NAST.SemanticString
   isCode?: boolean
   codeLang?: string
 }
@@ -20,12 +28,6 @@ export function SemanticStringArray(props: SemanticStringArrayProps) {
           key={i} />)}
     </span>
   )
-}
-
-export interface SemanticStringProps {
-  semanticString: NAST.SemanticString
-  isCode?: boolean
-  codeLang?: string
 }
 
 export function SemanticString(props: SemanticStringProps) {
@@ -52,33 +54,33 @@ export function SemanticString(props: SemanticStringProps) {
       /* Bold */
       case "b":
         return rendered =
-          <strong className={`${elemName} ${elemName}--bold`}>
+          <strong className={`${elemName} ${elemName}--Bold`}>
             {rendered}
           </strong>
       /* Italic */
       case "i":
         return rendered =
-          <em className={`${elemName} ${elemName}--italic`}>
+          <em className={`${elemName} ${elemName}--Italic`}>
             {rendered}
           </em>
       /* Strike */
       case "s":
         return rendered =
-          <del className={`${elemName} ${elemName}--strike`}>
+          <del className={`${elemName} ${elemName}--Strike`}>
             {rendered}
           </del>
       /* Link */
       case "a": {
         const link = formattingOpts as string
         return rendered =
-          <a className={`${elemName} ${elemName}--link`} href={link}>
+          <a className={`${elemName} ${elemName}--Link`} href={link}>
             {rendered}
           </a>
       }
       /* Inline Code */
       case "c":
         return rendered =
-          <code className={`${elemName} ${elemName}--code`}>
+          <code className={`${elemName} ${elemName}--Code`}>
             {rendered}
           </code>
       /* Color or Background Color */
@@ -92,14 +94,14 @@ export function SemanticString(props: SemanticStringProps) {
       /* Comment */
       case "m":
         return rendered =
-          <span className={`${elemName} ${elemName}--commented`}>
+          <span className={`${elemName} ${elemName}--Commented`}>
             {rendered}
           </span>
       /** Inline Mention Individual */
       case "u": {
         const individual = formattingOpts as NAST.Individual
         return rendered =
-          <span className={`${elemName} ${elemName}--individual`}>
+          <span className={`${elemName} ${elemName}--Individual`}>
             <InlineMentionIndividual data={individual} />
           </span>
       }
@@ -107,7 +109,7 @@ export function SemanticString(props: SemanticStringProps) {
       case "p": {
         const resource = formattingOpts as NAST.Resource
         return rendered =
-          <span className={`${elemName} ${elemName}--resource`}>
+          <span className={`${elemName} ${elemName}--Resource`}>
             <InlineMentionResource data={resource} />
           </span>
       }
@@ -115,14 +117,14 @@ export function SemanticString(props: SemanticStringProps) {
       case "d": {
         const date = formattingOpts as NAST.DateTime
         return rendered =
-          <span className={`${elemName} ${elemName}--date`}>
+          <span className={`${elemName} ${elemName}--Date`}>
             <InlineMentionDate data={date} />
           </span>
       }
       default:
         console.log(`Unsupported formatting: ${formatting[0]}`)
         return rendered =
-          <span className={`${elemName} ${elemName}--unknown`}>
+          <span className={`${elemName} ${elemName}--Unknown`}>
             {rendered}
           </span>
     }
@@ -132,8 +134,16 @@ export function SemanticString(props: SemanticStringProps) {
 
 }
 
-export interface InlineMentionIndividualProps {
+interface InlineMentionIndividualProps {
   data: NAST.Individual
+}
+
+interface InlineMentionResourceProps {
+  data: NAST.Resource
+}
+
+interface InlineMentionDateProps {
+  data: NAST.DateTime
 }
 
 function InlineMentionIndividual(props: InlineMentionIndividualProps) {
@@ -142,20 +152,12 @@ function InlineMentionIndividual(props: InlineMentionIndividualProps) {
   )
 }
 
-export interface InlineMentionResourceProps {
-  data: NAST.Resource
-}
-
 function InlineMentionResource(props: InlineMentionResourceProps) {
   return (
     <a href={props.data.uri}>
       <SemanticStringArray semanticStringArray={props.data.title} />
     </a>
   )
-}
-
-export interface InlineMentionDateProps {
-  data: NAST.DateTime
 }
 
 function InlineMentionDate(props: InlineMentionDateProps) {
