@@ -18,6 +18,6 @@ export function BulletedList(props: BulletedListProps) {
 
 export function BulletedListWrapper(props: ListWrapperProps) {
   return (
-    <ul>{props.children}</ul>
+    <ul className="BulletedListWrapper">{props.children}</ul>
   )
 }

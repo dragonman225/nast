@@ -19,6 +19,6 @@ export function NumberedList(props: NumberedListProps) {
 
 export function NumberedListWrapper(props: ListWrapperProps) {
   return (
-    <ol>{props.children}</ol>
+    <ol className="NumberedListWrapper">{props.children}</ol>
   )
 }
