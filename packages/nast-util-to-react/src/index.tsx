@@ -24,6 +24,7 @@ import { TableOfContents } from "./components/TableOfContents"
 import { Text } from "./components/Text"
 import { ToDo } from "./components/ToDo"
 import { Toggle } from "./components/Toggle"
+import { Video } from "./components/Video"
 
 const blockRendererRegistry = new Map<string, BlockRenderer>()
 blockRendererRegistry.set("audio", Audio as BlockRenderer)
@@ -47,6 +48,7 @@ blockRendererRegistry.set("table_of_contents", TableOfContents as BlockRenderer)
 blockRendererRegistry.set("text", Text as BlockRenderer)
 blockRendererRegistry.set("to_do", ToDo as BlockRenderer)
 blockRendererRegistry.set("toggle", Toggle as BlockRenderer)
+blockRendererRegistry.set("video", Video as BlockRenderer)
 
 const listWrapperRegistry = new Map<string, ListWrapper>()
 listWrapperRegistry.set("bulleted_list", BulletedListWrapper)
