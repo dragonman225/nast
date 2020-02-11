@@ -8,7 +8,8 @@ export interface TableOfContentsProps extends BlockRendererProps {
 }
 
 export function TableOfContents(props: TableOfContentsProps) {
-  const blocks = getBlocksThatCanBePutInTOC(props.root)
+  const blockName = "TableOfContents"
+  const blocks = getBlocksToBePutInTOC(props.root)
   const rendered: JSX.Element[] = []
   const indentWidth = 24
   const indentUnit = "px"
@@ -39,9 +40,11 @@ export function TableOfContents(props: TableOfContentsProps) {
     }
 
     rendered.push(
-      <li>
+      <li className={`${blockName}__Item`}>
         <a href={`#${h.uri}`}>
-          <div style={{ marginLeft: `${indentNum * indentWidth}${indentUnit}` }}>
+          <div style={{
+            marginLeft: `${indentNum * indentWidth}${indentUnit}`
+          }}>
             <SemanticStringArray semanticStringArray={h.title} />
           </div>
         </a>
@@ -50,15 +53,16 @@ export function TableOfContents(props: TableOfContentsProps) {
   }
 
   return (
-    <ul id={props.current.uri} className="TableOfContents">
+    <ul id={props.current.uri} className={blockName}>
       {rendered}
     </ul>
   )
 }
 
 
-function getBlocksThatCanBePutInTOC(tree: NAST.Block): NAST.Block[] {
+function getBlocksToBePutInTOC(tree: NAST.Block): NAST.Block[] {
   const blocks: NAST.Block[] = []
+  /** Search for headings in only the top level children blocks. */
   for (let i = 0; i < tree.children.length; i++) {
     const block = tree.children[i]
     switch (block.type) {
@@ -67,7 +71,7 @@ function getBlocksThatCanBePutInTOC(tree: NAST.Block): NAST.Block[] {
         break
       }
 
-      /** Inspect the first layer of column list. */
+      /** Also headings in column lists. */
       case "column_list": {
         const columnList = block as NAST.ColumnList
         columnList.children.forEach(column => {
