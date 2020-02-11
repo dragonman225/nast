@@ -1,6 +1,6 @@
 # NAST
 
-A growing framework for information. 
+A growing framework for representing and manipulating information. 
 
 ## Packages
 
