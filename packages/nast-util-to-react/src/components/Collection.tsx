@@ -120,8 +120,10 @@ export function Table(props: CollectionProps) {
                 case "title": {
                   return (
                     <td className={`${elemNameBase}Title`}>
-                      <SemanticStringArray
-                        semanticStringArray={row.title} />
+                      <a href={row.uri}>
+                        <SemanticStringArray
+                          semanticStringArray={row.title} />
+                      </a>
                     </td>
                   )
                 }
