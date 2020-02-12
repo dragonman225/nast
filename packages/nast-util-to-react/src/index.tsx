@@ -9,6 +9,7 @@ import { Bookmark } from "./components/Bookmark"
 import { BulletedList, BulletedListWrapper } from "./components/BulletedList"
 import { Callout } from "./components/Callout"
 import { Code } from "./components/Code"
+import { CollectionDriver } from "./components/Collection"
 import { Column, ColumnList } from "./components/ColumnList"
 import { Divider } from "./components/Divider"
 import { Embed } from "./components/Embed"
@@ -32,6 +33,8 @@ blockRendererRegistry.set("bookmark", Bookmark as BlockRenderer)
 blockRendererRegistry.set("bulleted_list", BulletedList as BlockRenderer)
 blockRendererRegistry.set("callout", Callout as BlockRenderer)
 blockRendererRegistry.set("code", Code as BlockRenderer)
+blockRendererRegistry.set("collection_inline", CollectionDriver as BlockRenderer)
+blockRendererRegistry.set("collection_page", CollectionDriver as BlockRenderer)
 blockRendererRegistry.set("column", Column as BlockRenderer)
 blockRendererRegistry.set("column_list", ColumnList as BlockRenderer)
 blockRendererRegistry.set("divider", Divider as BlockRenderer)

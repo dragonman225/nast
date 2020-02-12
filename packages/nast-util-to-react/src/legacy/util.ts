@@ -22,6 +22,7 @@ function colorElemClass(
     case COLOR.yellow:
       return colorPrefix + "Yellow"
     case COLOR.green:
+    case COLOR.teal:
       return colorPrefix + "Green"
     case COLOR.blue:
       return colorPrefix + "Blue"
@@ -39,7 +40,7 @@ function colorElemClass(
       return bgPrefix + "Orange"
     case COLOR.yellowBg:
       return bgPrefix + "Yellow"
-    case COLOR.greenBg:
+    case COLOR.tealBg:
       return bgPrefix + "Green"
     case COLOR.blueBg:
       return bgPrefix + "Blue"
@@ -99,7 +100,7 @@ function escapeString(
         escapedString += character
     }
   }
-  
+
   return escapedString
 }
 

@@ -3,7 +3,8 @@ const COLOR = {
   brown: "brown",
   orange: "orange",
   yellow: "yellow",
-  green: "teal",
+  green: "green", // for tags
+  teal: "teal", // for blocks, actually green
   blue: "blue",
   purple: "purple",
   pink: "pink",
@@ -12,7 +13,7 @@ const COLOR = {
   brownBg: "brown_background",
   orangeBg: "orange_background",
   yellowBg: "yellow_background",
-  greenBg: "teal_background",
+  tealBg: "teal_background",
   blueBg: "blue_background",
   purpleBg: "purple_background",
   pinkBg: "pink_background",
