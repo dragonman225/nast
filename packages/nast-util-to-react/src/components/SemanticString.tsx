@@ -9,12 +9,18 @@ export interface SemanticStringArrayProps {
   isCode?: boolean
   /** One of programming languages listed in `../legacy/util-prismjs.ts`. */
   codeLang?: string
+  /**
+   * Do not render interactive elements such as <a>.
+   * See https://stackoverflow.com/questions/7863554/is-it-ok-to-have-an-a-inside-another-a
+   */
+  noInteractive?: boolean
 }
 
 export interface SemanticStringProps {
   semanticString: NAST.SemanticString
   isCode?: boolean
   codeLang?: string
+  noInteractive?: boolean
 }
 
 export function SemanticStringArray(props: SemanticStringArrayProps) {
@@ -25,6 +31,7 @@ export function SemanticStringArray(props: SemanticStringArrayProps) {
           semanticString={ss}
           isCode={props.isCode}
           codeLang={props.codeLang}
+          noInteractive={props.noInteractive}
           key={i} />)}
     </span>
   )
@@ -72,7 +79,8 @@ export function SemanticString(props: SemanticStringProps) {
       /* Link */
       case "a": {
         const link = formattingOpts as string
-        return rendered =
+        return rendered = props.noInteractive ?
+          rendered :
           <a className={`${elemName} ${elemName}--Link`} href={link}>
             {rendered}
           </a>
@@ -110,7 +118,8 @@ export function SemanticString(props: SemanticStringProps) {
         const resource = formattingOpts as NAST.Resource
         return rendered =
           <span className={`${elemName} ${elemName}--Resource`}>
-            <InlineMentionResource data={resource} />
+            <InlineMentionResource
+              data={resource} noInteractive={props.noInteractive} />
           </span>
       }
       /** Inline Mention Date */
@@ -140,6 +149,7 @@ interface InlineMentionIndividualProps {
 
 interface InlineMentionResourceProps {
   data: NAST.Resource
+  noInteractive?: boolean
 }
 
 interface InlineMentionDateProps {
@@ -153,11 +163,19 @@ function InlineMentionIndividual(props: InlineMentionIndividualProps) {
 }
 
 function InlineMentionResource(props: InlineMentionResourceProps) {
-  return (
-    <a href={props.data.uri}>
-      <SemanticStringArray semanticStringArray={props.data.title} />
-    </a>
-  )
+  if (props.noInteractive) {
+    return (
+      <SemanticStringArray
+        semanticStringArray={props.data.title} noInteractive={true} />
+    )
+  } else {
+    return (
+      <a href={props.data.uri}>
+        <SemanticStringArray
+          semanticStringArray={props.data.title} noInteractive={false} />
+      </a>
+    )
+  }
 }
 
 function InlineMentionDate(props: InlineMentionDateProps) {

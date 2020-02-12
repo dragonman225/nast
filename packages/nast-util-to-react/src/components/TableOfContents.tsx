@@ -45,7 +45,8 @@ export function TableOfContents(props: TableOfContentsProps) {
           <div style={{
             marginLeft: `${indentNum * indentWidth}${indentUnit}`
           }}>
-            <SemanticStringArray semanticStringArray={h.title} />
+            <SemanticStringArray
+              semanticStringArray={h.title} noInteractive={true} />
           </div>
         </a>
       </li>
