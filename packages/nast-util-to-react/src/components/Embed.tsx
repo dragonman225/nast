@@ -11,6 +11,7 @@ export function Embed(props: EmbedProps) {
   const blockName = "Embed"
   const data = props.current
   const width = data.fullWidth ? "100%" : `${data.width}px`
+  const height = data.height
   const src = data.source
   const aspectRatio = data.aspectRatio * 100
   const iframeSandbox =
@@ -18,10 +19,14 @@ export function Embed(props: EmbedProps) {
   return (
     <div id={data.uri} className={blockName}>
       <div className={`${blockName}__Content`}>
-        <div className={`${blockName}__ResponsiveContainer`} style={{
-          width,
-          paddingBottom: `${aspectRatio}%`
-        }}>
+        <div className={`${blockName}__ResponsiveContainer`} style={
+          (data.aspectRatio === -1) ?
+            {
+              width, height
+            } :
+            {
+              width, paddingBottom: `${aspectRatio}%`
+            }}>
           <iframe src={src} sandbox={iframeSandbox} allowFullScreen />
         </div>
       </div>
