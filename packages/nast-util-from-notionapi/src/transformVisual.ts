@@ -68,7 +68,8 @@ async function getCaption(
   node: Notion.Block.Codepen | Notion.Block.Embed | Notion.Block.Invision |
     Notion.Block.PDF | Notion.Block.Image | Notion.Block.Video
 ): Promise<NAST.SemanticString[] | undefined> {
-  if (node.type === "image" || node.type === "video")
+  if (node.type === "image" || node.type === "video"
+    || node.type === "embed")
     return node.properties ?
       await transformTitle(node.properties.caption) : undefined
   else
