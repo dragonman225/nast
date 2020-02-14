@@ -1,6 +1,7 @@
 import * as React from "react"
 import * as NAST from "nast-types"
 import { BlockRendererProps } from "../interfaces"
+import { colorfulBlock } from "../util"
 import { SemanticStringArray } from "./SemanticString"
 
 export interface ToggleProps extends BlockRendererProps {
@@ -8,14 +9,21 @@ export interface ToggleProps extends BlockRendererProps {
 }
 
 export function Toggle(props: ToggleProps) {
-  const cname = "Toggle"
+  const blockName = "Toggle"
   const data = props.current
+  /**
+   * If I have a color, I use my color. 
+   * If I don't have a color, I ask my parent for it.
+   * If I don't have a parent, then just pretend I have a color.
+   */
+  const color = data.color ? data.color :
+    props.parent ? props.parent.color : data.color
   return (
-    <details id={data.uri} className={cname}>
-      <summary className={`${cname}__Summary`}>
+    <details id={data.uri} className={`${colorfulBlock(color)} ${blockName}`}>
+      <summary className={`${blockName}__Summary`}>
         <SemanticStringArray semanticStringArray={data.title} />
       </summary>
-      <div className={`${cname}__Content`}>
+      <div className={`${blockName}__Content`}>
         {props.children}
       </div>
     </details>

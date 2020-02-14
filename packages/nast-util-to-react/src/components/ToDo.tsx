@@ -1,6 +1,7 @@
 import * as React from "react"
 import * as NAST from "nast-types"
 import { BlockRendererProps } from "../interfaces"
+import { colorfulBlock } from "../util"
 import { SemanticStringArray } from "./SemanticString"
 
 export interface ToDoProps extends BlockRendererProps {
@@ -8,12 +9,12 @@ export interface ToDoProps extends BlockRendererProps {
 }
 
 export function ToDo(props: ToDoProps) {
-  const cname = "ToDo"
+  const blockName = "ToDo"
   const data = props.current
   return (
-    <div id={data.uri} className={cname}>
-      <div className={`${cname}__Content`}>
-        <div className={`${cname}__Icon`}>
+    <div id={data.uri} className={`${colorfulBlock(data.color)} ${blockName}`}>
+      <div className={`${blockName}__Content`}>
+        <div className={`${blockName}__Icon`}>
           {
             data.checked ?
               <div className="IconCheckboxChecked">
@@ -30,19 +31,19 @@ export function ToDo(props: ToDoProps) {
         </div>
         {
           data.checked ?
-            <div className={`${cname}__Title ${cname}__Title--done`}>
+            <div className={`${blockName}__Title ${blockName}__Title--done`}>
               <del>
                 <SemanticStringArray semanticStringArray={data.title} />
               </del>
             </div> :
-            <div className={`${cname}__Title`}>
+            <div className={`${blockName}__Title`}>
               <SemanticStringArray semanticStringArray={data.title} />
             </div>
         }
       </div>
       {
         props.children.length ?
-          <div className={`${cname}__Children`}>
+          <div className={`${blockName}__Children`}>
             {props.children}
           </div> : ""
       }

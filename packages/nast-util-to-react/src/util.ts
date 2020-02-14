@@ -25,9 +25,7 @@ const COLOR = {
  * @param color One of the color names defined in `COLOR`.
  * @returns A class name with a color modifier.
  */
-export function convertColor(
-  color?: string
-): string {
+export function convertColor(color?: string): string {
   const colorPrefix = `Color`
   const bgPrefix = `Bg`
   switch (color) {
@@ -74,6 +72,16 @@ export function convertColor(
 }
 
 /**
+ * Make a block colorful.
+ * @param color One of the color names defined in `COLOR`.
+ * @returns A CSS class name string to add to a HTML element.
+ */
+export function colorfulBlock(color?: string): string {
+  const blockName = "ColorfulBlock"
+  return `${blockName} ${blockName}--${convertColor(color)}`
+}
+
+/**
  * Escape special characters in a string.
  * 
  * @see https://github.com/facebook/react/blob/1034e26fe5e42ba07492a736da7bdf5bf2108bc6/packages/react-dom/src/server/escapeTextForBrowser.js
@@ -82,9 +90,7 @@ export function convertColor(
  * @param str An unescaped string.
  * @returns An escaped string.
  */
-export function escapeString(
-  str?: string
-): string {
+export function escapeString(str?: string): string {
 
   if (!str) return ""
 

@@ -1,6 +1,7 @@
 import * as React from "react"
 import * as NAST from "nast-types"
 import { BlockRendererProps } from "../interfaces"
+import { colorfulBlock } from "../util"
 import { SemanticStringArray } from "./SemanticString"
 
 export interface TableOfContentsProps extends BlockRendererProps {
@@ -9,6 +10,7 @@ export interface TableOfContentsProps extends BlockRendererProps {
 
 export function TableOfContents(props: TableOfContentsProps) {
   const blockName = "TableOfContents"
+  const data = props.current
   const blocks = getBlocksToBePutInTOC(props.root)
   const rendered: JSX.Element[] = []
   const indentWidth = 24
@@ -54,7 +56,7 @@ export function TableOfContents(props: TableOfContentsProps) {
   }
 
   return (
-    <ul id={props.current.uri} className={blockName}>
+    <ul id={data.uri} className={`${colorfulBlock(data.color)} ${blockName}`}>
       {rendered}
     </ul>
   )
