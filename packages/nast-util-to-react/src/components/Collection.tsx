@@ -4,9 +4,81 @@ import { colorElemClass } from "../legacy/util"
 import { BlockRendererProps } from "../interfaces"
 import { SemanticStringArray } from "./SemanticString"
 
+function createAccessor(
+  column: NAST.Collection["schema"][string],
+  columnId: string
+) {
+  return function (row: NAST.Page) {
+    /**
+     * A common place to get the column value. 
+     * However, some types of column values are at other places.
+     */
+    const data = (row.properties || {})[columnId]
+    switch (column.type) {
+      case "title":
+        return {
+          type: column.type,
+          value: row.title
+        }
+      case "checkbox":
+        return {
+          type: column.type,
+          value: data ? data[0][0] === "Yes" : false
+        }
+      case "select":
+      case "multi_select": {
+        const optionNames = data ? data[0][0].split(",") : []
+        return {
+          type: column.type,
+          value: optionNames.map(optionName => {
+            const option = (column.options || [])
+              .find(o => o.value === optionName)
+            if (!option) {
+              console.log(`Select option "${optionName}" is \
+not found on property "${columnId}:${column.name}".`)
+              return {
+                color: "default",
+                value: optionName
+              }
+            } else {
+              return {
+                color: option.color,
+                value: option.value
+              }
+            }
+          })
+        }
+      }
+      // TODO: NAST currently do not have the following 4 information.
+      case "created_by":
+      case "last_edited_by":
+        return {
+          type: column.type,
+          value: "Someone"
+        }
+      case "created_time":
+      case "last_edited_time":
+        return {
+          type: column.type,
+          value: 0
+        }
+    }
+    return {
+      type: column.type,
+      value: (row.properties || {})[columnId]
+    }
+  }
+}
+
 export interface CollectionProps {
   view: NAST.Collection["views"][number]
-  schema: NAST.Collection["schema"]
+  columns: {
+    id: string
+    name: NAST.Collection["schema"][string]["name"]
+    type: NAST.Collection["schema"][string]["type"]
+    options: NAST.Collection["schema"][string]["options"]
+    accessor: ReturnType<typeof createAccessor>
+  }[]
   rows: NAST.Page[]
 }
 
@@ -30,6 +102,17 @@ export function Collection(props: CollectionProps) {
 export function CollectionDriver(props: CollectionDriverProps) {
   const data = props.current
   const view = data.views.find(view => view.id === data.defaultViewId)
+  const columns: CollectionProps["columns"] =
+    Object.keys(data.schema).map(colId => {
+      const col = data.schema[colId]
+      return {
+        id: colId,
+        name: col.name,
+        type: col.type,
+        options: col.options,
+        accessor: createAccessor(col, colId)
+      }
+    })
   const rows = data.children
 
   if (!view) {
@@ -42,7 +125,7 @@ collection "${data.collectionId}"`)
     const blockName = "CollectionPage"
     return (
       <main id={data.uri} className={blockName}>
-        <Collection view={view} schema={data.schema} rows={rows} />
+        <Collection view={view} columns={columns} rows={rows} />
       </main>
     )
   } else {
@@ -50,7 +133,7 @@ collection "${data.collectionId}"`)
     return (
       <div id={data.uri} className={blockName}>
         <h3><SemanticStringArray semanticStringArray={data.name} /></h3>
-        <Collection view={view} schema={data.schema} rows={rows} />
+        <Collection view={view} columns={columns} rows={rows} />
       </div>
     )
   }
@@ -59,45 +142,56 @@ collection "${data.collectionId}"`)
 export function Table(props: CollectionProps) {
   const blockName = "Table"
   const viewFormat = props.view.format
-  const columnInfos = (viewFormat.table_properties || [])
+  const columnMap = (function () {
+    const map: {
+      [key: string]: typeof props.columns[number]
+    } = {}
+    props.columns.forEach(col => map[col.id] = col)
+    return map
+  })()
+  const visibleColumns = (viewFormat.table_properties || [])
     .filter(colViewInfo => colViewInfo.visible)
     /** 
      * Some collection views have "ghost" properties that don"t exist 
      * in collection schema.
      */
-    .filter(colViewInfo => props.schema[colViewInfo.property])
+    .filter(colViewInfo => columnMap[colViewInfo.property])
     .map(colViewInfo => {
       const colId = colViewInfo.property
       return {
+        ...columnMap[colId],
         id: colId,
-        name: props.schema[colId].name,
-        type: props.schema[colId].type,
-        options: props.schema[colId].options,
         width: colViewInfo.width
       }
     })
-  const tableHeadCells = columnInfos.map(info =>
-    <th style={info.width ? { width: `${info.width}px` } : {}}>
-      {info.name}
+  const tableHeadCells = visibleColumns.map(col =>
+    <th style={col.width ? { width: `${col.width}px` } : {}}>
+      {col.name}
     </th>
   )
   const tableRows = props.rows
     .filter(row => row.properties)
-    .map(row => {
-      const rowProps = row.properties || {}
+    .map((row, i) => {
       return (
-        <tr>
+        <tr key={i}>
           {
-            columnInfos.map(info => {
+            visibleColumns.map(col => {
               const elemNameBase = `${blockName}__Cell`
-              const colId = info.id
-              const colType = info.type
-              const colName = info.name
-              const data = rowProps[colId]
-              switch (colType) {
+              const data = col.accessor.call(null, row)
+              switch (data.type) {
+                case "title": {
+                  return (
+                    <td className={`${elemNameBase}Title`}>
+                      <a href={row.uri}>
+                        <SemanticStringArray
+                          semanticStringArray={row.title} />
+                      </a>
+                    </td>
+                  )
+                }
                 case "checkbox": {
                   const elemName = `${elemNameBase}Checkbox`
-                  const checked = data ? (data[0][0] === "Yes") : false
+                  const checked = data.value
                   return (
                     <td className={`${elemName} ${checked ?
                       `${elemName}--Yes` : `${elemName}--No`}`}>
@@ -117,32 +211,13 @@ export function Table(props: CollectionProps) {
                     </td>
                   )
                 }
-                case "title": {
-                  return (
-                    <td className={`${elemNameBase}Title`}>
-                      <a href={row.uri}>
-                        <SemanticStringArray
-                          semanticStringArray={row.title} />
-                      </a>
-                    </td>
-                  )
-                }
                 case "select":
                 case "multi_select": {
-                  const optionNames = data ? data[0][0].split(",") : []
+                  const options = data.value
                   return (
                     <td className={`${elemNameBase}Select`}>
                       {
-                        optionNames.map(optionName => {
-                          const option = (info.options || [])
-                            .find(o => o.value === optionName)
-
-                          if (!option) {
-                            console.log(`Select option "${optionName}" is \
-not found on property "${colId}:${colName}".`)
-                            return <></>
-                          }
-
+                        options.map(option => {
                           return (
                             <span className={
                               colorElemClass("Pill Pill", option.color)}>
@@ -154,11 +229,27 @@ not found on property "${colId}:${colName}".`)
                     </td>
                   )
                 }
+                case "created_by":
+                case "last_edited_by": {
+                  return (
+                    <td className={`${elemNameBase}CreatedEditedBy`}>
+                      {data.value}
+                    </td>
+                  )
+                }
+                case "created_time":
+                case "last_edited_time": {
+                  return (
+                    <td className={`${elemNameBase}CreatedEditedTime`}>
+                      {data.value}
+                    </td>
+                  )
+                }
                 default:
                   return (
                     <td className={`${elemNameBase}Text`}>
                       <SemanticStringArray
-                        semanticStringArray={rowProps[colId] || []} />
+                        semanticStringArray={data.value} />
                     </td>
                   )
               }
