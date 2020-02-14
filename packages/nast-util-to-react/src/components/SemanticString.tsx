@@ -24,9 +24,14 @@ export interface SemanticStringProps {
 }
 
 export function SemanticStringArray(props: SemanticStringArrayProps) {
+  /**
+   * In case TypeScript fails to detect type mismatch, or an unexpected 
+   * runtime edge case occurred.
+   */
+  const ssArr = props.semanticStringArray || []
   return (
     <span className="SemanticStringArray">
-      {props.semanticStringArray.map((ss, i) =>
+      {ssArr.map((ss, i) =>
         <SemanticString
           semanticString={ss}
           isCode={props.isCode}
