@@ -6,7 +6,7 @@ A growing framework for representing and manipulating information.
 
 | Name                                                         | Description                                                  | Status           |
 | :----------------------------------------------------------- | :----------------------------------------------------------- | :--------------- |
-| [nast-types]()                                               | A TypeScript type definition module to specify data models for intermediate representation of data. | Experimental     |
+| [nast-types](./packages/nast-types)                                               | A TypeScript type definition module to specify data models for intermediate representation of data. | Experimental     |
 | [nast-util-from-notionapi](./packages/nast-util-from-notionapi) | Import data from a [Notion](https://www.notion.so/) page.    | Experimental     |
 | [nast-util-from-orgzly](./packages/nast-util-from-orgzly)    | Import data from an org-mode file exported by [Orgzly](http://www.orgzly.com/). | Proof of Concept |
 | [nast-util-to-html](./packages/nast-util-to-html)            | Render data to HTML. (Deprecated)                            | Experimental     |
