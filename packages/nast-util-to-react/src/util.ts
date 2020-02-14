@@ -1,17 +1,35 @@
-import { COLOR } from "./constants"
+const COLOR = {
+  gray: "gray",
+  brown: "brown",
+  orange: "orange",
+  yellow: "yellow",
+  green: "green", // appear in select and multi-select options
+  teal: "teal", // appear in block colors
+  blue: "blue",
+  purple: "purple",
+  pink: "pink",
+  red: "red",
+  grayBg: "gray_background",
+  brownBg: "brown_background",
+  orangeBg: "orange_background",
+  yellowBg: "yellow_background",
+  tealBg: "teal_background",
+  blueBg: "blue_background",
+  purpleBg: "purple_background",
+  pinkBg: "pink_background",
+  redBg: "red_background"
+}
 
 /**
- * Map color string in NAST to another string that is intended to use
- * as a CSS class.
- * @param {string} str A valid color string in NAST.
- * @returns {string} The CSS class string for the color string.
+ * Convert a color name in NAST to a color in UI.
+ * @param color One of the color names defined in `COLOR`.
+ * @returns A class name with a color modifier.
  */
-function colorElemClass(
-  elemClass: string,
-  color: string
+export function convertColor(
+  color?: string
 ): string {
-  const colorPrefix = `${elemClass}--Color`
-  const bgPrefix = `${elemClass}--Bg`
+  const colorPrefix = `Color`
+  const bgPrefix = `Bg`
   switch (color) {
     case COLOR.gray:
       return colorPrefix + "Gray"
@@ -61,10 +79,10 @@ function colorElemClass(
  * @see https://github.com/facebook/react/blob/1034e26fe5e42ba07492a736da7bdf5bf2108bc6/packages/react-dom/src/server/escapeTextForBrowser.js
  * @see https://github.com/rack/rack/issues/27
  * 
- * @param {string} str Unescaped string.
- * @returns {string} Escaped string.
+ * @param str An unescaped string.
+ * @returns An escaped string.
  */
-function escapeString(
+export function escapeString(
   str?: string
 ): string {
 
@@ -102,9 +120,4 @@ function escapeString(
   }
 
   return escapedString
-}
-
-export {
-  colorElemClass,
-  escapeString
 }

@@ -1,7 +1,7 @@
 import * as React from "react"
 import * as NAST from "nast-types"
-import { colorElemClass } from "../legacy/util"
 import { BlockRendererProps } from "../interfaces"
+import { Pill } from "./Pill"
 import { SemanticStringArray } from "./SemanticString"
 
 function createAccessor(
@@ -219,10 +219,8 @@ export function Table(props: CollectionProps) {
                       {
                         options.map(option => {
                           return (
-                            <span className={
-                              colorElemClass("Pill Pill", option.color)}>
-                              {option.value}
-                            </span>
+                            <Pill content={option.value}
+                              color={option.color} />
                           )
                         })
                       }

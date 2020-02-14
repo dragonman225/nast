@@ -1,7 +1,7 @@
 import * as React from "react"
 import * as NAST from "nast-types"
-import { colorElemClass } from "../legacy/util"
-import renderCode from "../legacy/util-prismjs"
+import { convertColor } from "../util"
+import renderCode from "../util-prismjs"
 
 export interface SemanticStringArrayProps {
   semanticStringArray: NAST.SemanticString[]
@@ -98,9 +98,9 @@ export function SemanticString(props: SemanticStringProps) {
           </code>
       /* Color or Background Color */
       case "h": {
-        const color = formattingOpts as string
+        const color = convertColor(formattingOpts as string)
         return rendered =
-          <span className={`${elemName} ${colorElemClass(elemName, color)}`}>
+          <span className={`${elemName} ${elemName}--${color}`}>
             {rendered}
           </span>
       }
@@ -185,11 +185,15 @@ function InlineMentionResource(props: InlineMentionResourceProps) {
 
 function InlineMentionDate(props: InlineMentionDateProps) {
   const startDate = new Date(props.data.start_date)
+  const endDate = props.data.end_date ?
+    new Date(props.data.end_date) : undefined
+  const dateToString = function (d: Date) {
+    return `@${d.getUTCFullYear()}/${d.getUTCMonth() + 1}/${d.getUTCDate()}`
+  }
   return (
     <>
-      @{startDate.getUTCFullYear()}/
-      {startDate.getUTCMonth() + 1}/
-      {startDate.getUTCDate()}
+      {`${dateToString(startDate)}${endDate ?
+        ` → ${dateToString(endDate)}` : ""}`}
     </>
   )
 }
