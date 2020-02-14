@@ -3,7 +3,7 @@ import * as ReactDOMServer from 'react-dom/server'
 import * as NAST from "nast-types"
 import { RenderBlockOptions, BlockRenderer, ListWrapper } from "./interfaces"
 
-/** Components. TODO: How to dynamically load these ? */
+/** Components. TODO: How to dynamically load these components ? */
 import { Audio } from "./components/Audio"
 import { Bookmark } from "./components/Bookmark"
 import { BulletedList, BulletedListWrapper } from "./components/BulletedList"
@@ -59,8 +59,6 @@ listWrapperRegistry.set("numbered_list", NumberedListWrapper)
 
 function renderBlock(opts: RenderBlockOptions): JSX.Element {
 
-  console.log(`depth: ${opts.depth}, listOrder: ${opts.listOrder}, key: ${opts.reactKey}`)
-
   const blockRendererRegistry = opts.blockRendererRegistry
   const listWrapperRegistry = opts.listWrapperRegistry
   const childrenData = opts.current.children
@@ -84,8 +82,7 @@ function renderBlock(opts: RenderBlockOptions): JSX.Element {
     const parent = opts.current
     const root = opts.root
     const depth = opts.depth + 1
-    const reactKey = `${opts.reactKey}+` +
-      `d${depth}-c${i + 1}-${current.type}${listOrder}`
+    const reactKey = opts.current.uri
 
     /**
      * When a block is processed for the first time, it is not rendered 
