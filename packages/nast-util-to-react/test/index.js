@@ -7,15 +7,14 @@ const timeStart = Date.now()
 const html = `\
 <html>
 <head>
-  <style>
-    .text, .heading, .code {
-      white-space: pre-wrap;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.19.0/themes/prism.min.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>${renderToHTML(tree)}</body>
 </html>
 `
 const timeEnd = Date.now()
-fs.writeFileSync(path.join(__dirname, "test.html"), html, { encoding: "utf-8" })
+fs.writeFileSync(path.join(__dirname, "index.html"), html, { encoding: "utf-8" })
 console.log(`${timeEnd - timeStart} ms`)
