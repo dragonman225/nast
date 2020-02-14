@@ -1,6 +1,6 @@
 {
   "name": "nast-util-to-react",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.1",
   "description": "Render NAST to React JSX.Element and HTML.",
   "author": "dragonman225",
   "license": "MIT",
@@ -10,6 +10,7 @@
     "build": "rm -rf dist && rollup -c && tsc --emitDeclarationOnly",
     "watch": "rollup -cw",
     "release": "npm run build && npm publish",
+    "release:beta": "npm run build && npm publish --tag beta",
     "upgrade": "node tools/upgrade-deps.js"
   },
   "dependencies": {
@@ -33,6 +34,9 @@
     "rollup": "^1.29.1",
     "typescript": "^3.7.5"
   },
+  "files": [
+    "dist/"
+  ],
   "typeScriptVersion": "3.7",
   "runkitExampleFilename": ""
 }
