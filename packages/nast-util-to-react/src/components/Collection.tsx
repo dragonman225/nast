@@ -1,6 +1,7 @@
 import * as React from "react"
 import * as NAST from "nast-types"
 import { BlockRendererProps } from "../interfaces"
+import { Anchor } from "./Anchor"
 import { Pill } from "./Pill"
 import { SemanticStringArray } from "./SemanticString"
 
@@ -122,17 +123,18 @@ collection "${data.collectionId}"`)
   }
 
   if (data.type === "collection_page") {
-    const blockName = "CollectionPage"
     return (
-      <main id={data.uri} className={blockName}>
+      <main id={data.uri} className="CollectionPage">
         <Collection view={view} columns={columns} rows={rows} />
       </main>
     )
   } else {
-    const blockName = "CollectionInline"
     return (
-      <div id={data.uri} className={blockName}>
-        <h3><SemanticStringArray semanticStringArray={data.name} /></h3>
+      <div id={data.uri} className="CollectionInline">
+        <h3>
+          <Anchor href={data.uri} />
+          <SemanticStringArray semanticStringArray={data.name} />
+        </h3>
         <Collection view={view} columns={columns} rows={rows} />
       </div>
     )
