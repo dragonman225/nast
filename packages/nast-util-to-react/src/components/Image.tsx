@@ -20,9 +20,11 @@ export function Image(props: ImageProps) {
   return (
     <div id={data.uri} className={`${blockName} ${blockName}--${variant}`}>
       <figure>
-        <img src={data.source} style={
-          data.fullWidth ? { height } : { width }
-        } />
+        <a href={data.source}>
+          <img src={data.source} style={
+            data.fullWidth ? { height } : { width }
+          } />
+        </a>
         {
           data.caption ?
             <figcaption>
