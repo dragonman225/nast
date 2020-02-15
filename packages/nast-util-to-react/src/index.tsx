@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as ReactDOMServer from 'react-dom/server'
 import * as NAST from "nast-types"
 import { RenderBlockOptions, BlockRenderer, ListWrapper } from "./interfaces"
+import { SemanticStringArray } from "./components/SemanticString"
 
 /** Components. TODO: How to dynamically load these components ? */
 import { Audio } from "./components/Audio"
@@ -166,25 +167,31 @@ function renderList(
  * Render NAST to HTML.
  * @param tree 
  */
-function renderToHTML(tree: NAST.Block): string {
-  return ReactDOMServer.renderToStaticMarkup(renderToJSX(tree))
+function renderToHTML(data: NAST.Block | NAST.SemanticString[]): string {
+  return ReactDOMServer.renderToStaticMarkup(renderToJSX(data))
 }
 
 /**
  * Render NAST to JSX.Element.
  * @param tree 
  */
-function renderToJSX(tree: NAST.Block): JSX.Element {
-  return renderBlock({
-    current: tree,
-    root: tree,
-    depth: 0,
-    listOrder: 1,
-    listLength: 1,
-    reactKey: `d0-c1-${tree.type}1`,
-    blockRendererRegistry,
-    listWrapperRegistry
-  })
+function renderToJSX(data: NAST.Block | NAST.SemanticString[]): JSX.Element {
+  if (Array.isArray(data)) {
+    return (
+      <SemanticStringArray semanticStringArray={data} />
+    )
+  } else {
+    return renderBlock({
+      current: data,
+      root: data,
+      depth: 0,
+      listOrder: 1,
+      listLength: 1,
+      reactKey: `d0-c1-${data.type}1`,
+      blockRendererRegistry,
+      listWrapperRegistry
+    })
+  }
 }
 
 export { renderToHTML, renderToJSX }
