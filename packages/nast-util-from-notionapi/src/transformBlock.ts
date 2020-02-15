@@ -163,7 +163,9 @@ async function transformBlock(
         resolve({
           children: [],
           uri: getBlockUri(node),
-          type: node.type
+          type: node.type,
+          createdTime: node.created_time,
+          lastEditedTime: node.last_edited_time
         })
       })
       console.log(`Unsupported block type: ${node.type}`)

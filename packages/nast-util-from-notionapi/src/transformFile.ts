@@ -21,6 +21,8 @@ async function transformFile(
     uri: getBlockUri(node),
     type: "file",
     color: getBlockColor(node),
+    createdTime: node.created_time,
+    lastEditedTime: node.last_edited_time,
     fileId: node.file_ids ? node.file_ids[0] : undefined,
     title: props ? props.title[0][0] : "Unnamed",
     size: props

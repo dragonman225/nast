@@ -19,7 +19,9 @@ async function transformColumnList(
     children: [],
     uri: getBlockUri(node),
     type: "column_list",
-    color: getBlockColor(node)
+    color: getBlockColor(node),
+    createdTime: node.created_time,
+    lastEditedTime: node.last_edited_time
   }
 }
 

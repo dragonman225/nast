@@ -20,6 +20,8 @@ async function transformEquation(
     uri: getBlockUri(node),
     type: "equation",
     color: getBlockColor(node),
+    createdTime: node.created_time,
+    lastEditedTime: node.last_edited_time,
     latex: node.properties
       ? node.properties.title
         ? node.properties.title[0][0] : ""

@@ -42,6 +42,8 @@ async function transformVisual(
         return "embed"
     })(),
     color: getBlockColor(node),
+    createdTime: node.created_time,
+    lastEditedTime: node.last_edited_time,
     source: (function (): string {
       if (node.type === "image")
         return convertImageUrl(format.display_source || "#", format.block_width)

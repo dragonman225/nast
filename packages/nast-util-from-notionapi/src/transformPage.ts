@@ -31,6 +31,8 @@ async function transformPage(
     uri: getBlockUri(node),
     type: "page",
     color: getBlockColor(node),
+    createdTime: node.created_time,
+    lastEditedTime: node.last_edited_time,
     title: newProperties.title ? newProperties.title : [],
     icon: getBlockIcon(node),
     cover: format.page_cover

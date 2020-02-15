@@ -21,6 +21,8 @@ async function transformBookmark(
     uri: getBlockUri(node),
     type: "bookmark",
     color: getBlockColor(node),
+    createdTime: node.created_time,
+    lastEditedTime: node.last_edited_time,
     link: props
       ? props.link
         ? props.link[0][0] : "#"

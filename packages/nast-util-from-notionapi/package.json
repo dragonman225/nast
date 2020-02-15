@@ -1,6 +1,6 @@
 {
   "name": "nast-util-from-notionapi",
-  "version": "0.7.0",
+  "version": "1.0.0-beta.1",
   "description": "Transform Notion.so page to NAST.",
   "author": "dragonman225",
   "license": "MIT",
@@ -14,6 +14,7 @@
     "build:dependency-graph": "npx depcruise --exclude '^(node_modules|src/interfaces)' --output-type dot --prefix 'https://github.com/dragonman225/notionapi-agent/tree/master/' src/index.ts | dot -T svg > documentation/dependency-graph.svg",
     "test": "ts-node test/index.spec.ts",
     "release": "npm run build && npm publish",
+    "release:beta": "npm run build && npm publish --tag beta",
     "upgrade": "node tools/upgrade-deps.js"
   },
   "dependencies": {

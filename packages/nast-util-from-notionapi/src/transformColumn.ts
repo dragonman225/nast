@@ -20,6 +20,8 @@ async function transformColumn(
     uri: getBlockUri(node),
     type: "column",
     color: getBlockColor(node),
+    createdTime: node.created_time,
+    lastEditedTime: node.last_edited_time,
     ratio: node.format
       ? node.format.column_ratio || 1 : 1
   }

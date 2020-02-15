@@ -19,7 +19,9 @@ async function transformBreadcrumb(
     children: [],
     uri: getBlockUri(node),
     type: "breadcrumb",
-    color: getBlockColor(node)
+    color: getBlockColor(node),
+    createdTime: node.created_time,
+    lastEditedTime: node.last_edited_time
   }
 }
 
