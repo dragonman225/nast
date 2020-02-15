@@ -1,7 +1,7 @@
 import * as Notion from "notionapi-agent/dist/interfaces"
 
 import { SemanticString } from "./SemanticString"
-import { Emoji, PublicUrl, URI, UUID } from "./util"
+import { Emoji, PublicUrl, URI, UUID, TimestampNumber } from "./util"
 
 interface Parent<T> {
   children: T[]
@@ -13,6 +13,8 @@ export interface Block extends Parent<Block> {
   uri: URI
   type: string
   color?: string
+  createdTime: TimestampNumber
+  lastEditedTime: TimestampNumber
 }
 
 export interface Page extends Block {
