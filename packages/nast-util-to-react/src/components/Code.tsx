@@ -8,8 +8,9 @@ export interface CodeProps extends BlockRendererProps {
 }
 
 export function Code(props: CodeProps) {
+  const className = props.current.wrap ? "Code" : "Code Code--NoWrap"
   return (
-    <pre id={props.current.uri} className="Code">
+    <pre id={props.current.uri} className={className}>
       <code>
         <SemanticStringArray
           semanticStringArray={props.current.title}
