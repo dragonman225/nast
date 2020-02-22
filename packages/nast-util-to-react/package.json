@@ -37,6 +37,14 @@
   "files": [
     "dist/"
   ],
+  "homepage": "https://github.com/dragonman225/nast/tree/master/packages/nast-util-to-react",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dragonman225/nast.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dragonman225/nast/issues"
+  },
   "typeScriptVersion": "3.7",
   "runkitExampleFilename": ""
 }
