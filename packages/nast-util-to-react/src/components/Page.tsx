@@ -19,10 +19,10 @@ export function Page(props: PageProps) {
   if (isRoot) {
     const blockName = "PageRoot"
     return (
-      <main id={data.uri} className={data.fullWidth ?
+      <article id={data.uri} className={data.fullWidth ?
         `${blockName} ${blockName}--FullWidth` : `${blockName}`}>
         {props.children}
-      </main>
+      </article>
     )
   } else {
     const blockName = "Page"
