@@ -63,10 +63,11 @@ not found on property "${columnId}:${column.name}".`)
           type: column.type,
           value: 0
         }
-    }
-    return {
-      type: column.type,
-      value: (row.properties || {})[columnId]
+      default:
+        return {
+          type: column.type,
+          value: (row.properties || {})[columnId]
+        }
     }
   }
 }
