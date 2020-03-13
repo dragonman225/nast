@@ -100,9 +100,9 @@ export function SemanticString(props: SemanticStringProps) {
       case "h": {
         const color = convertColor(formattingOpts as string)
         return rendered =
-          <span className={`${elemName} ${elemName}--${color}`}>
+          <mark className={`${elemName} ${elemName}--Marked ${elemName}--${color}`}>
             {rendered}
-          </span>
+          </mark>
       }
       /* Comment */
       case "m":
