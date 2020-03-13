@@ -1,6 +1,6 @@
 {
   "name": "nast-util-from-notionapi",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Transform Notion.so page to NAST.",
   "author": "dragonman225",
   "license": "MIT",
@@ -32,7 +32,7 @@
     "ts-node": "^8.6.2",
     "typescript": "^3.7.5",
     "zora": "^3.1.8",
-    "nast-types": "^1.0.0"
+    "nast-types": "^1.1.1"
   },
   "files": [
     "dist/"
