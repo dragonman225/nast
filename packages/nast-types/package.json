@@ -1,6 +1,6 @@
 {
   "name": "nast-types",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "description": "TypeScript type definitions for NAST.",
   "author": "dragonman225",
   "license": "MIT",
@@ -14,7 +14,7 @@
     "typescript": "^3.7.4"
   },
   "files": [
-    "index.d.ts"
+    "*.d.ts"
   ],
   "keywords": [
     "nast"
