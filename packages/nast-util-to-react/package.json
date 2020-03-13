@@ -1,6 +1,6 @@
 {
   "name": "nast-util-to-react",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Render NAST to React JSX.Element and HTML.",
   "author": "dragonman225",
   "license": "MIT",
@@ -30,7 +30,7 @@
     "@typescript-eslint/parser": "^2.17.0",
     "dependency-cruiser": "^6.3.0",
     "eslint": "^6.8.0",
-    "nast-types": "^1.0.0",
+    "nast-types": "^1.1.1",
     "rollup": "^1.29.1",
     "typescript": "^3.7.5"
   },
