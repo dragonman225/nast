@@ -1,0 +1,1080 @@
+/* Primitives */
+
+* {
+  box-sizing: border-box;
+}
+
+*::selection {
+  background: rgba(45, 170, 219, 0.3);
+}
+
+:root {
+  --color-text-default: rgb(55, 53, 47);
+  --color-text-default-light: rgba(55, 53, 47, 0.6);
+  --color-text-gray: rgb(155, 154, 151);
+  --color-text-brown: rgb(100, 71, 58);
+  --color-text-orange: rgb(217, 115, 13);
+  --color-text-yellow: rgb(223, 171, 1);
+  --color-text-green: rgb(15, 123, 108);
+  --color-text-blue: rgb(11, 110, 153);
+  --color-text-purple: rgb(105, 64, 165);
+  --color-text-pink: rgb(173, 26, 114);
+  --color-text-red: rgb(224, 62, 62);
+  --color-bg-default: rgb(255, 255, 255);
+  --color-bg-gray: rgb(235, 236, 237);
+  --color-bg-brown: rgb(233, 229, 227);
+  --color-bg-orange: rgb(250, 235, 221);
+  --color-bg-yellow: rgb(251, 243, 219);
+  --color-bg-green: rgb(221, 237, 234);
+  --color-bg-blue: rgb(221, 235, 241);
+  --color-bg-purple: rgb(234, 228, 242);
+  --color-bg-pink: rgb(244, 223, 235);
+  --color-bg-red: rgb(251, 228, 228);
+  --color-pill-default: rgba(206, 205, 202, 0.5);
+  --color-pill-gray: rgba(155, 154, 151, 0.4);
+  --color-pill-brown: rgba(140, 46, 0, 0.2);
+  --color-pill-orange: rgba(245, 93, 0, 0.2);
+  --color-pill-yellow: rgba(233, 168, 0, 0.2);
+  --color-pill-green: rgba(0, 135, 107, 0.2);
+  --color-pill-blue: rgba(0, 120, 223, 0.2);
+  --color-pill-purple: rgba(103, 36, 222, 0.2);
+  --color-pill-pink: rgba(221, 0, 129, 0.2);
+  --color-pill-red: rgba(255, 0, 26, 0.2);
+  --color-ui-hover-bg: rgba(55, 53, 47, 0.08);
+}
+
+body {
+  color: var(--color-text-default);
+  fill: currentColor;
+  font-family: 'Source Sans Pro', -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  margin: 0;
+}
+
+code {
+  /* Use monospace before Courier so font looks better on Android Chrome. */
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace, Courier;
+}
+
+p {
+  margin: 0;
+}
+
+/* Anchor */
+
+.Anchor {
+  color: inherit;
+  text-decoration: none;
+  padding-right: 4px;
+  margin-left: -20px;
+  visibility: hidden;
+}
+
+/* Audio */
+
+.Audio {
+  width: 100%;
+}
+
+/* Bookmark */
+
+.Bookmark {
+  margin: 4px 0;
+  border: 1px solid rgba(55, 53, 47, 0.16);
+  border-radius: 5px;
+  padding: 12px 14px 14px;
+  transition: background 120ms ease-in 0s;
+}
+
+.Bookmark:hover {
+  background: var(--color-ui-hover-bg);
+}
+
+.Bookmark>a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.Bookmark__Title {
+  margin: 0;
+  margin-bottom: 2px;
+  font-size: 0.875rem;
+  font-weight: normal;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.Bookmark__Desc {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  opacity: 0.6;
+  height: 2rem;
+  overflow: hidden;
+}
+
+.Bookmark__Link {
+  margin: 0;
+  margin-top: 6px;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* BulletedList */
+
+.BulletedListWrapper {
+  margin: 2px 0;
+  padding-left: calc(1.5em + 4px);
+  line-height: 1.5;
+  list-style-type: disc;
+}
+
+.BulletedList {
+  margin: 2px 0;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+/* Callout */
+
+.Callout {
+  display: flex;
+  border-radius: 5px;
+  padding: 16px 16px 16px 12px;
+  margin: 4px 0;
+  background: rgba(235, 236, 237, 0.3);
+}
+
+.Callout__Icon {
+  width: 1.5em;
+  line-height: 1.5;
+}
+
+.Callout__Content {
+  margin-left: 8px;
+}
+
+/* Code */
+
+pre.Code {
+  border-radius: 5px;
+  background-color: rgb(247, 246, 243);
+  margin: 10px 0;
+  padding: 26px 16px;
+  overflow: auto;
+}
+
+pre.Code code {
+  background-color: rgb(247, 246, 243);
+  color: rgb(55, 53, 47);
+  font-size: 0.9em;
+  line-height: 1.4;
+  padding: 0;
+  word-wrap: break-word;
+  tab-size: 2;
+}
+
+.Code.Code--NoWrap .SemanticString {
+  white-space: pre;
+}
+
+/* Collection */
+
+.CollectionInline>h3 {
+  line-height: 1.75;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 0.5rem;
+  margin-bottom: 1px;
+  padding: 3px 2px;
+}
+
+.CollectionInline>h3:hover>.Anchor {
+  visibility: visible;
+}
+
+.Table {
+  overflow-x: scroll;
+}
+
+.Table>table {
+  width: 100%;
+  font-size: 0.875rem;
+  /* No double border */
+  border-collapse: collapse;
+  /* Force the table respects widths set on <th> */
+  table-layout: fixed;
+  /* Make space between table and scrollbar */
+  margin-bottom: 10px;
+}
+
+.Table>table td, .Table>table th {
+  /* For <th> and unknown <td> */
+  padding: 0 8px;
+  height: 2rem;
+  border: 1px solid rgba(55, 53, 47, 0.09);
+  overflow: hidden;
+  word-break: break-word;
+}
+
+.Table>table td:first-child, .Table>table th:first-child {
+  border-left: none;
+}
+
+.Table>table td:last-child, .Table>table th:last-child {
+  border-right: none;
+}
+
+.Table>table th {
+  text-align: left;
+  font-weight: normal;
+  color: var(--color-text-default-light);
+  /* Default width, which may be overridden by inline style attr. */
+  width: 200px;
+}
+
+.Table__CellTitle>a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 2px solid hsl(45, 8%, 85%);
+}
+
+.Table__CellTitle>a:hover {
+  border-bottom: 2px solid hsl(45, 8%, 55%);
+}
+
+.Table__CellText {
+  padding: 6px 8px;
+  line-height: 1.5;
+}
+
+.Table__CellSelect {
+  /* 3px + 3px (margin of span) = 6px (desired) */
+  padding: 3px 8px;
+}
+
+.Table__CellCheckbox {
+  padding: 6px 8px;
+}
+
+.Table__CellCheckbox>div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+}
+
+.Table__CellCheckbox--No svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  flex-shrink: 0;
+  backface-visibility: hidden;
+}
+
+.Table__CellCheckbox--Yes svg {
+  width: 12px;
+  height: 12px;
+  display: block;
+  fill: white;
+  flex-shrink: 0;
+  backface-visibility: hidden;
+}
+
+.Gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-auto-rows: 1fr;
+  gap: 16px;
+  border-top: 1px solid rgba(55, 53, 47, 0.16);
+  padding-top: 16px;
+  padding-bottom: 4px;
+}
+
+.Gallery__Item {
+  box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 2px 4px;
+  border-radius: 5px;
+  transition: background 120ms ease-in 0s;
+  position: relative;
+  /* 10:7 */
+  padding-top: 70%;
+}
+
+.Gallery__Item:hover {
+  background: rgba(55, 53, 47, 0.03);
+}
+
+.Gallery__Item>a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.Gallery__Item>a>div {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+/* This is the key to make the layout robust. */
+
+.Gallery__Item>a>div>div {
+  /* grid-item-title has padding-top 8px, padding-bottom 10px, and its line-height.
+     Since we can not get line-height with CSS, so just assign a large enough value. */
+  height: calc(100% - 18px - 2rem);
+}
+
+.Gallery__Item__Cover {
+  box-shadow: rgba(55, 53, 47, 0.09) 0px -1px 0px 0px inset;
+  height: 100%;
+}
+
+.Gallery__Item__Cover>img {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px 5px 0 0;
+  object-fit: cover;
+  object-position: center 50%;
+  padding-bottom: 1px;
+}
+
+.Gallery__Item__Cover--Contain>img {
+  object-fit: contain;
+}
+
+.Gallery__Item__Title {
+  padding-top: 8px;
+  padding-left: 10px;
+  padding-right: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.Gallery__Item__Title .SemanticString {
+  white-space: nowrap;
+}
+
+@supports not (display: grid) {
+  .Gallery__Item {
+    margin-top: 16px;
+  }
+}
+
+/* ColorfulBlock */
+
+.ColorfulBlock--ColorDefault {
+  color: var(--color-text-default);
+}
+
+.ColorfulBlock--ColorGray {
+  color: var(--color-text-gray);
+}
+
+.ColorfulBlock--ColorBrown {
+  color: var(--color-text-brown);
+}
+
+.ColorfulBlock--ColorOrange {
+  color: var(--color-text-orange);
+}
+
+.ColorfulBlock--ColorYellow {
+  color: var(--color-text-yellow);
+}
+
+.ColorfulBlock--ColorGreen {
+  color: var(--color-text-green);
+}
+
+.ColorfulBlock--ColorBlue {
+  color: var(--color-text-blue);
+}
+
+.ColorfulBlock--ColorPurple {
+  color: var(--color-text-purple);
+}
+
+.ColorfulBlock--ColorPink {
+  color: var(--color-text-pink);
+}
+
+.ColorfulBlock--ColorRed {
+  color: var(--color-text-red);
+}
+
+.ColorfulBlock--BgDefault {
+  background: var(--color-bg-default);
+}
+
+.ColorfulBlock--BgGray {
+  background: var(--color-bg-gray);
+}
+
+.ColorfulBlock--BgBrown {
+  background: var(--color-bg-brown);
+}
+
+.ColorfulBlock--BgOrange {
+  background: var(--color-bg-orange);
+}
+
+.ColorfulBlock--BgYellow {
+  background: var(--color-bg-yellow);
+}
+
+.ColorfulBlock--BgGreen {
+  background: var(--color-bg-green);
+}
+
+.ColorfulBlock--BgBlue {
+  background: var(--color-bg-blue);
+}
+
+.ColorfulBlock--BgPurple {
+  background: var(--color-bg-purple);
+}
+
+.ColorfulBlock--BgPink {
+  background: var(--color-bg-pink);
+}
+
+.ColorfulBlock--BgRed {
+  background: var(--color-bg-red);
+}
+
+/* ColumnList */
+
+.ColumnList {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.Column {
+  padding: 12px 0;
+  word-break: break-word;
+}
+
+@media only screen and (max-width: 680px) {
+  .Column {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+}
+
+/* Divider */
+
+.Divider {
+  width: 100%;
+  border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+/* Embed */
+
+.Embed__Content {
+  display: flex;
+}
+
+.Embed__Caption {
+  padding: 6px 2px;
+  color: var(--color-text-default-light);
+  font-size: 0.875em;
+}
+
+.Embed__ResponsiveContainer {
+  position: relative;
+  min-height: 100px;
+  height: 0;
+  margin: 0 auto;
+}
+
+.Embed__ResponsiveContainer>iframe {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 1px;
+  pointer-events: auto;
+  background-color: rgb(247, 246, 245);
+}
+
+/* Equation */
+
+.Equation {
+  margin: 4px 0;
+  padding: 4px 8px;
+}
+
+/* File */
+
+.File {
+  color: inherit;
+  text-decoration: none;
+}
+
+.File>div {
+  display: flex;
+  padding: 5px 0;
+  margin: 2px 0;
+  border-radius: 5px;
+  transition: background 120ms ease-in 0s;
+}
+
+.File>div:hover {
+  background: var(--color-ui-hover-bg);
+}
+
+.File__Icon {
+  margin-left: 2px;
+  margin-right: 4px;
+  width: 1.5em;
+  text-align: center;
+}
+
+.File__Title {
+  line-height: 1.5;
+}
+
+.File__Size {
+  margin-left: 6px;
+  color: var(--color-text-default-light);
+  font-size: 0.75em;
+}
+
+/* Heading */
+
+.Heading {
+  font-weight: 700;
+  margin-bottom: 1px;
+  padding: 3px 2px;
+}
+
+.Heading:hover>.Anchor {
+  visibility: visible;
+}
+
+.Heading--1 {
+  font-size: 2.0625rem;
+  line-height: 1.636;
+}
+
+.Heading--2 {
+  margin-top: 1rem;
+  font-size: 1.625rem;
+  line-height: 1.654;
+}
+
+.Heading--3 {
+  margin-top: 0.5rem;
+  font-size: 1.25rem;
+  line-height: 1.75;
+}
+
+.Heading--4 {
+  font-size: 1rem;
+  line-height: 1.8125;
+}
+
+.Heading--5 {
+  font-size: 0.8125rem;
+  line-height: 1.846;
+  color: #888;
+}
+
+.Column>.Heading:first-child {
+  margin-top: 2px;
+}
+
+/* Icon */
+
+.Icon {
+  /* For emoji */
+  text-align: center;
+  /* For image */
+  border-radius: 3px;
+}
+
+/* Image */
+
+.Image {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  align-self: center;
+}
+
+.Image--FullWidth {
+  width: calc(100vw - 15px);
+}
+
+.Image--Normal, .Image--PageWidth {
+  max-width: 100%;
+}
+
+.Image--Normal {
+  text-align: center;
+}
+
+.Image--PageWidth {
+  width: 100%;
+}
+
+.Image>figure {
+  margin: 0;
+}
+
+.Image>figure>figcaption {
+  color: var(--color-text-default-light);
+  font-size: 0.875rem;
+  text-align: left;
+}
+
+.Image--FullWidth>figure img {
+  /* 15px is scrollbar */
+  width: calc(100vw - 15px);
+  object-fit: cover;
+}
+
+.Image--FullWidth>figure>figcaption {
+  padding: 6px 26px;
+}
+
+.Image--Normal>figure img, .Image--PageWidth>figure img {
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.Image--Normal>figure>figcaption, .Image--PageWidth>figure>figcaption {
+  padding: 6px 2px;
+}
+
+/* NumberedList */
+
+.NumberedListWrapper {
+  margin: 2px 0;
+  padding-left: calc(1.5em + 4px);
+  line-height: 1.5;
+}
+
+.NumberedList {
+  margin: 2px 0;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+/* Page */
+
+.PageRoot {
+  display: flex;
+  flex-direction: column;
+}
+
+.PageRoot--FullWidth {
+  width: 100%;
+}
+
+.Page {
+  color: inherit;
+  text-decoration: none;
+}
+
+.Page>div {
+  display: flex;
+  padding: 3px 0;
+  margin: 2px 0;
+  border-radius: 5px;
+  transition: background 120ms ease-in 0s;
+}
+
+.Page>div:hover {
+  background: var(--color-ui-hover-bg);
+}
+
+.Page__Icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5em;
+  margin-left: 2px;
+  margin-right: 4px;
+}
+
+.Page__Title .SemanticStringArray {
+  border-bottom: 1px solid rgba(55, 53, 47, 0.16);
+}
+
+/* PDF */
+
+.PDF__Content {
+  text-align: center;
+}
+
+.PDF__Content>embed {
+  max-width: 100%;
+}
+
+.PDF__Caption {
+  padding: 6px 2px;
+  color: var(--color-text-default-light);
+  font-size: 0.875em;
+}
+
+/* Pill */
+
+.Pill {
+  padding: 0 6px;
+  border-radius: 3px;
+  white-space: nowrap;
+  display: inline-block;
+  /* margin of inline-block does not collapse */
+  margin: 3px 0;
+  margin-right: 6px;
+}
+
+.Pill--ColorDefault {
+  background: var(--color-pill-default);
+}
+
+.Pill--ColorGray {
+  background: var(--color-pill-gray);
+}
+
+.Pill--ColorBrown {
+  background: var(--color-pill-brown);
+}
+
+.Pill--ColorOrange {
+  background: var(--color-pill-orange);
+}
+
+.Pill--ColorYellow {
+  background: var(--color-pill-yellow);
+}
+
+.Pill--ColorGreen {
+  background: var(--color-pill-green);
+}
+
+.Pill--ColorBlue {
+  background: var(--color-pill-blue);
+}
+
+.Pill--ColorPurple {
+  background: var(--color-pill-purple);
+}
+
+.Pill--ColorPink {
+  background: var(--color-pill-pink);
+}
+
+.Pill--ColorRed {
+  background: var(--color-pill-red);
+}
+
+/* Quote */
+
+.Quote {
+  background: rgba(235, 236, 237, 0.3);
+  border-left: 5px solid currentcolor;
+  border-radius: 5px;
+  margin: 0.5rem 0;
+  padding: 0.5em 0.9em;
+  font-size: 1.2em;
+}
+
+/* SemanticStringArray */
+
+.SemanticString {
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.SemanticString__Fragment--Link, .SemanticString__Fragment--Resource>a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 2px solid hsl(45, 8%, 85%);
+}
+
+.SemanticString__Fragment--Link:hover, .SemanticString__Fragment--Resource>a:hover {
+  border-bottom: 2px solid hsl(45, 8%, 55%);
+}
+
+.SemanticString__Fragment--Code {
+  border-radius: 5px;
+  background-color: rgba(135, 131, 120, 0.15);
+  color: #ff4081;
+  font-size: 0.9em;
+  padding: 0.2em 0.4em;
+  word-break: break-word;
+}
+
+.SemanticString__Fragment--Marked {
+  background-color: inherit;
+}
+
+.SemanticString__Fragment--ColorDefault {
+  color: var(--color-text-default);
+}
+
+.SemanticString__Fragment--ColorGray {
+  color: var(--color-text-gray);
+}
+
+.SemanticString__Fragment--ColorBrown {
+  color: var(--color-text-brown);
+}
+
+.SemanticString__Fragment--ColorOrange {
+  color: var(--color-text-orange);
+}
+
+.SemanticString__Fragment--ColorYellow {
+  color: var(--color-text-yellow);
+}
+
+.SemanticString__Fragment--ColorGreen {
+  color: var(--color-text-green);
+}
+
+.SemanticString__Fragment--ColorBlue {
+  color: var(--color-text-blue);
+}
+
+.SemanticString__Fragment--ColorPurple {
+  color: var(--color-text-purple);
+}
+
+.SemanticString__Fragment--ColorPink {
+  color: var(--color-text-pink);
+}
+
+.SemanticString__Fragment--ColorRed {
+  color: var(--color-text-red);
+}
+
+.SemanticString__Fragment--BgDefault {
+  background: var(--color-bg-default);
+}
+
+.SemanticString__Fragment--BgGray {
+  background: var(--color-bg-gray);
+}
+
+.SemanticString__Fragment--BgBrown {
+  background: var(--color-bg-brown);
+}
+
+.SemanticString__Fragment--BgOrange {
+  background: var(--color-bg-orange);
+}
+
+.SemanticString__Fragment--BgYellow {
+  background: var(--color-bg-yellow);
+}
+
+.SemanticString__Fragment--BgGreen {
+  background: var(--color-bg-green);
+}
+
+.SemanticString__Fragment--BgBlue {
+  background: var(--color-bg-blue);
+}
+
+.SemanticString__Fragment--BgPurple {
+  background: var(--color-bg-purple);
+}
+
+.SemanticString__Fragment--BgPink {
+  background: var(--color-bg-pink);
+}
+
+.SemanticString__Fragment--BgRed {
+  background: var(--color-bg-red);
+}
+
+.SemanticString__Fragment--Commented {
+  background: rgba(255, 212, 0, 0.14);
+  border-bottom: 2px solid rgb(255, 212, 0);
+}
+
+.SemanticString__Fragment--Individual, .SemanticString__Fragment--Resource, .SemanticString__Fragment--Date {
+  color: var(--color-text-default-light);
+}
+
+/* TableOfContents */
+
+.TableOfContents {
+  margin: 4px 0;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 0.875rem;
+}
+
+.TableOfContents__Item {
+  list-style-type: none;
+  transition: background 120ms ease-in 0s;
+  border-radius: 5px;
+}
+
+.TableOfContents__Item:hover {
+  background: var(--color-ui-hover-bg);
+}
+
+.TableOfContents__Item>a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.TableOfContents__Item>a>div {
+  padding: 4.5px 2px;
+}
+
+.TableOfContents__Item .SemanticStringArray {
+  border-bottom: 1px solid rgba(55, 53, 47, 0.16);
+}
+
+/* Text */
+
+.Text__Content {
+  padding: 3px 2px;
+  margin: 2px 0;
+}
+
+.Text__Children {
+  margin-left: 1.5em;
+}
+
+/* ToDo */
+
+.ToDo__Content {
+  display: flex;
+  padding: 3px 0;
+  margin: 2px 0;
+  line-height: 1.5;
+}
+
+.ToDo__Icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.5em;
+  width: 1.5em;
+  margin-left: 2px;
+  margin-right: 4px;
+  flex-shrink: 0;
+}
+
+.ToDo__Title--done {
+  opacity: 0.375;
+}
+
+.ToDo__Children {
+  margin-left: calc(1.5em + 6px);
+}
+
+.IconCheckboxChecked {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1em;
+  height: 1em;
+  background: rgb(46, 170, 220);
+}
+
+.IconCheckboxChecked>svg {
+  width: 0.75em;
+  height: 0.75em;
+  fill: white;
+}
+
+.IconCheckboxUnchecked {
+  display: flex;
+}
+
+.IconCheckboxUnchecked>svg {
+  width: 1em;
+  height: 1em;
+  fill: inherit;
+}
+
+/**
+ * Toggle
+ * Ref. https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details
+ */
+
+.Toggle {
+  margin: 2px 0;
+}
+
+.Toggle__Summary {
+  padding: 3px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.Toggle__Summary::-webkit-details-marker {
+  display: none;
+}
+
+.Toggle__Summary:focus {
+  outline: none;
+}
+
+.Toggle__Summary::before {
+  /* Content is a HTML entity https://dev.w3.org/html5/html-author/charref */
+  content: "\025B8";
+  font-size: 1.2em;
+  border-radius: 3px;
+  padding: 1px 7px;
+  margin: 0 5px 0 2px;
+}
+
+.Toggle[open]>.Toggle__Summary::before {
+  content: "\025BE";
+}
+
+.Toggle__Summary:hover::before {
+  background: var(--color-ui-hover-bg);
+}
+
+/* Make the toggle triangle look closer to Notion's. 
+   Only work on Chromium-based browsers. */
+
+/* .toggle__summary {
+  display: flex;
+  padding: 3px 0;
+}
+
+.toggle__summary::-webkit-details-marker {
+  border-radius: 3px;
+  padding: 7px;
+  margin: 0;
+  margin-right: 5px;
+}
+
+.toggle__summary::-webkit-details-marker:hover {
+  background: var(--color-ui-hover-bg);
+} */
+
+.Toggle__Content {
+  padding-left: calc(1.5em + 4px);
+}
+
+/* Video */
+
+.Video {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  align-self: center;
+}
+
+.Video__Caption {
+  padding: 6px 2px;
+  color: var(--color-text-default-light);
+  font-size: 0.875em;
+}
