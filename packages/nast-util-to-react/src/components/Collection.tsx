@@ -1,6 +1,7 @@
 import * as React from "react"
 import * as NAST from "nast-types"
 import { BlockRendererProps } from "../interfaces"
+import { prettyDate } from "../util"
 import { Anchor } from "./Anchor"
 import { Pill } from "./Pill"
 import { SemanticStringArray } from "./SemanticString"
@@ -50,7 +51,7 @@ not found on property "${columnId}:${column.name}".`)
           })
         }
       }
-      // TODO: NAST currently do not have the following 4 information.
+      // TODO: NAST currently do not have the following 2 information.
       case "created_by":
       case "last_edited_by":
         return {
@@ -58,10 +59,14 @@ not found on property "${columnId}:${column.name}".`)
           value: "Someone"
         }
       case "created_time":
+        return {
+          type: column.type,
+          value: row.createdTime
+        }
       case "last_edited_time":
         return {
           type: column.type,
-          value: 0
+          value: row.lastEditedTime
         }
       default:
         return {
@@ -242,7 +247,7 @@ export function Table(props: CollectionProps) {
                 case "last_edited_time": {
                   return (
                     <td className={`${elemNameBase}CreatedEditedTime`}>
-                      {data.value}
+                      {prettyDate(data.value)}
                     </td>
                   )
                 }

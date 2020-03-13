@@ -127,3 +127,23 @@ export function escapeString(str?: string): string {
 
   return escapedString
 }
+
+export function prettyTime(jsHour: number, jsMinute: number) {
+  const ampm = jsHour >= 12 ? "PM" : "AM"
+  const hour = (jsHour % 12) ? (jsHour % 12) : 12
+  return `${hour}:${jsMinute.toString().padStart(2, "0")} ${ampm}`
+}
+
+export function prettyDate(timestamp: number) {
+  const d = new Date(timestamp)
+  const monthAbbrs = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  ]
+  const month = monthAbbrs[d.getMonth()]
+  const date = d.getDate()
+  const year = d.getFullYear()
+  const hour = d.getHours()
+  const minute = d.getMinutes()
+  return `${month} ${date}, ${year} ${prettyTime(hour, minute)}`
+}
