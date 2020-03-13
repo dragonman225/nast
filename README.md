@@ -1,6 +1,6 @@
 # NAST
 
-A growing framework for representing and manipulating information. 
+An universal, extensible intermediate representation for document-like content.
 
 ## Packages
 
