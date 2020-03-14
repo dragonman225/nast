@@ -1,5 +1,7 @@
 # nast-util-to-html
 
+### This project is no longer maintained, please consider using [nast-util-to-react](https://github.com/dragonman225/nast/tree/master/packages/nast-util-to-react).
+
 ![version](https://img.shields.io/npm/v/nast-util-to-html.svg?style=flat-square&color=007acc&label=version) ![language](https://img.shields.io/badge/language-typescript-blue.svg?style=flat-square) ![license](https://img.shields.io/github/license/dragonman225/nast-util-to-html.svg?style=flat-square&label=license&color=08CE5D) ![nast version](https://img.shields.io/static/v1.svg?label=NAST&message=v0.1.2&style=flat-square&color=d81b60) ![Notion to NAST](https://img.shields.io/static/v1.svg?label=&message=NAST%E2%86%92HTML&style=flat-square&color=333333)
 
 Render NAST to HTML.
