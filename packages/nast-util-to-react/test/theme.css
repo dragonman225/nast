@@ -813,8 +813,18 @@ pre.Code code {
   word-break: break-word;
 }
 
-.SemanticString__Fragment--Marked {
+.SemanticString__Fragment--HighlightedBg, .SemanticString__Fragment--HighlightedColor {
   background-color: inherit;
+}
+
+/* Code in highlighted should use the highlight background or color. */
+
+.SemanticString__Fragment--HighlightedBg .SemanticString__Fragment--Code {
+  background-color: inherit;
+}
+
+.SemanticString__Fragment--HighlightedColor .SemanticString__Fragment--Code {
+  color: inherit;
 }
 
 .SemanticString__Fragment--ColorDefault {

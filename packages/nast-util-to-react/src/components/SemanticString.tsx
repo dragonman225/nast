@@ -99,8 +99,9 @@ export function SemanticString(props: SemanticStringProps) {
       /* Color or Background Color */
       case "h": {
         const color = convertColor(formattingOpts as string)
+        const hType = color.startsWith("Bg") ? "Bg" : "Color"
         return rendered =
-          <mark className={`${elemName} ${elemName}--Marked ${elemName}--${color}`}>
+          <mark className={`${elemName} ${elemName}--Highlighted${hType} ${elemName}--${color}`}>
             {rendered}
           </mark>
       }
@@ -188,7 +189,9 @@ function InlineMentionDate(props: InlineMentionDateProps) {
   const endDate = props.data.end_date ?
     new Date(props.data.end_date) : undefined
   const dateToString = function (d: Date) {
-    return `@${d.getUTCFullYear()}/${d.getUTCMonth() + 1}/${d.getUTCDate()}`
+    return `@${d.getUTCFullYear()}/\
+${(d.getUTCMonth() + 1).toString().padStart(2, "0")}/\
+${d.getUTCDate().toString().padStart(2, "0")}`
   }
   return (
     <>
