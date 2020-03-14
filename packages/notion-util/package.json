@@ -1,0 +1,37 @@
+{
+  "name": "notion-util",
+  "private": true,
+  "version": "1.0.0",
+  "description": "A set of functions to handle Notion-specific logic.",
+  "author": "dragonman225",
+  "license": "MIT",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "build": "tsc && tsc --emitDeclarationOnly",
+    "test": "ts-node index.spec.ts",
+    "release": "npm run build && npm publish"
+  },
+  "devDependencies": {
+    "typescript": "^3.8.3"
+  },
+  "files": [
+    "*.js",
+    "*.d.ts",
+    "*.d.ts.map"
+  ],
+  "keywords": [
+    "notion",
+    "util"
+  ],
+  "homepage": "https://github.com/dragonman225/nast/tree/master/packages/notion-util",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dragonman225/nast.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dragonman225/nast/issues"
+  },
+  "typeScriptVersion": "3.8",
+  "runkitExampleFilename": ""
+}
