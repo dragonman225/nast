@@ -8,7 +8,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "rm -rf dist && rollup -c && tsc --emitDeclarationOnly",
-    "watch": "rollup -cw",
+    "dev": "rollup -cw",
     "release": "npm run build && npm publish",
     "release:beta": "npm run build && npm publish --tag beta",
     "upgrade": "node tools/upgrade-deps.js"
