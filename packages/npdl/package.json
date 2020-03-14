@@ -1,5 +1,6 @@
 {
   "name": "npdl",
+  "private": true,
   "version": "1.0.0",
   "description": "Export Notion pages to NAST IR or HTML.",
   "author": "dragonman225",
