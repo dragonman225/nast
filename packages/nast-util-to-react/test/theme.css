@@ -41,6 +41,7 @@
   --color-pill-pink: rgba(221, 0, 129, 0.2);
   --color-pill-red: rgba(255, 0, 26, 0.2);
   --color-ui-hover-bg: rgba(55, 53, 47, 0.08);
+  --column-spacing: 46px;
 }
 
 body {

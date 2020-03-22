@@ -19,14 +19,13 @@ export interface ColumnProps extends BlockRendererProps {
 }
 
 export function Column(props: ColumnProps) {
-  const columnSpacing = 46
+  //const columnSpacing = 46
   const style: React.CSSProperties = {
-    width: `calc((100% - \
-${columnSpacing * (props.listLength - 1)}px) * ${props.current.ratio})`
+    width: `calc((100% - var(--column-spacing) * ${props.listLength - 1}) * ${props.current.ratio})`
   }
 
   if (props.listOrder !== 1) {
-    style.marginLeft = columnSpacing + "px"
+    style.marginLeft = "var(--column-spacing)"
   }
 
   return (
