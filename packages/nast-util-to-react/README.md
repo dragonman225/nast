@@ -108,27 +108,19 @@ This can be used as a child in a React component, which means it's easier to app
 #### Basic Blocks
 
 - [x] Text
-
 - [x] Embedded Page / Link To Page
 
   *Gotcha 1: Empty pages and filled pages has the same "filled" icon.*
-
+  
   *Gotcha 2: Embedded Page and Link To Page looks the same.*
 
 - [x] Heading (1, 2, 3)
-
 - [x] Bulleted List
-
 - [x] Numbered List
-
 - [x] Toggle List
-
 - [x] To-do List
-
 - [x] Quote
-
 - [x] Divider
-
 - [x] Callout
 
 #### Database Blocks
@@ -136,15 +128,17 @@ This can be used as a child in a React component, which means it's easier to app
 - [x] Table
 
   *Gotcha 1: Only property types "Title", "Text", "URL", "Checkbox", "Select", "Multi-select" are correctly supported, other types are treated as "Text".*
-
+  
   *Gotcha 2: Always wrap text.*
 
 - [x] Gallery
 
+  *Gotcha 1: Only property type "Title" is rendered.*
+
+  *Gotcha 2: For "Card Preview" option, only "Page Cover" is supported.*
+
 - [ ] List
-
 - [ ] Calendar
-
 - [ ] Board
 
 #### Media Blocks
@@ -164,9 +158,7 @@ This can be used as a child in a React component, which means it's easier to app
 #### Advanced Blocks
 
 - [x] Table of Contents
-
 - [x] Math Equation
-
 - [ ] Template Button
 
   **Status: The template is directly rendered as children like normal content blocks.**
