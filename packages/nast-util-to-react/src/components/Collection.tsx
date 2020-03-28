@@ -363,7 +363,7 @@ export function Gallery(props: CollectionProps) {
                     return (
                       <div className={`${elemNameBase}Text`}>
                         <SemanticStringArray
-                          semanticStringArray={data.value} />
+                          semanticStringArray={data.value as NAST.SemanticString[]} />
                       </div>
                     )
                 }
