@@ -177,6 +177,7 @@ export function Table(props: CollectionProps) {
       {col.name}
     </th>
   )
+  // console.log(visibleColumns)
   const tableRows = props.rows
     .filter(row => row.properties)
     .map((row, i) => {
@@ -285,24 +286,91 @@ export function Gallery(props: CollectionProps) {
   const imageContain = viewFormat.gallery_cover_aspect
     ? viewFormat.gallery_cover_aspect === "contain" : false
 
+  const columnMap = (function () {
+    const map: {
+      [key: string]: typeof props.columns[number]
+    } = {}
+    props.columns.forEach(col => map[col.id] = col)
+    return map
+  })()
+  const visibleColumns = (viewFormat.gallery_properties || [])
+    .filter(colViewInfo => colViewInfo.visible)
+    /** 
+     * Some collection views have "ghost" properties that don"t exist 
+     * in collection schema.
+     */
+    .filter(colViewInfo => columnMap[colViewInfo.property])
+    .map(colViewInfo => {
+      const colId = colViewInfo.property
+      return {
+        ...columnMap[colId],
+        id: colId,
+      }
+    })
+    
+  // console.log(visibleColumns)
+  console.log(props)
   const galleryItems = props.rows.map(row => {
     return (
       <div id={row.uri} className={`${blockName}__Item`}>
-        <a href={row.uri}>
+        <div>
           <div>
-            <div>
+            <a href={row.uri}>
               <div className={`${blockName}__Item__Cover ${imageContain ?
                 `${blockName}__Item__Cover--Contain` : ""}`}>
                 {
                   row.cover ? <img src={row.cover} /> : ""
                 }
               </div>
-              <div className={`${blockName}__Item__Title`}>
-                <SemanticStringArray semanticStringArray={row.title} />
-              </div>
+            </a>
+            <div className={`${blockName}__Item__Title`}>
+              <SemanticStringArray semanticStringArray={row.title} />
             </div>
+            {
+              visibleColumns.map(col => {
+                // console.log("col", col)
+                const elemNameBase = `${blockName}__Item__`
+                const data = col.accessor.call(null, row)
+                switch (data.type) {
+                  case "title": {
+                    return (
+                      <div className={`${elemNameBase}Title`}>
+                        <a href={row.uri}>
+                          <SemanticStringArray
+                            semanticStringArray={row.title} />
+                        </a>
+                      </div>
+                    )
+                  }
+                  case "select":
+                  case "multi_select": {
+                    const options = data.value
+                    return (
+                      <div className={`${elemNameBase}Select`}>
+                        {
+                          options.map(option => {
+                            return (
+                              <Pill content={option.value}
+                                color={option.color} />
+                            )
+                          })
+                        }
+                      </div>
+                    )
+                  }
+                  default:
+                    // console.log(data.value)
+                    return (
+                      <div className={`${elemNameBase}Text`}>
+                        <SemanticStringArray
+                          semanticStringArray={data.value} />
+                      </div>
+                    )
+                }
+              })
+            }
           </div>
-        </a>
+        </div>
       </div>
     )
   })
