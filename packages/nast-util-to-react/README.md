@@ -172,7 +172,7 @@ This can be used as a child in a React component, which means it's easier to app
 Auto-detect changes and rebuild.
 
 ```bash
-npm run watch
+npm run dev
 ```
 
 Test it.
