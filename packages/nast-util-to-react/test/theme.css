@@ -951,6 +951,10 @@ pre.Code code {
 
 /* Text */
 
+.Text {
+  min-height: calc(1.5rem + 10px);
+}
+
 .Text__Content {
   padding: 3px 2px;
   margin: 2px 0;
