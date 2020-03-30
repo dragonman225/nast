@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 
 const fs = require("fs")
+const path = require("path")
 const { createAgent } = require("notionapi-agent")
 const { getOnePageAsTree } = require("nast-util-from-notionapi")
 const { renderToHTML: renderToHTMLLegacy } = require("nast-util-to-html")
 const { renderToHTML } = require("nast-util-to-react")
 const { getPageIDFromPageURL } = require("notion-util")
-const { parseArgs, parseFlagVal } = require("@dnpr/cli")
+const { parseArgs, parseFlagVal, FlagTypes } = require("@dnpr/cli")
 
 main()
 
@@ -14,15 +15,17 @@ async function main() {
   try {
 
     const { args, flags } = parseArgs(process.argv)
-    const printHelp = parseFlagVal(flags, "(-h|--help)", "boolean", false)
-    const pageUrl = parseFlagVal(flags, "(-i|--input)", "string",
+    const printHelp = parseFlagVal(flags, "(-h|--help)", FlagTypes.boolean, false)
+    const pageUrl = parseFlagVal(flags, "(-i|--input)", FlagTypes.string,
       "https://www.notion.so/Block-Test-1c4d63a8ffc747bea5658672797a595a")
     const pageId = getPageIDFromPageURL(pageUrl)
-    const outputTree = parseFlagVal(flags, "(-t|--tree)", "boolean", false)
-    const verbose = parseFlagVal(flags, "(-v|--verbose)", "boolean", false)
-    const useLegacyRenderer = parseFlagVal(flags, "--legacy-renderer", "boolean", false)
-    const server = parseFlagVal(flags, "--server", "string", undefined)
-    const token = parseFlagVal(flags, "--token", "string", undefined)
+    const outputTree = parseFlagVal(flags, "(-t|--tree)", FlagTypes.boolean, false)
+    const verbose = parseFlagVal(flags, "(-v|--verbose)", FlagTypes.boolean, false)
+    const useLegacyRenderer = parseFlagVal(flags, "--legacy-renderer", FlagTypes.boolean, false)
+    const server = parseFlagVal(flags, "--server", FlagTypes.string, undefined)
+    const token = parseFlagVal(flags, "--token", FlagTypes.string, undefined)
+    const themeCSSPath = parseFlagVal(flags, "--theme", FlagTypes.string,
+      path.join(__dirname, "node_modules/nast-util-to-react/test/theme.css"))
     const output = args[0]
 
     if (!output || printHelp) {
@@ -37,7 +40,8 @@ Optional Flags:
 -v, --verbose             Print more messages for debugging.
 --legacy-renderer         Use the legacy HTML renderer.
 --server=<url>            Use an alternative Notion-compatible server.
---token=<token>           Specify a token for authentication (to access private pages).`)
+--token=<token>           Specify a token for authentication (to access private pages).
+--theme=<path_to_css>     Specify a theme stylesheet to embed.`)
       process.exit(0)
     }
 
@@ -57,7 +61,7 @@ Optional Flags:
     }, "")
     fs.writeFileSync(
       output,
-      useLegacyRenderer ? renderPageLegacy(title, html) : renderPage(title, html)
+      useLegacyRenderer ? renderPageLegacy(title, html) : renderPage(title, html, themeCSSPath)
     )
 
   } catch (error) {
@@ -103,7 +107,8 @@ function renderPageLegacy(pageTitle, contentHTML) {
   return pageHTML
 }
 
-function renderPage(pageTitle, contentHTML) {
+function renderPage(pageTitle, contentHTML, themeCSSPath) {
+  const themeCSS = fs.readFileSync(themeCSSPath, { encoding: 'utf-8' })
   const pageHTML = `\
 <html>
   <head>
@@ -115,16 +120,18 @@ function renderPage(pageTitle, contentHTML) {
     <!-- Chrome, Firefox OS and Opera Status Bar Color -->
     <meta name="theme-color" content="#FFFFFF">
     <title>${pageTitle}</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="css/prism.css">
-    <link rel="stylesheet" type="text/css" href="css/theme.css">
-    <link rel="stylesheet" type="text/css" href="css/debug.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.19.0/themes/prism.min.css">
+    <style>${themeCSS}</style>
     <style>
       :root {
         font-size: 16px;
       }
-      body {
-        margin: 0;
+      .PageRoot {
+        width: 900px;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 0px 96px 30vh;
       }
     </style>
   </head>

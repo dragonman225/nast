@@ -198,7 +198,7 @@ pre.Code code {
 }
 
 .Table {
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 
 .Table>table {
