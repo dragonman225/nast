@@ -358,6 +358,12 @@ export function Gallery(props: CollectionProps) {
                       </div>
                     )
                   }
+                  case "checkbox":
+                  case "created_by":
+                  case "last_edited_by":
+                  case "created_time":
+                  case "last_edited_time":
+                      return <></> // An empty React.Fragment, which renders to nothing.
                   default:
                     // console.log(data.value)
                     return (
