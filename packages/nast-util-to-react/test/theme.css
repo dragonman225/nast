@@ -332,7 +332,7 @@ pre.Code code {
 
 .Gallery__Item__Cover {
   box-shadow: rgba(55, 53, 47, 0.09) 0px -1px 0px 0px inset;
-  height: 150px;
+  height: 200px;
 }
 
 .Gallery__Item__Cover>img {
