@@ -177,7 +177,7 @@ export function Table(props: CollectionProps) {
       {col.name}
     </th>
   )
-  // console.log(visibleColumns)
+
   const tableRows = props.rows
     .filter(row => row.properties)
     .map((row, i) => {
@@ -307,9 +307,7 @@ export function Gallery(props: CollectionProps) {
         id: colId,
       }
     })
-    
-  // console.log(visibleColumns)
-  console.log(props)
+
   const galleryItems = props.rows.map(row => {
     return (
       <div id={row.uri} className={`${blockName}__Item`}>
@@ -328,7 +326,6 @@ export function Gallery(props: CollectionProps) {
             </div>
             {
               visibleColumns.map(col => {
-                // console.log("col", col)
                 const elemNameBase = `${blockName}__Item__`
                 const data = col.accessor.call(null, row)
                 switch (data.type) {
@@ -363,13 +360,12 @@ export function Gallery(props: CollectionProps) {
                   case "last_edited_by":
                   case "created_time":
                   case "last_edited_time":
-                      return <></> // An empty React.Fragment, which renders to nothing.
+                    return <></> // An empty React.Fragment, which renders to nothing.
                   default:
-                    // console.log(data.value)
                     return (
                       <div className={`${elemNameBase}Text`}>
                         <SemanticStringArray
-                          semanticStringArray={data.value as NAST.SemanticString[]} />
+                          semanticStringArray={data.value} />
                       </div>
                     )
                 }
