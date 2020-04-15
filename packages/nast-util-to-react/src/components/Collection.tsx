@@ -310,38 +310,30 @@ export function Gallery(props: CollectionProps) {
 
   const galleryItems = props.rows.map(row => {
     return (
-      <div id={row.uri} className={`${blockName}__Item`}>
-        <div>
-          <div>
-            <a href={row.uri}>
-              <div className={`${blockName}__Item__Cover ${imageContain ?
-                `${blockName}__Item__Cover--Contain` : ""}`}>
-                {
-                  row.cover ? <img src={row.cover} /> : ""
-                }
-              </div>
-            </a>
-            <div className={`${blockName}__Item__Title`}>
-              <SemanticStringArray semanticStringArray={row.title} />
+      <article id={row.uri} className={`${blockName}__Item`}>
+        <div><div>
+          <a href={row.uri}>
+            <div className={`${blockName}__Item__Cover ${imageContain ?
+              `${blockName}__Item__Cover--Contain` : ""}`}>
+              {
+                row.cover ? <img src={row.cover} /> : ""
+              }
             </div>
-            {
-              visibleColumns.map(col => {
-                const elemNameBase = `${blockName}__Item__`
-                const data = col.accessor.call(null, row)
-                switch (data.type) {
-                  case "title": {
-                    return (
-                      <div className={`${elemNameBase}Title`}>
-                        <a href={row.uri}>
-                          <SemanticStringArray
-                            semanticStringArray={row.title} />
-                        </a>
-                      </div>
-                    )
-                  }
-                  case "select":
-                  case "multi_select": {
-                    const options = data.value
+          </a>
+          <div className={`${blockName}__Item__Title`}>
+            <SemanticStringArray semanticStringArray={row.title} />
+          </div>
+          {
+            visibleColumns.map(col => {
+              const elemNameBase =
+                `${blockName}__Item__Property ${blockName}__Item__Property`
+              const data = col.accessor.call(null, row)
+              switch (data.type) {
+                /** "title" is always displayed. */
+                case "select":
+                case "multi_select": {
+                  const options = data.value
+                  if (options.length > 0)
                     return (
                       <div className={`${elemNameBase}Select`}>
                         {
@@ -354,26 +346,26 @@ export function Gallery(props: CollectionProps) {
                         }
                       </div>
                     )
-                  }
-                  case "checkbox":
-                  case "created_by":
-                  case "last_edited_by":
-                  case "created_time":
-                  case "last_edited_time":
-                    return <></> // An empty React.Fragment, which renders to nothing.
-                  default:
+                }
+                case "checkbox":
+                case "created_by":
+                case "last_edited_by":
+                case "created_time":
+                case "last_edited_time":
+                  return <></> // An empty React.Fragment, which renders to nothing.
+                default:
+                  if (typeof data.value !== 'undefined')
                     return (
                       <div className={`${elemNameBase}Text`}>
                         <SemanticStringArray
                           semanticStringArray={data.value} />
                       </div>
                     )
-                }
-              })
-            }
-          </div>
-        </div>
-      </div>
+              }
+            })
+          }
+        </div></div>
+      </article>
     )
   })
 
