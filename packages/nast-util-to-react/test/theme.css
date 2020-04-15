@@ -22,14 +22,23 @@
   --color-text-red: rgb(224, 62, 62);
   --color-bg-default: rgb(255, 255, 255);
   --color-bg-gray: rgb(235, 236, 237);
+  --color-bg-gray-light: rgba(235, 236, 237, 0.3);
   --color-bg-brown: rgb(233, 229, 227);
+  --color-bg-brown-light: rgba(233, 229, 227, 0.3);
   --color-bg-orange: rgb(250, 235, 221);
+  --color-bg-orange-light: rgba(250, 235, 221, 0.3);
   --color-bg-yellow: rgb(251, 243, 219);
+  --color-bg-yellow-light: rgba(251, 243, 219, 0.3);
   --color-bg-green: rgb(221, 237, 234);
+  --color-bg-green-light: rgba(221, 237, 234, 0.3);
   --color-bg-blue: rgb(221, 235, 241);
+  --color-bg-blue-light: rgba(221, 235, 241, 0.3);
   --color-bg-purple: rgb(234, 228, 242);
+  --color-bg-purple-light: rgba(234, 228, 242, 0.3);
   --color-bg-pink: rgb(244, 223, 235);
+  --color-bg-pink-light: rgba(244, 223, 235, 0.3);
   --color-bg-red: rgb(251, 228, 228);
+  --color-bg-red-light: rgba(251, 228, 228, 0.3);
   --color-pill-default: rgba(206, 205, 202, 0.5);
   --color-pill-gray: rgba(155, 154, 151, 0.4);
   --color-pill-brown: rgba(140, 46, 0, 0.2);
@@ -146,12 +155,12 @@ p {
   border-radius: 5px;
   padding: 16px 16px 16px 12px;
   margin: 4px 0;
-  background: rgba(235, 236, 237, 0.3);
+  background: var(--color-bg-gray-light);
 }
 
 .Callout__Icon {
   width: 1.5em;
-  line-height: 1.5;
+  line-height: 1.5em;
 }
 
 .Callout__Content {
@@ -795,7 +804,7 @@ pre.Code code {
 /* Quote */
 
 .Quote {
-  background: rgba(235, 236, 237, 0.3);
+  background: var(--color-bg-gray-light);;
   border-left: 5px solid currentcolor;
   border-radius: 5px;
   margin: 0.5rem 0;
