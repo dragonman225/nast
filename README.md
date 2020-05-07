@@ -92,3 +92,7 @@ A shell script is prepared for you. It will bootstrap the dependencies of the pa
   ```
 
 * Each package may have its own test suite, which is not covered here.
+
+### Contributing to NAST
+
+* [Contributing to the project](CONTRIBUTING.md)
