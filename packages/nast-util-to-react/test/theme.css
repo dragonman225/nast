@@ -484,6 +484,10 @@ pre.Code code {
   word-break: break-word;
 }
 
+.Column:not(:first-child) {
+  margin-left: var(--column-spacing);
+}
+
 @media only screen and (max-width: 680px) {
   .Column {
     width: 100% !important;
@@ -804,7 +808,8 @@ pre.Code code {
 /* Quote */
 
 .Quote {
-  background: var(--color-bg-gray-light);;
+  background: var(--color-bg-gray-light);
+  ;
   border-left: 5px solid currentcolor;
   border-radius: 5px;
   margin: 0.5rem 0;
