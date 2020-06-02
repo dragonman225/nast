@@ -823,6 +823,7 @@ pre.Code code {
 .SemanticString {
   line-height: 1.5;
   white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .SemanticString__Fragment--Link, .SemanticString__Fragment--Resource>a {
@@ -1060,6 +1061,7 @@ pre.Code code {
   padding: 3px 0;
   cursor: pointer;
   list-style: none;
+  display: flex;
 }
 
 .Toggle__Summary::-webkit-details-marker {
@@ -1074,9 +1076,11 @@ pre.Code code {
   /* Content is a HTML entity https://dev.w3.org/html5/html-author/charref */
   content: "\025B8";
   font-size: 1.2em;
+  line-height: 1;
   border-radius: 3px;
-  padding: 1px 7px;
+  padding: 0px 7px;
   margin: 0 5px 0 2px;
+  height: calc(1.2em + 2px);
 }
 
 .Toggle[open]>.Toggle__Summary::before {
