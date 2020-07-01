@@ -1122,6 +1122,10 @@ pre.Code code {
   align-self: center;
 }
 
+.Video__Content > video {
+  max-width: 100%;
+}
+
 .Video__Caption {
   padding: 6px 2px;
   color: var(--color-text-default-light);
