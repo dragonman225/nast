@@ -1083,6 +1083,10 @@ pre.Code code {
   height: calc(1.2em + 2px);
 }
 
+.Toggle--Empty>.Toggle__Summary::before {
+  opacity: 0.5;
+}
+
 .Toggle[open]>.Toggle__Summary::before {
   content: "\025BE";
 }
