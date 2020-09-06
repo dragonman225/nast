@@ -2,6 +2,10 @@ import { test } from "zora"
 
 import { transformTitle } from "../src/transformTitle"
 
+const dummyBlock = {
+  id: "0eeee000-cccc-bbbb-aaaa-123450000000"
+}
+
 const case1 = [
   [
     "Link to Heading 1",
@@ -32,7 +36,7 @@ const case2 = [
     [
       [
         "u",
-        "c1282c3a-ad55-4c3a-8c50-b810234a23b5"
+        "ab6fbe39-f7b9-4b6f-8043-e691fe2f4e2e"
       ]
     ]
   ],
@@ -48,7 +52,17 @@ const case2ans = [
       [
         "u",
         {
-          "name": "c1282c3a-ad55-4c3a-8c50-b810234a23b5"
+          "name": "Ivan Zhao",
+          "contacts": [
+            {
+              "namespace": "notion.so",
+              "identifier": "ab6fbe39-f7b9-4b6f-8043-e691fe2f4e2e"
+            },
+            {
+              "namespace": "email",
+              "identifier": "ivan@makenotion.com"
+            }
+          ]
         }
       ]
     ]
@@ -58,9 +72,39 @@ const case2ans = [
   ]
 ]
 
-test("transformTitle", (t) => {
-  t.deepEqual(transformTitle(case1 as any), case1ans as any,
-    "The link should be converted to a hash link.")
-  t.deepEqual(transformTitle(case2 as any), case2ans as any,
-    "The user ID should be converted to an NAST.Individual object.")
-})
+const case3 = [
+  [
+    "LMch0pp1-13.jfx",
+    [
+      [
+        "a",
+        "https://s3-us-west-2.amazonaws.com/secure.notion-static.com/04954f60-3ec9-48e7-93f4-6c852d920714/LMch0pp1-13.jfx"
+      ]
+    ]
+  ]
+]
+
+const case3ans = [
+  [
+    "LMch0pp1-13.jfx",
+    [
+      [
+        "a",
+        `https://www.notion.so/signed/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F04954f60-3ec9-48e7-93f4-6c852d920714%2FLMch0pp1-13.jfx?table=block&id=${dummyBlock.id}`
+      ]
+    ]
+  ]
+]
+
+export async function testTransformTitle() {
+
+  test("transformTitle", async t => {
+    t.deepEqual(await transformTitle(dummyBlock as any, case1 as any), case1ans as any,
+      "The link should be converted to a hash link.")
+    t.deepEqual(await transformTitle(dummyBlock as any, case2 as any), case2ans as any,
+      "The user ID should be converted to an NAST.Individual object.")
+    t.deepEqual(await transformTitle(dummyBlock as any, case3 as any), case3ans as any,
+      "The secured link to a file should be converted to a direct accessible one.")
+  })
+
+}

@@ -5,6 +5,7 @@ import {
   getBlockColor
 } from "../src/util"
 
+const dummyBlockId = "0eeee000-cccc-bbbb-aaaa-123450000000"
 const imageS3 = "https://s3-us-west-2.amazonaws.com/secure.notion-static.com/example.jpg"
 const imageS3Encoded = encodeURIComponent(imageS3)
 
@@ -12,27 +13,27 @@ export function testConvertImageUrl() {
 
   test("Convert these types of image URLs", t => {
     t.test("Convert a private AWS S3 URL to a public one", t => {
-      t.equal(convertImageUrl(imageS3),
-        `https://www.notion.so/signed/${imageS3Encoded}`)
+      t.equal(convertImageUrl(dummyBlockId, imageS3),
+        `https://www.notion.so/signed/${imageS3Encoded}?table=block&id=${dummyBlockId}`)
     })
 
     t.test("Convert a built-in image URL to a public one", t => {
-      t.equal(convertImageUrl("/images/xxx.jpg"),
+      t.equal(convertImageUrl(dummyBlockId, "/images/xxx.jpg"),
         "https://www.notion.so/images/xxx.jpg")
     })
 
     t.test("Convert a built-in image URL with width", t => {
-      t.equal(convertImageUrl("/images/xxx.jpg", 123),
+      t.equal(convertImageUrl(dummyBlockId, "/images/xxx.jpg", 123),
         "https://www.notion.so/images/xxx.jpg?width=123")
     })
 
     t.test("Bypass a normal image URL", t => {
-      t.equal(convertImageUrl("http://foo.com/bar.jpg"),
+      t.equal(convertImageUrl(dummyBlockId, "http://foo.com/bar.jpg"),
         "http://foo.com/bar.jpg")
     })
 
     t.test("Bypass an emoji", t => {
-      t.equal(convertImageUrl("😃"), "😃")
+      t.equal(convertImageUrl(dummyBlockId, "😃"), "😃")
     })
   })
 
@@ -60,8 +61,9 @@ export function testGetBlockIcon() {
 
     t.test("Get uploaded icon from a block with format and format.page_icon", t => {
       t.equal(getBlockIcon({
+        id: dummyBlockId,
         format: { page_icon: imageS3 }
-      } as any), `https://www.notion.so/signed/${imageS3Encoded}`)
+      } as any), `https://www.notion.so/signed/${imageS3Encoded}?table=block&id=${dummyBlockId}`)
     })
   })
 

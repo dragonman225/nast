@@ -11,12 +11,18 @@ import {
   testGetBlockColor
 } from "./util.spec"
 
+import { testTransformTitle } from "./transformTitle.spec"
+
 /** Test util first */
 testConvertImageUrl()
 testGetBlockIcon()
 testGetBlockColor()
 
+/** Test transformTitle() */
+testTransformTitle()
+
 const pageId = "1c4d63a8-ffc7-47be-a565-8672797a595a"
+// const pageId = "fea7afd4-dede-4e74-9549-35c9c23f515b"
 const agent = createAgent()
 
 test("Get all blocks in a Notion page", async t => {
