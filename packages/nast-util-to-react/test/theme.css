@@ -359,9 +359,7 @@ pre.Code code {
 }
 
 .Gallery__Item__Title {
-  padding-top: 8px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 8px 10px 6px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -370,18 +368,22 @@ pre.Code code {
   white-space: nowrap;
 }
 
-.Gallery__Item__Select {
-  padding-top: 8px;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-bottom: 12px;
+.Gallery__Item__Property {
+  display: flex;
+  align-items: center;
+  font-size: 0.75rem;
+  height: 1.5rem;
+  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  padding: 0px 10px;
 }
 
-.Gallery__Item__Text {
-  padding: 6px 8px;
-  line-height: 1.5;
+.Gallery__Item__Property:last-child {
+  margin-bottom: 10px;
+}
+
+.Gallery__Item__PropertyText .SemanticString {
+  white-space: nowrap;
 }
 
 @supports not (display: grid) {
@@ -482,6 +484,10 @@ pre.Code code {
 .Column {
   padding: 12px 0;
   word-break: break-word;
+}
+
+.Column:not(:first-child) {
+  margin-left: var(--column-spacing);
 }
 
 @media only screen and (max-width: 680px) {
@@ -804,7 +810,7 @@ pre.Code code {
 /* Quote */
 
 .Quote {
-  background: var(--color-bg-gray-light);;
+  background: var(--color-bg-gray-light);
   border-left: 5px solid currentcolor;
   border-radius: 5px;
   margin: 0.5rem 0;
@@ -817,6 +823,7 @@ pre.Code code {
 .SemanticString {
   line-height: 1.5;
   white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .SemanticString__Fragment--Link, .SemanticString__Fragment--Resource>a {
@@ -1054,6 +1061,7 @@ pre.Code code {
   padding: 3px 0;
   cursor: pointer;
   list-style: none;
+  display: flex;
 }
 
 .Toggle__Summary::-webkit-details-marker {
@@ -1068,9 +1076,15 @@ pre.Code code {
   /* Content is a HTML entity https://dev.w3.org/html5/html-author/charref */
   content: "\025B8";
   font-size: 1.2em;
+  line-height: 1;
   border-radius: 3px;
-  padding: 1px 7px;
+  padding: 0px 7px;
   margin: 0 5px 0 2px;
+  height: calc(1.2em + 2px);
+}
+
+.Toggle--Empty>.Toggle__Summary::before {
+  opacity: 0.5;
 }
 
 .Toggle[open]>.Toggle__Summary::before {
@@ -1110,6 +1124,10 @@ pre.Code code {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
   align-self: center;
+}
+
+.Video__Content > video {
+  max-width: 100%;
 }
 
 .Video__Caption {

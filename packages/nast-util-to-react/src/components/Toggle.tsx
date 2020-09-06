@@ -19,7 +19,7 @@ export function Toggle(props: ToggleProps) {
   const color = data.color ? data.color :
     props.parent ? props.parent.color : data.color
   return (
-    <details id={data.uri} className={`${colorfulBlock(color)} ${blockName}`}>
+    <details id={data.uri} className={`${colorfulBlock(color)} ${blockName} ${props.children.length ? `` : `${blockName}--Empty`}`}>
       <summary className={`${blockName}__Summary`}>
         <SemanticStringArray semanticStringArray={data.title} />
       </summary>
