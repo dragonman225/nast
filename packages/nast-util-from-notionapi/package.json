@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@dnpr/logger": "^0.2.0",
-    "notionapi-agent": "^1.1.2"
+    "notionapi-agent": "^1.2.0"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^2.1.0",
