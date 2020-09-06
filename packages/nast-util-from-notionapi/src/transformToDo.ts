@@ -24,7 +24,7 @@ async function transformToDo(
     createdTime: node.created_time,
     lastEditedTime: node.last_edited_time,
     title: node.properties ?
-      await transformTitle(node.properties.title) || [] : [],
+      await transformTitle(node, node.properties.title) || [] : [],
     checked: node.properties
       ? node.properties.checked
         ? node.properties.checked[0][0] === "Yes" : false

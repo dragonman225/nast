@@ -32,7 +32,7 @@ async function transformFile(
     source: (function (): string {
       const src = (props || {}).source
       if (!src) return ""
-      else return convertFileUrl(src[0][0])
+      else return convertFileUrl(node.id, src[0][0])
     })()
   }
 }

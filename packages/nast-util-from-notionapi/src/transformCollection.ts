@@ -95,10 +95,10 @@ async function transformCollection(
       views,
       schema: collection.schema,
       icon: collection.icon
-        ? convertImageUrl(collection.icon) : undefined,
+        ? convertImageUrl(node.id, collection.icon) : undefined,
       cover: collection.cover
-        ? convertImageUrl(collection.cover) : undefined,
-      description: await transformTitle(collection.description),
+        ? convertImageUrl(node.id, collection.cover) : undefined,
+      description: await transformTitle(node, collection.description),
       coverPosition: collection.format
         ? collection.format.collection_cover_position || 1 : 1
     }

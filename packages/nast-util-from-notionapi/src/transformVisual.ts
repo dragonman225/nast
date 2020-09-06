@@ -46,9 +46,10 @@ async function transformVisual(
     lastEditedTime: node.last_edited_time,
     source: (function (): string {
       if (node.type === "image")
-        return convertImageUrl(format.display_source || "#", format.block_width)
+        return convertImageUrl(node.id, format.display_source || "#", format.block_width)
       else
         return convertFileUrl(
+          node.id,
           format.display_source
           || (((node.properties || {}).source || {})[0] || [])[0]
           || "#")
@@ -73,7 +74,7 @@ async function getCaption(
   if (node.type === "image" || node.type === "video"
     || node.type === "embed")
     return node.properties ?
-      await transformTitle(node.properties.caption) : undefined
+      await transformTitle(node, node.properties.caption) : undefined
   else
     return undefined
 }

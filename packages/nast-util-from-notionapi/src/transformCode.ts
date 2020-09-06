@@ -23,7 +23,7 @@ async function transformCode(
     color: getBlockColor(node),
     createdTime: node.created_time,
     lastEditedTime: node.last_edited_time,
-    title: node.properties ? await transformTitle(node.properties.title) || [] : [],
+    title: node.properties ? await transformTitle(node, node.properties.title) || [] : [],
     language: node.properties
       ? node.properties.language
         ? node.properties.language[0][0] : undefined

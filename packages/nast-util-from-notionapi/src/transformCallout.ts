@@ -24,7 +24,7 @@ async function transformCallout(
     createdTime: node.created_time,
     lastEditedTime: node.last_edited_time,
     icon: getBlockIcon(node),
-    title: node.properties ? await transformTitle(node.properties.title) || [] : []
+    title: node.properties ? await transformTitle(node, node.properties.title) || [] : []
   }
 }
 

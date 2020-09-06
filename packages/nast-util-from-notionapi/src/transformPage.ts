@@ -22,7 +22,7 @@ async function transformPage(
   if (node.properties) {
     const keys = Object.keys(node.properties)
     for (let i = 0; i < keys.length; i++) {
-      newProperties[keys[i]] = await transformTitle(node.properties[keys[i]])
+      newProperties[keys[i]] = await transformTitle(node, node.properties[keys[i]])
     }
   }
 
@@ -36,7 +36,7 @@ async function transformPage(
     title: newProperties.title ? newProperties.title : [],
     icon: getBlockIcon(node),
     cover: format.page_cover
-      ? convertImageUrl(format.page_cover) : undefined,
+      ? convertImageUrl(node.id, format.page_cover) : undefined,
     fullWidth: typeof format.page_full_width !== "undefined"
       ? format.page_full_width : false,
     coverPosition: format.page_cover_position || 1,

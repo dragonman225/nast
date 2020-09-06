@@ -6,12 +6,12 @@
  * in the LICENSE file.
  */
 
-import { Block } from "notionapi-agent/dist/interfaces"
+import * as Notion from "notionapi-agent/dist/interfaces"
 
 const dashIDLen = "0eeee000-cccc-bbbb-aaaa-123450000000".length
 const noDashIDLen = "0eeee000ccccbbbbaaaa123450000000".length
 
-function getBlockUri(block: Block | string): string {
+function getBlockUri(block: Notion.Block | string): string {
   if (typeof block === "string") // Got block id
     return `https://www.notion.so/${block.replace(/-/g, "")}`
   else
@@ -20,7 +20,7 @@ function getBlockUri(block: Block | string): string {
 
 
 
-function getBlockColor(node: Block): string | undefined {
+function getBlockColor(node: Notion.Block): string | undefined {
   return node.format ? node.format.block_color : undefined
 }
 
@@ -30,10 +30,10 @@ function getBlockColor(node: Block): string | undefined {
  * Get emoji character or public accessible URL of the icon of a block
  * @param node - A Notion block
  */
-function getBlockIcon(node: Block): string | undefined {
+function getBlockIcon(node: Notion.Block): string | undefined {
 
   if (node.format && node.format.page_icon) {
-    return convertImageUrl(node.format.page_icon)
+    return convertImageUrl(node.id, node.format.page_icon)
   } else {
     return undefined
   }
@@ -65,10 +65,11 @@ function getHashLink(
  * @param url - Image URL
  * @param width - Image width
  */
-function convertImageUrl(url: string, width?: number): string {
+function convertImageUrl(blockId: Notion.Util.UUID, url: string, width?: number): string {
 
-  const pubUrl = (function (): string {
-    if (isNotionSecureUrl(url)) {
+  const isSigned = isNotionSecureUrl(url)
+  const baseUrl = (function (): string {
+    if (isSigned) {
       const cleanUrl = url.split("?")[0].replace("s3.us-west", "s3-us-west")
       return `https://www.notion.so/signed/${encodeURIComponent(cleanUrl)}`
     } else if (isNotionRelativePath(url)) {
@@ -78,10 +79,18 @@ function convertImageUrl(url: string, width?: number): string {
     }
   })()
 
+  let queryParams: string[] = []
   if (width) {
-    return `${pubUrl}?width=${width}`
+    queryParams.push(`width=${width}`)
+  } 
+  if (isSigned) {
+    queryParams.push(`table=block&id=${blockId}`)
+  }
+
+  if (queryParams.length) {
+    return `${baseUrl}?${queryParams.join("&")}`
   } else {
-    return pubUrl
+    return baseUrl
   }
 
 }
@@ -92,12 +101,12 @@ function convertImageUrl(url: string, width?: number): string {
  * Convert a file source string to a public accessible URL.
  * @param url - Image URL
  */
-function convertFileUrl(url: string): string {
+function convertFileUrl(blockId: Notion.Util.UUID, url: string): string {
 
   return (function (): string {
     if (isNotionSecureUrl(url)) {
       const cleanUrl = url.split("?")[0].replace("s3.us-west", "s3-us-west")
-      return `https://www.notion.so/signed/${encodeURIComponent(cleanUrl)}`
+      return `https://www.notion.so/signed/${encodeURIComponent(cleanUrl)}?table=block&id=${blockId}`
     } else {
       return url
     }

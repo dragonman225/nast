@@ -12,6 +12,7 @@ import { convertFileUrl, getBlockUri, getHashLink } from "./util"
 import { createAgent } from "notionapi-agent"
 
 export async function transformTitle(
+  node: Notion.Block, // for context info
   semanticStrings: Notion.SemanticString[] | undefined
 ): Promise<NAST.SemanticString[]> {
 
@@ -19,49 +20,50 @@ export async function transformTitle(
 
   const newSemanticStrings: NAST.SemanticString[] = []
 
-  semanticStrings.forEach(ss => {
+  for (let j = 0; j < semanticStrings.length; j++) {
+    const ss = semanticStrings[j]
 
     const text = ss[0]
     const formattings = ss[1]
 
     if (formattings) {
-
       const newFormattings: NAST.FormattingAll[] = []
 
-      formattings.forEach(async formatting => {
+      for (let i = 0; i < formattings.length; i++) {
+        const formatting = formattings[i]
 
         const formattingId = formatting[0]
         const formattingOpt = formatting[1]
 
         switch (formattingId) {
           case "a":
-            newFormattings.push(["a", processLink(formattingOpt)])
+            /**
+             * File & Media columns in Database blocks are stored as links, 
+             * so we need to pass the link through convertFileUrl().
+             */
+            newFormattings.push(["a",
+              getHashLink(convertFileUrl(node.id, formattingOpt as string))])
             break
-          case "u":
-            newFormattings.push(["u", await getNotionUser(formattingOpt)])
+          case "u": {
+            const notionUser = await getNotionUser(formattingOpt as Notion.Util.UUID)
+            newFormattings.push(["u", notionUser])
             break
+          }
           case "p":
-            newFormattings.push(["p", await getResource(formattingOpt)])
+            newFormattings.push(["p", await getResource(formattingOpt as string)])
             break
           default:
-            newFormattings.push([formattingId, formattingOpt])
+            newFormattings.push([formattingId, formattingOpt] as NAST.FormattingAll)
         }
-
-      })
+      }
 
       newSemanticStrings.push([text, newFormattings])
-
     } else {
       newSemanticStrings.push([text])
     }
-
-  })
+  }
 
   return newSemanticStrings
-}
-
-function processLink(link: string) {
-  return getHashLink(convertFileUrl(link))
 }
 
 async function getNotionUser(id: string): Promise<NAST.Individual> {
@@ -113,7 +115,7 @@ async function getResource(id: string): Promise<NAST.Resource> {
     } else {
       const page = resp.results[0].value as Notion.Block.Page
       return {
-        title: await transformTitle((page.properties || {}).title),
+        title: await transformTitle(page, (page.properties || {}).title),
         uri: getBlockUri(page)
       }
     }
