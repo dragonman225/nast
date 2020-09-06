@@ -94,10 +94,18 @@ async function transformCollection(
       defaultViewId: viewIds[0],
       views,
       schema: collection.schema,
+      /**
+       * Nasty! For collections, we should use 
+       * "table=collection&id=<collection_id>", 
+       * regular convertImageUrl() doesn't work.
+       */
+      // This is a HACK!!!
       icon: collection.icon
-        ? convertImageUrl(node.id, collection.icon) : undefined,
+        ? convertImageUrl(collectionId, collection.icon).replace("block", "collection")
+        : undefined,
       cover: collection.cover
-        ? convertImageUrl(node.id, collection.cover) : undefined,
+        ? convertImageUrl(collectionId, collection.cover).replace("block", "collection")
+        : undefined,
       description: await transformTitle(node, collection.description),
       coverPosition: collection.format
         ? collection.format.collection_cover_position || 1 : 1
