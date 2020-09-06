@@ -85,6 +85,8 @@ This can be used as a child in a React component, which means it's easier to app
 
   **Status: Image has best support, others have different partial support.**
 
+  **Note: Images larger than page width but smaller than full width are unsupported and are displayed as page width.**
+
   *This feature should be moved to a wrapper block where all blocks can use if needed.*
 
 - [x] Caption in media blocks and embed blocks.
