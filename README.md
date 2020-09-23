@@ -1,6 +1,8 @@
 # NAST
 
-An universal, extensible intermediate representation for document-like content.
+A block-based intermediate representation for document-like content.
+
+![](assets/cover.png)
 
 ## Packages
 
