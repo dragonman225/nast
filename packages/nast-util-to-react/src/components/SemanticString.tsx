@@ -10,7 +10,7 @@ export interface SemanticStringArrayProps {
   /** One of programming languages listed in `../legacy/util-prismjs.ts`. */
   codeLang?: string
   /**
-   * Do not render interactive elements such as <a>.
+   * Do not render interactive elements such as `<a>`.
    * See https://stackoverflow.com/questions/7863554/is-it-ok-to-have-an-a-inside-another-a
    */
   noInteractive?: boolean
