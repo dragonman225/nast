@@ -1104,12 +1104,12 @@ pre.Code code {
 .Toggle__Summary::before {
   /* Content is a HTML entity https://dev.w3.org/html5/html-author/charref */
   content: '\025B8';
-  font-size: 1.2em;
+  font-size: .9rem;
   line-height: 1;
-  border-radius: 3px;
-  padding: 0px 7px;
-  margin: 0 5px 0 2px;
-  height: calc(1.2em + 2px);
+  border-radius: 5px;
+  padding: 3px 7px 5px;
+  margin: calc((1.5rem - .9rem - 8px) / 2) 5px 0 4px;
+  height: .9rem;
 }
 
 .Toggle--Empty > .Toggle__Summary::before {
