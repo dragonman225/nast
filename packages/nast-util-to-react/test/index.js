@@ -1,7 +1,16 @@
 const fs = require("fs")
 const path = require("path")
 const { renderToHTML } = require("..")
-const tree = require("./test.json")
+
+const testDataPath = path.join(__dirname, "block-test.json")
+const outputPath = path.join(__dirname, "index.html")
+
+if (!fs.existsSync(testDataPath)) {
+  console.log(`"${testDataPath}" does not exist. Execute "npm run update-test-data" to generate one.`)
+  process.exit();
+}
+
+const tree = require(testDataPath)
 
 const timeStart = Date.now()
 const html = `\
@@ -24,5 +33,5 @@ const html = `\
 </html>
 `
 const timeEnd = Date.now()
-fs.writeFileSync(path.join(__dirname, "index.html"), html, { encoding: "utf-8" })
+fs.writeFileSync(outputPath, html, { encoding: "utf-8" })
 console.log(`${timeEnd - timeStart} ms`)

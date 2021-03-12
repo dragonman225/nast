@@ -11,7 +11,9 @@
     "dev": "rollup -cw",
     "release": "npm run build && npm publish",
     "release:beta": "npm run build && npm publish --tag beta",
-    "upgrade": "node tools/upgrade-deps.js"
+    "upgrade": "node tools/upgrade-deps.js",
+    "update-test-data": "node ../npdl/index.js -i='https://www.notion.so/Block-Test-1c4d63a8ffc747bea5658672797a595a' --tree test/block-test.json",
+    "test": "node test/index.js"
   },
   "dependencies": {
     "react": "^16.12.0",

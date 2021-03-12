@@ -28,3 +28,5 @@ yarn.lock
 TODO.md
 dist/
 typedoc/
+test/block-test.json
+test/index.html

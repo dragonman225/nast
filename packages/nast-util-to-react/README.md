@@ -4,10 +4,10 @@ Render a [NAST](https://github.com/dragonman225/nast/blob/0a5174370b6f30739baf2e
 
 ## Documentation
 
-* [Usage](#Usage)
-* [API Reference](#API-Reference)
-* [Note](#Note)
-* [Develop](#Develop)
+- [Usage](#Usage)
+- [API Reference](#API-Reference)
+- [Note](#Note)
+- [Develop](#Develop)
 
 ## Usage
 
@@ -15,13 +15,13 @@ Render a [NAST](https://github.com/dragonman225/nast/blob/0a5174370b6f30739baf2e
 npm i nast-util-to-react
 ```
 
-Then, 
+Then,
 
 ```javascript
 // CommonJS Module style
-const { renderToHTML, renderToJSX } = require("nast-util-to-react")
+const { renderToHTML, renderToJSX } = require('nast-util-to-react');
 // or ES Module style
-import { renderToHTML, renderToJSX } from "nast-util-to-react"
+import { renderToHTML, renderToJSX } from 'nast-util-to-react';
 ```
 
 ## API Reference
@@ -76,7 +76,7 @@ This can be used as a child in a React component, which means it's easier to app
 
     ```
     (I = Block)
-    If I have a color, I use my color. 
+    If I have a color, I use my color.
     If I don't have a color, I ask my parent for it.
     If I don't have a parent, then just pretend I have a color.
     ```
@@ -87,7 +87,7 @@ This can be used as a child in a React component, which means it's easier to app
 
   **Note: Images larger than page width but smaller than full width are unsupported and are displayed as page width.**
 
-  *This feature should be moved to a wrapper block where all blocks can use if needed.*
+  _This feature should be moved to a wrapper block where all blocks can use if needed._
 
 - [x] Caption in media blocks and embed blocks.
 
@@ -97,24 +97,24 @@ This can be used as a child in a React component, which means it's easier to app
 
 - [x] Mention an [Individual](https://github.com/dragonman225/nast/blob/0a5174370b6f30739baf2e6f8b3738028415ba22/packages/nast-types/SemanticString.d.ts#L77)
 
-  *Shows the individual's name.*
+  _Shows the individual's name._
 
 - [x] Mention a [Resource](https://github.com/dragonman225/nast/blob/0a5174370b6f30739baf2e6f8b3738028415ba22/packages/nast-types/SemanticString.d.ts#L95)
 
-  *Show the resource's name.*
+  _Show the resource's name._
 
 - [x] Mention a [DateTime](https://github.com/dragonman225/nast/blob/0a5174370b6f30739baf2e6f8b3738028415ba22/packages/nast-types/SemanticString.d.ts#L130)
 
-  *Support `start_date` and `end_date`*.
+  _Support `start_date` and `end_date`_.
 
 #### Basic Blocks
 
 - [x] Text
 - [x] Embedded Page / Link To Page
 
-  *Gotcha 1: Empty pages and filled pages has the same "filled" icon.*
-  
-  *Gotcha 2: Embedded Page and Link To Page looks the same.*
+  _Gotcha 1: Empty pages and filled pages has the same "filled" icon._
+
+  _Gotcha 2: Embedded Page and Link To Page looks the same._
 
 - [x] Heading (1, 2, 3)
 - [x] Bulleted List
@@ -129,15 +129,15 @@ This can be used as a child in a React component, which means it's easier to app
 
 - [x] Table
 
-  *Gotcha 1: Only property types "Title", "Text", "URL", "Checkbox", "Select", "Multi-select" are correctly supported, other types are treated as "Text".*
-  
-  *Gotcha 2: Always wrap text.*
+  _Gotcha 1: Only property types "Title", "Text", "URL", "Checkbox", "Select", "Multi-select" are correctly supported, other types are treated as "Text"._
+
+  _Gotcha 2: Always wrap text._
 
 - [x] Gallery
 
-  *Gotcha 1: Only property type "Title" is rendered.*
+  _Gotcha 1: Only property type "Title" is rendered._
 
-  *Gotcha 2: For "Card Preview" option, only "Page Cover" is supported.*
+  _Gotcha 2: For "Card Preview" option, only "Page Cover" is supported._
 
 - [ ] List
 - [ ] Calendar
@@ -177,8 +177,14 @@ Auto-detect changes and rebuild.
 npm run dev
 ```
 
-Test it.
+Generate data for testing.
 
 ```bash
-node test/index.js
+npm run update-test-data
+```
+
+Test rendering to HTML.
+
+```bash
+npm run test
 ```
