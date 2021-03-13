@@ -1102,14 +1102,17 @@ pre.Code code {
 }
 
 .Toggle__Summary::before {
-  /* Content is a HTML entity https://dev.w3.org/html5/html-author/charref */
-  content: '\025B8';
-  font-size: .9rem;
-  line-height: 1;
-  border-radius: 5px;
-  padding: 3px 7px 5px;
-  margin: calc((1.5rem - .9rem - 8px) / 2) 5px 0 4px;
-  height: .9rem;
+  /* If we don't specify "content", this element doesn't show. */
+  content: '';
+  /* Prevent this element shrink when content is long. */
+  flex: 0 0 1.25rem;
+  border-radius: 0.25rem;
+  margin: 0.125rem 0.25rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  background-image: url("data:image/svg+xml,%3Csvg width='100%' height='100%' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M13.8 9.30718C14.1938 9.53454 14.3907 9.64822 14.4568 9.79663C14.5144 9.92609 14.5144 10.0739 11.4568 10.2034C14.3907 10.3518 14.1938 10.4655 13.8 10.6928L8.7 13.6373C8.3062 13.8647 8.10931 13.9783 7.94774 13.9614C7.80681 13.9466 7.67878 13.8726 7.59549 13.758C7.5 13.6266 7.5 13.3992 7.5 12.9445L7.5 7.05551C7.5 6.6008 7.5 6.37344 7.59549 6.24201C7.67878 6.12736 7.80681 6.05345 7.94774 6.03864C8.10931 6.02166 8.3062 6.13533 8.7 6.36269L13.8 9.30718Z' fill='black'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  transition: background-image 0.1s ease-in-out, transform 0.2s ease-in-out;
 }
 
 .Toggle--Empty > .Toggle__Summary::before {
@@ -1117,11 +1120,11 @@ pre.Code code {
 }
 
 .Toggle[open] > .Toggle__Summary::before {
-  content: '\025BE';
+  transform: rotate(90deg);
 }
 
 .Toggle__Summary:hover::before {
-  background: var(--color-ui-hover-bg);
+  background-image: url("data:image/svg+xml,%3Csvg width='100%' height='100%' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='20' height='20' rx='5' fill='%2337352F' fill-opacity='0.08'/%3E%3Cpath d='M13.8 9.30718C14.1938 9.53454 14.3907 9.64822 14.4568 9.79663C14.5144 9.92608 14.5144 10.0739 14.4568 10.2034C14.3907 10.3518 14.1938 10.4655 13.8 10.6928L8.7 13.6373C8.3062 13.8647 8.10931 13.9783 7.94774 13.9614C7.80681 13.9466 7.67878 13.8726 7.59549 13.758C7.5 13.6266 7.5 13.3992 7.5 12.9445L7.5 7.05551C7.5 6.6008 7.5 6.37344 7.59549 6.24201C7.67878 6.12736 7.80681 6.05345 7.94774 6.03864C8.10931 6.02166 8.3062 6.13533 8.7 6.36269L13.8 9.30718Z' fill='black'/%3E%3C/svg%3E");
 }
 
 /* Make the toggle triangle look closer to Notion's. 
