@@ -30,11 +30,11 @@
     "@typescript-eslint/parser": "^2.16.0",
     "dependency-cruiser": "^6.3.0",
     "eslint": "^6.8.0",
-    "notionapi-agent": "^1.1.2",
+    "notionapi-agent": "^1.2.1",
     "rollup": "^1.27.14",
     "ts-node": "^8.5.4",
-    "typescript": "^3.7.4",
-    "nast-types": "^1.0.0"
+    "typescript": "^4.2.4",
+    "nast-types": "^1.2.0"
   },
   "files": [
     "dist/"
@@ -52,6 +52,6 @@
   "bugs": {
     "url": "https://github.com/dragonman225/nast-util-to-html/issues"
   },
-  "typeScriptVersion": "3.7",
+  "typeScriptVersion": "4.2",
   "runkitExampleFilename": ""
 }

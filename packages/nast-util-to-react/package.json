@@ -1,6 +1,6 @@
 {
   "name": "nast-util-to-react",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Render NAST to React JSX.Element and HTML.",
   "author": "dragonman225",
   "license": "MIT",
@@ -32,9 +32,9 @@
     "@typescript-eslint/parser": "^2.17.0",
     "dependency-cruiser": "^6.3.0",
     "eslint": "^6.8.0",
-    "nast-types": "^1.1.1",
+    "nast-types": "^1.2.0",
     "rollup": "^1.29.1",
-    "typescript": "^3.7.5"
+    "typescript": "^4.2.4"
   },
   "files": [
     "dist/"
@@ -47,6 +47,6 @@
   "bugs": {
     "url": "https://github.com/dragonman225/nast/issues"
   },
-  "typeScriptVersion": "3.7",
+  "typeScriptVersion": "4.2",
   "runkitExampleFilename": ""
 }

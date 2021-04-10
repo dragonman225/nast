@@ -15,6 +15,6 @@
     "nast-util-to-html": "0.2.8",
     "nast-util-to-react": "1.1.1",
     "notion-util": "1.0.0",
-    "notionapi-agent": "1.2.0"
+    "notionapi-agent": "1.2.1"
   }
 }

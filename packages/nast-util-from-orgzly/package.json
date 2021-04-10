@@ -19,9 +19,9 @@
     "@typescript-eslint/parser": "^3.1.0",
     "eslint": "^7.1.0",
     "ts-loader": "^7.0.5",
-    "typescript": "^3.9.3",
-    "nast-types": "^1.1.1",
-    "nast-util-to-react": "1.1.0"
+    "typescript": "^4.2.4",
+    "nast-types": "^1.2.0",
+    "nast-util-to-react": "1.2.0"
   },
   "keywords": [
     "org-mode",
@@ -37,6 +37,6 @@
   "bugs": {
     "url": "https://github.com/dragonman225/nast/issues"
   },
-  "typeScriptVersion": "3.9",
+  "typeScriptVersion": "4.2",
   "runkitExampleFilename": ""
 }

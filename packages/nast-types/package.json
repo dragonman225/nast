@@ -1,6 +1,6 @@
 {
   "name": "nast-types",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "TypeScript type definitions for NAST.",
   "author": "dragonman225",
   "license": "MIT",
@@ -10,8 +10,8 @@
     "@typescript-eslint/eslint-plugin": "^2.16.0",
     "@typescript-eslint/parser": "^2.16.0",
     "eslint": "^6.8.0",
-    "notionapi-agent": "^1.1.2",
-    "typescript": "^3.7.4"
+    "notionapi-agent": "^1.2.1",
+    "typescript": "^4.2.4"
   },
   "files": [
     "*.d.ts"
@@ -27,5 +27,5 @@
   "bugs": {
     "url": "https://github.com/dragonman225/notajs-types/issues"
   },
-  "typeScriptVersion": "3.7"
+  "typeScriptVersion": "4.2"
 }

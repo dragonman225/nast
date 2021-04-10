@@ -1,6 +1,6 @@
 {
   "name": "nast-util-from-notionapi",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Transform Notion.so page to NAST.",
   "author": "dragonman225",
   "license": "MIT",
@@ -30,9 +30,9 @@
     "eslint": "^6.8.0",
     "rollup": "^1.29.0",
     "ts-node": "^8.6.2",
-    "typescript": "^3.7.5",
+    "typescript": "^4.2.4",
     "zora": "^3.1.8",
-    "nast-types": "^1.1.1"
+    "nast-types": "^1.2.0"
   },
   "files": [
     "dist/"
@@ -51,6 +51,6 @@
   "bugs": {
     "url": "https://github.com/dragonman225/nast-util-from-notionapi/issues"
   },
-  "typeScriptVersion": "3.7",
+  "typeScriptVersion": "4.2",
   "runkitExampleFilename": ""
 }
