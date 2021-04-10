@@ -1,6 +1,6 @@
 {
   "name": "nast-util-to-react",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Render NAST to React JSX.Element and HTML.",
   "author": "dragonman225",
   "license": "MIT",
