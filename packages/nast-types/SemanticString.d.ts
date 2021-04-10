@@ -1,4 +1,4 @@
-import { Color, TimeZone, URI } from "./util"
+import { Color, TimeZone, URI, Latex } from "./util"
 
 /*************************************************************************
  * General Models                                                        *
@@ -155,9 +155,20 @@ export interface InlineMentionDate extends AbstractSemanticString {
   1: [FormattingMentionDate]
 }
 
+export interface FormattingInlineMath extends StringFormatting {
+  0: "e"
+  1: Latex
+}
+
+export interface InlineMath extends AbstractSemanticString {
+  0: "⁍"
+  1: [FormattingInlineMath]
+}
+
 export type FormattingAll =
   FormattingBasic | FormattingMentionDate
   | FormattingMentionIndividual | FormattingMentionResource
+  | FormattingInlineMath
 
 export interface SemanticString {
   0: string

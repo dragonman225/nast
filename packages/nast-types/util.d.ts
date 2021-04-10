@@ -37,3 +37,8 @@ export type UUID = string
  * An Unix timestamp number in milliseconds.
  */
 export type TimestampNumber = number
+
+/**
+ * A LaTeX string representing math.
+ */
+export type Latex = string
