@@ -1,4 +1,5 @@
 import * as React from "react"
+import katex from "katex"
 import * as NAST from "nast-types"
 import { convertColor } from "../util"
 import renderCode from "../util-prismjs"
@@ -136,8 +137,23 @@ export function SemanticString(props: SemanticStringProps) {
             <InlineMentionDate data={date} />
           </span>
       }
+      /** Inline Math */
+      case "e": {
+        const latex = formattingOpts as NAST.Latex
+        const katexOpts = {
+          throwOnError: false
+        }
+        return rendered =
+          <span
+            className={`${elemName} ${elemName}--Math`} 
+            dangerouslySetInnerHTML={{
+              __html: katex.renderToString(latex, katexOpts)
+            }}
+            data-latex={latex}
+          />
+      }
       default:
-        console.log(`Unsupported formatting: ${formatting[0]}`)
+        console.log(`Unsupported formatting: ${JSON.stringify(formatting)}`)
         return rendered =
           <span className={`${elemName} ${elemName}--Unknown`}>
             {rendered}
