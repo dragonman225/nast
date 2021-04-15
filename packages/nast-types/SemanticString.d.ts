@@ -1,4 +1,4 @@
-import { Color, TimeZone, URI, Latex } from "./util"
+import { Color, TimeZone, URI, Latex, UUID } from "./util"
 
 /*************************************************************************
  * General Models                                                        *
@@ -54,6 +54,7 @@ export interface FormattingColored extends StringFormatting {
 
 export interface FormattingCommented extends StringFormatting {
   0: "m"
+  1: UUID
 }
 
 export type FormattingBasic =

@@ -79,7 +79,7 @@ function convertImageUrl(blockId: Notion.Util.UUID, url: string, width?: number)
     }
   })()
 
-  let queryParams: string[] = []
+  const queryParams: string[] = []
   if (width) {
     queryParams.push(`width=${width}`)
   } 
