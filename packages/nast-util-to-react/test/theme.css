@@ -602,40 +602,51 @@ pre.Code code {
 /* Heading */
 
 .Heading {
-  font-weight: 700;
   margin-bottom: 1px;
   padding: 3px 2px;
+}
+
+/* Font-related CSS should be applied on ".SemanticString". */
+.Heading .SemanticString {
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .Heading:hover > .Anchor {
   visibility: visible;
 }
 
-.Heading--1 {
+.Heading--1 .SemanticString {
   font-size: 2.0625rem;
-  line-height: 1.636;
+  line-height: 1.515;
 }
 
 .Heading--2 {
   margin-top: 1rem;
+}
+
+.Heading--2 .SemanticString {
   font-size: 1.625rem;
-  line-height: 1.654;
+  line-height: 1.538;
 }
 
 .Heading--3 {
   margin-top: 0.5rem;
+}
+
+.Heading--3 .SemanticString {
   font-size: 1.25rem;
-  line-height: 1.75;
+  line-height: 1.55;
 }
 
-.Heading--4 {
+.Heading--4 .SemanticString {
   font-size: 1rem;
-  line-height: 1.8125;
+  line-height: 1.563;
 }
 
-.Heading--5 {
+.Heading--5 .SemanticString {
   font-size: 0.8125rem;
-  line-height: 1.846;
+  line-height: 1.615;
   color: #888;
 }
 
