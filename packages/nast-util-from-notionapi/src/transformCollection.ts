@@ -6,7 +6,7 @@
  * in the LICENSE file.
  */
 
-import transformPage from "./transformPage"
+import transformPage from "./transformPageOrAlias"
 import { getBlockUri, getBlockColor, convertImageUrl } from "./util"
 
 import { createAgent } from "notionapi-agent"

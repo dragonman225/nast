@@ -21,6 +21,7 @@ function getBlockUri(block: Notion.Block | string): string {
 
 
 function getBlockColor(node: Notion.Block): string | undefined {
+  if (node.type === "alias") return undefined
   return node.format ? node.format.block_color : undefined
 }
 
@@ -31,6 +32,8 @@ function getBlockColor(node: Notion.Block): string | undefined {
  * @param node - A Notion block
  */
 function getBlockIcon(node: Notion.Block): string | undefined {
+
+  if (node.type === "alias") return undefined
 
   if (node.format && node.format.page_icon) {
     return convertImageUrl(node.id, node.format.page_icon)

@@ -7,6 +7,7 @@
  */
 
 /** Import scripts. */
+import { createAgent } from "notionapi-agent"
 import { getBlockUri, getBlockColor, getBlockIcon, convertImageUrl } from "./util"
 
 /** Import types. */
@@ -44,4 +45,22 @@ async function transformPage(
   }
 }
 
-export default transformPage
+async function transformPageOrAlias(
+  node: Notion.Block.Page | Notion.Block.Alias
+): Promise<NAST.Page> {
+  if (node.type === "page") return transformPage(node)
+  else {
+    const agent = createAgent()
+    const resp = await agent.getRecordValues({
+      requests: [{ id: node.format.alias_pointer.id, table: "block" }]
+    })
+    /**
+     * HACK:
+     * We cannot change the node's id, or it's parent cannot find it to 
+     * construct the tree. However, this hack breaks data integrity.
+     */
+    return transformPage({ ...resp.results[0].value, id: node.id } as Notion.Block.Page)
+  }
+}
+
+export default transformPageOrAlias

@@ -22,7 +22,7 @@ import transformEquation from "./transformEquation"
 import transformFile from "./transformFile"
 import transformHeading from "./transformHeading"
 import transformNumberedList from "./transformNumberedList"
-import transformPage from "./transformPage"
+import transformPageOrAlias from "./transformPageOrAlias"
 import transformQuote from "./transformQuote"
 import transformTableOfContents from "./transformTableOfContents"
 import transformText from "./transformText"
@@ -46,8 +46,9 @@ async function transformBlock(
       nastNode = transformBreadcrumb(node as Notion.Block.Breadcrumb)
       break
     }
+    case "alias":
     case "page": {
-      nastNode = transformPage(node as Notion.Block.Page)
+      nastNode = transformPageOrAlias(node)
       break
     }
     case "collection_view": {
