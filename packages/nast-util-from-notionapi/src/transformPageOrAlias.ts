@@ -7,10 +7,10 @@
  */
 
 /** Import scripts. */
-import { createAgent } from "notionapi-agent"
 import { getBlockUri, getBlockColor, getBlockIcon, convertImageUrl } from "./util"
 
 /** Import types. */
+import { createAgent } from "notionapi-agent"
 import * as Notion from "notionapi-agent/dist/interfaces"
 import { transformTitle } from "./transformTitle"
 
@@ -46,20 +46,25 @@ async function transformPage(
 }
 
 async function transformPageOrAlias(
-  node: Notion.Block.Page | Notion.Block.Alias
+  node: Notion.Block.Page | Notion.Block.Alias,
+  apiAgent: ReturnType<typeof createAgent>,
+  parent?: Notion.Block
 ): Promise<NAST.Page> {
   if (node.type === "page") return transformPage(node)
   else {
-    const agent = createAgent()
-    const resp = await agent.getRecordValues({
+    const resp = await apiAgent.getRecordValues({
       requests: [{ id: node.format.alias_pointer.id, table: "block" }]
     })
+    const page = resp.results[0].value as Notion.Block.Page
     /**
-     * HACK:
-     * We cannot change the node's id, or it's parent cannot find it to 
-     * construct the tree. However, this hack breaks data integrity.
+     * HACK: Dereference the alias to the linked page.
      */
-    return transformPage({ ...resp.results[0].value, id: node.id } as Notion.Block.Page)
+    if (parent && parent.content) {
+      parent.content = parent.content.map(
+        blockId => blockId === node.id ? page.id : blockId
+      )
+    }
+    return transformPage(page)
   }
 }
 

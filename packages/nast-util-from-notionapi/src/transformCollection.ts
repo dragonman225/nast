@@ -69,7 +69,7 @@ async function transformCollection(
 
   if (node.type === "collection_view") {
     return {
-      children: await Promise.all(pages.map(page => transformPage(page))),
+      children: await Promise.all(pages.map(page => transformPage(page, apiAgent))),
       uri: getBlockUri(node),
       type: "collection_inline",
       color: getBlockColor(node),
@@ -83,7 +83,7 @@ async function transformCollection(
     }
   } else {
     return {
-      children: await Promise.all(pages.map(page => transformPage(page))),
+      children: await Promise.all(pages.map(page => transformPage(page, apiAgent))),
       uri: getBlockUri(node),
       type: "collection_page",
       color: getBlockColor(node),

@@ -129,7 +129,8 @@ async function makeBlockArrayIntoTree(
   /* Transform Notion Block to NAST.Block */
   const nastBlocks = await Promise.all(blocks
     .map((block) => {
-      return transformBlock(block, apiAgent)
+      const parent = blocks.find(b => b.id === block.parent_id)
+      return transformBlock(block, apiAgent, parent) // block, parent, context {apiAgent}
     }))
 
   /* A map <block id, reference in nastBlocks> */
