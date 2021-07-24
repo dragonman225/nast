@@ -31,6 +31,8 @@ test("Get all blocks in a Notion page", async t => {
   t.equal(Array.isArray(blocks), true, "should return an array")
   t.equal(typeof blocks[0].id, "string", "Block.id should be\
  a string")
+
+  fs.writeFileSync(path.join(__dirname, "blocks.json"), JSON.stringify(blocks), { encoding: "utf-8" })
 })
 
 test("Get Notion page as a tree", async t => {
@@ -52,6 +54,6 @@ test("Get Notion page as a tree", async t => {
     console.log("This tree contain no children, so some tests are\
  skippied. Please consider changing pageId.")
   }
-
+  
   fs.writeFileSync(path.join(__dirname, "tree.json"), JSON.stringify(tree), { encoding: "utf-8" })
 })

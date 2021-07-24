@@ -26,6 +26,7 @@ yarn.lock
 
 # Project
 test/tree.json
+test/blocks.json
 TODO.md
 dist/
 typedoc/
