@@ -30,7 +30,7 @@ git clone https://github.com/dragonman225/nast.git && cd nast
 * `lerna` (required)
 
   ```bash
-  npm i -g lerna
+  npm i -g lerna@3.20.2
   ```
 
   This project uses [lerna](https://github.com/lerna/lerna) to manage the monorepo. If you haven't used it before, [this tutorial](https://github.com/reggi/lerna-tutorial) is a good start point.
