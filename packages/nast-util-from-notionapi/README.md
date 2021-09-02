@@ -81,20 +81,20 @@ Download a page as a tree object in an easier-to-work-with format.
   cbf2b645-xxxx-xxxx-xxxx-xxxxe8cfed93
   ```
 
-* `agent` - (required) A [`Notion.NotionAgent`](https://github.com/dragonman225/notionapi-agent/blob/e69b59cad90ed5daf1eec1b5819f07b426ec29b7/src/index.ts#L438) instance. Either from [`notionapi-agent`](https://github.com/dragonman225/notionapi-agent) package or a compatible implementation.
+* `agent` - (required) A [`notionapi-agent`-compatible](https://github.com/dragonman225/notionapi-agent/blob/35f406f418760536a3da8c336411a3b770ede598/src/agent.ts#L32) instance. You can just use the [`notionapi-agent`](https://github.com/dragonman225/notionapi-agent) package.
 
 #### Returns :
 
-A tree consists of [`Nast.Block`](https://github.com/dragonman225/nast-util-from-notionapi/blob/635c79c8f3a9308321532d3d9f09b8e68015c15a/src/nast.ts#L19) nodes.
+A tree consists of [`NAST.Block`](https://github.com/dragonman225/nast/blob/5574180d3d36e77148c66d8608ec77c294ae817f/packages/nast-types/index.d.ts#L12) nodes.
 
 ```typescript
-interface Nast.Block {
-  id: string
+interface NAST.Block {
+  uri: URI
   type: string
   color?: string
-  createdTime: number
-  lastEditedTime: number
-  children: Nast.Block[]
+  createdTime: TimestampNumber
+  lastEditedTime: TimestampNumber
+  children: NAST.Block[]
 }
 ```
 
@@ -106,12 +106,12 @@ Function parameters are the same as `getOnePageAsTree`.
 
 #### Returns :
 
-[`Notion.Record[]`](https://github.com/dragonman225/notionapi-agent/blob/e69b59cad90ed5daf1eec1b5819f07b426ec29b7/src/index.ts#L127), with `value` property of every `Notion.Record` being [`Notion.Block`](https://github.com/dragonman225/notionapi-agent/blob/e69b59cad90ed5daf1eec1b5819f07b426ec29b7/src/index.ts#L165)
+[`Notion.BlockRecord[]`](https://notionapi.netlify.app/globals.html#blockrecord), where the `role` property of every `Notion.BlockRecord` being a [Notion.Role](https://notionapi.netlify.app/modules/permission.html#role), and `value` property of every `Notion.BlockRecord` being a [Notion.Block](https://notionapi.netlify.app/modules/block.html)
 
 ```typescript
 [
   {
-    role: string
+    role: Notion.Role
     value: Notion.Block
   }
 ]
