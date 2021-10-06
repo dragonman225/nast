@@ -63,7 +63,7 @@ A shell script is prepared for you. It will bootstrap the dependencies of the pa
 
 * Test the overall functionality with `npdl`.
 
-  Download a Notion page and render it to HTML. Use the CSS theme at `packages/nast-util-to-react/test/theme.css`.
+  Download a Notion page and render it to HTML. Use the CSS theme at `packages/nast-util-to-react/src/theme.css`.
 
   ```bash
   node packages/npdl/index.js -i=<notion_page_url> output.html
