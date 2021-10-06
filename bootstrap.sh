@@ -10,6 +10,5 @@ function npm_build {
 lerna bootstrap
 
 npm_build nast-util-from-notionapi
-npm_build nast-util-to-html
 npm_build nast-util-to-react
 npm_build notion-util
