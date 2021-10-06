@@ -22,8 +22,7 @@ where `<package_alias>` is defined as below:
 |        nast-types        |     types      |
 | nast-util-from-notionapi |   notionapi    |
 |  nast-util-from-orgzly   |     orgzly     |
-|    nast-util-to-html     | html-renderer  |
-|    nast-util-to-react    | react-renderer |
+|    nast-util-to-react    |     react      |
 |       notion-util        |  notion-util   |
 |           npdl           |      npdl      |
 
