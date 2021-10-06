@@ -6,11 +6,11 @@ const { createAgent } = require("notionapi-agent")
 const { getOnePageAsTree } = require("nast-util-from-notionapi")
 const { renderToHTML: renderToHTMLLegacy } = require("nast-util-to-html")
 const { renderToHTML } = require("nast-util-to-react")
-const { getPageIDFromPageURL } = require("notion-util")
 const { parseArgv, parseFlagVal, FlagTypes } = require("@dnpr/cli")
+const { getPageIDFromPageURL } = require("@dnpr/notion-util")
 
 const demoPageUrl = "https://www.notion.so/Block-Test-1c4d63a8ffc747bea5658672797a595a"
-const defaultStylesheetPath = path.join(__dirname, "node_modules/nast-util-to-react/test/theme.css")
+const defaultStylesheetPath = path.join(__dirname, "node_modules/nast-util-to-react/dist/theme.css")
 
 main()
 

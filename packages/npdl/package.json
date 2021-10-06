@@ -1,6 +1,6 @@
 {
   "name": "npdl",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "Export Notion pages to NAST IR or HTML.",
   "author": "dragonman225",
   "license": "MIT",
@@ -11,9 +11,9 @@
   "dependencies": {
     "@dnpr/cli": "2.0.0",
     "@dnpr/notion-util": "1.0.0",
-    "nast-util-from-notionapi": "1.4.0",
+    "nast-util-from-notionapi": "1.4.1",
     "nast-util-to-html": "0.2.8",
-    "nast-util-to-react": "1.4.0",
+    "nast-util-to-react": "1.4.1",
     "notionapi-agent": "3.0.0"
   },
   "files": [
