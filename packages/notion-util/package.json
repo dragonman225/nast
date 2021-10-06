@@ -1,6 +1,5 @@
 {
-  "name": "notion-util",
-  "private": true,
+  "name": "@dnpr/notion-util",
   "version": "1.0.0",
   "description": "A set of functions to handle Notion-specific logic.",
   "author": "dragonman225",
