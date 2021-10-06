@@ -42,7 +42,7 @@ export function TableOfContents(props: TableOfContentsProps) {
     }
 
     rendered.push(
-      <li className={`${blockName}__Item`}>
+      <li key={h.uri} className={`${blockName}__Item`}>
         <a href={`#${h.uri}`}>
           <div style={{
             marginLeft: `${indentNum * indentWidth}${indentUnit}`

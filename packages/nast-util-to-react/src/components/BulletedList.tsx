@@ -9,7 +9,7 @@ export interface BulletedListProps extends BlockRendererProps {
 
 export function BulletedList(props: BulletedListProps) {
   return (
-    <li id={props.current.uri} className="BulletedList">
+    <li key={props.current.uri} id={props.current.uri} className="BulletedList">
       <SemanticStringArray semanticStringArray={props.current.title} />
       {props.children}
     </li>

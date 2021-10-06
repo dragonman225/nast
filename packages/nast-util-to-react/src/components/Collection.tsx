@@ -173,16 +173,16 @@ export function Table(props: CollectionProps) {
       }
     })
   const tableHeadCells = visibleColumns.map(col =>
-    <th style={col.width ? { width: `${col.width}px` } : {}}>
+    <th key={col.id} style={col.width ? { width: `${col.width}px` } : {}}>
       {col.name}
     </th>
   )
 
   const tableRows = props.rows
     .filter(row => row.properties)
-    .map((row, i) => {
+    .map(row => {
       return (
-        <tr key={i}>
+        <tr key={row.uri}>
           {
             visibleColumns.map(col => {
               const elemNameBase = `${blockName}__Cell`
@@ -190,7 +190,7 @@ export function Table(props: CollectionProps) {
               switch (data.type) {
                 case "title": {
                   return (
-                    <td className={`${elemNameBase}Title`}>
+                    <td key={col.id} className={`${elemNameBase}Title`}>
                       <a href={row.uri}>
                         <SemanticStringArray
                           semanticStringArray={row.title} />
@@ -202,7 +202,7 @@ export function Table(props: CollectionProps) {
                   const elemName = `${elemNameBase}Checkbox`
                   const checked = data.value
                   return (
-                    <td className={`${elemName} ${checked ?
+                    <td key={col.id} className={`${elemName} ${checked ?
                       `${elemName}--Yes` : `${elemName}--No`}`}>
                       <div style={
                         checked ? { background: "rgb(46, 170, 220)" } : {}
@@ -224,11 +224,13 @@ export function Table(props: CollectionProps) {
                 case "multi_select": {
                   const options = data.value
                   return (
-                    <td className={`${elemNameBase}Select`}>
+                    <td key={col.id} className={`${elemNameBase}Select`}>
                       {
-                        options.map(option => {
+                        options.map((option, index) => {
                           return (
-                            <Pill content={option.value}
+                            <Pill
+                              key={index} 
+                              content={option.value}
                               color={option.color} />
                           )
                         })
@@ -239,7 +241,7 @@ export function Table(props: CollectionProps) {
                 case "created_by":
                 case "last_edited_by": {
                   return (
-                    <td className={`${elemNameBase}CreatedEditedBy`}>
+                    <td key={col.id} className={`${elemNameBase}CreatedEditedBy`}>
                       {data.value}
                     </td>
                   )
@@ -247,14 +249,14 @@ export function Table(props: CollectionProps) {
                 case "created_time":
                 case "last_edited_time": {
                   return (
-                    <td className={`${elemNameBase}CreatedEditedTime`}>
+                    <td key={col.id} className={`${elemNameBase}CreatedEditedTime`}>
                       {prettyDate(data.value)}
                     </td>
                   )
                 }
                 default:
                   return (
-                    <td className={`${elemNameBase}Text`}>
+                    <td key={col.id} className={`${elemNameBase}Text`}>
                       <SemanticStringArray
                         semanticStringArray={data.value} />
                     </td>
@@ -310,7 +312,7 @@ export function Gallery(props: CollectionProps) {
 
   const galleryItems = props.rows.map(row => {
     return (
-      <article id={row.uri} className={`${blockName}__Item`}>
+      <article key={row.uri} id={row.uri} className={`${blockName}__Item`}>
         <div><div>
           <a href={row.uri}>
             <div className={`${blockName}__Item__Cover ${imageContain ?
@@ -335,11 +337,13 @@ export function Gallery(props: CollectionProps) {
                   const options = data.value
                   if (options.length > 0)
                     return (
-                      <div className={`${elemNameBase}Select`}>
+                      <div key={col.id} className={`${elemNameBase}Select`}>
                         {
-                          options.map(option => {
+                          options.map((option, index) => {
                             return (
-                              <Pill content={option.value}
+                              <Pill
+                                key={index}
+                                content={option.value}
                                 color={option.color} />
                             )
                           })
@@ -352,11 +356,11 @@ export function Gallery(props: CollectionProps) {
                 case "last_edited_by":
                 case "created_time":
                 case "last_edited_time":
-                  return <></> // An empty React.Fragment, which renders to nothing.
+                  return <React.Fragment key={col.id} /> // An empty React.Fragment, which renders to nothing.
                 default:
                   if (typeof data.value !== 'undefined')
                     return (
-                      <div className={`${elemNameBase}Text`}>
+                      <div key={col.id} className={`${elemNameBase}Text`}>
                         <SemanticStringArray
                           semanticStringArray={data.value} />
                       </div>
