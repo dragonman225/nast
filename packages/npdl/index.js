@@ -7,30 +7,41 @@ const { getOnePageAsTree } = require("nast-util-from-notionapi")
 const { renderToHTML: renderToHTMLLegacy } = require("nast-util-to-html")
 const { renderToHTML } = require("nast-util-to-react")
 const { getPageIDFromPageURL } = require("notion-util")
-const { parseArgs, parseFlagVal, FlagTypes } = require("@dnpr/cli")
+const { parseArgv, parseFlagVal, FlagTypes } = require("@dnpr/cli")
+
+const demoPageUrl = "https://www.notion.so/Block-Test-1c4d63a8ffc747bea5658672797a595a"
+const defaultStylesheetPath = path.join(__dirname, "node_modules/nast-util-to-react/test/theme.css")
 
 main()
 
 async function main() {
   try {
 
-    const { args, flags } = parseArgs(process.argv)
-    const printHelp = parseFlagVal(flags, "(-h|--help)", FlagTypes.boolean, false)
-    const pageUrl = parseFlagVal(flags, "(-i|--input)", FlagTypes.string,
-      "https://www.notion.so/Block-Test-1c4d63a8ffc747bea5658672797a595a")
-    const pageId = getPageIDFromPageURL(pageUrl)
-    const outputTree = parseFlagVal(flags, "(-t|--tree)", FlagTypes.boolean, false)
+    const { args, flags } = parseArgv(process.argv)
+    const shouldPrintHelp = parseFlagVal(flags, "(-h|--help)", FlagTypes.boolean, false)
+    const shouldOutputTree = parseFlagVal(flags, "(-t|--tree)", FlagTypes.boolean, false)
+    const shouldUseLegacyRenderer = parseFlagVal(flags, "--legacy-renderer", FlagTypes.boolean, false)
     const verbose = parseFlagVal(flags, "(-v|--verbose)", FlagTypes.boolean, false)
-    const useLegacyRenderer = parseFlagVal(flags, "--legacy-renderer", FlagTypes.boolean, false)
+    const pageUrl = parseFlagVal(flags, "(-i|--input)", FlagTypes.string, demoPageUrl)
+    const pageId = getPageIDFromPageURL(pageUrl)
     const server = parseFlagVal(flags, "--server", FlagTypes.string, undefined)
     const token = parseFlagVal(flags, "--token", FlagTypes.string, undefined)
-    const themeCSSPath = parseFlagVal(flags, "--theme", FlagTypes.string,
-      path.join(__dirname, "node_modules/nast-util-to-react/test/theme.css"))
-    const output = args[0]
+    const stylesheetPath = parseFlagVal(flags, "--theme", FlagTypes.string, defaultStylesheetPath)
+    const outputPath = args[0]
 
-    if (!output || printHelp) {
+    if (!outputPath || shouldPrintHelp) {
       console.log(`
 Usage: npdl <output_file>
+
+
+Examples:
+
+Generate demo page to "index.html".
+npdl index.html
+
+Generate Notion's "What's New?" page to "index.html".
+npdl -i="https://www.notion.so/157765353f2c4705bd45474e5ba8b46c" index.html
+
 
 Optional Flags:
 
@@ -39,20 +50,20 @@ Optional Flags:
 -t, --tree                Output IR tree as JSON instead of rendering to HTML.
 -v, --verbose             Print more messages for debugging.
 --legacy-renderer         Use the legacy HTML renderer.
---server=<url>            Use an alternative Notion-compatible server.
---token=<token>           Specify a token for authentication (to access private pages).
---theme=<path_to_css>     Specify a theme stylesheet to embed.`)
+--server=<url>            Use an alternate Notion-compatible server.
+--token=<token>           Specify a token for authentication (e.g. to access private pages).
+--theme=<path_to_css>     Specify an alternate stylesheet to embed.`)
       process.exit(0)
     }
 
     const notion = createAgent({ token, debug: verbose, server })
     const page = await getOnePageAsTree(pageId, notion)
-    if (outputTree) {
-      fs.writeFileSync(output, JSON.stringify(page))
+    if (shouldOutputTree) {
+      fs.writeFileSync(outputPath, JSON.stringify(page))
       process.exit(0)
     }
 
-    const html = useLegacyRenderer ?
+    const html = shouldUseLegacyRenderer ?
       renderToHTMLLegacy(page, { renderRoot: true }) : renderToHTML(page)
     const title = (page.title || page.name).reduce((result, partial, index) => {
       if (index === 0) result += partial[0]
@@ -60,8 +71,8 @@ Optional Flags:
       return result
     }, "")
     fs.writeFileSync(
-      output,
-      useLegacyRenderer ? renderPageLegacy(title, html) : renderPage(title, html, themeCSSPath)
+      outputPath,
+      shouldUseLegacyRenderer ? renderPageLegacy(title, html) : renderPage(title, html, stylesheetPath)
     )
 
   } catch (error) {
