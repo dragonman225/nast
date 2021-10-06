@@ -31,24 +31,25 @@ async function transformCollection(
   }
 
   /** First, query the collection. */
+  const pagesReducerName = "pages"
   const queryResult = await apiAgent.queryCollection({
-    collectionId,
-    collectionViewId: viewIds[0],
-    loader: {
-      limit: 1000000,
-      loadContentCover: false,
-      type: "table",
-      userLocale: "en",
-      userTimeZone: "Asia/Taipei"
+    collection: {
+      id: collectionId
     },
-    query: {
-      aggregate: [],
-      aggregations: [],
-      filter: {
-        filters: [],
-        operator: "and"
+    collectionView: {
+      id: viewIds[0]
+    },
+    loader: {
+      type: "reducer",
+      reducers: {
+        [pagesReducerName]: {
+          type: "results",
+          limit: 1000000,
+          loadContentCover: false
+        }
       },
-      sort: []
+      searchQuery: "",
+      userTimeZone: "Asia/Taipei"
     }
   })
 
@@ -62,7 +63,10 @@ async function transformCollection(
 
   /** Get collection views and collection items. */
   const viewsPromise = getCollectionViews(viewIds, apiAgent)
-  const pagesPromise = getPageBlocks(queryResult.result.blockIds, apiAgent)
+  const pagesPromise = getPageBlocks((queryResult.result
+    .reducerResults[pagesReducerName] as Notion.API.QueryCollection.ResultsReducerResult)
+    .blockIds, apiAgent
+  )
 
   const [views, pages] =
     await Promise.all([viewsPromise, pagesPromise])
