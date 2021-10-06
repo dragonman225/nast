@@ -8,10 +8,11 @@ A block-based intermediate representation for document-like content.
 
 | Name                                                         | Description                                                  | Status           |
 | :----------------------------------------------------------- | :----------------------------------------------------------- | :--------------- |
-| [nast-types](./packages/nast-types)                                               | A TypeScript type definition module to specify data models for intermediate representation of data. | Experimental     |
-| [nast-util-from-notionapi](./packages/nast-util-from-notionapi) | Import data from a [Notion](https://www.notion.so/) page.    | Experimental     |
+| [nast-types](./packages/nast-types)                          | A TypeScript type definition module to specify data models for intermediate representation of data. | Experimental     |
+| [nast-util-from-notionapi](./packages/nast-util-from-notionapi) | Import data from a [Notion](https://www.notion.so/) page.    | Stable           |
 | [nast-util-from-orgzly](./packages/nast-util-from-orgzly)    | Import data from an org-mode file exported by [Orgzly](http://www.orgzly.com/). | Proof of Concept |
-| [nast-util-to-react](./packages/nast-util-to-react)          | Render data to `JSX.Element` or HTML. (Preferred)            | Experimental     |
+| [nast-util-to-react](./packages/nast-util-to-react)          | Render data to `JSX.Element` or HTML. (Preferred)            | Stable           |
+| [npdl](./packages/npdl)                                      | Download Notion pages as self-contained / single-file HTML files. | Stable           |
 | nast-util-to-svelte                                          | Render data to HTML using Svelte.                            | -                |
 
 * Stability : **Stable** > **Experimental** > **Proof of Concept**
