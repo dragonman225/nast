@@ -19,13 +19,13 @@
   "keywords": [
     "nast"
   ],
-  "homepage": "https://github.com/dragonman225/notajs-types",
+  "homepage": "https://github.com/dragonman225/nast/tree/master/packages/nast-types",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dragonman225/notajs-types.git"
+    "url": "https://github.com/dragonman225/nast.git"
   },
   "bugs": {
-    "url": "https://github.com/dragonman225/notajs-types/issues"
+    "url": "https://github.com/dragonman225/nast/issues"
   },
   "typeScriptVersion": "4.3"
 }
