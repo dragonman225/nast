@@ -176,7 +176,8 @@ const map: LangMap = {
   "Diff": "diff",
   "Docker": "docker",
   "Elixir": "elixir",
-  "Elm": "elm"
+  "Elm": "elm",
+  "Java": "java"
 }
 
 Object.entries(languages).forEach(pair => {
