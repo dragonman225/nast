@@ -1,6 +1,6 @@
 {
   "name": "nast-util-from-notionapi",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Transform Notion.so pages to NAST representation.",
   "author": "dragonman225",
   "license": "MIT",
