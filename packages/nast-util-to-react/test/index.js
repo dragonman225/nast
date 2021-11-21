@@ -1,5 +1,6 @@
 const fs = require("fs")
 const path = require("path")
+const { performance } = require("perf_hooks")
 const { renderToHTML } = require("..")
 
 const testDataPath = path.join(__dirname, "block-test.json")
@@ -12,7 +13,7 @@ if (!fs.existsSync(testDataPath)) {
 
 const tree = require(testDataPath)
 
-const timeStart = Date.now()
+const timeStart = performance.now()
 const html = `\
 <html>
 <head>
@@ -34,6 +35,6 @@ const html = `\
 <body>${renderToHTML(tree)}</body>
 </html>
 `
-const timeEnd = Date.now()
+const timeEnd = performance.now()
 fs.writeFileSync(outputPath, html, { encoding: "utf-8" })
 console.log(`${timeEnd - timeStart} ms`)
