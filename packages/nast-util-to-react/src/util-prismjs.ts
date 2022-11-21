@@ -177,6 +177,7 @@ const map: LangMap = {
   "Docker": "docker",
   "Elixir": "elixir",
   "Elm": "elm",
+  "Go": "go",
   "Java": "java"
 }
 
