@@ -1,5 +1,6 @@
 {
   "name": "nast-util-from-orgzly",
+  "version": "0.0.1",
   "private": "true",
   "description": "Transform an Org-mode document to NAST.",
   "author": "dragonman225",
