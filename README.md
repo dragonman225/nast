@@ -63,12 +63,11 @@ git clone https://github.com/dragonman225/nast.git && cd nast
 
   `dot` needs to available in the command-line for dependency graph generation.
 
-### Run setup
-
-A shell script is prepared for you. It will bootstrap the dependencies of the packages and run the first build for those that need to be built.
+### Setup the project
 
 ```bash
-bash bootstrap.sh
+yarn # Install and link dependencies
+npx lerna run build # Build all packages
 ```
 
 ### Testing
@@ -110,3 +109,8 @@ bash bootstrap.sh
 ### Contributing to NAST
 
 * [Contributing to the project](CONTRIBUTING.md)
+
+### Troubleshooting
+
+* `npx nx graph` to check if the packages are correctly linked.
+  * If a package is published with a new version, don't forget to update other packages that are using it.
