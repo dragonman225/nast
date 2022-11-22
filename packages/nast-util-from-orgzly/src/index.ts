@@ -35,7 +35,7 @@ function transformNode(node, index) {
       node.children.shift() // Remove headline
       break
     case 'list': {
-      const transformedChildren = []
+      const transformedChildren: any[] = []
       for (let i = 0; i < node.children.length; i++) {
         const childNode = node.children[i]
         if (node.ordered) {
