@@ -1,14 +1,14 @@
 #!/bin/bash
 
-function npm_build {
+function build_pkg {
   local pkg_name="$1"
   pushd "packages/$pkg_name"
-  npm run build
+  yarn build
   popd
 }
 
-lerna bootstrap
+yarn
 
-npm_build nast-util-from-notionapi
-npm_build nast-util-to-react
-npm_build notion-util
+build_pkg nast-util-from-notionapi
+build_pkg nast-util-to-react
+build_pkg notion-util

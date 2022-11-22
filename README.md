@@ -27,13 +27,21 @@ git clone https://github.com/dragonman225/nast.git && cd nast
 
 ### Install dependencies
 
+* `yarn` (required)
+
+  ```bash
+  npm i -g yarn
+  ```
+
+  We use `yarn` to manage package dependencies.
+
 * `lerna` (required)
 
   ```bash
-  npm i -g lerna@3.20.2
+  npm i -g lerna@6.0.3
   ```
 
-  This project uses [lerna](https://github.com/lerna/lerna) to manage the monorepo. If you haven't used it before, [this tutorial](https://github.com/reggi/lerna-tutorial) is a good start point.
+  This project is a monorepo managed with [lerna](https://github.com/lerna/lerna). If you haven't heard of it before, [this tutorial](https://github.com/reggi/lerna-tutorial) is a good starting point.
 
 * `typedoc` (optional)
 
@@ -46,7 +54,11 @@ git clone https://github.com/dragonman225/nast.git && cd nast
 * [Graphviz](https://www.graphviz.org/) (optional)
 
   ```bash
-  pacman -S graphviz # For Arch Linux
+  # For Arch Linux
+  pacman -S graphviz
+  
+  # For macOS via Homebrew
+  brew install graphviz 
   ```
 
   `dot` needs to available in the command-line for dependency graph generation.
@@ -56,7 +68,7 @@ git clone https://github.com/dragonman225/nast.git && cd nast
 A shell script is prepared for you. It will bootstrap the dependencies of the packages and run the first build for those that need to be built.
 
 ```bash
-./bootstrap.sh
+bash bootstrap.sh
 ```
 
 ### Testing
