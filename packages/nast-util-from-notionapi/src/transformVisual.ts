@@ -46,7 +46,7 @@ async function transformVisual(
     lastEditedTime: node.last_edited_time,
     source: (function (): string {
       if (node.type === "image")
-        return convertImageUrl(node.id, format.display_source || "#", format.block_width)
+        return convertImageUrl(format.display_source || "#", "block", node.id, format.block_width)
       else
         return convertFileUrl(
           node.id,

@@ -37,7 +37,7 @@ async function transformPage(
     title: newProperties.title ? newProperties.title : [],
     icon: getBlockIcon(node),
     cover: format.page_cover
-      ? convertImageUrl(node.id, format.page_cover) : undefined,
+      ? convertImageUrl(format.page_cover, "block", node.id) : undefined,
     fullWidth: typeof format.page_full_width !== "undefined"
       ? format.page_full_width : false,
     coverPosition: format.page_cover_position || 1,

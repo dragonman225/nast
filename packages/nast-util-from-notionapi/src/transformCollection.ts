@@ -55,10 +55,10 @@ async function transformCollection(
 
   /** Must be the first of the collection recordMap. */
   const collection =
-    Object.values(queryResult.recordMap.collection)[0].value
+    queryResult.recordMap.collection && Object.values(queryResult.recordMap.collection)[0].value
 
   if (!collection) {
-    throw new Error(`Fail to get collection ${collectionId}, role is none`)
+    throw new Error(`Fail to get collection ${collectionId}`)
   }
 
   /** Get collection views and collection items. */
@@ -98,17 +98,11 @@ async function transformCollection(
       defaultViewId: viewIds[0],
       views,
       schema: collection.schema,
-      /**
-       * Nasty! For collections, we should use 
-       * "table=collection&id=<collection_id>", 
-       * regular convertImageUrl() doesn't work.
-       */
-      // This is a HACK!!!
       icon: collection.icon
-        ? convertImageUrl(collectionId, collection.icon).replace("block", "collection")
+        ? convertImageUrl(collection.icon, "collection", collectionId)
         : undefined,
       cover: collection.cover
-        ? convertImageUrl(collectionId, collection.cover).replace("block", "collection")
+        ? convertImageUrl(collection.cover, "collection", collectionId)
         : undefined,
       description: await transformTitle(node, collection.description),
       coverPosition: collection.format

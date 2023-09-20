@@ -36,7 +36,7 @@ function getBlockIcon(node: Notion.Block): string | undefined {
   if (node.type === "alias") return undefined
 
   if (node.format && node.format.page_icon) {
-    return convertImageUrl(node.id, node.format.page_icon)
+    return convertImageUrl(node.format.page_icon, "block", node.id)
   } else {
     return undefined
   }
@@ -66,15 +66,20 @@ function getHashLink(
 /**
  * Convert an image source string to a public accessible URL.
  * @param url - Image URL
+ * @param forEntityType - The type of Notion entity that reference this image, e.g. "collection", "block"
+ * @param forEntityId - The ID of the entity that reference this image
  * @param width - Image width
  */
-function convertImageUrl(blockId: Notion.Util.UUID, url: string, width?: number): string {
+function convertImageUrl(url: string, forEntityType: string, forEntityId: Notion.Util.UUID, width?: number): string {
 
-  const isSigned = isNotionSecureUrl(url)
+  const isPrivateUrl = isNotionSecureUrl(url)
+  const isPrivateUrlV2 = isNotionSecureUrlV2(url)
   const baseUrl = (function (): string {
-    if (isSigned) {
+    if (isPrivateUrl) {
       const cleanUrl = url.split("?")[0].replace("s3.us-west", "s3-us-west")
       return `https://www.notion.so/signed/${encodeURIComponent(cleanUrl)}`
+    } else if (isPrivateUrlV2) {
+      return `https://www.notion.so/signed/${encodeURIComponent(url)}`
     } else if (isNotionRelativePath(url)) {
       return `https://www.notion.so${url}`
     } else {
@@ -86,8 +91,8 @@ function convertImageUrl(blockId: Notion.Util.UUID, url: string, width?: number)
   if (width) {
     queryParams.push(`width=${width}`)
   } 
-  if (isSigned) {
-    queryParams.push(`table=block&id=${blockId}`)
+  if (isPrivateUrl || isPrivateUrlV2) {
+    queryParams.push(`table=${forEntityType}&id=${forEntityId}`)
   }
 
   if (queryParams.length) {
@@ -179,6 +184,18 @@ function isNotionSecureUrl(url: string): boolean {
     /^https:\/\/s3.+\.amazonaws\.com\/secure.notion-static.com\//
   return regex.test(url)
 }
+
+/**
+ * A new type of NotionSecureUrl that is used by images created after
+ * around Aug/Sep 2023.
+ * 
+ * @param url 
+ */
+function isNotionSecureUrlV2(url: string): boolean {
+  const regex = /^https:\/\/prod-files-secure\.s3\.[^.]+\.amazonaws\.com\//
+  return regex.test(url)
+}
+
 
 export {
   getBlockUri,
