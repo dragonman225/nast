@@ -114,3 +114,7 @@ npx lerna run build # Build all packages
 
 * `npx nx graph` to check if the packages are correctly linked.
   * If a package is published with a new version, don't forget to update other packages that are using it.
+
+## License
+
+All packages and the monorepo are licensed under MIT License.
